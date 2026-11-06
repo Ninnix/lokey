@@ -1,0 +1,285 @@
+{
+  "automatic": {
+    "npu_available": true,
+    "languages": [
+      {
+        "language": "Arabic",
+        "cpu_text": "lfm",
+        "cpu_speech": "qwen_asr",
+        "npu_text": "qwen",
+        "npu_speech": "qwen_asr"
+      },
+      {
+        "language": "Bulgarian",
+        "cpu_text": "qwen",
+        "cpu_speech": "parakeet",
+        "npu_text": "qwen",
+        "npu_speech": "parakeet"
+      },
+      {
+        "language": "Cantonese",
+        "cpu_text": "qwen",
+        "cpu_speech": "qwen_asr",
+        "npu_text": "qwen",
+        "npu_speech": "qwen_asr"
+      },
+      {
+        "language": "Chinese",
+        "cpu_text": "qwen",
+        "cpu_speech": "qwen_asr",
+        "npu_text": "qwen",
+        "npu_speech": "qwen_asr"
+      },
+      {
+        "language": "Croatian",
+        "cpu_text": "qwen",
+        "cpu_speech": "parakeet",
+        "npu_text": "qwen",
+        "npu_speech": "parakeet"
+      },
+      {
+        "language": "Czech",
+        "cpu_text": "qwen",
+        "cpu_speech": "parakeet",
+        "npu_text": "qwen",
+        "npu_speech": "qwen_asr"
+      },
+      {
+        "language": "Danish",
+        "cpu_text": "qwen",
+        "cpu_speech": "parakeet",
+        "npu_text": "qwen",
+        "npu_speech": "qwen_asr"
+      },
+      {
+        "language": "Dutch",
+        "cpu_text": "qwen",
+        "cpu_speech": "parakeet",
+        "npu_text": "qwen",
+        "npu_speech": "qwen_asr"
+      },
+      {
+        "language": "English",
+        "cpu_text": "lfm",
+        "cpu_speech": "parakeet",
+        "npu_text": "qwen",
+        "npu_speech": "qwen_asr"
+      },
+      {
+        "language": "Estonian",
+        "cpu_text": "qwen",
+        "cpu_speech": "parakeet",
+        "npu_text": "qwen",
+        "npu_speech": "parakeet"
+      },
+      {
+        "language": "Filipino",
+        "cpu_text": "qwen",
+        "cpu_speech": "qwen_asr",
+        "npu_text": "qwen",
+        "npu_speech": "qwen_asr"
+      },
+      {
+        "language": "Finnish",
+        "cpu_text": "qwen",
+        "cpu_speech": "parakeet",
+        "npu_text": "qwen",
+        "npu_speech": "qwen_asr"
+      },
+      {
+        "language": "French",
+        "cpu_text": "lfm",
+        "cpu_speech": "parakeet",
+        "npu_text": "qwen",
+        "npu_speech": "qwen_asr"
+      },
+      {
+        "language": "German",
+        "cpu_text": "lfm",
+        "cpu_speech": "parakeet",
+        "npu_text": "qwen",
+        "npu_speech": "qwen_asr"
+      },
+      {
+        "language": "Greek",
+        "cpu_text": "qwen",
+        "cpu_speech": "parakeet",
+        "npu_text": "qwen",
+        "npu_speech": "qwen_asr"
+      },
+      {
+        "language": "Hindi",
+        "cpu_text": "qwen",
+        "cpu_speech": "qwen_asr",
+        "npu_text": "qwen",
+        "npu_speech": "qwen_asr"
+      },
+      {
+        "language": "Hungarian",
+        "cpu_text": "qwen",
+        "cpu_speech": "parakeet",
+        "npu_text": "qwen",
+        "npu_speech": "qwen_asr"
+      },
+      {
+        "language": "Indonesian",
+        "cpu_text": "qwen",
+        "cpu_speech": "qwen_asr",
+        "npu_text": "qwen",
+        "npu_speech": "qwen_asr"
+      },
+      {
+        "language": "Italian",
+        "cpu_text": "qwen",
+        "cpu_speech": "parakeet",
+        "npu_text": "qwen",
+        "npu_speech": "qwen_asr"
+      },
+      {
+        "language": "Japanese",
+        "cpu_text": "lfm",
+        "cpu_speech": "qwen_asr",
+        "npu_text": "qwen",
+        "npu_speech": "qwen_asr"
+      },
+      {
+        "language": "Korean",
+        "cpu_text": "lfm",
+        "cpu_speech": "qwen_asr",
+        "npu_text": "qwen",
+        "npu_speech": "qwen_asr"
+      },
+      {
+        "language": "Latvian",
+        "cpu_text": "qwen",
+        "cpu_speech": "parakeet",
+        "npu_text": "qwen",
+        "npu_speech": "parakeet"
+      },
+      {
+        "language": "Lithuanian",
+        "cpu_text": "qwen",
+        "cpu_speech": "parakeet",
+        "npu_text": "qwen",
+        "npu_speech": "parakeet"
+      },
+      {
+        "language": "Macedonian",
+        "cpu_text": "qwen",
+        "cpu_speech": "qwen_asr",
+        "npu_text": "qwen",
+        "npu_speech": "qwen_asr"
+      },
+      {
+        "language": "Malay",
+        "cpu_text": "qwen",
+        "cpu_speech": "qwen_asr",
+        "npu_text": "qwen",
+        "npu_speech": "qwen_asr"
+      },
+      {
+        "language": "Maltese",
+        "cpu_text": "qwen",
+        "cpu_speech": "parakeet",
+        "npu_text": "qwen",
+        "npu_speech": "parakeet"
+      },
+      {
+        "language": "Persian",
+        "cpu_text": "qwen",
+        "cpu_speech": "qwen_asr",
+        "npu_text": "qwen",
+        "npu_speech": "qwen_asr"
+      },
+      {
+        "language": "Polish",
+        "cpu_text": "qwen",
+        "cpu_speech": "parakeet",
+        "npu_text": "qwen",
+        "npu_speech": "qwen_asr"
+      },
+      {
+        "language": "Portuguese",
+        "cpu_text": "lfm",
+        "cpu_speech": "parakeet",
+        "npu_text": "qwen",
+        "npu_speech": "qwen_asr"
+      },
+      {
+        "language": "Romanian",
+        "cpu_text": "qwen",
+        "cpu_speech": "parakeet",
+        "npu_text": "qwen",
+        "npu_speech": "qwen_asr"
+      },
+      {
+        "language": "Russian",
+        "cpu_text": "qwen",
+        "cpu_speech": "parakeet",
+        "npu_text": "qwen",
+        "npu_speech": "qwen_asr"
+      },
+      {
+        "language": "Slovak",
+        "cpu_text": "qwen",
+        "cpu_speech": "parakeet",
+        "npu_text": "qwen",
+        "npu_speech": "parakeet"
+      },
+      {
+        "language": "Slovenian",
+        "cpu_text": "qwen",
+        "cpu_speech": "parakeet",
+        "npu_text": "qwen",
+        "npu_speech": "parakeet"
+      },
+      {
+        "language": "Spanish",
+        "cpu_text": "lfm",
+        "cpu_speech": "parakeet",
+        "npu_text": "qwen",
+        "npu_speech": "qwen_asr"
+      },
+      {
+        "language": "Swedish",
+        "cpu_text": "qwen",
+        "cpu_speech": "parakeet",
+        "npu_text": "qwen",
+        "npu_speech": "qwen_asr"
+      },
+      {
+        "language": "Thai",
+        "cpu_text": "qwen",
+        "cpu_speech": "qwen_asr",
+        "npu_text": "qwen",
+        "npu_speech": "qwen_asr"
+      },
+      {
+        "language": "Turkish",
+        "cpu_text": "qwen",
+        "cpu_speech": "qwen_asr",
+        "npu_text": "qwen",
+        "npu_speech": "qwen_asr"
+      },
+      {
+        "language": "Ukrainian",
+        "cpu_text": "qwen",
+        "cpu_speech": "parakeet",
+        "npu_text": "qwen",
+        "npu_speech": "parakeet"
+      },
+      {
+        "language": "Vietnamese",
+        "cpu_text": "qwen",
+        "cpu_speech": "qwen_asr",
+        "npu_text": "qwen",
+        "npu_speech": "qwen_asr"
+      }
+    ],
+    "configured_language_controls_both_models": true,
+    "selected_cards_preserve_automatic": true,
+    "manual_selection_preserves_other_model": true,
+    "device_language_fallback": true
+  },
+  "passed": true
+}

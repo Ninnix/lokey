@@ -1,0 +1,20 @@
+{
+  "device": "OnePlus 15",
+  "families": 11,
+  "variants": 17,
+  "checks": {
+    "layouts": true,
+    "layoutui": true,
+    "layoutpicker": true,
+    "speech": true,
+    "interaction": true,
+    "gestures": true,
+    "translationui": true,
+    "cursor": true,
+    "speedui": true
+  },
+  "native_unicode_sanitizers": true,
+  "build_and_lint": "passed",
+  "live_input_delivery": "Android accessibility actions",
+  "interaction_touch_delivery": "direct_view"
+}

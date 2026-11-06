@@ -1,0 +1,22 @@
+{
+  "interaction": {
+    "touch_delivery": "direct_view",
+    "idle_enter_expands": true,
+    "letters_stay_fixed": true,
+    "held_voice_target_stays_fixed": true,
+    "interaction_restores_enter": true,
+    "top_hold_resizes_live": true,
+    "height_persists": true,
+    "cancel_restores_height": true,
+    "resize_does_not_select_prediction": true,
+    "swipe_consumes_single_shift": true,
+    "new_sentence_enables_shift": true,
+    "caps_lock_survives_editor_hints": true,
+    "swipe_enabled": true,
+    "swipe_disabled": true,
+    "accent_flick_preserved": true,
+    "held_accent_preserved": true,
+    "space_cursor_preserved": true
+  },
+  "passed": true
+}

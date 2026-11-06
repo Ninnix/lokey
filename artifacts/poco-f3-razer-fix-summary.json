@@ -1,0 +1,17 @@
+{
+  "device": "POCO F3 / Android 13",
+  "issue": "Razer Green sounds like interference",
+  "change": "Convert all three bundled Razer Green samples from PCM32 to PCM16; preserve stereo, 44100 Hz and frame counts.",
+  "cause_assessment": "PCM32 decoding compatibility suspected; PCM16 conversion fixes reported playback.",
+  "user_confirmation": "Yes, it sounds correct now",
+  "checks": [
+    ":app:assembleDebug",
+    ":app:assembleDebugAndroidTest",
+    ":app:lintDebug",
+    "poco-f3-razer-pcm16-recordings.json",
+    "poco-f3-razer-pcm16-feedback.json"
+  ],
+  "conversion_report": "razer-green-pcm16-conversion.json",
+  "apk_sha256": "b925a7eca834111e24c11586f120ecc27dc595273f0f5b18bdb085a538c2a584",
+  "audio_apk_bytes": 168426
+}

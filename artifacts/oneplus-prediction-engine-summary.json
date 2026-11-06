@@ -1,0 +1,41 @@
+{
+  "device": "OnePlus 15 (CPH2747)",
+  "application_native_language": "C11",
+  "application_cpp_sources": 0,
+  "external_inference_libraries": "Existing C++ runtimes accessed through C APIs",
+  "prediction_model": "Qwen3.5-0.8B Q4_K_M",
+  "completed_suites": [
+    "completion",
+    "correction",
+    "sentence",
+    "models",
+    "flow",
+    "gestures",
+    "launch"
+  ],
+  "completion_cases": 11,
+  "outside_vocabulary_azzurra": true,
+  "correction_cases": 14,
+  "corrections_accepted": 14,
+  "valid_terms_names_and_acronyms_preserved": 7,
+  "speech_idle_cancel_isolated": true,
+  "three_models_whole_word_scores": {
+    "lfm": [
+      -7.5526013,
+      -27.34883
+    ],
+    "qwen": [
+      -6.2123976,
+      -20.59199
+    ],
+    "onejev": [
+      -6.523102,
+      -19.33047
+    ]
+  },
+  "limits": [
+    "Small regression fixtures, not a comparison against SwiftKey or Gboard.",
+    "Initial inference can be slower than cached completions.",
+    "Low-confidence corrections retain the original spelling."
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "essay-cantonese.txt": {
+    "url": "https://raw.githubusercontent.com/rime/rime-cantonese/259f0e48bba840c3a2e0d117539e96937f3d89bc/essay-cantonese.txt",
+    "sha256": "d08836175f598219f43c2f2f9e12e12711212dbefe08d57b2eddb7a9d9f22a5d",
+    "license": "CC-BY-4.0"
+  },
+  "jyut6ping3.chars.dict.yaml": {
+    "url": "https://raw.githubusercontent.com/rime/rime-cantonese/259f0e48bba840c3a2e0d117539e96937f3d89bc/jyut6ping3.chars.dict.yaml",
+    "sha256": "9b053a594c80eae76545bcdd83239884a49b1ba48b89ca0ab9e8daac79f33013",
+    "license": "CC-BY-4.0"
+  },
+  "jyut6ping3.words.dict.yaml": {
+    "url": "https://raw.githubusercontent.com/rime/rime-cantonese/259f0e48bba840c3a2e0d117539e96937f3d89bc/jyut6ping3.words.dict.yaml",
+    "sha256": "54d174ad2bb997e4a678b7b076b84e4dc5914481b32467cdea3b43e88b7d5474",
+    "license": "CC-BY-4.0"
+  },
+  "jyut6ping3.phrase.dict.yaml": {
+    "url": "https://raw.githubusercontent.com/rime/rime-cantonese/259f0e48bba840c3a2e0d117539e96937f3d89bc/jyut6ping3.phrase.dict.yaml",
+    "sha256": "3071d1ca43d6861aefcaa14e1b72780b21537b4e58b86ffce27ae0577c94e2ed",
+    "license": "CC-BY-4.0"
+  },
+  "jyutping": {
+    "entries": 137349,
+    "bytes": 3394498,
+    "sha256": "a8b870e6b1a263261827b1a97b7bb4a3c63af387f5d70bb4cd9af4573ac2e8c5"
+  },
+  "cangjie-cangjie5.base.dict.yaml": {
+    "url": "https://raw.githubusercontent.com/rime/rime-cangjie/fcb3d7dd94ac1304663d575727d24d8107f6b082/cangjie5.base.dict.yaml",
+    "sha256": "0b7a801720bbf04cea06c55577c159e2e67b9bbb763bf00026a8520497772799",
+    "license": "GPL (table headers); LGPL-3.0 (repository LICENSE)"
+  },
+  "cangjie-cangjie5.extended.dict.yaml": {
+    "url": "https://raw.githubusercontent.com/rime/rime-cangjie/fcb3d7dd94ac1304663d575727d24d8107f6b082/cangjie5.extended.dict.yaml",
+    "sha256": "a6a0b06427c599d9fa7fc1e02a618bf234eb1dc9fc9b6b92f3292fc02213b3cd",
+    "license": "GPL (table headers); LGPL-3.0 (repository LICENSE)"
+  },
+  "cangjie": {
+    "entries": 79262,
+    "bytes": 984048,
+    "sha256": "ede575af594966a684146097a585fe127dbff81253bf3bf49934d180afddd17c"
+  },
+  "sucheng": {
+    "entries": 77831,
+    "bytes": 790138,
+    "sha256": "06cc0d5ce7feb8f90a08a7acfa42cbb3fb813459ac2b49fe14c7d4dbf6a098f6"
+  },
+  "hi_full.txt": {
+    "url": "https://raw.githubusercontent.com/hermitdave/FrequencyWords/master/content/2018/hi/hi_full.txt",
+    "sha256": "7ea1238ba983a3aae456c73d14e5f031ec59a1316d665af9b120d0c0fee61a8c",
+    "license": "CC-BY-SA-4.0"
+  },
+  "hi.translit.sampled.train.tsv": {
+    "url": "https://storage.googleapis.com/gresearch/dakshina/dakshina_dataset_v1.0.tar#dakshina_dataset_v1.0/hi/lexicons/hi.translit.sampled.train.tsv",
+    "sha256": "4b3f872d3363a91f949dfb640acab6a968ed7d2d65829a22af662c3e99ef7803",
+    "license": "CC-BY-SA-4.0"
+  },
+  "hi.translit.sampled.dev.tsv": {
+    "url": "https://storage.googleapis.com/gresearch/dakshina/dakshina_dataset_v1.0.tar#dakshina_dataset_v1.0/hi/lexicons/hi.translit.sampled.dev.tsv",
+    "sha256": "62019ba0e046ceffd7211a2797daf2d2970da77586ee056dcecaa34c38392bce",
+    "license": "CC-BY-SA-4.0"
+  },
+  "hi.translit.sampled.test.tsv": {
+    "url": "https://storage.googleapis.com/gresearch/dakshina/dakshina_dataset_v1.0.tar#dakshina_dataset_v1.0/hi/lexicons/hi.translit.sampled.test.tsv",
+    "sha256": "37dccdd2ca18a520267588b472f293ce805a1444a5ca2a99169417da17d9bafd",
+    "license": "CC-BY-SA-4.0"
+  },
+  "hindi": {
+    "entries": 53064,
+    "bytes": 1590670,
+    "sha256": "6cbcb926c4b8fea22795d646f715475d3b75cffc82a8e1938e7d6777ea1dbf00"
+  }
+}

@@ -1,0 +1,19 @@
+[
+  {
+    "provider": "Liquid AI",
+    "page": "https://www.liquid.ai/",
+    "artwork": "https://www.liquid.ai/logos/liquid-ai-black.svg",
+    "use": "Icon paths from the official wordmark, recolored to match the app appearance"
+  },
+  {
+    "provider": "Qwen",
+    "page": "https://qwen.ai/",
+    "artwork": "https://img.alicdn.com/imgextra/i4/O1CN01OXv3EM1FN8t9W4P79_!!6000000000474-2-tps-80-80.png",
+    "sha256": "cd9390bc4209c319121d111f3a1f535b3c7dd909b8f860d41acc9744138d58df"
+  },
+  {
+    "provider": "NVIDIA",
+    "page": "https://www.nvidia.com/en-us/",
+    "artwork": "Inline nvidia-logo-eye-mark SVG, original green"
+  }
+]

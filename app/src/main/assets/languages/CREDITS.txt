@@ -1,0 +1,10 @@
+FrequencyWords, Hermit Dave and contributors.
+Source: https://github.com/hermitdave/FrequencyWords/tree/master/content/2018
+Data derived from OpenSubtitles 2018: https://opus.nlpl.eu/OpenSubtitles.php
+License: Creative Commons Attribution-ShareAlike 4.0 International
+https://creativecommons.org/licenses/by-sa/4.0/
+Changes: retained the first 8,000 alphabetic/apostrophe words per language,
+lowercased, deduplicated and omitted non-word entries, leading/trailing
+apostrophe fragments and English single letters other than a/i. Added an accent-folded
+lookup column for fast startup. These vocabulary files
+remain available under CC BY-SA 4.0. Regenerate with tools/prepare-languages.py.

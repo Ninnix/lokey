@@ -1,0 +1,116 @@
+{
+  "size": "Physical size: 1272x2772",
+  "density": "Physical density: 560",
+  "nodes": [
+    {
+      "label": "lokey",
+      "class": "android.widget.TextView",
+      "package": "org.lokey.app",
+      "bounds": [
+        259,
+        204,
+        1034,
+        316
+      ]
+    },
+    {
+      "label": "Switch to light theme",
+      "class": "android.view.View",
+      "package": "org.lokey.app",
+      "bounds": [
+        1034,
+        190,
+        1188,
+        330
+      ]
+    },
+    {
+      "label": "Find your flow.",
+      "class": "android.widget.TextView",
+      "package": "org.lokey.app",
+      "bounds": [
+        84,
+        435,
+        1188,
+        547
+      ]
+    },
+    {
+      "label": "Type or speak. Stay in your flow.",
+      "class": "android.widget.TextView",
+      "package": "org.lokey.app",
+      "bounds": [
+        84,
+        568,
+        1188,
+        625
+      ]
+    },
+    {
+      "label": "\n",
+      "class": "android.widget.EditText",
+      "package": "org.lokey.app",
+      "bounds": [
+        84,
+        681,
+        1188,
+        1171
+      ]
+    },
+    {
+      "label": "Speed test",
+      "class": "android.widget.Switch",
+      "package": "org.lokey.app",
+      "bounds": [
+        84,
+        1213,
+        1188,
+        1304
+      ]
+    },
+    {
+      "label": "Keyboard",
+      "class": "android.widget.TextView",
+      "package": "org.lokey.app",
+      "bounds": [
+        42,
+        1332,
+        339,
+        1486
+      ]
+    },
+    {
+      "label": "Feel",
+      "class": "android.widget.TextView",
+      "package": "org.lokey.app",
+      "bounds": [
+        339,
+        1332,
+        636,
+        1486
+      ]
+    },
+    {
+      "label": "Models",
+      "class": "android.widget.TextView",
+      "package": "org.lokey.app",
+      "bounds": [
+        636,
+        1332,
+        933,
+        1486
+      ]
+    },
+    {
+      "label": "Try it",
+      "class": "android.widget.TextView",
+      "package": "org.lokey.app",
+      "bounds": [
+        933,
+        1332,
+        1230,
+        1486
+      ]
+    }
+  ]
+}

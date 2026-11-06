@@ -1,0 +1,13 @@
+{
+  "cursor": {
+    "both_boundaries_keep_focus": true,
+    "empty_editor": true,
+    "unicode_and_multiline": true,
+    "selection_collapse": true,
+    "surrounding_text_offsets": true,
+    "extracted_text_fallback": true,
+    "legacy_fallback": true,
+    "unsupported_editors_stay_put": true
+  },
+  "passed": true
+}

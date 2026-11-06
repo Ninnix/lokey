@@ -1,0 +1,1723 @@
+{
+  "probabilitylanguages": {
+    "cases": [
+      {
+        "model": "LFM2.5-350M-Q4_K_M.gguf",
+        "backend": "CPU",
+        "language": "English",
+        "prompt": "language_label",
+        "context": "Good",
+        "prefix": "mor",
+        "words": [
+          "morning"
+        ],
+        "expected": [
+          "morning"
+        ],
+        "top3_hit": true,
+        "valid": true,
+        "ms": 319.451197
+      },
+      {
+        "model": "LFM2.5-350M-Q4_K_M.gguf",
+        "backend": "CPU",
+        "language": "Italian",
+        "prompt": "language_label",
+        "context": "Ci vediamo",
+        "prefix": "doma",
+        "words": [
+          "domani",
+          "domande",
+          "domano"
+        ],
+        "expected": [
+          "domani"
+        ],
+        "top3_hit": true,
+        "valid": true,
+        "ms": 316.048021
+      },
+      {
+        "model": "LFM2.5-350M-Q4_K_M.gguf",
+        "backend": "CPU",
+        "language": "Spanish",
+        "prompt": "language_label",
+        "context": "Muchas",
+        "prefix": "grac",
+        "words": [
+          "gracias"
+        ],
+        "expected": [
+          "gracias"
+        ],
+        "top3_hit": true,
+        "valid": true,
+        "ms": 338.543385
+      },
+      {
+        "model": "LFM2.5-350M-Q4_K_M.gguf",
+        "backend": "CPU",
+        "language": "French",
+        "prompt": "language_label",
+        "context": "Merci",
+        "prefix": "beau",
+        "words": [
+          "beaucoup"
+        ],
+        "expected": [
+          "beaucoup"
+        ],
+        "top3_hit": true,
+        "valid": true,
+        "ms": 316.043646
+      },
+      {
+        "model": "LFM2.5-350M-Q4_K_M.gguf",
+        "backend": "CPU",
+        "language": "German",
+        "prompt": "language_label",
+        "context": "Vielen",
+        "prefix": "Dan",
+        "words": [
+          "Dank"
+        ],
+        "expected": [
+          "Dank"
+        ],
+        "top3_hit": true,
+        "valid": true,
+        "ms": 340.432447
+      },
+      {
+        "model": "LFM2.5-350M-Q4_K_M.gguf",
+        "backend": "CPU",
+        "language": "Portuguese",
+        "prompt": "language_label",
+        "context": "Muito",
+        "prefix": "obri",
+        "words": [
+          "obrigado",
+          "obrigada"
+        ],
+        "expected": [
+          "obrigado",
+          "obrigada"
+        ],
+        "top3_hit": true,
+        "valid": true,
+        "ms": 320.610938
+      },
+      {
+        "model": "LFM2.5-350M-Q4_K_M.gguf",
+        "backend": "CPU",
+        "language": "Russian",
+        "prompt": "language_label",
+        "context": "Большое",
+        "prefix": "спаси",
+        "words": [],
+        "expected": [
+          "спасибо"
+        ],
+        "top3_hit": false,
+        "valid": true,
+        "ms": 328.554166
+      },
+      {
+        "model": "LFM2.5-350M-Q4_K_M.gguf",
+        "backend": "CPU",
+        "language": "Greek",
+        "prompt": "language_label",
+        "context": "Ευχαριστώ",
+        "prefix": "πο",
+        "words": [],
+        "expected": [
+          "πολύ"
+        ],
+        "top3_hit": false,
+        "valid": true,
+        "ms": 405.818802
+      },
+      {
+        "model": "LFM2.5-350M-Q4_K_M.gguf",
+        "backend": "CPU",
+        "language": "Arabic",
+        "prompt": "language_label",
+        "context": "شكرا",
+        "prefix": "جزي",
+        "words": [],
+        "expected": [
+          "جزيلا",
+          "جزيلًا",
+          "جزيلاً"
+        ],
+        "top3_hit": false,
+        "valid": true,
+        "ms": 336.191094
+      },
+      {
+        "model": "LFM2.5-350M-Q4_K_M.gguf",
+        "backend": "CPU",
+        "language": "English",
+        "prompt": "language_label",
+        "context": "Thank you very",
+        "prefix": "",
+        "words": [
+          "much",
+          "very",
+          "nicely",
+          "seriously",
+          "nice",
+          "greatly",
+          "quickly",
+          "respectfully",
+          "respectful",
+          "please",
+          "grateful",
+          "importantly",
+          "well"
+        ],
+        "expected": [
+          "much"
+        ],
+        "top3_hit": true,
+        "valid": true,
+        "ms": 330.7425
+      },
+      {
+        "model": "LFM2.5-350M-Q4_K_M.gguf",
+        "backend": "CPU",
+        "language": "Italian",
+        "prompt": "language_label",
+        "context": "Ti voglio",
+        "prefix": "",
+        "words": [
+          "aiuta",
+          "volo",
+          "aiuto",
+          "ai",
+          "a",
+          "aiuti",
+          "aiutare",
+          "di"
+        ],
+        "expected": [
+          "bene"
+        ],
+        "top3_hit": false,
+        "valid": true,
+        "ms": 342.233177
+      },
+      {
+        "model": "LFM2.5-350M-Q4_K_M.gguf",
+        "backend": "CPU",
+        "language": "Spanish",
+        "prompt": "language_label",
+        "context": "Muchas",
+        "prefix": "",
+        "words": [
+          "personas",
+          "veces",
+          "muchas",
+          "pocas",
+          "horas",
+          "gente",
+          "partes",
+          "familias",
+          "gracias",
+          "mujeres",
+          "cosas"
+        ],
+        "expected": [
+          "gracias"
+        ],
+        "top3_hit": false,
+        "valid": true,
+        "ms": 323.742136
+      },
+      {
+        "model": "LFM2.5-350M-Q4_K_M.gguf",
+        "backend": "CPU",
+        "language": "French",
+        "prompt": "language_label",
+        "context": "Merci",
+        "prefix": "",
+        "words": [
+          "merci",
+          "pour",
+          "de"
+        ],
+        "expected": [
+          "beaucoup"
+        ],
+        "top3_hit": false,
+        "valid": true,
+        "ms": 327.638697
+      },
+      {
+        "model": "LFM2.5-350M-Q4_K_M.gguf",
+        "backend": "CPU",
+        "language": "German",
+        "prompt": "language_label",
+        "context": "Vielen",
+        "prefix": "",
+        "words": [
+          "vielen",
+          "Menschen",
+          "Dank",
+          "guten",
+          "schönes"
+        ],
+        "expected": [
+          "Dank"
+        ],
+        "top3_hit": true,
+        "valid": true,
+        "ms": 329.270781
+      },
+      {
+        "model": "LFM2.5-350M-Q4_K_M.gguf",
+        "backend": "CPU",
+        "language": "Portuguese",
+        "prompt": "language_label",
+        "context": "Muito",
+        "prefix": "",
+        "words": [
+          "muitos",
+          "importante",
+          "muitas",
+          "pouco",
+          "útil",
+          "bem",
+          "bom",
+          "tempo",
+          "o",
+          "novo",
+          "belo",
+          "grande"
+        ],
+        "expected": [
+          "obrigado",
+          "obrigada"
+        ],
+        "top3_hit": false,
+        "valid": true,
+        "ms": 292.933489
+      },
+      {
+        "model": "LFM2.5-350M-Q4_K_M.gguf",
+        "backend": "CPU",
+        "language": "Russian",
+        "prompt": "language_label",
+        "context": "Большое",
+        "prefix": "",
+        "words": [
+          "many",
+          "greatness",
+          "great",
+          "많은",
+          "좋은",
+          "muchas",
+          "pleasure",
+          "день",
+          "importante",
+          "manymanymany",
+          "much",
+          "important",
+          "día",
+          "коли",
+          "day"
+        ],
+        "expected": [
+          "спасибо"
+        ],
+        "top3_hit": false,
+        "valid": true,
+        "ms": 279.38073
+      },
+      {
+        "model": "LFM2.5-350M-Q4_K_M.gguf",
+        "backend": "CPU",
+        "language": "Greek",
+        "prompt": "language_label",
+        "context": "Ευχαριστώ",
+        "prefix": "",
+        "words": [
+          "ή"
+        ],
+        "expected": [
+          "πολύ"
+        ],
+        "top3_hit": false,
+        "valid": true,
+        "ms": 318.547136
+      },
+      {
+        "model": "LFM2.5-350M-Q4_K_M.gguf",
+        "backend": "CPU",
+        "language": "Arabic",
+        "prompt": "language_label",
+        "context": "شكرا",
+        "prefix": "",
+        "words": [
+          "يا",
+          "شكرا",
+          "لا"
+        ],
+        "expected": [
+          "جزيلا",
+          "جزيلًا",
+          "جزيلاً"
+        ],
+        "top3_hit": false,
+        "valid": true,
+        "ms": 289.765313
+      },
+      {
+        "model": "LFM2.5-350M-Q4_K_M.gguf",
+        "backend": "CPU",
+        "language": "Italian",
+        "prompt": "language_label",
+        "context": "C'é un amico mio che ha una casa in costa",
+        "prefix": "azzu",
+        "words": [
+          "azzur",
+          "azzullo",
+          "azzurra",
+          "azzusa",
+          "azzullu"
+        ],
+        "expected": [
+          "azzurra",
+          "azzurro"
+        ],
+        "top3_hit": true,
+        "valid": true,
+        "ms": 338.568958
+      },
+      {
+        "model": "LFM2.5-350M-Q4_K_M.gguf",
+        "backend": "CPU",
+        "language": "English",
+        "prompt": "language_label",
+        "context": "The mitochondria produce adenosine",
+        "prefix": "triphos",
+        "words": [
+          "triphosphate"
+        ],
+        "expected": [
+          "triphosphate",
+          "triphosphates"
+        ],
+        "top3_hit": true,
+        "valid": true,
+        "ms": 310.212291
+      },
+      {
+        "model": "LFM2.5-350M-Q4_K_M.gguf",
+        "backend": "HTP0",
+        "language": "English",
+        "prompt": "language_label",
+        "context": "Good",
+        "prefix": "mor",
+        "words": [
+          "morning"
+        ],
+        "expected": [
+          "morning"
+        ],
+        "top3_hit": true,
+        "valid": true,
+        "ms": 260.851875
+      },
+      {
+        "model": "LFM2.5-350M-Q4_K_M.gguf",
+        "backend": "HTP0",
+        "language": "Italian",
+        "prompt": "language_label",
+        "context": "Ci vediamo",
+        "prefix": "doma",
+        "words": [
+          "domani",
+          "domano",
+          "domande"
+        ],
+        "expected": [
+          "domani"
+        ],
+        "top3_hit": true,
+        "valid": true,
+        "ms": 263.434271
+      },
+      {
+        "model": "LFM2.5-350M-Q4_K_M.gguf",
+        "backend": "HTP0",
+        "language": "Spanish",
+        "prompt": "language_label",
+        "context": "Muchas",
+        "prefix": "grac",
+        "words": [
+          "gracias"
+        ],
+        "expected": [
+          "gracias"
+        ],
+        "top3_hit": true,
+        "valid": true,
+        "ms": 254.328646
+      },
+      {
+        "model": "LFM2.5-350M-Q4_K_M.gguf",
+        "backend": "HTP0",
+        "language": "French",
+        "prompt": "language_label",
+        "context": "Merci",
+        "prefix": "beau",
+        "words": [
+          "beaucoup"
+        ],
+        "expected": [
+          "beaucoup"
+        ],
+        "top3_hit": true,
+        "valid": true,
+        "ms": 256.028333
+      },
+      {
+        "model": "LFM2.5-350M-Q4_K_M.gguf",
+        "backend": "HTP0",
+        "language": "German",
+        "prompt": "language_label",
+        "context": "Vielen",
+        "prefix": "Dan",
+        "words": [
+          "Dank"
+        ],
+        "expected": [
+          "Dank"
+        ],
+        "top3_hit": true,
+        "valid": true,
+        "ms": 258.173333
+      },
+      {
+        "model": "LFM2.5-350M-Q4_K_M.gguf",
+        "backend": "HTP0",
+        "language": "Portuguese",
+        "prompt": "language_label",
+        "context": "Muito",
+        "prefix": "obri",
+        "words": [
+          "obrigado",
+          "obrigada",
+          "obriga"
+        ],
+        "expected": [
+          "obrigado",
+          "obrigada"
+        ],
+        "top3_hit": true,
+        "valid": true,
+        "ms": 258.388073
+      },
+      {
+        "model": "LFM2.5-350M-Q4_K_M.gguf",
+        "backend": "HTP0",
+        "language": "Russian",
+        "prompt": "language_label",
+        "context": "Большое",
+        "prefix": "спаси",
+        "words": [
+          "спаси"
+        ],
+        "expected": [
+          "спасибо"
+        ],
+        "top3_hit": false,
+        "valid": true,
+        "ms": 263.136354
+      },
+      {
+        "model": "LFM2.5-350M-Q4_K_M.gguf",
+        "backend": "HTP0",
+        "language": "Greek",
+        "prompt": "language_label",
+        "context": "Ευχαριστώ",
+        "prefix": "πο",
+        "words": [
+          "Πολιτώ"
+        ],
+        "expected": [
+          "πολύ"
+        ],
+        "top3_hit": false,
+        "valid": true,
+        "ms": 271.217187
+      },
+      {
+        "model": "LFM2.5-350M-Q4_K_M.gguf",
+        "backend": "HTP0",
+        "language": "Arabic",
+        "prompt": "language_label",
+        "context": "شكرا",
+        "prefix": "جزي",
+        "words": [],
+        "expected": [
+          "جزيلا",
+          "جزيلًا",
+          "جزيلاً"
+        ],
+        "top3_hit": false,
+        "valid": true,
+        "ms": 265.450677
+      },
+      {
+        "model": "LFM2.5-350M-Q4_K_M.gguf",
+        "backend": "HTP0",
+        "language": "English",
+        "prompt": "language_label",
+        "context": "Thank you very",
+        "prefix": "",
+        "words": [
+          "much",
+          "very",
+          "greatly",
+          "nicely",
+          "seriously",
+          "nice",
+          "quickly",
+          "respectful",
+          "please",
+          "respectfully",
+          "importantly",
+          "grateful",
+          "gratefully",
+          "well",
+          "slowly",
+          "clearly",
+          "strongly",
+          "carefully",
+          "highly",
+          "simply",
+          "kindly",
+          "important",
+          "easily"
+        ],
+        "expected": [
+          "much"
+        ],
+        "top3_hit": true,
+        "valid": true,
+        "ms": 262.319114
+      },
+      {
+        "model": "LFM2.5-350M-Q4_K_M.gguf",
+        "backend": "HTP0",
+        "language": "Italian",
+        "prompt": "language_label",
+        "context": "Ti voglio",
+        "prefix": "",
+        "words": [
+          "aiuta",
+          "volo",
+          "aiuto",
+          "ai",
+          "a",
+          "aiuti",
+          "di",
+          "aiutare",
+          "molto",
+          "volva",
+          "vi",
+          "venire",
+          "dire",
+          "io",
+          "aioioioio",
+          "va"
+        ],
+        "expected": [
+          "bene"
+        ],
+        "top3_hit": false,
+        "valid": true,
+        "ms": 260.27
+      },
+      {
+        "model": "LFM2.5-350M-Q4_K_M.gguf",
+        "backend": "HTP0",
+        "language": "Spanish",
+        "prompt": "language_label",
+        "context": "Muchas",
+        "prefix": "",
+        "words": [
+          "personas",
+          "veces",
+          "muchas",
+          "pocas",
+          "horas",
+          "gente",
+          "familias",
+          "partes",
+          "gracias",
+          "mujeres",
+          "cosas",
+          "aventuras",
+          "preguntas"
+        ],
+        "expected": [
+          "gracias"
+        ],
+        "top3_hit": false,
+        "valid": true,
+        "ms": 265.603229
+      },
+      {
+        "model": "LFM2.5-350M-Q4_K_M.gguf",
+        "backend": "HTP0",
+        "language": "French",
+        "prompt": "language_label",
+        "context": "Merci",
+        "prefix": "",
+        "words": [
+          "merci",
+          "pour",
+          "de",
+          "d’avance"
+        ],
+        "expected": [
+          "beaucoup"
+        ],
+        "top3_hit": false,
+        "valid": true,
+        "ms": 259.091823
+      },
+      {
+        "model": "LFM2.5-350M-Q4_K_M.gguf",
+        "backend": "HTP0",
+        "language": "German",
+        "prompt": "language_label",
+        "context": "Vielen",
+        "prefix": "",
+        "words": [
+          "vielen",
+          "Dank",
+          "Menschen",
+          "guten",
+          "schönes",
+          "Freude",
+          "Gelegenheiten",
+          "Geschichten",
+          "anderen",
+          "Jahren",
+          "schönen"
+        ],
+        "expected": [
+          "Dank"
+        ],
+        "top3_hit": true,
+        "valid": true,
+        "ms": 257.458698
+      },
+      {
+        "model": "LFM2.5-350M-Q4_K_M.gguf",
+        "backend": "HTP0",
+        "language": "Portuguese",
+        "prompt": "language_label",
+        "context": "Muito",
+        "prefix": "",
+        "words": [
+          "muitos",
+          "importante",
+          "muitas",
+          "pouco",
+          "bom",
+          "útil",
+          "bem",
+          "tempo",
+          "o",
+          "novo",
+          "é",
+          "interessante",
+          "grande",
+          "belo",
+          "tem"
+        ],
+        "expected": [
+          "obrigado",
+          "obrigada"
+        ],
+        "top3_hit": false,
+        "valid": true,
+        "ms": 257.051979
+      },
+      {
+        "model": "LFM2.5-350M-Q4_K_M.gguf",
+        "backend": "HTP0",
+        "language": "Russian",
+        "prompt": "language_label",
+        "context": "Большое",
+        "prefix": "",
+        "words": [
+          "many",
+          "많은",
+          "좋은",
+          "greatness",
+          "great",
+          "muchas",
+          "pleasure",
+          "importante",
+          "день",
+          "wonderful",
+          "manymanymany",
+          "много",
+          "schön",
+          "в",
+          "important",
+          "thanks",
+          "día",
+          "коли",
+          "знач"
+        ],
+        "expected": [
+          "спасибо"
+        ],
+        "top3_hit": false,
+        "valid": true,
+        "ms": 1958.458645
+      },
+      {
+        "model": "LFM2.5-350M-Q4_K_M.gguf",
+        "backend": "HTP0",
+        "language": "Greek",
+        "prompt": "language_label",
+        "context": "Ευχαριστώ",
+        "prefix": "",
+        "words": [
+          "για",
+          ".",
+          "σας",
+          "να",
+          "πολύ",
+          "!",
+          "μου",
+          "το",
+          "την",
+          "και",
+          "από",
+          "προς"
+        ],
+        "expected": [
+          "πολύ"
+        ],
+        "top3_hit": false,
+        "valid": true,
+        "ms": 341.970052
+      },
+      {
+        "model": "LFM2.5-350M-Q4_K_M.gguf",
+        "backend": "HTP0",
+        "language": "Arabic",
+        "prompt": "language_label",
+        "context": "شكرا",
+        "prefix": "",
+        "words": [
+          "على",
+          "لكم",
+          "لك",
+          "لله",
+          "بر"
+        ],
+        "expected": [
+          "جزيلا",
+          "جزيلًا",
+          "جزيلاً"
+        ],
+        "top3_hit": false,
+        "valid": true,
+        "ms": 308.305521
+      },
+      {
+        "model": "LFM2.5-350M-Q4_K_M.gguf",
+        "backend": "HTP0",
+        "language": "Italian",
+        "prompt": "language_label",
+        "context": "C'é un amico mio che ha una casa in costa",
+        "prefix": "azzu",
+        "words": [
+          "azzurra",
+          "azzurro"
+        ],
+        "expected": [
+          "azzurra",
+          "azzurro"
+        ],
+        "top3_hit": true,
+        "valid": true,
+        "ms": 323.980521
+      },
+      {
+        "model": "LFM2.5-350M-Q4_K_M.gguf",
+        "backend": "HTP0",
+        "language": "English",
+        "prompt": "language_label",
+        "context": "The mitochondria produce adenosine",
+        "prefix": "triphos",
+        "words": [
+          "triphosphate",
+          "triphosphates"
+        ],
+        "expected": [
+          "triphosphate",
+          "triphosphates"
+        ],
+        "top3_hit": true,
+        "valid": true,
+        "ms": 295.616927
+      },
+      {
+        "model": "Qwen3.5-0.8B-Q4_K_M.gguf",
+        "backend": "CPU",
+        "language": "English",
+        "prompt": "language_label",
+        "context": "Good",
+        "prefix": "mor",
+        "words": [
+          "morning"
+        ],
+        "expected": [
+          "morning"
+        ],
+        "top3_hit": true,
+        "valid": true,
+        "ms": 381.844792
+      },
+      {
+        "model": "Qwen3.5-0.8B-Q4_K_M.gguf",
+        "backend": "CPU",
+        "language": "Italian",
+        "prompt": "language_label",
+        "context": "Ci vediamo",
+        "prefix": "doma",
+        "words": [
+          "domani"
+        ],
+        "expected": [
+          "domani"
+        ],
+        "top3_hit": true,
+        "valid": true,
+        "ms": 404.929219
+      },
+      {
+        "model": "Qwen3.5-0.8B-Q4_K_M.gguf",
+        "backend": "CPU",
+        "language": "Spanish",
+        "prompt": "language_label",
+        "context": "Muchas",
+        "prefix": "grac",
+        "words": [
+          "gracias"
+        ],
+        "expected": [
+          "gracias"
+        ],
+        "top3_hit": true,
+        "valid": true,
+        "ms": 384.531666
+      },
+      {
+        "model": "Qwen3.5-0.8B-Q4_K_M.gguf",
+        "backend": "CPU",
+        "language": "French",
+        "prompt": "language_label",
+        "context": "Merci",
+        "prefix": "beau",
+        "words": [
+          "beaucoup"
+        ],
+        "expected": [
+          "beaucoup"
+        ],
+        "top3_hit": true,
+        "valid": true,
+        "ms": 531.015365
+      },
+      {
+        "model": "Qwen3.5-0.8B-Q4_K_M.gguf",
+        "backend": "CPU",
+        "language": "German",
+        "prompt": "language_label",
+        "context": "Vielen",
+        "prefix": "Dan",
+        "words": [
+          "Dank"
+        ],
+        "expected": [
+          "Dank"
+        ],
+        "top3_hit": true,
+        "valid": true,
+        "ms": 390.784896
+      },
+      {
+        "model": "Qwen3.5-0.8B-Q4_K_M.gguf",
+        "backend": "CPU",
+        "language": "Portuguese",
+        "prompt": "language_label",
+        "context": "Muito",
+        "prefix": "obri",
+        "words": [
+          "obrigado",
+          "obrigada"
+        ],
+        "expected": [
+          "obrigado",
+          "obrigada"
+        ],
+        "top3_hit": true,
+        "valid": true,
+        "ms": 429.556145
+      },
+      {
+        "model": "Qwen3.5-0.8B-Q4_K_M.gguf",
+        "backend": "CPU",
+        "language": "Russian",
+        "prompt": "language_label",
+        "context": "Большое",
+        "prefix": "спаси",
+        "words": [
+          "спасибо"
+        ],
+        "expected": [
+          "спасибо"
+        ],
+        "top3_hit": true,
+        "valid": true,
+        "ms": 428.633594
+      },
+      {
+        "model": "Qwen3.5-0.8B-Q4_K_M.gguf",
+        "backend": "CPU",
+        "language": "Greek",
+        "prompt": "language_label",
+        "context": "Ευχαριστώ",
+        "prefix": "πο",
+        "words": [
+          "πολύ",
+          "που",
+          "ποτέ"
+        ],
+        "expected": [
+          "πολύ"
+        ],
+        "top3_hit": true,
+        "valid": true,
+        "ms": 470.946874
+      },
+      {
+        "model": "Qwen3.5-0.8B-Q4_K_M.gguf",
+        "backend": "CPU",
+        "language": "Arabic",
+        "prompt": "language_label",
+        "context": "شكرا",
+        "prefix": "جزي",
+        "words": [
+          "جزيلا",
+          "جزي",
+          "جزيء",
+          "جزيدي"
+        ],
+        "expected": [
+          "جزيلا",
+          "جزيلًا",
+          "جزيلاً"
+        ],
+        "top3_hit": true,
+        "valid": true,
+        "ms": 487.697448
+      },
+      {
+        "model": "Qwen3.5-0.8B-Q4_K_M.gguf",
+        "backend": "CPU",
+        "language": "English",
+        "prompt": "language_label",
+        "context": "Thank you very",
+        "prefix": "",
+        "words": [
+          "much",
+          "very",
+          "highly",
+          "well",
+          "warmly",
+          "carefully"
+        ],
+        "expected": [
+          "much"
+        ],
+        "top3_hit": true,
+        "valid": true,
+        "ms": 438.702708
+      },
+      {
+        "model": "Qwen3.5-0.8B-Q4_K_M.gguf",
+        "backend": "CPU",
+        "language": "Italian",
+        "prompt": "language_label",
+        "context": "Ti voglio",
+        "prefix": "",
+        "words": [
+          "bene",
+          "dire",
+          "sapere",
+          "che",
+          "essere",
+          "fare"
+        ],
+        "expected": [
+          "bene"
+        ],
+        "top3_hit": true,
+        "valid": true,
+        "ms": 370.299531
+      },
+      {
+        "model": "Qwen3.5-0.8B-Q4_K_M.gguf",
+        "backend": "CPU",
+        "language": "Spanish",
+        "prompt": "language_label",
+        "context": "Muchas",
+        "prefix": "",
+        "words": [
+          "veces",
+          "de",
+          "personas",
+          "cosas",
+          "gracias",
+          "familias",
+          "horas"
+        ],
+        "expected": [
+          "gracias"
+        ],
+        "top3_hit": false,
+        "valid": true,
+        "ms": 433.250364
+      },
+      {
+        "model": "Qwen3.5-0.8B-Q4_K_M.gguf",
+        "backend": "CPU",
+        "language": "French",
+        "prompt": "language_label",
+        "context": "Merci",
+        "prefix": "",
+        "words": [
+          "à",
+          "de",
+          "pour",
+          ".",
+          "a",
+          "beaucoup"
+        ],
+        "expected": [
+          "beaucoup"
+        ],
+        "top3_hit": false,
+        "valid": true,
+        "ms": 362.203802
+      },
+      {
+        "model": "Qwen3.5-0.8B-Q4_K_M.gguf",
+        "backend": "CPU",
+        "language": "German",
+        "prompt": "language_label",
+        "context": "Vielen",
+        "prefix": "",
+        "words": [
+          "Dank",
+          "lieben"
+        ],
+        "expected": [
+          "Dank"
+        ],
+        "top3_hit": true,
+        "valid": true,
+        "ms": 432.697812
+      },
+      {
+        "model": "Qwen3.5-0.8B-Q4_K_M.gguf",
+        "backend": "CPU",
+        "language": "Portuguese",
+        "prompt": "language_label",
+        "context": "Muito",
+        "prefix": "",
+        "words": [
+          "importante",
+          "bem",
+          "obrigado",
+          "bom",
+          "mais",
+          "comum",
+          "se"
+        ],
+        "expected": [
+          "obrigado",
+          "obrigada"
+        ],
+        "top3_hit": true,
+        "valid": true,
+        "ms": 447.320729
+      },
+      {
+        "model": "Qwen3.5-0.8B-Q4_K_M.gguf",
+        "backend": "CPU",
+        "language": "Russian",
+        "prompt": "language_label",
+        "context": "Большое",
+        "prefix": "",
+        "words": [
+          "количество",
+          "значение",
+          "число",
+          "спасибо",
+          "и"
+        ],
+        "expected": [
+          "спасибо"
+        ],
+        "top3_hit": false,
+        "valid": true,
+        "ms": 389.737135
+      },
+      {
+        "model": "Qwen3.5-0.8B-Q4_K_M.gguf",
+        "backend": "CPU",
+        "language": "Greek",
+        "prompt": "language_label",
+        "context": "Ευχαριστώ",
+        "prefix": "",
+        "words": [
+          "για",
+          "σας",
+          "να",
+          "πολύ",
+          ".",
+          "μου",
+          "την",
+          "το"
+        ],
+        "expected": [
+          "πολύ"
+        ],
+        "top3_hit": false,
+        "valid": true,
+        "ms": 459.307343
+      },
+      {
+        "model": "Qwen3.5-0.8B-Q4_K_M.gguf",
+        "backend": "CPU",
+        "language": "Arabic",
+        "prompt": "language_label",
+        "context": "شكرا",
+        "prefix": "",
+        "words": [
+          "على",
+          "لكم",
+          "لله",
+          "لك"
+        ],
+        "expected": [
+          "جزيلا",
+          "جزيلًا",
+          "جزيلاً"
+        ],
+        "top3_hit": false,
+        "valid": true,
+        "ms": 391.276979
+      },
+      {
+        "model": "Qwen3.5-0.8B-Q4_K_M.gguf",
+        "backend": "CPU",
+        "language": "Italian",
+        "prompt": "language_label",
+        "context": "C'é un amico mio che ha una casa in costa",
+        "prefix": "azzu",
+        "words": [
+          "azzurra",
+          "azzurro"
+        ],
+        "expected": [
+          "azzurra",
+          "azzurro"
+        ],
+        "top3_hit": true,
+        "valid": true,
+        "ms": 889.91302
+      },
+      {
+        "model": "Qwen3.5-0.8B-Q4_K_M.gguf",
+        "backend": "CPU",
+        "language": "English",
+        "prompt": "language_label",
+        "context": "The mitochondria produce adenosine",
+        "prefix": "triphos",
+        "words": [
+          "triphosphate",
+          "triphosphates"
+        ],
+        "expected": [
+          "triphosphate",
+          "triphosphates"
+        ],
+        "top3_hit": true,
+        "valid": true,
+        "ms": 915.492604
+      },
+      {
+        "model": "Qwen3.5-0.8B-Q4_K_M.gguf",
+        "backend": "HTP0",
+        "language": "English",
+        "prompt": "language_label",
+        "context": "Good",
+        "prefix": "mor",
+        "words": [
+          "morning"
+        ],
+        "expected": [
+          "morning"
+        ],
+        "top3_hit": true,
+        "valid": true,
+        "ms": 301.306718
+      },
+      {
+        "model": "Qwen3.5-0.8B-Q4_K_M.gguf",
+        "backend": "HTP0",
+        "language": "Italian",
+        "prompt": "language_label",
+        "context": "Ci vediamo",
+        "prefix": "doma",
+        "words": [
+          "domani"
+        ],
+        "expected": [
+          "domani"
+        ],
+        "top3_hit": true,
+        "valid": true,
+        "ms": 285.662239
+      },
+      {
+        "model": "Qwen3.5-0.8B-Q4_K_M.gguf",
+        "backend": "HTP0",
+        "language": "Spanish",
+        "prompt": "language_label",
+        "context": "Muchas",
+        "prefix": "grac",
+        "words": [
+          "gracias"
+        ],
+        "expected": [
+          "gracias"
+        ],
+        "top3_hit": true,
+        "valid": true,
+        "ms": 300.660469
+      },
+      {
+        "model": "Qwen3.5-0.8B-Q4_K_M.gguf",
+        "backend": "HTP0",
+        "language": "French",
+        "prompt": "language_label",
+        "context": "Merci",
+        "prefix": "beau",
+        "words": [
+          "beaucoup"
+        ],
+        "expected": [
+          "beaucoup"
+        ],
+        "top3_hit": true,
+        "valid": true,
+        "ms": 303.578385
+      },
+      {
+        "model": "Qwen3.5-0.8B-Q4_K_M.gguf",
+        "backend": "HTP0",
+        "language": "German",
+        "prompt": "language_label",
+        "context": "Vielen",
+        "prefix": "Dan",
+        "words": [
+          "Dank"
+        ],
+        "expected": [
+          "Dank"
+        ],
+        "top3_hit": true,
+        "valid": true,
+        "ms": 299.230156
+      },
+      {
+        "model": "Qwen3.5-0.8B-Q4_K_M.gguf",
+        "backend": "HTP0",
+        "language": "Portuguese",
+        "prompt": "language_label",
+        "context": "Muito",
+        "prefix": "obri",
+        "words": [
+          "obrigado",
+          "obrigada",
+          "obrigadas"
+        ],
+        "expected": [
+          "obrigado",
+          "obrigada"
+        ],
+        "top3_hit": true,
+        "valid": true,
+        "ms": 297.777604
+      },
+      {
+        "model": "Qwen3.5-0.8B-Q4_K_M.gguf",
+        "backend": "HTP0",
+        "language": "Russian",
+        "prompt": "language_label",
+        "context": "Большое",
+        "prefix": "спаси",
+        "words": [
+          "спасибо"
+        ],
+        "expected": [
+          "спасибо"
+        ],
+        "top3_hit": true,
+        "valid": true,
+        "ms": 331.998385
+      },
+      {
+        "model": "Qwen3.5-0.8B-Q4_K_M.gguf",
+        "backend": "HTP0",
+        "language": "Greek",
+        "prompt": "language_label",
+        "context": "Ευχαριστώ",
+        "prefix": "πο",
+        "words": [
+          "πολύ",
+          "που",
+          "ποτέ"
+        ],
+        "expected": [
+          "πολύ"
+        ],
+        "top3_hit": true,
+        "valid": true,
+        "ms": 296.024479
+      },
+      {
+        "model": "Qwen3.5-0.8B-Q4_K_M.gguf",
+        "backend": "HTP0",
+        "language": "Arabic",
+        "prompt": "language_label",
+        "context": "شكرا",
+        "prefix": "جزي",
+        "words": [
+          "جزيلا",
+          "جزي",
+          "جزيء",
+          "جزيدي",
+          "جزيل",
+          "جزيئ"
+        ],
+        "expected": [
+          "جزيلا",
+          "جزيلًا",
+          "جزيلاً"
+        ],
+        "top3_hit": true,
+        "valid": true,
+        "ms": 296.994166
+      },
+      {
+        "model": "Qwen3.5-0.8B-Q4_K_M.gguf",
+        "backend": "HTP0",
+        "language": "English",
+        "prompt": "language_label",
+        "context": "Thank you very",
+        "prefix": "",
+        "words": [
+          "much",
+          "very",
+          "highly",
+          "well",
+          "warmly",
+          "carefully",
+          "first"
+        ],
+        "expected": [
+          "much"
+        ],
+        "top3_hit": true,
+        "valid": true,
+        "ms": 286.173854
+      },
+      {
+        "model": "Qwen3.5-0.8B-Q4_K_M.gguf",
+        "backend": "HTP0",
+        "language": "Italian",
+        "prompt": "language_label",
+        "context": "Ti voglio",
+        "prefix": "",
+        "words": [
+          "bene",
+          "dire",
+          "sapere",
+          "che",
+          "essere",
+          "fare",
+          "vedere",
+          "sentire",
+          "pure"
+        ],
+        "expected": [
+          "bene"
+        ],
+        "top3_hit": true,
+        "valid": true,
+        "ms": 286.351302
+      },
+      {
+        "model": "Qwen3.5-0.8B-Q4_K_M.gguf",
+        "backend": "HTP0",
+        "language": "Spanish",
+        "prompt": "language_label",
+        "context": "Muchas",
+        "prefix": "",
+        "words": [
+          "veces",
+          "de",
+          "personas",
+          "gracias",
+          "cosas",
+          "horas",
+          "familias",
+          "mujeres",
+          "empresas"
+        ],
+        "expected": [
+          "gracias"
+        ],
+        "top3_hit": false,
+        "valid": true,
+        "ms": 290.958646
+      },
+      {
+        "model": "Qwen3.5-0.8B-Q4_K_M.gguf",
+        "backend": "HTP0",
+        "language": "French",
+        "prompt": "language_label",
+        "context": "Merci",
+        "prefix": "",
+        "words": [
+          "à",
+          "de",
+          "pour",
+          "a",
+          ".",
+          "beaucoup",
+          "aux",
+          "au"
+        ],
+        "expected": [
+          "beaucoup"
+        ],
+        "top3_hit": false,
+        "valid": true,
+        "ms": 290.025364
+      },
+      {
+        "model": "Qwen3.5-0.8B-Q4_K_M.gguf",
+        "backend": "HTP0",
+        "language": "German",
+        "prompt": "language_label",
+        "context": "Vielen",
+        "prefix": "",
+        "words": [
+          "Dank",
+          "lieben"
+        ],
+        "expected": [
+          "Dank"
+        ],
+        "top3_hit": true,
+        "valid": true,
+        "ms": 284.734062
+      },
+      {
+        "model": "Qwen3.5-0.8B-Q4_K_M.gguf",
+        "backend": "HTP0",
+        "language": "Portuguese",
+        "prompt": "language_label",
+        "context": "Muito",
+        "prefix": "",
+        "words": [
+          "importante",
+          "bem",
+          "obrigado",
+          "mais",
+          "bom",
+          "comum",
+          "tempo",
+          "se",
+          "difícil"
+        ],
+        "expected": [
+          "obrigado",
+          "obrigada"
+        ],
+        "top3_hit": true,
+        "valid": true,
+        "ms": 288.247812
+      },
+      {
+        "model": "Qwen3.5-0.8B-Q4_K_M.gguf",
+        "backend": "HTP0",
+        "language": "Russian",
+        "prompt": "language_label",
+        "context": "Большое",
+        "prefix": "",
+        "words": [
+          "количество",
+          "число",
+          "значение",
+          "спасибо",
+          "и",
+          "влияние",
+          "внимание",
+          "окно"
+        ],
+        "expected": [
+          "спасибо"
+        ],
+        "top3_hit": false,
+        "valid": true,
+        "ms": 303.487656
+      },
+      {
+        "model": "Qwen3.5-0.8B-Q4_K_M.gguf",
+        "backend": "HTP0",
+        "language": "Greek",
+        "prompt": "language_label",
+        "context": "Ευχαριστώ",
+        "prefix": "",
+        "words": [
+          "για",
+          ".",
+          "σας",
+          "να",
+          "πολύ",
+          "!",
+          "μου",
+          "το",
+          "την",
+          "και",
+          "από"
+        ],
+        "expected": [
+          "πολύ"
+        ],
+        "top3_hit": false,
+        "valid": true,
+        "ms": 297.862188
+      },
+      {
+        "model": "Qwen3.5-0.8B-Q4_K_M.gguf",
+        "backend": "HTP0",
+        "language": "Arabic",
+        "prompt": "language_label",
+        "context": "شكرا",
+        "prefix": "",
+        "words": [
+          "على",
+          "لكم",
+          "لك",
+          "لله",
+          "بر"
+        ],
+        "expected": [
+          "جزيلا",
+          "جزيلًا",
+          "جزيلاً"
+        ],
+        "top3_hit": false,
+        "valid": true,
+        "ms": 287.016875
+      },
+      {
+        "model": "Qwen3.5-0.8B-Q4_K_M.gguf",
+        "backend": "HTP0",
+        "language": "Italian",
+        "prompt": "language_label",
+        "context": "C'é un amico mio che ha una casa in costa",
+        "prefix": "azzu",
+        "words": [
+          "azzurra",
+          "azzurro",
+          "azzura"
+        ],
+        "expected": [
+          "azzurra",
+          "azzurro"
+        ],
+        "top3_hit": true,
+        "valid": true,
+        "ms": 305.812708
+      },
+      {
+        "model": "Qwen3.5-0.8B-Q4_K_M.gguf",
+        "backend": "HTP0",
+        "language": "English",
+        "prompt": "language_label",
+        "context": "The mitochondria produce adenosine",
+        "prefix": "triphos",
+        "words": [
+          "triphosphate",
+          "triphosphates"
+        ],
+        "expected": [
+          "triphosphate",
+          "triphosphates"
+        ],
+        "top3_hit": true,
+        "valid": true,
+        "ms": 293.512136
+      }
+    ],
+    "fixture_count": 20,
+    "models": [
+      {
+        "model": "LFM2.5-350M-Q4_K_M.gguf",
+        "backend": "CPU",
+        "bytes": 229312224,
+        "load_ms": 123.762188
+      },
+      {
+        "model": "LFM2.5-350M-Q4_K_M.gguf",
+        "backend": "HTP0",
+        "bytes": 229312224,
+        "load_ms": 279.924375
+      },
+      {
+        "model": "Qwen3.5-0.8B-Q4_K_M.gguf",
+        "backend": "CPU",
+        "bytes": 532517120,
+        "load_ms": 585.129583
+      },
+      {
+        "model": "Qwen3.5-0.8B-Q4_K_M.gguf",
+        "backend": "HTP0",
+        "bytes": 532517120,
+        "load_ms": 1556.498281
+      }
+    ]
+  },
+  "passed": true
+}

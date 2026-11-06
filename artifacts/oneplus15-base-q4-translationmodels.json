@@ -1,0 +1,778 @@
+{
+  "translationmodels": {
+    "cases": [
+      {
+        "model": "LFM2.5-350M-Q4_K_M.gguf",
+        "backend": "CPU",
+        "prompt": "chatml_fewshot",
+        "source": "Il treno parte alle otto.",
+        "target": "English",
+        "text": "Good",
+        "error": null,
+        "clean": true,
+        "reference_match": false,
+        "expected": [
+          [
+            "train"
+          ],
+          [
+            "eight",
+            "8"
+          ]
+        ],
+        "updates": 0,
+        "ms": 1006.20526
+      },
+      {
+        "model": "LFM2.5-350M-Q4_K_M.gguf",
+        "backend": "CPU",
+        "prompt": "chatml_fewshot",
+        "source": "The train leaves at eight.",
+        "target": "Italian",
+        "text": "Buona sera.",
+        "error": null,
+        "clean": true,
+        "reference_match": false,
+        "expected": [
+          [
+            "treno"
+          ],
+          [
+            "otto",
+            "8"
+          ]
+        ],
+        "updates": 0,
+        "ms": 1217.654426
+      },
+      {
+        "model": "LFM2.5-350M-Q4_K_M.gguf",
+        "backend": "CPU",
+        "prompt": "chatml_fewshot",
+        "source": "Please close the door.",
+        "target": "Spanish",
+        "text": "Buenos días",
+        "error": null,
+        "clean": true,
+        "reference_match": false,
+        "expected": [
+          [
+            "puerta"
+          ]
+        ],
+        "updates": 0,
+        "ms": 1123.09526
+      },
+      {
+        "model": "LFM2.5-350M-Q4_K_M.gguf",
+        "backend": "CPU",
+        "prompt": "chatml_fewshot",
+        "source": "The meeting starts tomorrow.",
+        "target": "French",
+        "text": "Bonne nuit",
+        "error": null,
+        "clean": true,
+        "reference_match": false,
+        "expected": [
+          [
+            "réunion",
+            "reunion"
+          ],
+          [
+            "demain"
+          ]
+        ],
+        "updates": 0,
+        "ms": 1181.49953
+      },
+      {
+        "model": "LFM2.5-350M-Q4_K_M.gguf",
+        "backend": "CPU",
+        "prompt": "chatml_fewshot",
+        "source": "I will call you tomorrow.",
+        "target": "German",
+        "text": "Willkommen",
+        "error": null,
+        "clean": true,
+        "reference_match": false,
+        "expected": [
+          [
+            "morgen"
+          ],
+          [
+            "ruf"
+          ]
+        ],
+        "updates": 0,
+        "ms": 1182.06625
+      },
+      {
+        "model": "LFM2.5-350M-Q4_K_M.gguf",
+        "backend": "CPU",
+        "prompt": "chatml_fewshot",
+        "source": "Je voudrais un café, s'il vous plaît.",
+        "target": "English",
+        "text": "Good",
+        "error": null,
+        "clean": true,
+        "reference_match": false,
+        "expected": [
+          [
+            "coffee"
+          ]
+        ],
+        "updates": 0,
+        "ms": 1223.815364
+      },
+      {
+        "model": "LFM2.5-350M-Q4_K_M.gguf",
+        "backend": "CPU",
+        "prompt": "chatml_fewshot",
+        "source": "Thank you for your help.",
+        "target": "Japanese",
+        "text": "Goodbye",
+        "error": null,
+        "clean": true,
+        "reference_match": false,
+        "expected": [
+          [
+            "ありがとう",
+            "感謝"
+          ]
+        ],
+        "updates": 0,
+        "ms": 1176.03927
+      },
+      {
+        "model": "LFM2.5-350M-Q4_K_M.gguf",
+        "backend": "CPU",
+        "prompt": "chatml_fewshot",
+        "source": "我明天早上八点到。",
+        "target": "English",
+        "text": "Good morning.",
+        "error": null,
+        "clean": true,
+        "reference_match": false,
+        "expected": [
+          [
+            "tomorrow"
+          ],
+          [
+            "eight",
+            "8"
+          ]
+        ],
+        "updates": 0,
+        "ms": 1189.165833
+      },
+      {
+        "model": "LFM2.5-350M-Q4_K_M.gguf",
+        "backend": "CPU",
+        "prompt": "chatml_fewshot",
+        "source": "Alice paid 25 euros.",
+        "target": "French",
+        "text": "Bonjour",
+        "error": null,
+        "clean": true,
+        "reference_match": false,
+        "expected": [
+          [
+            "Alice"
+          ],
+          [
+            "25"
+          ],
+          [
+            "euros"
+          ]
+        ],
+        "updates": 0,
+        "ms": 1196.749948
+      },
+      {
+        "model": "LFM2.5-350M-Base-Q4_K_M.gguf",
+        "backend": "CPU",
+        "prompt": "chatml_fewshot",
+        "source": "Il treno parte alle otto.",
+        "target": "English",
+        "text": "Good evening.",
+        "error": null,
+        "clean": true,
+        "reference_match": false,
+        "expected": [
+          [
+            "train"
+          ],
+          [
+            "eight",
+            "8"
+          ]
+        ],
+        "updates": 0,
+        "ms": 1305.403853
+      },
+      {
+        "model": "LFM2.5-350M-Base-Q4_K_M.gguf",
+        "backend": "CPU",
+        "prompt": "chatml_fewshot",
+        "source": "The train leaves at eight.",
+        "target": "Italian",
+        "text": "Good evening.",
+        "error": null,
+        "clean": true,
+        "reference_match": false,
+        "expected": [
+          [
+            "treno"
+          ],
+          [
+            "otto",
+            "8"
+          ]
+        ],
+        "updates": 0,
+        "ms": 1296.172083
+      },
+      {
+        "model": "LFM2.5-350M-Base-Q4_K_M.gguf",
+        "backend": "CPU",
+        "prompt": "chatml_fewshot",
+        "source": "Please close the door.",
+        "target": "Spanish",
+        "text": "Good evening.",
+        "error": null,
+        "clean": true,
+        "reference_match": false,
+        "expected": [
+          [
+            "puerta"
+          ]
+        ],
+        "updates": 0,
+        "ms": 1282.989635
+      },
+      {
+        "model": "LFM2.5-350M-Base-Q4_K_M.gguf",
+        "backend": "CPU",
+        "prompt": "chatml_fewshot",
+        "source": "The meeting starts tomorrow.",
+        "target": "French",
+        "text": "Good evening.",
+        "error": null,
+        "clean": true,
+        "reference_match": false,
+        "expected": [
+          [
+            "réunion",
+            "reunion"
+          ],
+          [
+            "demain"
+          ]
+        ],
+        "updates": 0,
+        "ms": 1275.412135
+      },
+      {
+        "model": "LFM2.5-350M-Base-Q4_K_M.gguf",
+        "backend": "CPU",
+        "prompt": "chatml_fewshot",
+        "source": "I will call you tomorrow.",
+        "target": "German",
+        "text": "Good evening.",
+        "error": null,
+        "clean": true,
+        "reference_match": false,
+        "expected": [
+          [
+            "morgen"
+          ],
+          [
+            "ruf"
+          ]
+        ],
+        "updates": 0,
+        "ms": 1287.440364
+      },
+      {
+        "model": "LFM2.5-350M-Base-Q4_K_M.gguf",
+        "backend": "CPU",
+        "prompt": "chatml_fewshot",
+        "source": "Je voudrais un café, s'il vous plaît.",
+        "target": "English",
+        "text": "Good evening.",
+        "error": null,
+        "clean": true,
+        "reference_match": false,
+        "expected": [
+          [
+            "coffee"
+          ]
+        ],
+        "updates": 0,
+        "ms": 1352.144792
+      },
+      {
+        "model": "LFM2.5-350M-Base-Q4_K_M.gguf",
+        "backend": "CPU",
+        "prompt": "chatml_fewshot",
+        "source": "Thank you for your help.",
+        "target": "Japanese",
+        "text": "Good morning.",
+        "error": null,
+        "clean": true,
+        "reference_match": false,
+        "expected": [
+          [
+            "ありがとう",
+            "感謝"
+          ]
+        ],
+        "updates": 0,
+        "ms": 1301.987864
+      },
+      {
+        "model": "LFM2.5-350M-Base-Q4_K_M.gguf",
+        "backend": "CPU",
+        "prompt": "chatml_fewshot",
+        "source": "我明天早上八点到。",
+        "target": "English",
+        "text": "Good morning.",
+        "error": null,
+        "clean": true,
+        "reference_match": false,
+        "expected": [
+          [
+            "tomorrow"
+          ],
+          [
+            "eight",
+            "8"
+          ]
+        ],
+        "updates": 0,
+        "ms": 1315.319635
+      },
+      {
+        "model": "LFM2.5-350M-Base-Q4_K_M.gguf",
+        "backend": "CPU",
+        "prompt": "chatml_fewshot",
+        "source": "Alice paid 25 euros.",
+        "target": "French",
+        "text": "Good evening.",
+        "error": null,
+        "clean": true,
+        "reference_match": false,
+        "expected": [
+          [
+            "Alice"
+          ],
+          [
+            "25"
+          ],
+          [
+            "euros"
+          ]
+        ],
+        "updates": 0,
+        "ms": 1299.09
+      },
+      {
+        "model": "Qwen3.5-0.8B-Q4_K_M.gguf",
+        "backend": "CPU",
+        "prompt": "chatml_fewshot",
+        "source": "Il treno parte alle otto.",
+        "target": "English",
+        "text": "The train leaves at eight.",
+        "error": null,
+        "clean": true,
+        "reference_match": true,
+        "expected": [
+          [
+            "train"
+          ],
+          [
+            "eight",
+            "8"
+          ]
+        ],
+        "updates": 2,
+        "ms": 2439.477395
+      },
+      {
+        "model": "Qwen3.5-0.8B-Q4_K_M.gguf",
+        "backend": "CPU",
+        "prompt": "chatml_fewshot",
+        "source": "The train leaves at eight.",
+        "target": "Italian",
+        "text": "La stazione partirà alle otto.",
+        "error": null,
+        "clean": true,
+        "reference_match": false,
+        "expected": [
+          [
+            "treno"
+          ],
+          [
+            "otto",
+            "8"
+          ]
+        ],
+        "updates": 3,
+        "ms": 2441.353749
+      },
+      {
+        "model": "Qwen3.5-0.8B-Q4_K_M.gguf",
+        "backend": "CPU",
+        "prompt": "chatml_fewshot",
+        "source": "Please close the door.",
+        "target": "Spanish",
+        "text": "Cierre la puerta.",
+        "error": null,
+        "clean": true,
+        "reference_match": true,
+        "expected": [
+          [
+            "puerta"
+          ]
+        ],
+        "updates": 2,
+        "ms": 2353.841405
+      },
+      {
+        "model": "Qwen3.5-0.8B-Q4_K_M.gguf",
+        "backend": "CPU",
+        "prompt": "chatml_fewshot",
+        "source": "The meeting starts tomorrow.",
+        "target": "French",
+        "text": "La réunion commence demain.",
+        "error": null,
+        "clean": true,
+        "reference_match": true,
+        "expected": [
+          [
+            "réunion",
+            "reunion"
+          ],
+          [
+            "demain"
+          ]
+        ],
+        "updates": 2,
+        "ms": 2363.24651
+      },
+      {
+        "model": "Qwen3.5-0.8B-Q4_K_M.gguf",
+        "backend": "CPU",
+        "prompt": "chatml_fewshot",
+        "source": "I will call you tomorrow.",
+        "target": "German",
+        "text": "Ich rufe morgen an.",
+        "error": null,
+        "clean": true,
+        "reference_match": true,
+        "expected": [
+          [
+            "morgen"
+          ],
+          [
+            "ruf"
+          ]
+        ],
+        "updates": 2,
+        "ms": 2412.923541
+      },
+      {
+        "model": "Qwen3.5-0.8B-Q4_K_M.gguf",
+        "backend": "CPU",
+        "prompt": "chatml_fewshot",
+        "source": "Je voudrais un café, s'il vous plaît.",
+        "target": "English",
+        "text": "I would like a coffee, please.",
+        "error": null,
+        "clean": true,
+        "reference_match": true,
+        "expected": [
+          [
+            "coffee"
+          ]
+        ],
+        "updates": 3,
+        "ms": 2578.027499
+      },
+      {
+        "model": "Qwen3.5-0.8B-Q4_K_M.gguf",
+        "backend": "CPU",
+        "prompt": "chatml_fewshot",
+        "source": "Thank you for your help.",
+        "target": "Japanese",
+        "text": "ご指導ありがとうございます。",
+        "error": null,
+        "clean": true,
+        "reference_match": true,
+        "expected": [
+          [
+            "ありがとう",
+            "感謝"
+          ]
+        ],
+        "updates": 1,
+        "ms": 2350.797812
+      },
+      {
+        "model": "Qwen3.5-0.8B-Q4_K_M.gguf",
+        "backend": "CPU",
+        "prompt": "chatml_fewshot",
+        "source": "我明天早上八点到。",
+        "target": "English",
+        "text": "I will be there from 8:00 AM tomorrow.",
+        "error": null,
+        "clean": true,
+        "reference_match": true,
+        "expected": [
+          [
+            "tomorrow"
+          ],
+          [
+            "eight",
+            "8"
+          ]
+        ],
+        "updates": 6,
+        "ms": 2619.938333
+      },
+      {
+        "model": "Qwen3.5-0.8B-Q4_K_M.gguf",
+        "backend": "CPU",
+        "prompt": "chatml_fewshot",
+        "source": "Alice paid 25 euros.",
+        "target": "French",
+        "text": "Alice a payé 25 euros.",
+        "error": null,
+        "clean": true,
+        "reference_match": true,
+        "expected": [
+          [
+            "Alice"
+          ],
+          [
+            "25"
+          ],
+          [
+            "euros"
+          ]
+        ],
+        "updates": 4,
+        "ms": 2529.456145
+      },
+      {
+        "model": "Qwen3.5-0.8B-Base.Q4_K_M.gguf",
+        "backend": "CPU",
+        "prompt": "chatml_fewshot",
+        "source": "Il treno parte alle otto.",
+        "target": "English",
+        "text": "The train leaves at eight.",
+        "error": null,
+        "clean": true,
+        "reference_match": true,
+        "expected": [
+          [
+            "train"
+          ],
+          [
+            "eight",
+            "8"
+          ]
+        ],
+        "updates": 2,
+        "ms": 2396.833228
+      },
+      {
+        "model": "Qwen3.5-0.8B-Base.Q4_K_M.gguf",
+        "backend": "CPU",
+        "prompt": "chatml_fewshot",
+        "source": "The train leaves at eight.",
+        "target": "Italian",
+        "text": "La stazione è aperta alle 8.",
+        "error": null,
+        "clean": true,
+        "reference_match": false,
+        "expected": [
+          [
+            "treno"
+          ],
+          [
+            "otto",
+            "8"
+          ]
+        ],
+        "updates": 3,
+        "ms": 2376.756093
+      },
+      {
+        "model": "Qwen3.5-0.8B-Base.Q4_K_M.gguf",
+        "backend": "CPU",
+        "prompt": "chatml_fewshot",
+        "source": "Please close the door.",
+        "target": "Spanish",
+        "text": "Cierre la puerta.",
+        "error": null,
+        "clean": true,
+        "reference_match": true,
+        "expected": [
+          [
+            "puerta"
+          ]
+        ],
+        "updates": 2,
+        "ms": 2262.227656
+      },
+      {
+        "model": "Qwen3.5-0.8B-Base.Q4_K_M.gguf",
+        "backend": "CPU",
+        "prompt": "chatml_fewshot",
+        "source": "The meeting starts tomorrow.",
+        "target": "French",
+        "text": "La réunion commence demain.",
+        "error": null,
+        "clean": true,
+        "reference_match": true,
+        "expected": [
+          [
+            "réunion",
+            "reunion"
+          ],
+          [
+            "demain"
+          ]
+        ],
+        "updates": 2,
+        "ms": 2276.476614
+      },
+      {
+        "model": "Qwen3.5-0.8B-Base.Q4_K_M.gguf",
+        "backend": "CPU",
+        "prompt": "chatml_fewshot",
+        "source": "I will call you tomorrow.",
+        "target": "German",
+        "text": "Ich werde morgen anrufen.",
+        "error": null,
+        "clean": true,
+        "reference_match": true,
+        "expected": [
+          [
+            "morgen"
+          ],
+          [
+            "ruf"
+          ]
+        ],
+        "updates": 2,
+        "ms": 2306.50651
+      },
+      {
+        "model": "Qwen3.5-0.8B-Base.Q4_K_M.gguf",
+        "backend": "CPU",
+        "prompt": "chatml_fewshot",
+        "source": "Je voudrais un café, s'il vous plaît.",
+        "target": "English",
+        "text": "I would like a coffee, please.",
+        "error": null,
+        "clean": true,
+        "reference_match": true,
+        "expected": [
+          [
+            "coffee"
+          ]
+        ],
+        "updates": 3,
+        "ms": 2468.814894
+      },
+      {
+        "model": "Qwen3.5-0.8B-Base.Q4_K_M.gguf",
+        "backend": "CPU",
+        "prompt": "chatml_fewshot",
+        "source": "Thank you for your help.",
+        "target": "Japanese",
+        "text": "ありがとうございます。",
+        "error": null,
+        "clean": true,
+        "reference_match": true,
+        "expected": [
+          [
+            "ありがとう",
+            "感謝"
+          ]
+        ],
+        "updates": 0,
+        "ms": 2183.08901
+      },
+      {
+        "model": "Qwen3.5-0.8B-Base.Q4_K_M.gguf",
+        "backend": "CPU",
+        "prompt": "chatml_fewshot",
+        "source": "我明天早上八点到。",
+        "target": "English",
+        "text": "I will be there at 8:00 in the morning tomorrow.",
+        "error": null,
+        "clean": true,
+        "reference_match": true,
+        "expected": [
+          [
+            "tomorrow"
+          ],
+          [
+            "eight",
+            "8"
+          ]
+        ],
+        "updates": 7,
+        "ms": 2584.210832
+      },
+      {
+        "model": "Qwen3.5-0.8B-Base.Q4_K_M.gguf",
+        "backend": "CPU",
+        "prompt": "chatml_fewshot",
+        "source": "Alice paid 25 euros.",
+        "target": "French",
+        "text": "Alice a payé 25 euros.",
+        "error": null,
+        "clean": true,
+        "reference_match": true,
+        "expected": [
+          [
+            "Alice"
+          ],
+          [
+            "25"
+          ],
+          [
+            "euros"
+          ]
+        ],
+        "updates": 4,
+        "ms": 2426.635989
+      }
+    ],
+    "models": [
+      {
+        "model": "LFM2.5-350M-Q4_K_M.gguf",
+        "load_ms": 254.674479
+      },
+      {
+        "model": "LFM2.5-350M-Base-Q4_K_M.gguf",
+        "load_ms": 320.67427
+      },
+      {
+        "model": "Qwen3.5-0.8B-Q4_K_M.gguf",
+        "load_ms": 696.344635
+      },
+      {
+        "model": "Qwen3.5-0.8B-Base.Q4_K_M.gguf",
+        "load_ms": 864.97901
+      }
+    ],
+    "fixture_count": 9
+  },
+  "passed": true
+}

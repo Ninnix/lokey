@@ -1,0 +1,57 @@
+{
+  "speech": {
+    "models": [
+      {
+        "model": "parakeet",
+        "load_ms": 263,
+        "cases": [
+          {
+            "fixture": "jfk",
+            "pass": 0,
+            "ms": 1861,
+            "text": "And so, my fellow Americans, ask not what your country can do for you, ask what you can do for your country."
+          },
+          {
+            "fixture": "jfk",
+            "pass": 1,
+            "ms": 1854,
+            "text": "And so, my fellow Americans, ask not what your country can do for you, ask what you can do for your country."
+          }
+        ]
+      },
+      {
+        "model": "qwen_asr",
+        "load_ms": 794,
+        "cases": [
+          {
+            "fixture": "jfk",
+            "pass": 0,
+            "ms": 3279,
+            "text": "And so, my fellow Americans, ask not what your country can do for you; ask what you can do for your country."
+          },
+          {
+            "fixture": "jfk",
+            "pass": 1,
+            "ms": 3251,
+            "text": "And so, my fellow Americans, ask not what your country can do for you; ask what you can do for your country."
+          },
+          {
+            "fixture": "asr-zh.wav",
+            "ms": 1437,
+            "audio_seconds": 4.2039375,
+            "text": "\u751a\u81f3\u51fa\u73b0\u4ea4\u6613\u51e0\u4e4e\u505c\u6ede\u7684\u60c5\u51b5\u3002"
+          },
+          {
+            "fixture": "asr-en.wav",
+            "ms": 4426,
+            "audio_seconds": 15.0511875,
+            "text": "Hmm. Oh, yeah, yeah. He wasn't even that big when I started listening to him, but and his solo music didn't do overly well. But he did very well when he started writing for other people."
+          }
+        ]
+      }
+    ],
+    "silence": true,
+    "qwen_quantization": "Q8_0"
+  },
+  "passed": true
+}

@@ -1,0 +1,13 @@
+{
+  "speed": {
+    "combo_multiplier": true,
+    "miss_resets_combo": true,
+    "no_score_farming": true,
+    "timer_freezes": true,
+    "prediction_taps": true,
+    "practice_detection": true,
+    "restart": true,
+    "share_png_provider": true
+  },
+  "passed": true
+}

@@ -1,0 +1,364 @@
+{
+  "device": "OnePlus 15 / SM8850 v81",
+  "comparison_fix": "Ignore an empty LOKEY_CPU_WEIGHTS pattern. Previously the empty regex forced every NPU model weight onto CPU in the parity probe. The app never used these diagnostic overrides.",
+  "reference": "CPU F32 dequantization of the exact same Q4_K_M weights. This removes runtime activation quantization; it does not recover original unquantized model weights.",
+  "fixtures": "Ten original prompts, prefill plus one teacher-forced hello decode after saving/restoring recurrent state; 20 vectors. Stress decode is not a natural completion quality benchmark.",
+  "production_npu_settings": {
+    "mm_select": 2,
+    "dma64": 0,
+    "cpu_weights": ""
+  },
+  "results": {
+    "cpu": {
+      "top1_agreement": 18,
+      "cases": 20,
+      "prefill_top1_agreement": 9,
+      "mean_rmse": 0.26881471589126965,
+      "rows": [
+        {
+          "prompt": "I am on my way ",
+          "stage": "prefill",
+          "reference_token": 811,
+          "token": 811,
+          "rmse": 0.5769705216622592,
+          "same": true
+        },
+        {
+          "prompt": "I am on my way ",
+          "stage": "restored_decode",
+          "reference_token": 64033,
+          "token": 64033,
+          "rmse": 0.24380580203076313,
+          "same": true
+        },
+        {
+          "prompt": "Can you send me the ",
+          "stage": "prefill",
+          "reference_token": 7627,
+          "token": 7627,
+          "rmse": 0.4813319767461964,
+          "same": true
+        },
+        {
+          "prompt": "Can you send me the ",
+          "stage": "restored_decode",
+          "reference_token": 52572,
+          "token": 52572,
+          "rmse": 0.21447917627255214,
+          "same": true
+        },
+        {
+          "prompt": "Thank you for your ",
+          "stage": "prefill",
+          "reference_token": 1801,
+          "token": 1801,
+          "rmse": 0.24487349742230158,
+          "same": true
+        },
+        {
+          "prompt": "Thank you for your ",
+          "stage": "restored_decode",
+          "reference_token": 52572,
+          "token": 52572,
+          "rmse": 0.1672493198503536,
+          "same": true
+        },
+        {
+          "prompt": "See you ",
+          "stage": "prefill",
+          "reference_token": 2130,
+          "token": 2130,
+          "rmse": 0.3932292727083568,
+          "same": true
+        },
+        {
+          "prompt": "See you ",
+          "stage": "restored_decode",
+          "reference_token": 64033,
+          "token": 64033,
+          "rmse": 0.15504644040675605,
+          "same": true
+        },
+        {
+          "prompt": "Good mor",
+          "stage": "prefill",
+          "reference_token": 1350,
+          "token": 1350,
+          "rmse": 0.27490094282970434,
+          "same": true
+        },
+        {
+          "prompt": "Good mor",
+          "stage": "restored_decode",
+          "reference_token": 47672,
+          "token": 47672,
+          "rmse": 0.3653745926522137,
+          "same": true
+        },
+        {
+          "prompt": "I would like to ",
+          "stage": "prefill",
+          "reference_token": 9891,
+          "token": 3705,
+          "rmse": 0.21633346736145195,
+          "same": false
+        },
+        {
+          "prompt": "I would like to ",
+          "stage": "restored_decode",
+          "reference_token": 52572,
+          "token": 859,
+          "rmse": 0.2437209749858291,
+          "same": false
+        },
+        {
+          "prompt": "Let me know when you ",
+          "stage": "prefill",
+          "reference_token": 2130,
+          "token": 2130,
+          "rmse": 0.19736987442871293,
+          "same": true
+        },
+        {
+          "prompt": "Let me know when you ",
+          "stage": "restored_decode",
+          "reference_token": 52572,
+          "token": 52572,
+          "rmse": 0.18738017462983445,
+          "same": true
+        },
+        {
+          "prompt": "Ciao come stai ",
+          "stage": "prefill",
+          "reference_token": 540,
+          "token": 540,
+          "rmse": 0.3265514462852602,
+          "same": true
+        },
+        {
+          "prompt": "Ciao come stai ",
+          "stage": "restored_decode",
+          "reference_token": 52572,
+          "token": 52572,
+          "rmse": 0.20976245585465572,
+          "same": true
+        },
+        {
+          "prompt": "Bonjour comment allez vous ",
+          "stage": "prefill",
+          "reference_token": 5219,
+          "token": 5219,
+          "rmse": 0.24345185549308332,
+          "same": true
+        },
+        {
+          "prompt": "Bonjour comment allez vous ",
+          "stage": "restored_decode",
+          "reference_token": 52572,
+          "token": 52572,
+          "rmse": 0.21693579677331515,
+          "same": true
+        },
+        {
+          "prompt": "Hola como estas ",
+          "stage": "prefill",
+          "reference_token": 59657,
+          "token": 59657,
+          "rmse": 0.19229567746099946,
+          "same": true
+        },
+        {
+          "prompt": "Hola como estas ",
+          "stage": "restored_decode",
+          "reference_token": 52572,
+          "token": 52572,
+          "rmse": 0.22523105197079377,
+          "same": true
+        }
+      ],
+      "restore_max_error": 0
+    },
+    "htp": {
+      "top1_agreement": 19,
+      "cases": 20,
+      "prefill_top1_agreement": 10,
+      "mean_rmse": 0.10140696765915759,
+      "rows": [
+        {
+          "prompt": "I am on my way ",
+          "stage": "prefill",
+          "reference_token": 811,
+          "token": 811,
+          "rmse": 0.02108779861357267,
+          "same": true
+        },
+        {
+          "prompt": "I am on my way ",
+          "stage": "restored_decode",
+          "reference_token": 64033,
+          "token": 52572,
+          "rmse": 0.3880391880542405,
+          "same": false
+        },
+        {
+          "prompt": "Can you send me the ",
+          "stage": "prefill",
+          "reference_token": 7627,
+          "token": 7627,
+          "rmse": 0.026910883460643818,
+          "same": true
+        },
+        {
+          "prompt": "Can you send me the ",
+          "stage": "restored_decode",
+          "reference_token": 52572,
+          "token": 52572,
+          "rmse": 0.17731831010419974,
+          "same": true
+        },
+        {
+          "prompt": "Thank you for your ",
+          "stage": "prefill",
+          "reference_token": 1801,
+          "token": 1801,
+          "rmse": 0.03104433955511308,
+          "same": true
+        },
+        {
+          "prompt": "Thank you for your ",
+          "stage": "restored_decode",
+          "reference_token": 52572,
+          "token": 52572,
+          "rmse": 0.07520471387519097,
+          "same": true
+        },
+        {
+          "prompt": "See you ",
+          "stage": "prefill",
+          "reference_token": 2130,
+          "token": 2130,
+          "rmse": 0.03427450193776787,
+          "same": true
+        },
+        {
+          "prompt": "See you ",
+          "stage": "restored_decode",
+          "reference_token": 64033,
+          "token": 64033,
+          "rmse": 0.07584694962538031,
+          "same": true
+        },
+        {
+          "prompt": "Good mor",
+          "stage": "prefill",
+          "reference_token": 1350,
+          "token": 1350,
+          "rmse": 0.036546405514867056,
+          "same": true
+        },
+        {
+          "prompt": "Good mor",
+          "stage": "restored_decode",
+          "reference_token": 47672,
+          "token": 47672,
+          "rmse": 0.10837214024781427,
+          "same": true
+        },
+        {
+          "prompt": "I would like to ",
+          "stage": "prefill",
+          "reference_token": 9891,
+          "token": 9891,
+          "rmse": 0.03250388453939293,
+          "same": true
+        },
+        {
+          "prompt": "I would like to ",
+          "stage": "restored_decode",
+          "reference_token": 52572,
+          "token": 52572,
+          "rmse": 0.12470476101679744,
+          "same": true
+        },
+        {
+          "prompt": "Let me know when you ",
+          "stage": "prefill",
+          "reference_token": 2130,
+          "token": 2130,
+          "rmse": 0.025076553572267533,
+          "same": true
+        },
+        {
+          "prompt": "Let me know when you ",
+          "stage": "restored_decode",
+          "reference_token": 52572,
+          "token": 52572,
+          "rmse": 0.23979233245842518,
+          "same": true
+        },
+        {
+          "prompt": "Ciao come stai ",
+          "stage": "prefill",
+          "reference_token": 540,
+          "token": 540,
+          "rmse": 0.029369989733214065,
+          "same": true
+        },
+        {
+          "prompt": "Ciao come stai ",
+          "stage": "restored_decode",
+          "reference_token": 52572,
+          "token": 52572,
+          "rmse": 0.08467786446023179,
+          "same": true
+        },
+        {
+          "prompt": "Bonjour comment allez vous ",
+          "stage": "prefill",
+          "reference_token": 5219,
+          "token": 5219,
+          "rmse": 0.03952969449723166,
+          "same": true
+        },
+        {
+          "prompt": "Bonjour comment allez vous ",
+          "stage": "restored_decode",
+          "reference_token": 52572,
+          "token": 52572,
+          "rmse": 0.1791255103200447,
+          "same": true
+        },
+        {
+          "prompt": "Hola como estas ",
+          "stage": "prefill",
+          "reference_token": 59657,
+          "token": 59657,
+          "rmse": 0.038135037507038984,
+          "same": true
+        },
+        {
+          "prompt": "Hola como estas ",
+          "stage": "restored_decode",
+          "reference_token": 52572,
+          "token": 52572,
+          "rmse": 0.26057849408971734,
+          "same": true
+        }
+      ],
+      "restore_max_error": 0
+    }
+  },
+  "cpu_vs_npu": {
+    "top1_agreement": 17,
+    "cases": 20,
+    "minimum_cosine": 0.9904554323515932
+  },
+  "poco_cpu_matches_oneplus_cpu_bitwise": true,
+  "poco_f32_matches_oneplus_f32_bitwise": true,
+  "decision": "Keep the production NPU path: closer to the F32 reference overall and faster. Remaining arithmetic differences are reported, not masked. No change to production NPU math.",
+  "sources": [
+    "oneplus15-lfm-current-untraced-summary.json",
+    "oneplus15-lfm-f32-reference-cpu.bin",
+    "poco-f3-lfm-final-reference-summary.json"
+  ]
+}

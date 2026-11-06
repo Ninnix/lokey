@@ -1,0 +1,13 @@
+{
+  "imeflow": {
+    "real_swipe_commits_word": true,
+    "consecutive_swipes": true,
+    "punctuation_removes_auto_space": true,
+    "italian_swipe": true,
+    "fast_swipes_and_following_tap_preserved": true,
+    "question_punctuation_preserves_last_word": true,
+    "next_word_appends_to_completed_word": true,
+    "actual_ime_window_resize": true
+  },
+  "passed": true
+}

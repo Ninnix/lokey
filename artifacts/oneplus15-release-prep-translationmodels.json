@@ -1,0 +1,4 @@
+{
+  "passed": false,
+  "error": "java.lang.IllegalStateException: lfm: Result(source=Good morning., target=French, text=Bonne matinée., busy=false, error=null)\n\tat org.lokey.app.TranslationModelChecks.run$translate(TranslationModelChecks.kt:39)\n\tat org.lokey.app.TranslationModelChecks.run$translate$default(TranslationModelChecks.kt:27)\n\tat org.lokey.app.TranslationModelChecks.run(TranslationModelChecks.kt:49)\n\tat org.lokey.app.KeyboardTest.onStart(KeyboardTest.kt:90)\n\tat android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:2632)\n"
+}

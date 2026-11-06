@@ -1,0 +1,96 @@
+{
+  "sentence": {
+    "cases": [
+      {
+        "text": "Ciao come stai",
+        "words": [
+          "?",
+          ".",
+          "stai"
+        ],
+        "append": [
+          "?",
+          "."
+        ],
+        "ms": 2449
+      },
+      {
+        "text": "Ciao come stai ",
+        "words": [
+          "?",
+          ".",
+          "e"
+        ],
+        "append": [],
+        "ms": 2
+      },
+      {
+        "text": "Bonjour comment ça va",
+        "words": [
+          "?",
+          "tout",
+          "va"
+        ],
+        "append": [
+          "?",
+          "tout"
+        ],
+        "ms": 430
+      },
+      {
+        "text": "Hola cómo estás",
+        "words": [
+          "?",
+          ".",
+          "estás"
+        ],
+        "append": [
+          "?",
+          "."
+        ],
+        "ms": 455
+      },
+      {
+        "text": "How are you",
+        "words": [
+          "?",
+          "today",
+          "you"
+        ],
+        "append": [
+          "?",
+          "today"
+        ],
+        "ms": 440
+      },
+      {
+        "text": "Ciao come",
+        "words": [
+          "stai",
+          "ti",
+          "posso"
+        ],
+        "append": [
+          "stai",
+          "ti",
+          "posso"
+        ],
+        "ms": 417
+      },
+      {
+        "text": "I am on my",
+        "words": [
+          "way",
+          "own",
+          "my"
+        ],
+        "append": [
+          "way",
+          "own"
+        ],
+        "ms": 420
+      }
+    ]
+  },
+  "passed": true
+}

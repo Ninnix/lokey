@@ -1,0 +1,23 @@
+{
+  "source_sha256_at_collection": "769480fe7ff4341f9dfdb4d7202a79c635c9fbcde52a4c5ab419e7b9642a5a3c",
+  "serial": "3B165U00WXK00000",
+  "power_mode": "balanced",
+  "models": {
+    "lfm": {
+      "auto": {
+        "backend": "CPU",
+        "load_ms": 255.694,
+        "warm_english_median_ms": 85.071,
+        "trials": 27
+      }
+    },
+    "qwen": {
+      "auto": {
+        "backend": "HTP0",
+        "load_ms": 1041.96,
+        "warm_english_median_ms": 148.54149999999998,
+        "trials": 27
+      }
+    }
+  }
+}

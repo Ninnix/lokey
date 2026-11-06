@@ -1,0 +1,40 @@
+{
+  "bundle": "app/build/outputs/bundle/release/app-release.aab",
+  "bytes": 20862288,
+  "signatures": [
+    "META-INF/LOKEY-UP.RSA"
+  ],
+  "signed": true,
+  "libraries": [
+    {
+      "library": "base/lib/arm64-v8a/libggml-htp-v81.so",
+      "machine": 164,
+      "bytes": 997568,
+      "android_library": false
+    },
+    {
+      "library": "base/lib/arm64-v8a/liblokey.so",
+      "machine": 183,
+      "bytes": 8670000,
+      "android_library": true,
+      "load_segments": [
+        {
+          "alignment": 16384,
+          "compatible_16kb": true
+        },
+        {
+          "alignment": 16384,
+          "compatible_16kb": true
+        },
+        {
+          "alignment": 16384,
+          "compatible_16kb": true
+        }
+      ],
+      "compatible_16kb": true
+    }
+  ],
+  "arm64_elf_16kb_compatible": true,
+  "device_page_size": 4096,
+  "runtime_tested_on_16kb_device": false
+}

@@ -1,0 +1,503 @@
+{
+  "device": "POCO F3",
+  "android": 13,
+  "inference": "CPU, 4 threads",
+  "text_model": "Qwen3.5-0.8B Q4_K_M",
+  "voice_model": "Qwen3-ASR-0.6B Q8_0",
+  "prediction_warm_median_ms": 583.0,
+  "prediction_warm_range_ms": [
+    272.1,
+    713.8
+  ],
+  "limitations": [
+    "Italian completion fixture costa azzu did not produce azzurra within the completion budget."
+  ],
+  "checks": {
+    "intl": {
+      "intl": {
+        "secondary_symbols": 17,
+        "all_secondary_labels_visible": true,
+        "fast_upward_flick": true,
+        "zero_brace_slide_left": true,
+        "zero_brace_fast_left_flick": true,
+        "p_backslash_slide_left": true,
+        "p_backslash_fast_left_flick": true,
+        "held_symbol_selection": true,
+        "dead_key_cases": 7,
+        "shift_preserved": true,
+        "dedicated_apostrophe_removed": true,
+        "numeric_fields_unchanged": true,
+        "popup_screenshots_with_and_without_suggestions": true,
+        "event_delivery": "Direct events to Lokey View"
+      },
+      "passed": true
+    },
+    "interaction": {
+      "interaction": {
+        "touch_delivery": "direct_view",
+        "idle_enter_expands": true,
+        "letters_stay_fixed": true,
+        "held_voice_target_stays_fixed": true,
+        "interaction_restores_enter": true,
+        "top_hold_resizes_live": true,
+        "height_persists": true,
+        "cancel_restores_height": true,
+        "resize_does_not_select_prediction": true,
+        "swipe_consumes_single_shift": true,
+        "new_sentence_enables_shift": true,
+        "caps_lock_survives_editor_hints": true,
+        "swipe_enabled": true,
+        "swipe_disabled": true,
+        "accent_flick_preserved": true,
+        "held_accent_preserved": true,
+        "space_cursor_preserved": true
+      },
+      "passed": true
+    },
+    "gestures": {
+      "gestures": {
+        "typing": true,
+        "key_gutters": true,
+        "US_alternate": true,
+        "letter_accents": true,
+        "uppercase_accents": true,
+        "three_shift_modes": true,
+        "symbol_page_preserved": true,
+        "space_cursor": true,
+        "space_hold_cursor": true,
+        "enter_tap": true,
+        "enter_hold_voice": true,
+        "recording_lock_stop": true,
+        "recording_lock_cancel": true,
+        "recording_cancel_gestures": true,
+        "recording_rejection": true,
+        "equal_number_keys": true,
+        "punctuation_slide": true,
+        "stationary_punctuation": true,
+        "instant_secondary_flicks": true,
+        "delete_repeat": true,
+        "touch_cancel": true,
+        "adaptive_layout": true
+      },
+      "passed": true
+    },
+    "cursor": {
+      "cursor": {
+        "both_boundaries_keep_focus": true,
+        "empty_editor": true,
+        "unicode_and_multiline": true,
+        "selection_collapse": true,
+        "surrounding_text_offsets": true,
+        "extracted_text_fallback": true,
+        "legacy_fallback": true,
+        "unsupported_editors_stay_put": true
+      },
+      "passed": true
+    },
+    "layoutui": {
+      "layoutui": {
+        "layouts": [
+          {
+            "layout": "qwerty",
+            "typed": "Ciao",
+            "live_input": true
+          },
+          {
+            "layout": "intl",
+            "typed": "É",
+            "live_input": true
+          },
+          {
+            "layout": "spanish",
+            "typed": "Niño",
+            "live_input": true
+          },
+          {
+            "layout": "portuguese",
+            "typed": "Cç",
+            "live_input": true
+          },
+          {
+            "layout": "turkish",
+            "typed": "Iiş",
+            "live_input": true
+          },
+          {
+            "layout": "azerty",
+            "typed": "Aze",
+            "live_input": true
+          },
+          {
+            "layout": "qwertz",
+            "typed": "Qwe",
+            "live_input": true
+          },
+          {
+            "layout": "cyrillic",
+            "typed": "Йцу",
+            "live_input": true
+          },
+          {
+            "layout": "ukrainian",
+            "typed": "Привіт",
+            "live_input": true
+          },
+          {
+            "layout": "arabic",
+            "typed": "ضصث",
+            "live_input": true
+          },
+          {
+            "layout": "persian",
+            "typed": "سلام",
+            "live_input": true
+          },
+          {
+            "layout": "greek",
+            "typed": "Γεια",
+            "live_input": true
+          },
+          {
+            "layout": "hindi",
+            "typed": "नमस्ते",
+            "live_input": true
+          },
+          {
+            "layout": "bolnagri",
+            "typed": "नमस्ते",
+            "live_input": true
+          },
+          {
+            "layout": "hindi_phonetic",
+            "typed": "नमस्ते ",
+            "live_input": true
+          },
+          {
+            "layout": "korean",
+            "typed": "한글",
+            "live_input": true
+          },
+          {
+            "layout": "japanese",
+            "typed": "東京",
+            "live_input": true
+          },
+          {
+            "layout": "pinyin",
+            "typed": "你好",
+            "live_input": true
+          },
+          {
+            "layout": "jyutping",
+            "typed": "你好",
+            "live_input": true
+          },
+          {
+            "layout": "cangjie",
+            "typed": "你好",
+            "live_input": true
+          },
+          {
+            "layout": "sucheng",
+            "typed": "你好",
+            "live_input": true
+          },
+          {
+            "layout": "vietnamese",
+            "typed": "Tiếng",
+            "live_input": true
+          },
+          {
+            "layout": "thai",
+            "typed": "สวัสดี",
+            "live_input": true
+          }
+        ],
+        "pinyin_space_and_selection": true
+      },
+      "passed": true
+    },
+    "feedbackready": {
+      "feedbackready": {
+        "profiles": [
+          {
+            "id": "cherry_red",
+            "decoded_samples": 86,
+            "press_stream": 1
+          },
+          {
+            "id": "gateron_brown",
+            "decoded_samples": 1,
+            "press_stream": 3
+          },
+          {
+            "id": "cherry_brown",
+            "decoded_samples": 4,
+            "press_stream": 4
+          },
+          {
+            "id": "cherry_blue",
+            "decoded_samples": 4,
+            "press_stream": 6
+          },
+          {
+            "id": "holy_panda",
+            "decoded_samples": 4,
+            "press_stream": 8
+          },
+          {
+            "id": "kailh_box_jade",
+            "decoded_samples": 1,
+            "press_stream": 10
+          },
+          {
+            "id": "razer_green",
+            "decoded_samples": 3,
+            "press_stream": 11
+          },
+          {
+            "id": "topre",
+            "decoded_samples": 5,
+            "press_stream": 12
+          }
+        ],
+        "low_tick_tick_click_supported": [
+          false,
+          false,
+          false
+        ],
+        "system_taps": true,
+        "amplitude_control": true
+      },
+      "passed": true
+    },
+    "models": {
+      "models": {
+        "text": [
+          {
+            "id": "lfm",
+            "missing": true
+          },
+          {
+            "id": "qwen",
+            "load_ms": 1871.335468,
+            "trials": [
+              {
+                "pass": 0,
+                "prompt": "I am on my way ",
+                "ms": 485.169947,
+                "suggestions": [
+                  "to",
+                  "home"
+                ]
+              },
+              {
+                "pass": 0,
+                "prompt": "Can you send me the ",
+                "ms": 474.890781,
+                "suggestions": [
+                  "text",
+                  "following"
+                ]
+              },
+              {
+                "pass": 0,
+                "prompt": "Thank you for your ",
+                "ms": 501.929375,
+                "suggestions": [
+                  "email",
+                  "patience",
+                  "response"
+                ]
+              },
+              {
+                "pass": 0,
+                "prompt": "See you ",
+                "ms": 371.905573,
+                "suggestions": [
+                  "at",
+                  "next",
+                  "later"
+                ]
+              },
+              {
+                "pass": 0,
+                "prompt": "Good mor",
+                "ms": 207.875416,
+                "suggestions": [
+                  "morning"
+                ]
+              },
+              {
+                "pass": 0,
+                "prompt": "I would like to ",
+                "ms": 485.298281,
+                "suggestions": [
+                  "know",
+                  "ask",
+                  "express"
+                ]
+              },
+              {
+                "pass": 0,
+                "prompt": "Let me know when you ",
+                "ms": 350.699427,
+                "suggestions": [
+                  "can",
+                  "have",
+                  "get"
+                ]
+              },
+              {
+                "pass": 1,
+                "prompt": "I am on my way ",
+                "ms": 401.511145,
+                "suggestions": [
+                  "to",
+                  "home",
+                  "down"
+                ]
+              },
+              {
+                "pass": 1,
+                "prompt": "Can you send me the ",
+                "ms": 343.277969,
+                "suggestions": [
+                  "text",
+                  "following",
+                  "English"
+                ]
+              },
+              {
+                "pass": 1,
+                "prompt": "Thank you for your ",
+                "ms": 713.765677,
+                "suggestions": [
+                  "email",
+                  "patience"
+                ]
+              },
+              {
+                "pass": 1,
+                "prompt": "See you ",
+                "ms": 583.028594,
+                "suggestions": [
+                  "at",
+                  "next"
+                ]
+              },
+              {
+                "pass": 1,
+                "prompt": "Good mor",
+                "ms": 272.077604,
+                "suggestions": [
+                  "morning"
+                ]
+              },
+              {
+                "pass": 1,
+                "prompt": "I would like to ",
+                "ms": 590.789062,
+                "suggestions": [
+                  "know",
+                  "ask"
+                ]
+              },
+              {
+                "pass": 1,
+                "prompt": "Let me know when you ",
+                "ms": 603.565573,
+                "suggestions": [
+                  "can",
+                  "have",
+                  "get"
+                ]
+              }
+            ],
+            "whole_word_scores": [
+              -6.2123976,
+              -20.59199
+            ]
+          },
+          {
+            "id": "onejev",
+            "missing": true
+          }
+        ]
+      },
+      "passed": true
+    },
+    "speech": {
+      "speech": {
+        "models": [
+          {
+            "model": "qwen_asr",
+            "load_ms": 2081,
+            "cases": [
+              {
+                "fixture": "jfk",
+                "pass": 0,
+                "ms": 8540,
+                "text": "And so, my fellow Americans, ask not what your country can do for you; ask what you can do for your country."
+              },
+              {
+                "fixture": "jfk",
+                "pass": 1,
+                "ms": 7356,
+                "text": "And so, my fellow Americans, ask not what your country can do for you; ask what you can do for your country."
+              },
+              {
+                "fixture": "asr-zh.wav",
+                "ms": 3134,
+                "audio_seconds": 4.2039375,
+                "text": "甚至出现交易几乎停滞的情况。"
+              },
+              {
+                "fixture": "asr-en.wav",
+                "ms": 10200,
+                "audio_seconds": 15.0511875,
+                "text": "Hmm. Oh, yeah, yeah. He wasn't even that big when I started listening to him, but and his solo music didn't do overly well. But he did very well when he started writing for other people."
+              }
+            ]
+          }
+        ],
+        "silence": true,
+        "qwen_quantization": "Q8_0"
+      },
+      "passed": true
+    },
+    "completion": {
+      "passed": false,
+      "error": "java.lang.IllegalStateException: Missing azzurra for 'C'é un amico mio che ha una casa in costa azzu': [azzu]\n\tat org.lokey.app.KeyboardTest.completionTest(KeyboardTest.kt:1068)\n\tat org.lokey.app.KeyboardTest.onStart(KeyboardTest.kt:47)\n\tat android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:2418)\n"
+    },
+    "downloads": {
+      "downloads": {
+        "only_red_bundled": true,
+        "switch_download_and_decoding": true,
+        "selection_preserves_views_and_scroll": true,
+        "model_and_switch_progress": true,
+        "notification_progress": true,
+        "continues_across_pages_and_background": true,
+        "partial_retry": true
+      },
+      "passed": true
+    }
+  },
+  "bundled_switch_samples": {
+    "cherry_red": 86,
+    "cherry_brown": 0,
+    "cherry_blue": 0
+  },
+  "qwen_voice_exceptions": [
+    "Bulgarian",
+    "Croatian",
+    "Estonian",
+    "Latvian",
+    "Lithuanian",
+    "Maltese",
+    "Slovak",
+    "Slovenian",
+    "Ukrainian"
+  ],
+  "voice_catalog_source": "https://huggingface.co/Qwen/Qwen3-ASR-0.6B"
+}

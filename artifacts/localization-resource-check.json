@@ -1,0 +1,206 @@
+{
+  "languages": 39,
+  "locales": [
+    {
+      "locale": "en",
+      "strings": 519,
+      "identical_to_english": 519
+    },
+    {
+      "locale": "ar",
+      "strings": 519,
+      "identical_to_english": 4
+    },
+    {
+      "locale": "bg",
+      "strings": 519,
+      "identical_to_english": 17
+    },
+    {
+      "locale": "yue",
+      "strings": 519,
+      "identical_to_english": 3
+    },
+    {
+      "locale": "zh",
+      "strings": 519,
+      "identical_to_english": 1
+    },
+    {
+      "locale": "zh-Hant",
+      "strings": 519,
+      "identical_to_english": 3
+    },
+    {
+      "locale": "hr",
+      "strings": 519,
+      "identical_to_english": 22
+    },
+    {
+      "locale": "cs",
+      "strings": 519,
+      "identical_to_english": 20
+    },
+    {
+      "locale": "da",
+      "strings": 519,
+      "identical_to_english": 39
+    },
+    {
+      "locale": "nl",
+      "strings": 519,
+      "identical_to_english": 18
+    },
+    {
+      "locale": "et",
+      "strings": 519,
+      "identical_to_english": 19
+    },
+    {
+      "locale": "fil",
+      "strings": 519,
+      "identical_to_english": 71
+    },
+    {
+      "locale": "fi",
+      "strings": 519,
+      "identical_to_english": 26
+    },
+    {
+      "locale": "fr",
+      "strings": 519,
+      "identical_to_english": 12
+    },
+    {
+      "locale": "de",
+      "strings": 519,
+      "identical_to_english": 29
+    },
+    {
+      "locale": "el",
+      "strings": 519,
+      "identical_to_english": 17
+    },
+    {
+      "locale": "hi",
+      "strings": 519,
+      "identical_to_english": 7
+    },
+    {
+      "locale": "hu",
+      "strings": 519,
+      "identical_to_english": 25
+    },
+    {
+      "locale": "id",
+      "strings": 519,
+      "identical_to_english": 14
+    },
+    {
+      "locale": "it",
+      "strings": 519,
+      "identical_to_english": 16
+    },
+    {
+      "locale": "ja",
+      "strings": 519,
+      "identical_to_english": 6
+    },
+    {
+      "locale": "ko",
+      "strings": 519,
+      "identical_to_english": 4
+    },
+    {
+      "locale": "lv",
+      "strings": 519,
+      "identical_to_english": 21
+    },
+    {
+      "locale": "lt",
+      "strings": 519,
+      "identical_to_english": 20
+    },
+    {
+      "locale": "mk",
+      "strings": 519,
+      "identical_to_english": 8
+    },
+    {
+      "locale": "ms",
+      "strings": 519,
+      "identical_to_english": 27
+    },
+    {
+      "locale": "mt",
+      "strings": 519,
+      "identical_to_english": 28
+    },
+    {
+      "locale": "fa",
+      "strings": 519,
+      "identical_to_english": 10
+    },
+    {
+      "locale": "pl",
+      "strings": 519,
+      "identical_to_english": 16
+    },
+    {
+      "locale": "pt",
+      "strings": 519,
+      "identical_to_english": 10
+    },
+    {
+      "locale": "ro",
+      "strings": 519,
+      "identical_to_english": 31
+    },
+    {
+      "locale": "ru",
+      "strings": 519,
+      "identical_to_english": 6
+    },
+    {
+      "locale": "sk",
+      "strings": 519,
+      "identical_to_english": 23
+    },
+    {
+      "locale": "sl",
+      "strings": 519,
+      "identical_to_english": 23
+    },
+    {
+      "locale": "es",
+      "strings": 519,
+      "identical_to_english": 12
+    },
+    {
+      "locale": "sv",
+      "strings": 519,
+      "identical_to_english": 36
+    },
+    {
+      "locale": "th",
+      "strings": 519,
+      "identical_to_english": 6
+    },
+    {
+      "locale": "tr",
+      "strings": 519,
+      "identical_to_english": 15
+    },
+    {
+      "locale": "uk",
+      "strings": 519,
+      "identical_to_english": 13
+    },
+    {
+      "locale": "vi",
+      "strings": 519,
+      "identical_to_english": 16
+    }
+  ],
+  "passed": true
+}

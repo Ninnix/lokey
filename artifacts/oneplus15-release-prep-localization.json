@@ -1,0 +1,292 @@
+{
+  "localization": {
+    "languages": 39,
+    "locales": [
+      {
+        "locale": "ar",
+        "rtl": true,
+        "strings": 519,
+        "unchanged": 4,
+        "welcome": "مرحبًا بك في Lokey"
+      },
+      {
+        "locale": "bg",
+        "rtl": false,
+        "strings": 519,
+        "unchanged": 17,
+        "welcome": "Добре дошли в Lokey"
+      },
+      {
+        "locale": "yue",
+        "rtl": false,
+        "strings": 519,
+        "unchanged": 3,
+        "welcome": "歡迎來到 Lokey"
+      },
+      {
+        "locale": "zh",
+        "rtl": false,
+        "strings": 519,
+        "unchanged": 1,
+        "welcome": "欢迎来到Lokey"
+      },
+      {
+        "locale": "hr",
+        "rtl": false,
+        "strings": 519,
+        "unchanged": 22,
+        "welcome": "Dobro došli u Lokey"
+      },
+      {
+        "locale": "cs",
+        "rtl": false,
+        "strings": 519,
+        "unchanged": 20,
+        "welcome": "Vítejte v Lokey"
+      },
+      {
+        "locale": "da",
+        "rtl": false,
+        "strings": 519,
+        "unchanged": 39,
+        "welcome": "Velkommen til Lokey"
+      },
+      {
+        "locale": "nl",
+        "rtl": false,
+        "strings": 519,
+        "unchanged": 18,
+        "welcome": "Welkom bij Lokey"
+      },
+      {
+        "locale": "en",
+        "rtl": false,
+        "strings": 519,
+        "unchanged": 519,
+        "welcome": "Welcome to Lokey"
+      },
+      {
+        "locale": "et",
+        "rtl": false,
+        "strings": 519,
+        "unchanged": 19,
+        "welcome": "Tere tulemast Lokey-sse"
+      },
+      {
+        "locale": "fil",
+        "rtl": false,
+        "strings": 519,
+        "unchanged": 71,
+        "welcome": "Maligayang pagdating sa Lokey"
+      },
+      {
+        "locale": "fi",
+        "rtl": false,
+        "strings": 519,
+        "unchanged": 26,
+        "welcome": "Tervetuloa Lokey:ään"
+      },
+      {
+        "locale": "fr",
+        "rtl": false,
+        "strings": 519,
+        "unchanged": 12,
+        "welcome": "Bienvenue chez Lokey"
+      },
+      {
+        "locale": "de",
+        "rtl": false,
+        "strings": 519,
+        "unchanged": 29,
+        "welcome": "Willkommen bei Lokey"
+      },
+      {
+        "locale": "el",
+        "rtl": false,
+        "strings": 519,
+        "unchanged": 17,
+        "welcome": "Καλώς ήρθατε στο Lokey"
+      },
+      {
+        "locale": "hi",
+        "rtl": false,
+        "strings": 519,
+        "unchanged": 7,
+        "welcome": "Lokey में आपका स्वागत है"
+      },
+      {
+        "locale": "hu",
+        "rtl": false,
+        "strings": 519,
+        "unchanged": 25,
+        "welcome": "Üdvözöljük a Lokey-ben"
+      },
+      {
+        "locale": "id",
+        "rtl": false,
+        "strings": 519,
+        "unchanged": 14,
+        "welcome": "Selamat datang di Lokey"
+      },
+      {
+        "locale": "it",
+        "rtl": false,
+        "strings": 519,
+        "unchanged": 16,
+        "welcome": "Benvenuti in Lokey"
+      },
+      {
+        "locale": "ja",
+        "rtl": false,
+        "strings": 519,
+        "unchanged": 6,
+        "welcome": "Lokeyへようこそ"
+      },
+      {
+        "locale": "ko",
+        "rtl": false,
+        "strings": 519,
+        "unchanged": 4,
+        "welcome": "Lokey에 오신 것을 환영합니다"
+      },
+      {
+        "locale": "lv",
+        "rtl": false,
+        "strings": 519,
+        "unchanged": 21,
+        "welcome": "Laipni lūdzam Lokey"
+      },
+      {
+        "locale": "lt",
+        "rtl": false,
+        "strings": 519,
+        "unchanged": 20,
+        "welcome": "Sveiki atvykę į Lokey"
+      },
+      {
+        "locale": "mk",
+        "rtl": false,
+        "strings": 519,
+        "unchanged": 8,
+        "welcome": "Добредојдовте во Lokey"
+      },
+      {
+        "locale": "ms",
+        "rtl": false,
+        "strings": 519,
+        "unchanged": 27,
+        "welcome": "Selamat datang ke Lokey"
+      },
+      {
+        "locale": "mt",
+        "rtl": false,
+        "strings": 519,
+        "unchanged": 28,
+        "welcome": "Merħba għal Lokey"
+      },
+      {
+        "locale": "fa",
+        "rtl": true,
+        "strings": 519,
+        "unchanged": 10,
+        "welcome": "به Lokey خوش آمدید"
+      },
+      {
+        "locale": "pl",
+        "rtl": false,
+        "strings": 519,
+        "unchanged": 16,
+        "welcome": "Witamy w Lokey"
+      },
+      {
+        "locale": "pt",
+        "rtl": false,
+        "strings": 519,
+        "unchanged": 10,
+        "welcome": "Bem-vindo ao Lokey"
+      },
+      {
+        "locale": "ro",
+        "rtl": false,
+        "strings": 519,
+        "unchanged": 31,
+        "welcome": "Bun venit la Lokey"
+      },
+      {
+        "locale": "ru",
+        "rtl": false,
+        "strings": 519,
+        "unchanged": 6,
+        "welcome": "Добро пожаловать в Lokey"
+      },
+      {
+        "locale": "sk",
+        "rtl": false,
+        "strings": 519,
+        "unchanged": 23,
+        "welcome": "Vitajte v Lokey"
+      },
+      {
+        "locale": "sl",
+        "rtl": false,
+        "strings": 519,
+        "unchanged": 23,
+        "welcome": "Dobrodošli v Lokey"
+      },
+      {
+        "locale": "es",
+        "rtl": false,
+        "strings": 519,
+        "unchanged": 12,
+        "welcome": "Bienvenido a Lokey"
+      },
+      {
+        "locale": "sv",
+        "rtl": false,
+        "strings": 519,
+        "unchanged": 36,
+        "welcome": "Välkommen till Lokey"
+      },
+      {
+        "locale": "th",
+        "rtl": false,
+        "strings": 519,
+        "unchanged": 6,
+        "welcome": "ยินดีต้อนรับสู่ Lokey"
+      },
+      {
+        "locale": "tr",
+        "rtl": false,
+        "strings": 519,
+        "unchanged": 15,
+        "welcome": "Lokey'ye hoş geldiniz"
+      },
+      {
+        "locale": "uk",
+        "rtl": false,
+        "strings": 519,
+        "unchanged": 13,
+        "welcome": "Ласкаво просимо до Lokey"
+      },
+      {
+        "locale": "vi",
+        "rtl": false,
+        "strings": 519,
+        "unchanged": 16,
+        "welcome": "Chào mừng đến với Lokey"
+      },
+      {
+        "locale": "zh-Hant",
+        "rtl": false,
+        "strings": 519,
+        "unchanged": 3,
+        "welcome": "歡迎來到Lokey"
+      }
+    ],
+    "english_fallback": true,
+    "formatted_strings_valid": true,
+    "keyboard_geometry_preserved": true,
+    "user_text_preserved": true
+  },
+  "passed": true
+}

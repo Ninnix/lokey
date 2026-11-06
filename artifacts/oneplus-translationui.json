@@ -1,0 +1,12 @@
+{
+  "translationui": {
+    "source_inside_target_outside": true,
+    "selected_span_only": true,
+    "language_search_stays_local": true,
+    "clearing_source_removes_only_translation": true,
+    "keyboard_keys_edit_source": true,
+    "moved_app_cursor_pauses_output": true,
+    "new_draft_inserts_at_caret": true
+  },
+  "passed": true
+}

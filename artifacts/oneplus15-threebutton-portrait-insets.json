@@ -1,0 +1,488 @@
+{
+  "insets": {
+    "insets_change_without_resizing_keys": true,
+    "consumed_insets_not_added_twice": true,
+    "windows": [
+      {
+        "bounds": [
+          0,
+          1388,
+          1272,
+          2772
+        ],
+        "padding": [
+          0,
+          0,
+          0,
+          154
+        ],
+        "navigation": [
+          0,
+          0,
+          0,
+          154
+        ],
+        "caption": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "cutout": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    ],
+    "keys": [
+      {
+        "label": "?123, hold for tools",
+        "bounds": [
+          17,
+          2395,
+          197,
+          2598
+        ]
+      },
+      {
+        "label": "space, hold for Hold for cursor",
+        "bounds": [
+          327,
+          2395,
+          945,
+          2598
+        ]
+      },
+      {
+        "label": "Done, hold to record, slide up to lock",
+        "bounds": [
+          1075,
+          2395,
+          1255,
+          2598
+        ]
+      }
+    ],
+    "navigation": [],
+    "nodes": [
+      {
+        "label": "1, hold for !",
+        "bounds": [
+          17,
+          1589,
+          129,
+          1771
+        ]
+      },
+      {
+        "label": "2, hold for @",
+        "bounds": [
+          142,
+          1589,
+          254,
+          1771
+        ]
+      },
+      {
+        "label": "3, hold for #",
+        "bounds": [
+          267,
+          1589,
+          379,
+          1771
+        ]
+      },
+      {
+        "label": "4, hold for $",
+        "bounds": [
+          392,
+          1589,
+          504,
+          1771
+        ]
+      },
+      {
+        "label": "5, hold for %",
+        "bounds": [
+          517,
+          1589,
+          629,
+          1771
+        ]
+      },
+      {
+        "label": "6, hold for ^",
+        "bounds": [
+          643,
+          1589,
+          755,
+          1771
+        ]
+      },
+      {
+        "label": "7, hold for &",
+        "bounds": [
+          768,
+          1589,
+          880,
+          1771
+        ]
+      },
+      {
+        "label": "8, hold for *",
+        "bounds": [
+          893,
+          1589,
+          1005,
+          1771
+        ]
+      },
+      {
+        "label": "9, hold for (",
+        "bounds": [
+          1018,
+          1589,
+          1130,
+          1771
+        ]
+      },
+      {
+        "label": "0, hold for )",
+        "bounds": [
+          1143,
+          1589,
+          1255,
+          1771
+        ]
+      },
+      {
+        "label": "Q",
+        "bounds": [
+          17,
+          1791,
+          129,
+          1972
+        ]
+      },
+      {
+        "label": "W",
+        "bounds": [
+          142,
+          1791,
+          254,
+          1972
+        ]
+      },
+      {
+        "label": "E, hold for È",
+        "bounds": [
+          267,
+          1791,
+          379,
+          1972
+        ]
+      },
+      {
+        "label": "R, hold for Ŕ",
+        "bounds": [
+          392,
+          1791,
+          504,
+          1972
+        ]
+      },
+      {
+        "label": "T, hold for Ť",
+        "bounds": [
+          517,
+          1791,
+          629,
+          1972
+        ]
+      },
+      {
+        "label": "Y, hold for Ý",
+        "bounds": [
+          643,
+          1791,
+          755,
+          1972
+        ]
+      },
+      {
+        "label": "U, hold for Ù",
+        "bounds": [
+          768,
+          1791,
+          880,
+          1972
+        ]
+      },
+      {
+        "label": "I, hold for Ì",
+        "bounds": [
+          893,
+          1791,
+          1005,
+          1972
+        ]
+      },
+      {
+        "label": "O, hold for Ò",
+        "bounds": [
+          1018,
+          1791,
+          1130,
+          1972
+        ]
+      },
+      {
+        "label": "P",
+        "bounds": [
+          1143,
+          1791,
+          1255,
+          1972
+        ]
+      },
+      {
+        "label": "A, hold for À",
+        "bounds": [
+          70,
+          1992,
+          184,
+          2174
+        ]
+      },
+      {
+        "label": "S, hold for ẞ",
+        "bounds": [
+          197,
+          1992,
+          311,
+          2174
+        ]
+      },
+      {
+        "label": "D, hold for Ď",
+        "bounds": [
+          324,
+          1992,
+          439,
+          2174
+        ]
+      },
+      {
+        "label": "F",
+        "bounds": [
+          452,
+          1992,
+          566,
+          2174
+        ]
+      },
+      {
+        "label": "G, hold for Ğ",
+        "bounds": [
+          579,
+          1992,
+          693,
+          2174
+        ]
+      },
+      {
+        "label": "H, hold for Ħ",
+        "bounds": [
+          706,
+          1992,
+          820,
+          2174
+        ]
+      },
+      {
+        "label": "J",
+        "bounds": [
+          834,
+          1992,
+          948,
+          2174
+        ]
+      },
+      {
+        "label": "K, hold for Ķ",
+        "bounds": [
+          961,
+          1992,
+          1075,
+          2174
+        ]
+      },
+      {
+        "label": "L, hold for Ł",
+        "bounds": [
+          1088,
+          1992,
+          1202,
+          2174
+        ]
+      },
+      {
+        "label": "Shift on for next letter",
+        "bounds": [
+          17,
+          2194,
+          178,
+          2375
+        ]
+      },
+      {
+        "label": "Z, hold for Ž",
+        "bounds": [
+          191,
+          2194,
+          307,
+          2375
+        ]
+      },
+      {
+        "label": "X",
+        "bounds": [
+          320,
+          2194,
+          436,
+          2375
+        ]
+      },
+      {
+        "label": "C, hold for Ç",
+        "bounds": [
+          449,
+          2194,
+          565,
+          2375
+        ]
+      },
+      {
+        "label": "V",
+        "bounds": [
+          578,
+          2194,
+          694,
+          2375
+        ]
+      },
+      {
+        "label": "B",
+        "bounds": [
+          707,
+          2194,
+          823,
+          2375
+        ]
+      },
+      {
+        "label": "N, hold for Ñ",
+        "bounds": [
+          836,
+          2194,
+          952,
+          2375
+        ]
+      },
+      {
+        "label": "M",
+        "bounds": [
+          965,
+          2194,
+          1081,
+          2375
+        ]
+      },
+      {
+        "label": "Backspace, hold to keep deleting",
+        "bounds": [
+          1094,
+          2194,
+          1255,
+          2375
+        ]
+      },
+      {
+        "label": "?123, hold for tools",
+        "bounds": [
+          17,
+          2395,
+          197,
+          2598
+        ]
+      },
+      {
+        "label": ",, hold for ☺",
+        "bounds": [
+          210,
+          2395,
+          314,
+          2598
+        ]
+      },
+      {
+        "label": "space, hold for Hold for cursor",
+        "bounds": [
+          327,
+          2395,
+          945,
+          2598
+        ]
+      },
+      {
+        "label": "., hold for ! , ?",
+        "bounds": [
+          958,
+          2395,
+          1062,
+          2598
+        ]
+      },
+      {
+        "label": "Done, hold to record, slide up to lock",
+        "bounds": [
+          1075,
+          2395,
+          1255,
+          2598
+        ]
+      },
+      {
+        "label": "Suggestion: you",
+        "bounds": [
+          42,
+          1388,
+          438,
+          1582
+        ]
+      },
+      {
+        "label": "Suggestion: I",
+        "bounds": [
+          438,
+          1388,
+          834,
+          1582
+        ]
+      },
+      {
+        "label": "Suggestion: the",
+        "bounds": [
+          834,
+          1388,
+          1230,
+          1582
+        ]
+      }
+    ],
+    "no_navigation_overlap": true
+  },
+  "passed": true
+}

@@ -1,0 +1,207 @@
+{
+  "device": "OnePlus 15 CPH2747",
+  "quantization": "Q4_K_M",
+  "backend": "CPU",
+  "threads": 4,
+  "decoding": "greedy",
+  "source": "artifacts/oneplus15-translation-formats-translationmodels.json",
+  "evaluations": 108,
+  "fixture_count": 9,
+  "models": [
+    {
+      "model": "LFM2.5-350M-Q4_K_M.gguf",
+      "load_ms": 312.138333
+    },
+    {
+      "model": "LFM2.5-350M-Base-Q4_K_M.gguf",
+      "load_ms": 310.71
+    },
+    {
+      "model": "Qwen3.5-0.8B-Q4_K_M.gguf",
+      "load_ms": 665.491354
+    },
+    {
+      "model": "Qwen3.5-0.8B-Base.Q4_K_M.gguf",
+      "load_ms": 466.477656
+    }
+  ],
+  "groups": [
+    {
+      "model": "LFM2.5-350M-Q4_K_M.gguf",
+      "prompt": "chatml_empty_think",
+      "cases": 9,
+      "clean_outputs": 9,
+      "keyword_hits": 0,
+      "clean_keyword_hits": 0,
+      "errors": 0,
+      "median_ms": 1182.8
+    },
+    {
+      "model": "LFM2.5-350M-Q4_K_M.gguf",
+      "prompt": "chatml",
+      "cases": 9,
+      "clean_outputs": 9,
+      "keyword_hits": 5,
+      "clean_keyword_hits": 5,
+      "errors": 0,
+      "median_ms": 1148.74
+    },
+    {
+      "model": "LFM2.5-350M-Q4_K_M.gguf",
+      "prompt": "parallel_text",
+      "cases": 9,
+      "clean_outputs": 9,
+      "keyword_hits": 1,
+      "clean_keyword_hits": 1,
+      "errors": 0,
+      "median_ms": 699.44
+    },
+    {
+      "model": "LFM2.5-350M-Base-Q4_K_M.gguf",
+      "prompt": "chatml_empty_think",
+      "cases": 9,
+      "clean_outputs": 9,
+      "keyword_hits": 0,
+      "clean_keyword_hits": 0,
+      "errors": 0,
+      "median_ms": 1294.57
+    },
+    {
+      "model": "LFM2.5-350M-Base-Q4_K_M.gguf",
+      "prompt": "chatml",
+      "cases": 9,
+      "clean_outputs": 9,
+      "keyword_hits": 0,
+      "clean_keyword_hits": 0,
+      "errors": 0,
+      "median_ms": 1089.34
+    },
+    {
+      "model": "LFM2.5-350M-Base-Q4_K_M.gguf",
+      "prompt": "parallel_text",
+      "cases": 9,
+      "clean_outputs": 9,
+      "keyword_hits": 5,
+      "clean_keyword_hits": 5,
+      "errors": 0,
+      "median_ms": 623.86
+    },
+    {
+      "model": "Qwen3.5-0.8B-Q4_K_M.gguf",
+      "prompt": "chatml_empty_think",
+      "cases": 9,
+      "clean_outputs": 9,
+      "keyword_hits": 8,
+      "clean_keyword_hits": 8,
+      "errors": 0,
+      "median_ms": 2417.6
+    },
+    {
+      "model": "Qwen3.5-0.8B-Q4_K_M.gguf",
+      "prompt": "chatml",
+      "cases": 9,
+      "clean_outputs": 0,
+      "keyword_hits": 9,
+      "clean_keyword_hits": 0,
+      "errors": 0,
+      "median_ms": 2332.61
+    },
+    {
+      "model": "Qwen3.5-0.8B-Q4_K_M.gguf",
+      "prompt": "parallel_text",
+      "cases": 9,
+      "clean_outputs": 9,
+      "keyword_hits": 7,
+      "clean_keyword_hits": 7,
+      "errors": 0,
+      "median_ms": 1281.73
+    },
+    {
+      "model": "Qwen3.5-0.8B-Base.Q4_K_M.gguf",
+      "prompt": "chatml_empty_think",
+      "cases": 9,
+      "clean_outputs": 9,
+      "keyword_hits": 8,
+      "clean_keyword_hits": 8,
+      "errors": 0,
+      "median_ms": 2348.95
+    },
+    {
+      "model": "Qwen3.5-0.8B-Base.Q4_K_M.gguf",
+      "prompt": "chatml",
+      "cases": 9,
+      "clean_outputs": 9,
+      "keyword_hits": 8,
+      "clean_keyword_hits": 8,
+      "errors": 0,
+      "median_ms": 2146.89
+    },
+    {
+      "model": "Qwen3.5-0.8B-Base.Q4_K_M.gguf",
+      "prompt": "parallel_text",
+      "cases": 9,
+      "clean_outputs": 9,
+      "keyword_hits": 8,
+      "clean_keyword_hits": 8,
+      "errors": 0,
+      "median_ms": 1241.87
+    }
+  ],
+  "production_prompt": "parallel_text",
+  "production_model": "Qwen3.5-0.8B-Base.Q4_K_M.gguf",
+  "notes": [
+    "Nine hand-picked sentences across English, Italian, Spanish, French, German, Japanese and Chinese. This is a small regression comparison, not general translation accuracy.",
+    "Keyword hits do not establish semantic correctness. Clean outputs exclude reasoning tags and prompt labels. Per-request timings exclude model loading; prompt lengths and output lengths differ.",
+    "LFM does not list Italian or Chinese among its supported languages. This mixed-language fixture is not a supported-languages-only ranking.",
+    "All prompt formats were tested for all four models. LFM Instruct did best with plain ChatML, LFM Base with parallel text, Qwen Instruct with ChatML and a forced empty thinking block, Qwen Base with parallel text or ChatML.",
+    "The old empty-thinking prompt caused both LFM versions to copy unrelated greetings (0/9). LFM Base still echoed several English sources with parallel text.",
+    "Qwen Base parallel text mistranslated the English train sentence into Italian. Its Chinese-to-English output omitted arrival and inserted an unsupported grammatical construction. Its Japanese output omitted the explicit help phrase. These issues can pass keyword checks.",
+    "Both Qwen variants mistranslated train as station in Italian under the original prompt. Qwen Base also added home in one Chinese-to-English result with plain ChatML.",
+    "Only base Q4_K_M models are in the app catalog. Instruct files are retained solely for the comparison. Translation uses the same Qwen Base weights as prediction.",
+    "The follow-up prompt probe added four greeting/question cases and tested all four prompt formats on Qwen Base (52 evaluations). Every format had failures; explicit language labels did not fix Buonasera becoming Good morning in the raw formats.",
+    "Base Qwen passed the five-case translation service and cancellation check. The translation UI regression failed because Buonasera was translated as Good morning instead of Good evening. This remains a model quality limitation of the selected base-only configuration, not a passing integration result."
+  ],
+  "prompt_probe": {
+    "source": "artifacts/oneplus15-translation-prompts-translationprompts.json",
+    "evaluations": 52,
+    "fixture_count": 13,
+    "groups": [
+      {
+        "prompt": "chatml_empty_think",
+        "cases": 13,
+        "clean_keyword_hits": 11,
+        "median_ms": 2262.12
+      },
+      {
+        "prompt": "chatml",
+        "cases": 13,
+        "clean_keyword_hits": 11,
+        "median_ms": 2111.29
+      },
+      {
+        "prompt": "parallel_text",
+        "cases": 13,
+        "clean_keyword_hits": 11,
+        "median_ms": 1201.84
+      },
+      {
+        "prompt": "language_labels",
+        "cases": 13,
+        "clean_keyword_hits": 11,
+        "median_ms": 1153.14
+      }
+    ]
+  },
+  "total_evaluations": 160,
+  "integration": {
+    "translation": {
+      "source": "artifacts/oneplus15-base-q4-translation.json",
+      "passed": true
+    },
+    "translationui": {
+      "source": "artifacts/oneplus15-base-q4-translationui.json",
+      "passed": false,
+      "error": "java.lang.IllegalStateException: Translation UI timed out; app text: Before Good morning. after, source: Buonasera."
+    }
+  }
+}

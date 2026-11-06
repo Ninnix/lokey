@@ -1,0 +1,14 @@
+{
+  "typing_into_editor": true,
+  "period_popup": true,
+  "cursor_gesture": true,
+  "microphone_opened": true,
+  "recording_locked_after_release": true,
+  "microphone_released_on_cancel": true,
+  "cancel_did_not_insert_text": true,
+  "size": [
+    1272,
+    2772
+  ],
+  "density": 3.5
+}

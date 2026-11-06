@@ -1,0 +1,4 @@
+{
+  "passed": false,
+  "error": "java.lang.IllegalStateException: Translation UI timed out; app text: Before Good morning. after, source: Buonasera.\n\tat org.lokey.app.KeyboardTest.translationUiTest$waitFor(KeyboardTest.kt:917)\n\tat org.lokey.app.KeyboardTest.translationUiTest(KeyboardTest.kt:944)\n\tat org.lokey.app.KeyboardTest.onStart(KeyboardTest.kt:97)\n\tat android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:2632)\n"
+}

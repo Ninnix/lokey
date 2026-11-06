@@ -1,0 +1,27 @@
+{
+  "version": "0.1.0",
+  "version_code": 1,
+  "package": "org.lokey.app",
+  "signed": true,
+  "same_upload_certificate": true,
+  "certificate_sha256": "781fd3566f35af4a6feae7950d2817a71bfecfe898589912d4b3f05ecc117f9a",
+  "apk_verified": true,
+  "aab_verified": true,
+  "apk_zipalign_16kb_checked": true,
+  "privacy_policy_and_mit_notice_bundled": true,
+  "key_files_ignored": true,
+  "key_setup_refuses_overwrite": true,
+  "play_console_submitted": false,
+  "artifacts": [
+    {
+      "path": "app/build/outputs/apk/release/app-release.apk",
+      "bytes": 19982974,
+      "sha256": "86d00a1210b4869123e6b1002cd73c6ff15440826faf2766bb8eba7d18dadcc8"
+    },
+    {
+      "path": "app/build/outputs/bundle/release/app-release.aab",
+      "bytes": 20862288,
+      "sha256": "73ee2231045d480b3a9c35451734904c42f77e600dbefcc1c0d127861c5a7ef4"
+    }
+  ]
+}

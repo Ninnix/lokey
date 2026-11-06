@@ -1,0 +1,96 @@
+{
+  "core_sha256": "f6b1860ee028524aef356a0f4536b9b86a803096e51e5ef655e6c38aeaaa8ae9",
+  "serial": "3B165U00WXK00000",
+  "models": {
+    "qwen": {
+      "cpu": {
+        "backend": "CPU",
+        "load_ms": 308.766,
+        "warm_english_median_ms": 210.25650000000002,
+        "trials": 27
+      },
+      "htp": {
+        "backend": "HTP0",
+        "load_ms": 889.422,
+        "warm_english_median_ms": 120.975,
+        "trials": 27
+      },
+      "speedup": 1.7380161190328582,
+      "identical_suggestions": 15,
+      "differences": [
+        {
+          "prompt": "I am on my way ",
+          "pass": 0,
+          "cpu": "to\nhome\ndown\n",
+          "htp": "to\ndown\nhome\n"
+        },
+        {
+          "prompt": "Thank you for your ",
+          "pass": 0,
+          "cpu": "email\npatience\nresponse\n",
+          "htp": "email\npatience\ntime\n"
+        },
+        {
+          "prompt": "See you ",
+          "pass": 0,
+          "cpu": "at\nnext\nlater\n",
+          "htp": "at\nnext\nin\n"
+        },
+        {
+          "prompt": "I would like to ",
+          "pass": 0,
+          "cpu": "know\nask\nexpress\n",
+          "htp": "know\nexpress\nask\n"
+        },
+        {
+          "prompt": "I am on my way ",
+          "pass": 1,
+          "cpu": "to\nhome\ndown\n",
+          "htp": "to\ndown\nhome\n"
+        },
+        {
+          "prompt": "Thank you for your ",
+          "pass": 1,
+          "cpu": "email\npatience\nresponse\n",
+          "htp": "email\npatience\ntime\n"
+        },
+        {
+          "prompt": "See you ",
+          "pass": 1,
+          "cpu": "at\nnext\nlater\n",
+          "htp": "at\nnext\nin\n"
+        },
+        {
+          "prompt": "I would like to ",
+          "pass": 1,
+          "cpu": "know\nask\nexpress\n",
+          "htp": "know\nexpress\nask\n"
+        },
+        {
+          "prompt": "I am on my way ",
+          "pass": 2,
+          "cpu": "to\nhome\ndown\n",
+          "htp": "to\ndown\nhome\n"
+        },
+        {
+          "prompt": "Thank you for your ",
+          "pass": 2,
+          "cpu": "email\npatience\nresponse\n",
+          "htp": "email\npatience\ntime\n"
+        },
+        {
+          "prompt": "See you ",
+          "pass": 2,
+          "cpu": "at\nnext\nlater\n",
+          "htp": "at\nnext\nin\n"
+        },
+        {
+          "prompt": "I would like to ",
+          "pass": 2,
+          "cpu": "know\nask\nexpress\n",
+          "htp": "know\nexpress\nask\n"
+        }
+      ]
+    }
+  }
+}

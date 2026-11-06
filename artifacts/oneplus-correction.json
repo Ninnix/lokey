@@ -1,0 +1,126 @@
+{
+  "correction": {
+    "apply_and_backspace_undo": true,
+    "undo_is_not_immediately_recorrected": true,
+    "stale_result_rejected": true,
+    "addresses_preserved": true,
+    "middle_of_word_preserved": true,
+    "disabled_preserved": true,
+    "moved_cursor_does_not_undo_elsewhere": true,
+    "punctuation_and_space_correct_and_undo": true,
+    "late_correction_preserves_following_input": true,
+    "late_correction_preserves_moved_cursor": true,
+    "disabled_punctuation_correction_preserved": true,
+    "late_model_corrections": [
+      {
+        "input": "Ciao ci vediamo domnai,",
+        "expected": "Ciao ci vediamo domani,",
+        "output": "Ciao ci vediamo domani,",
+        "applied": true,
+        "outside_vocabulary": false
+      },
+      {
+        "input": "Ciao ci vediamo domnai?",
+        "expected": "Ciao ci vediamo domani?",
+        "output": "Ciao ci vediamo domani?",
+        "applied": true,
+        "outside_vocabulary": false
+      },
+      {
+        "input": "Hello I will recevie.",
+        "expected": "Hello I will receive.",
+        "output": "Hello I will receive.",
+        "applied": true,
+        "outside_vocabulary": false
+      },
+      {
+        "input": "Hola muchas graciass!",
+        "expected": "Hola muchas gracias!",
+        "output": "Hola muchas gracias!",
+        "applied": true,
+        "outside_vocabulary": false
+      },
+      {
+        "input": "Bonjour merci beacoup;",
+        "expected": "Bonjour merci beaucoup;",
+        "output": "Bonjour merci beaucoup;",
+        "applied": true,
+        "outside_vocabulary": false
+      },
+      {
+        "input": "Ciao ci vediamo domnai:",
+        "expected": "Ciao ci vediamo domani:",
+        "output": "Ciao ci vediamo domani:",
+        "applied": true,
+        "outside_vocabulary": false
+      },
+      {
+        "input": "Ciao ci vediamo domnai?!",
+        "expected": "Ciao ci vediamo domani?!",
+        "output": "Ciao ci vediamo domani?!",
+        "applied": true,
+        "outside_vocabulary": false
+      },
+      {
+        "input": "Im ",
+        "expected": "I'm ",
+        "output": "I'm ",
+        "applied": true,
+        "outside_vocabulary": false
+      },
+      {
+        "input": "im?",
+        "expected": "I'm?",
+        "output": "I'm?",
+        "applied": true,
+        "outside_vocabulary": false
+      },
+      {
+        "input": "Ive.",
+        "expected": "I've.",
+        "output": "I've.",
+        "applied": true,
+        "outside_vocabulary": false
+      },
+      {
+        "input": "Please send me the documetn.",
+        "expected": "Please send me the document.",
+        "output": "Please send me the document.",
+        "applied": true,
+        "outside_vocabulary": false
+      },
+      {
+        "input": "Estoy muy agradecido por tu paciencai!",
+        "expected": "Estoy muy agradecido por tu paciencia!",
+        "output": "Estoy muy agradecido por tu paciencia!",
+        "applied": true,
+        "outside_vocabulary": false
+      },
+      {
+        "input": "Je te remercie pour ta patiecne.",
+        "expected": "Je te remercie pour ta patience.",
+        "output": "Je te remercie pour ta patience.",
+        "applied": true,
+        "outside_vocabulary": false
+      },
+      {
+        "input": "The mitochondria produce adenosine triphosphatr.",
+        "expected": "The mitochondria produce adenosine triphosphate.",
+        "output": "The mitochondria produce adenosine triphosphate.",
+        "applied": true,
+        "outside_vocabulary": true
+      }
+    ],
+    "accepted_corrections": 14,
+    "valid_words_and_names_preserved": [
+      "The mitochondria produce adenosine triphosphate",
+      "The kinase phosphorylates tyrosine",
+      "I feel ill",
+      "We work well",
+      "As is his wont",
+      "Meet Zorvella",
+      "Use HTTP"
+    ]
+  },
+  "passed": true
+}

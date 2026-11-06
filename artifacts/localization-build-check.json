@@ -1,0 +1,13 @@
+{
+  "passed": true,
+  "tasks": [
+    "assembleDebug",
+    "assembleDebugAndroidTest",
+    "lintDebug",
+    "bundleRelease"
+  ],
+  "lint": {
+    "Warning": 111
+  },
+  "log": ".local/localization/final-build.log"
+}

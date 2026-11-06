@@ -1,0 +1,21 @@
+{
+  "speedui": {
+    "themes": [
+      {
+        "theme": "dark",
+        "same_typing_box": true,
+        "toggle_below_box": true,
+        "ghost_text_excluded_from_input": true,
+        "normal_draft_preserved": true
+      },
+      {
+        "theme": "light",
+        "same_typing_box": true,
+        "toggle_below_box": true,
+        "ghost_text_excluded_from_input": true,
+        "normal_draft_preserved": true
+      }
+    ]
+  },
+  "passed": true
+}

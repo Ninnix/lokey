@@ -1,0 +1,15 @@
+{
+  "setup": {
+    "text_catalog": 39,
+    "voice_languages": 39,
+    "coverage_matches_model_cards": true,
+    "recommendations": true,
+    "first_run_and_completion": true,
+    "existing_preferences_preserved": true,
+    "two_models_only": true,
+    "dark_and_light": true,
+    "searchable_languages": true,
+    "dead_key_cases": 11
+  },
+  "passed": true
+}

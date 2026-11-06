@@ -1,0 +1,49 @@
+{
+  "translation": {
+    "languages": 39,
+    "cases": [
+      {
+        "source": "Ciao, come stai?",
+        "target": "English",
+        "text": "Hello, how are you?",
+        "error": null,
+        "updates": 3,
+        "ms": 2076
+      },
+      {
+        "source": "Hello, how are you?",
+        "target": "Italian",
+        "text": "Ciao, come stai?",
+        "error": null,
+        "updates": 2,
+        "ms": 1831
+      },
+      {
+        "source": "Good morning, my friend.",
+        "target": "Spanish",
+        "text": "Buenas mañanas, mi amigo.",
+        "error": null,
+        "updates": 4,
+        "ms": 1954
+      },
+      {
+        "source": "Thank you very much.",
+        "target": "French",
+        "text": "Merci beaucoup.",
+        "error": null,
+        "updates": 2,
+        "ms": 1755
+      },
+      {
+        "source": "Hello, how are you?",
+        "target": "Japanese",
+        "text": "こんにちは、どうですか。",
+        "error": null,
+        "updates": 2,
+        "ms": 1850
+      }
+    ],
+    "stale_requests_cancelled": true
+  },
+  "passed": true
+}

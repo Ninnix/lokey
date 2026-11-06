@@ -1,0 +1,4 @@
+{
+  "passed": false,
+  "error": "java.lang.IllegalStateException: Missing azzurra for 'C'é un amico mio che ha una casa in costa azzu': [azzu]\n\tat org.lokey.app.KeyboardTest.completionTest(KeyboardTest.kt:1068)\n\tat org.lokey.app.KeyboardTest.onStart(KeyboardTest.kt:47)\n\tat android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:2418)\n"
+}

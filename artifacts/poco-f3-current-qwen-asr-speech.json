@@ -1,0 +1,40 @@
+{
+  "speech": {
+    "models": [
+      {
+        "model": "qwen_asr",
+        "load_ms": 1821,
+        "backend": "CPU",
+        "cases": [
+          {
+            "fixture": "jfk",
+            "pass": 0,
+            "ms": 7993,
+            "text": "And so, my fellow Americans, ask not what your country can do for you; ask what you can do for your country."
+          },
+          {
+            "fixture": "jfk",
+            "pass": 1,
+            "ms": 7419,
+            "text": "And so, my fellow Americans, ask not what your country can do for you; ask what you can do for your country."
+          },
+          {
+            "fixture": "asr-zh.wav",
+            "ms": 3064,
+            "audio_seconds": 4.2039375,
+            "text": "甚至出现交易几乎停滞的情况。"
+          },
+          {
+            "fixture": "asr-en.wav",
+            "ms": 9863,
+            "audio_seconds": 15.0511875,
+            "text": "Hmm. Oh, yeah, yeah. He wasn't even that big when I started listening to him, but and his solo music didn't do overly well. But he did very well when he started writing for other people."
+          }
+        ]
+      }
+    ],
+    "silence": true,
+    "qwen_quantization": "Q8_0"
+  },
+  "passed": true
+}

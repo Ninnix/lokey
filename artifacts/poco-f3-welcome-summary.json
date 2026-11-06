@@ -1,0 +1,38 @@
+{
+  "device": "POCO F3, Android 13",
+  "build_and_lint": "passed",
+  "setup": {
+    "setup": {
+      "text_catalog": 39,
+      "voice_languages": 39,
+      "coverage_matches_model_cards": true,
+      "recommendations": true,
+      "first_run_and_completion": true,
+      "existing_preferences_preserved": true,
+      "two_models_only": true,
+      "dark_and_light": true,
+      "searchable_languages": true,
+      "dead_key_cases": 11
+    },
+    "passed": true
+  },
+  "downloads": {
+    "downloads": {
+      "only_red_bundled": true,
+      "switch_download_and_decoding": true,
+      "selection_preserves_views_and_scroll": true,
+      "model_and_switch_progress": true,
+      "no_notifications": true,
+      "continues_across_pages_and_background": true,
+      "partial_retry": true
+    },
+    "passed": true
+  },
+  "screenshots": [
+    "poco-f3-welcome-dark.png",
+    "poco-f3-welcome-light.png",
+    "poco-f3-welcome-chinese.png",
+    "poco-f3-switches-grayscale.png"
+  ],
+  "background_behavior": "Persisted Android jobs continue while the app is closed or another screen is open. Android may pause and reschedule a job; partial files are resumed."
+}

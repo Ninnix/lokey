@@ -1,0 +1,21 @@
+{
+  "ro.product.model": "M2012K11AG",
+  "ro.product.marketname": "POCO F3",
+  "ro.product.device": "alioth",
+  "ro.soc.model": "SM8250",
+  "ro.build.version.release": "13",
+  "ro.build.version.sdk": "33",
+  "memory": [
+    "MemTotal:        7701716 kB",
+    "MemFree:           92180 kB",
+    "MemAvailable:    1603636 kB"
+  ],
+  "low_power": "0",
+  "temperature_and_battery": [
+    "USB powered: true",
+    "level: 10",
+    "temperature: 292"
+  ],
+  "models": "Qwen3.5-0.8B Q4_K_M and Qwen3-ASR-0.6B Q8_0 with Q8 encoder; downloaded through setup by user",
+  "backend": "CPU, 4 threads"
+}

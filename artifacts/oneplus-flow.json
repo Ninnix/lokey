@@ -1,0 +1,58 @@
+{
+  "flow": {
+    "noisy_paths": true,
+    "languages": [
+      {
+        "language": "en",
+        "word": "hello",
+        "ms": 487,
+        "candidates": [
+          "hello",
+          "help",
+          "hero"
+        ]
+      },
+      {
+        "language": "it",
+        "word": "domani",
+        "ms": 177,
+        "candidates": [
+          "domani",
+          "dovevi",
+          "dovrai"
+        ]
+      },
+      {
+        "language": "es",
+        "word": "gracias",
+        "ms": 180,
+        "candidates": [
+          "gracias",
+          "grados",
+          "gracia"
+        ]
+      },
+      {
+        "language": "fr",
+        "word": "merci",
+        "ms": 106,
+        "candidates": [
+          "merci",
+          "mardi",
+          "mercredi"
+        ]
+      },
+      {
+        "language": "es",
+        "word": "caf\u00e9",
+        "ms": 187,
+        "candidates": [
+          "caf\u00e9",
+          "casarte",
+          "casarse"
+        ]
+      }
+    ]
+  },
+  "passed": true
+}

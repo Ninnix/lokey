@@ -1,0 +1,15 @@
+{
+  "languagemap": {
+    "mapped_languages": 39,
+    "voice_models_define_scope": true,
+    "qwerty_intl_first": true,
+    "common_accents": 75,
+    "language_specific_order": true,
+    "combining_accents": true,
+    "all_input_methods_available": true,
+    "statuses": {
+      "available": 39
+    }
+  },
+  "passed": true
+}

@@ -1,0 +1,14 @@
+{
+  "loina-core": {
+    "url": "https://github.com/Loina-AI/loina-core",
+    "revision": "f11990801c78f6736ed9f8d672a8a7af7e4fc6c9"
+  },
+  "llama.cpp": {
+    "url": "https://github.com/Loina-AI/llama.cpp",
+    "revision": "fc75d063f0ac136f443eebe882c1a971a286673a"
+  },
+  "whisper.cpp": {
+    "url": "https://github.com/Loina-AI/whisper.cpp",
+    "revision": "66c475eab12593a40770c06dccb50c7817ce0a6f"
+  }
+}

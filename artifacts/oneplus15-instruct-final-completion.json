@@ -1,0 +1,124 @@
+{
+  "completion": {
+    "cases": [
+      {
+        "text": "",
+        "words": [
+          "The",
+          "This",
+          "A"
+        ],
+        "language": "en",
+        "fallback_ms": 97,
+        "ms": 1701
+      },
+      {
+        "text": "Im",
+        "words": [
+          "I'm",
+          "Image",
+          "Imagine"
+        ],
+        "language": "en",
+        "fallback_ms": 68,
+        "ms": 350
+      },
+      {
+        "text": "im",
+        "words": [
+          "I'm",
+          "Image",
+          "Imagine"
+        ],
+        "language": "en",
+        "fallback_ms": 0,
+        "ms": 1
+      },
+      {
+        "text": "I'm ",
+        "words": [
+          "not",
+          "a",
+          "going"
+        ],
+        "language": "en",
+        "fallback_ms": 63,
+        "ms": 383
+      },
+      {
+        "text": "C'é un amico mio che ha una casa in costa azzu",
+        "words": [
+          "azzurra",
+          "azzurro"
+        ],
+        "language": "it",
+        "fallback_ms": 135,
+        "ms": 464
+      },
+      {
+        "text": "C'é un amico mio che ha una casa in costa azzur",
+        "words": [
+          "azzurra",
+          "azzurro"
+        ],
+        "language": "it",
+        "fallback_ms": 0,
+        "ms": 1
+      },
+      {
+        "text": "C’è un amico mio che ha una casa in costa azzu",
+        "words": [
+          "azzurra",
+          "azzurro"
+        ],
+        "language": "it",
+        "fallback_ms": 93,
+        "ms": 394
+      },
+      {
+        "text": "C'è un amico mio che ha una casa in costa azzur",
+        "words": [
+          "azzurra",
+          "azzurro"
+        ],
+        "language": "it",
+        "fallback_ms": 81,
+        "ms": 395
+      },
+      {
+        "text": "The mitochondria produce adenosine triphos",
+        "words": [
+          "triphosphate",
+          "triphosphates"
+        ],
+        "language": "en",
+        "fallback_ms": 73,
+        "ms": 375
+      },
+      {
+        "text": "Hola quiero un caf",
+        "words": [
+          "café",
+          "cafe",
+          "cafetería"
+        ],
+        "language": "es",
+        "fallback_ms": 43,
+        "ms": 369
+      },
+      {
+        "text": "Bonjour merci beau",
+        "words": [
+          "monde",
+          "et",
+          "beaucoup"
+        ],
+        "language": "fr",
+        "fallback_ms": 57,
+        "ms": 376
+      }
+    ],
+    "azzurra_not_in_vocabulary": true
+  },
+  "passed": true
+}

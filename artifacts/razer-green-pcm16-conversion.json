@@ -1,0 +1,35 @@
+[
+  {
+    "file": "a-down-1.wav",
+    "original_sha256": "2635f94f603db8edb3168fab9eb1a65bccad687da02b1839fbb34efeb53faf96",
+    "sha256": "a307d947cbd11a8dba58b4e24dcc9b86171dcc397759dab9e29b7e979c7eddeb",
+    "original_bits": 32,
+    "bits": 16,
+    "rate": 44100,
+    "channels": 2,
+    "frames": 13888,
+    "max_conversion_error_pcm16": 0.99993896484375
+  },
+  {
+    "file": "a-down-2.wav",
+    "original_sha256": "dd8da01ec673428c328be0041c30d6bbe49eb4405227dc2e82cad771b0ac95ce",
+    "sha256": "c188e149617af5a7b70197069cc6b2d96810195bd236138b99f678bfb5191c2b",
+    "original_bits": 32,
+    "bits": 16,
+    "rate": 44100,
+    "channels": 2,
+    "frames": 13440,
+    "max_conversion_error_pcm16": 0.999969482421875
+  },
+  {
+    "file": "a-down.wav",
+    "original_sha256": "407def7e5bf7e28aaa3ac09459d5e19e14ca14ecfae57170f6ff69668df411dd",
+    "sha256": "8186a112d6e81bda945c12b7fffe59bb1ccadfe036309086639599304575bd02",
+    "original_bits": 32,
+    "bits": 16,
+    "rate": 44100,
+    "channels": 2,
+    "frames": 14720,
+    "max_conversion_error_pcm16": 0.99993896484375
+  }
+]

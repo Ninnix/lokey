@@ -1,0 +1,2001 @@
+{
+  "source": "artifacts/oneplus15-probability-probabilitylanguages.json",
+  "fixture_count": 20,
+  "evaluations": 640,
+  "results": [
+    {
+      "model": "LFM2.5-350M-Base-Q4_K_M.gguf",
+      "backend": "CPU",
+      "prompt": "language_label",
+      "hits": 12,
+      "count": 20,
+      "median_ms": 318.94013,
+      "empty": 0,
+      "prefix": {
+        "hits": 10,
+        "count": 11
+      },
+      "next_word": {
+        "hits": 2,
+        "count": 9
+      },
+      "lfm_declared_language_subset": {
+        "hits": 9,
+        "count": 13
+      },
+      "languages": {
+        "Arabic": {
+          "hits": 1,
+          "count": 2
+        },
+        "English": {
+          "hits": 3,
+          "count": 3
+        },
+        "French": {
+          "hits": 1,
+          "count": 2
+        },
+        "German": {
+          "hits": 2,
+          "count": 2
+        },
+        "Greek": {
+          "hits": 0,
+          "count": 2
+        },
+        "Italian": {
+          "hits": 2,
+          "count": 3
+        },
+        "Portuguese": {
+          "hits": 1,
+          "count": 2
+        },
+        "Russian": {
+          "hits": 1,
+          "count": 2
+        },
+        "Spanish": {
+          "hits": 1,
+          "count": 2
+        }
+      }
+    },
+    {
+      "model": "LFM2.5-350M-Base-Q4_K_M.gguf",
+      "backend": "CPU",
+      "prompt": "raw",
+      "hits": 11,
+      "count": 20,
+      "median_ms": 294.223802,
+      "empty": 0,
+      "prefix": {
+        "hits": 9,
+        "count": 11
+      },
+      "next_word": {
+        "hits": 2,
+        "count": 9
+      },
+      "lfm_declared_language_subset": {
+        "hits": 9,
+        "count": 13
+      },
+      "languages": {
+        "Arabic": {
+          "hits": 1,
+          "count": 2
+        },
+        "English": {
+          "hits": 3,
+          "count": 3
+        },
+        "French": {
+          "hits": 1,
+          "count": 2
+        },
+        "German": {
+          "hits": 2,
+          "count": 2
+        },
+        "Greek": {
+          "hits": 0,
+          "count": 2
+        },
+        "Italian": {
+          "hits": 2,
+          "count": 3
+        },
+        "Portuguese": {
+          "hits": 1,
+          "count": 2
+        },
+        "Russian": {
+          "hits": 0,
+          "count": 2
+        },
+        "Spanish": {
+          "hits": 1,
+          "count": 2
+        }
+      }
+    },
+    {
+      "model": "LFM2.5-350M-Base-Q4_K_M.gguf",
+      "backend": "HTP0",
+      "prompt": "language_label",
+      "hits": 12,
+      "count": 20,
+      "median_ms": 266.82619750000003,
+      "empty": 0,
+      "prefix": {
+        "hits": 10,
+        "count": 11
+      },
+      "next_word": {
+        "hits": 2,
+        "count": 9
+      },
+      "lfm_declared_language_subset": {
+        "hits": 9,
+        "count": 13
+      },
+      "languages": {
+        "Arabic": {
+          "hits": 1,
+          "count": 2
+        },
+        "English": {
+          "hits": 3,
+          "count": 3
+        },
+        "French": {
+          "hits": 1,
+          "count": 2
+        },
+        "German": {
+          "hits": 2,
+          "count": 2
+        },
+        "Greek": {
+          "hits": 0,
+          "count": 2
+        },
+        "Italian": {
+          "hits": 2,
+          "count": 3
+        },
+        "Portuguese": {
+          "hits": 1,
+          "count": 2
+        },
+        "Russian": {
+          "hits": 1,
+          "count": 2
+        },
+        "Spanish": {
+          "hits": 1,
+          "count": 2
+        }
+      }
+    },
+    {
+      "model": "LFM2.5-350M-Base-Q4_K_M.gguf",
+      "backend": "HTP0",
+      "prompt": "raw",
+      "hits": 11,
+      "count": 20,
+      "median_ms": 264.66432299999997,
+      "empty": 0,
+      "prefix": {
+        "hits": 9,
+        "count": 11
+      },
+      "next_word": {
+        "hits": 2,
+        "count": 9
+      },
+      "lfm_declared_language_subset": {
+        "hits": 9,
+        "count": 13
+      },
+      "languages": {
+        "Arabic": {
+          "hits": 1,
+          "count": 2
+        },
+        "English": {
+          "hits": 3,
+          "count": 3
+        },
+        "French": {
+          "hits": 1,
+          "count": 2
+        },
+        "German": {
+          "hits": 2,
+          "count": 2
+        },
+        "Greek": {
+          "hits": 0,
+          "count": 2
+        },
+        "Italian": {
+          "hits": 2,
+          "count": 3
+        },
+        "Portuguese": {
+          "hits": 1,
+          "count": 2
+        },
+        "Russian": {
+          "hits": 0,
+          "count": 2
+        },
+        "Spanish": {
+          "hits": 1,
+          "count": 2
+        }
+      }
+    },
+    {
+      "model": "LFM2.5-350M-Base-Q8_0.gguf",
+      "backend": "CPU",
+      "prompt": "language_label",
+      "hits": 13,
+      "count": 20,
+      "median_ms": 305.3729425,
+      "empty": 0,
+      "prefix": {
+        "hits": 10,
+        "count": 11
+      },
+      "next_word": {
+        "hits": 3,
+        "count": 9
+      },
+      "lfm_declared_language_subset": {
+        "hits": 10,
+        "count": 13
+      },
+      "languages": {
+        "Arabic": {
+          "hits": 1,
+          "count": 2
+        },
+        "English": {
+          "hits": 3,
+          "count": 3
+        },
+        "French": {
+          "hits": 2,
+          "count": 2
+        },
+        "German": {
+          "hits": 2,
+          "count": 2
+        },
+        "Greek": {
+          "hits": 0,
+          "count": 2
+        },
+        "Italian": {
+          "hits": 2,
+          "count": 3
+        },
+        "Portuguese": {
+          "hits": 1,
+          "count": 2
+        },
+        "Russian": {
+          "hits": 1,
+          "count": 2
+        },
+        "Spanish": {
+          "hits": 1,
+          "count": 2
+        }
+      }
+    },
+    {
+      "model": "LFM2.5-350M-Base-Q8_0.gguf",
+      "backend": "CPU",
+      "prompt": "raw",
+      "hits": 12,
+      "count": 20,
+      "median_ms": 277.1648695,
+      "empty": 0,
+      "prefix": {
+        "hits": 10,
+        "count": 11
+      },
+      "next_word": {
+        "hits": 2,
+        "count": 9
+      },
+      "lfm_declared_language_subset": {
+        "hits": 9,
+        "count": 13
+      },
+      "languages": {
+        "Arabic": {
+          "hits": 1,
+          "count": 2
+        },
+        "English": {
+          "hits": 3,
+          "count": 3
+        },
+        "French": {
+          "hits": 1,
+          "count": 2
+        },
+        "German": {
+          "hits": 2,
+          "count": 2
+        },
+        "Greek": {
+          "hits": 0,
+          "count": 2
+        },
+        "Italian": {
+          "hits": 2,
+          "count": 3
+        },
+        "Portuguese": {
+          "hits": 1,
+          "count": 2
+        },
+        "Russian": {
+          "hits": 1,
+          "count": 2
+        },
+        "Spanish": {
+          "hits": 1,
+          "count": 2
+        }
+      }
+    },
+    {
+      "model": "LFM2.5-350M-Base-Q8_0.gguf",
+      "backend": "HTP0",
+      "prompt": "language_label",
+      "hits": 12,
+      "count": 20,
+      "median_ms": 271.01788999999997,
+      "empty": 0,
+      "prefix": {
+        "hits": 10,
+        "count": 11
+      },
+      "next_word": {
+        "hits": 2,
+        "count": 9
+      },
+      "lfm_declared_language_subset": {
+        "hits": 9,
+        "count": 13
+      },
+      "languages": {
+        "Arabic": {
+          "hits": 1,
+          "count": 2
+        },
+        "English": {
+          "hits": 3,
+          "count": 3
+        },
+        "French": {
+          "hits": 1,
+          "count": 2
+        },
+        "German": {
+          "hits": 2,
+          "count": 2
+        },
+        "Greek": {
+          "hits": 0,
+          "count": 2
+        },
+        "Italian": {
+          "hits": 2,
+          "count": 3
+        },
+        "Portuguese": {
+          "hits": 1,
+          "count": 2
+        },
+        "Russian": {
+          "hits": 1,
+          "count": 2
+        },
+        "Spanish": {
+          "hits": 1,
+          "count": 2
+        }
+      }
+    },
+    {
+      "model": "LFM2.5-350M-Base-Q8_0.gguf",
+      "backend": "HTP0",
+      "prompt": "raw",
+      "hits": 12,
+      "count": 20,
+      "median_ms": 267.20570299999997,
+      "empty": 0,
+      "prefix": {
+        "hits": 10,
+        "count": 11
+      },
+      "next_word": {
+        "hits": 2,
+        "count": 9
+      },
+      "lfm_declared_language_subset": {
+        "hits": 9,
+        "count": 13
+      },
+      "languages": {
+        "Arabic": {
+          "hits": 1,
+          "count": 2
+        },
+        "English": {
+          "hits": 3,
+          "count": 3
+        },
+        "French": {
+          "hits": 1,
+          "count": 2
+        },
+        "German": {
+          "hits": 2,
+          "count": 2
+        },
+        "Greek": {
+          "hits": 0,
+          "count": 2
+        },
+        "Italian": {
+          "hits": 2,
+          "count": 3
+        },
+        "Portuguese": {
+          "hits": 1,
+          "count": 2
+        },
+        "Russian": {
+          "hits": 1,
+          "count": 2
+        },
+        "Spanish": {
+          "hits": 1,
+          "count": 2
+        }
+      }
+    },
+    {
+      "model": "LFM2.5-350M-Q4_K_M.gguf",
+      "backend": "CPU",
+      "prompt": "language_label",
+      "hits": 10,
+      "count": 20,
+      "median_ms": 321.920625,
+      "empty": 3,
+      "prefix": {
+        "hits": 8,
+        "count": 11
+      },
+      "next_word": {
+        "hits": 2,
+        "count": 9
+      },
+      "lfm_declared_language_subset": {
+        "hits": 8,
+        "count": 13
+      },
+      "languages": {
+        "Arabic": {
+          "hits": 0,
+          "count": 2
+        },
+        "English": {
+          "hits": 3,
+          "count": 3
+        },
+        "French": {
+          "hits": 1,
+          "count": 2
+        },
+        "German": {
+          "hits": 2,
+          "count": 2
+        },
+        "Greek": {
+          "hits": 0,
+          "count": 2
+        },
+        "Italian": {
+          "hits": 2,
+          "count": 3
+        },
+        "Portuguese": {
+          "hits": 1,
+          "count": 2
+        },
+        "Russian": {
+          "hits": 0,
+          "count": 2
+        },
+        "Spanish": {
+          "hits": 1,
+          "count": 2
+        }
+      }
+    },
+    {
+      "model": "LFM2.5-350M-Q4_K_M.gguf",
+      "backend": "CPU",
+      "prompt": "raw",
+      "hits": 10,
+      "count": 20,
+      "median_ms": 292.0545055,
+      "empty": 1,
+      "prefix": {
+        "hits": 9,
+        "count": 11
+      },
+      "next_word": {
+        "hits": 1,
+        "count": 9
+      },
+      "lfm_declared_language_subset": {
+        "hits": 8,
+        "count": 13
+      },
+      "languages": {
+        "Arabic": {
+          "hits": 1,
+          "count": 2
+        },
+        "English": {
+          "hits": 3,
+          "count": 3
+        },
+        "French": {
+          "hits": 1,
+          "count": 2
+        },
+        "German": {
+          "hits": 1,
+          "count": 2
+        },
+        "Greek": {
+          "hits": 0,
+          "count": 2
+        },
+        "Italian": {
+          "hits": 1,
+          "count": 3
+        },
+        "Portuguese": {
+          "hits": 1,
+          "count": 2
+        },
+        "Russian": {
+          "hits": 1,
+          "count": 2
+        },
+        "Spanish": {
+          "hits": 1,
+          "count": 2
+        }
+      }
+    },
+    {
+      "model": "LFM2.5-350M-Q4_K_M.gguf",
+      "backend": "HTP0",
+      "prompt": "language_label",
+      "hits": 10,
+      "count": 20,
+      "median_ms": 264.4106505,
+      "empty": 3,
+      "prefix": {
+        "hits": 8,
+        "count": 11
+      },
+      "next_word": {
+        "hits": 2,
+        "count": 9
+      },
+      "lfm_declared_language_subset": {
+        "hits": 8,
+        "count": 13
+      },
+      "languages": {
+        "Arabic": {
+          "hits": 0,
+          "count": 2
+        },
+        "English": {
+          "hits": 3,
+          "count": 3
+        },
+        "French": {
+          "hits": 1,
+          "count": 2
+        },
+        "German": {
+          "hits": 2,
+          "count": 2
+        },
+        "Greek": {
+          "hits": 0,
+          "count": 2
+        },
+        "Italian": {
+          "hits": 2,
+          "count": 3
+        },
+        "Portuguese": {
+          "hits": 1,
+          "count": 2
+        },
+        "Russian": {
+          "hits": 0,
+          "count": 2
+        },
+        "Spanish": {
+          "hits": 1,
+          "count": 2
+        }
+      }
+    },
+    {
+      "model": "LFM2.5-350M-Q4_K_M.gguf",
+      "backend": "HTP0",
+      "prompt": "raw",
+      "hits": 10,
+      "count": 20,
+      "median_ms": 262.41463550000003,
+      "empty": 1,
+      "prefix": {
+        "hits": 9,
+        "count": 11
+      },
+      "next_word": {
+        "hits": 1,
+        "count": 9
+      },
+      "lfm_declared_language_subset": {
+        "hits": 8,
+        "count": 13
+      },
+      "languages": {
+        "Arabic": {
+          "hits": 1,
+          "count": 2
+        },
+        "English": {
+          "hits": 3,
+          "count": 3
+        },
+        "French": {
+          "hits": 1,
+          "count": 2
+        },
+        "German": {
+          "hits": 1,
+          "count": 2
+        },
+        "Greek": {
+          "hits": 0,
+          "count": 2
+        },
+        "Italian": {
+          "hits": 1,
+          "count": 3
+        },
+        "Portuguese": {
+          "hits": 1,
+          "count": 2
+        },
+        "Russian": {
+          "hits": 1,
+          "count": 2
+        },
+        "Spanish": {
+          "hits": 1,
+          "count": 2
+        }
+      }
+    },
+    {
+      "model": "LFM2.5-350M-Q8_0.gguf",
+      "backend": "CPU",
+      "prompt": "language_label",
+      "hits": 10,
+      "count": 20,
+      "median_ms": 303.1455465,
+      "empty": 0,
+      "prefix": {
+        "hits": 8,
+        "count": 11
+      },
+      "next_word": {
+        "hits": 2,
+        "count": 9
+      },
+      "lfm_declared_language_subset": {
+        "hits": 8,
+        "count": 13
+      },
+      "languages": {
+        "Arabic": {
+          "hits": 0,
+          "count": 2
+        },
+        "English": {
+          "hits": 3,
+          "count": 3
+        },
+        "French": {
+          "hits": 1,
+          "count": 2
+        },
+        "German": {
+          "hits": 2,
+          "count": 2
+        },
+        "Greek": {
+          "hits": 0,
+          "count": 2
+        },
+        "Italian": {
+          "hits": 1,
+          "count": 3
+        },
+        "Portuguese": {
+          "hits": 1,
+          "count": 2
+        },
+        "Russian": {
+          "hits": 1,
+          "count": 2
+        },
+        "Spanish": {
+          "hits": 1,
+          "count": 2
+        }
+      }
+    },
+    {
+      "model": "LFM2.5-350M-Q8_0.gguf",
+      "backend": "CPU",
+      "prompt": "raw",
+      "hits": 10,
+      "count": 20,
+      "median_ms": 282.9310155,
+      "empty": 1,
+      "prefix": {
+        "hits": 9,
+        "count": 11
+      },
+      "next_word": {
+        "hits": 1,
+        "count": 9
+      },
+      "lfm_declared_language_subset": {
+        "hits": 8,
+        "count": 13
+      },
+      "languages": {
+        "Arabic": {
+          "hits": 1,
+          "count": 2
+        },
+        "English": {
+          "hits": 3,
+          "count": 3
+        },
+        "French": {
+          "hits": 1,
+          "count": 2
+        },
+        "German": {
+          "hits": 1,
+          "count": 2
+        },
+        "Greek": {
+          "hits": 0,
+          "count": 2
+        },
+        "Italian": {
+          "hits": 1,
+          "count": 3
+        },
+        "Portuguese": {
+          "hits": 1,
+          "count": 2
+        },
+        "Russian": {
+          "hits": 1,
+          "count": 2
+        },
+        "Spanish": {
+          "hits": 1,
+          "count": 2
+        }
+      }
+    },
+    {
+      "model": "LFM2.5-350M-Q8_0.gguf",
+      "backend": "HTP0",
+      "prompt": "language_label",
+      "hits": 10,
+      "count": 20,
+      "median_ms": 273.003854,
+      "empty": 0,
+      "prefix": {
+        "hits": 8,
+        "count": 11
+      },
+      "next_word": {
+        "hits": 2,
+        "count": 9
+      },
+      "lfm_declared_language_subset": {
+        "hits": 8,
+        "count": 13
+      },
+      "languages": {
+        "Arabic": {
+          "hits": 0,
+          "count": 2
+        },
+        "English": {
+          "hits": 3,
+          "count": 3
+        },
+        "French": {
+          "hits": 1,
+          "count": 2
+        },
+        "German": {
+          "hits": 2,
+          "count": 2
+        },
+        "Greek": {
+          "hits": 0,
+          "count": 2
+        },
+        "Italian": {
+          "hits": 1,
+          "count": 3
+        },
+        "Portuguese": {
+          "hits": 1,
+          "count": 2
+        },
+        "Russian": {
+          "hits": 1,
+          "count": 2
+        },
+        "Spanish": {
+          "hits": 1,
+          "count": 2
+        }
+      }
+    },
+    {
+      "model": "LFM2.5-350M-Q8_0.gguf",
+      "backend": "HTP0",
+      "prompt": "raw",
+      "hits": 10,
+      "count": 20,
+      "median_ms": 267.7016665,
+      "empty": 1,
+      "prefix": {
+        "hits": 9,
+        "count": 11
+      },
+      "next_word": {
+        "hits": 1,
+        "count": 9
+      },
+      "lfm_declared_language_subset": {
+        "hits": 8,
+        "count": 13
+      },
+      "languages": {
+        "Arabic": {
+          "hits": 1,
+          "count": 2
+        },
+        "English": {
+          "hits": 3,
+          "count": 3
+        },
+        "French": {
+          "hits": 1,
+          "count": 2
+        },
+        "German": {
+          "hits": 1,
+          "count": 2
+        },
+        "Greek": {
+          "hits": 0,
+          "count": 2
+        },
+        "Italian": {
+          "hits": 1,
+          "count": 3
+        },
+        "Portuguese": {
+          "hits": 1,
+          "count": 2
+        },
+        "Russian": {
+          "hits": 1,
+          "count": 2
+        },
+        "Spanish": {
+          "hits": 1,
+          "count": 2
+        }
+      }
+    },
+    {
+      "model": "Qwen3.5-0.8B-Base.Q4_K_M.gguf",
+      "backend": "CPU",
+      "prompt": "language_label",
+      "hits": 17,
+      "count": 20,
+      "median_ms": 423.988203,
+      "empty": 0,
+      "prefix": {
+        "hits": 11,
+        "count": 11
+      },
+      "next_word": {
+        "hits": 6,
+        "count": 9
+      },
+      "lfm_declared_language_subset": {
+        "hits": 10,
+        "count": 13
+      },
+      "languages": {
+        "Arabic": {
+          "hits": 1,
+          "count": 2
+        },
+        "English": {
+          "hits": 3,
+          "count": 3
+        },
+        "French": {
+          "hits": 1,
+          "count": 2
+        },
+        "German": {
+          "hits": 2,
+          "count": 2
+        },
+        "Greek": {
+          "hits": 2,
+          "count": 2
+        },
+        "Italian": {
+          "hits": 3,
+          "count": 3
+        },
+        "Portuguese": {
+          "hits": 2,
+          "count": 2
+        },
+        "Russian": {
+          "hits": 2,
+          "count": 2
+        },
+        "Spanish": {
+          "hits": 1,
+          "count": 2
+        }
+      }
+    },
+    {
+      "model": "Qwen3.5-0.8B-Base.Q4_K_M.gguf",
+      "backend": "CPU",
+      "prompt": "raw",
+      "hits": 13,
+      "count": 20,
+      "median_ms": 331.0548695,
+      "empty": 0,
+      "prefix": {
+        "hits": 11,
+        "count": 11
+      },
+      "next_word": {
+        "hits": 2,
+        "count": 9
+      },
+      "lfm_declared_language_subset": {
+        "hits": 8,
+        "count": 13
+      },
+      "languages": {
+        "Arabic": {
+          "hits": 1,
+          "count": 2
+        },
+        "English": {
+          "hits": 3,
+          "count": 3
+        },
+        "French": {
+          "hits": 1,
+          "count": 2
+        },
+        "German": {
+          "hits": 1,
+          "count": 2
+        },
+        "Greek": {
+          "hits": 2,
+          "count": 2
+        },
+        "Italian": {
+          "hits": 2,
+          "count": 3
+        },
+        "Portuguese": {
+          "hits": 1,
+          "count": 2
+        },
+        "Russian": {
+          "hits": 1,
+          "count": 2
+        },
+        "Spanish": {
+          "hits": 1,
+          "count": 2
+        }
+      }
+    },
+    {
+      "model": "Qwen3.5-0.8B-Base.Q4_K_M.gguf",
+      "backend": "HTP0",
+      "prompt": "language_label",
+      "hits": 17,
+      "count": 20,
+      "median_ms": 313.31192699999997,
+      "empty": 0,
+      "prefix": {
+        "hits": 11,
+        "count": 11
+      },
+      "next_word": {
+        "hits": 6,
+        "count": 9
+      },
+      "lfm_declared_language_subset": {
+        "hits": 10,
+        "count": 13
+      },
+      "languages": {
+        "Arabic": {
+          "hits": 1,
+          "count": 2
+        },
+        "English": {
+          "hits": 3,
+          "count": 3
+        },
+        "French": {
+          "hits": 1,
+          "count": 2
+        },
+        "German": {
+          "hits": 2,
+          "count": 2
+        },
+        "Greek": {
+          "hits": 2,
+          "count": 2
+        },
+        "Italian": {
+          "hits": 3,
+          "count": 3
+        },
+        "Portuguese": {
+          "hits": 2,
+          "count": 2
+        },
+        "Russian": {
+          "hits": 2,
+          "count": 2
+        },
+        "Spanish": {
+          "hits": 1,
+          "count": 2
+        }
+      }
+    },
+    {
+      "model": "Qwen3.5-0.8B-Base.Q4_K_M.gguf",
+      "backend": "HTP0",
+      "prompt": "raw",
+      "hits": 14,
+      "count": 20,
+      "median_ms": 299.9377085,
+      "empty": 0,
+      "prefix": {
+        "hits": 11,
+        "count": 11
+      },
+      "next_word": {
+        "hits": 3,
+        "count": 9
+      },
+      "lfm_declared_language_subset": {
+        "hits": 8,
+        "count": 13
+      },
+      "languages": {
+        "Arabic": {
+          "hits": 1,
+          "count": 2
+        },
+        "English": {
+          "hits": 3,
+          "count": 3
+        },
+        "French": {
+          "hits": 1,
+          "count": 2
+        },
+        "German": {
+          "hits": 1,
+          "count": 2
+        },
+        "Greek": {
+          "hits": 2,
+          "count": 2
+        },
+        "Italian": {
+          "hits": 2,
+          "count": 3
+        },
+        "Portuguese": {
+          "hits": 1,
+          "count": 2
+        },
+        "Russian": {
+          "hits": 2,
+          "count": 2
+        },
+        "Spanish": {
+          "hits": 1,
+          "count": 2
+        }
+      }
+    },
+    {
+      "model": "Qwen3.5-0.8B-Base.Q8_0.gguf",
+      "backend": "CPU",
+      "prompt": "language_label",
+      "hits": 18,
+      "count": 20,
+      "median_ms": 378.42140600000005,
+      "empty": 0,
+      "prefix": {
+        "hits": 11,
+        "count": 11
+      },
+      "next_word": {
+        "hits": 7,
+        "count": 9
+      },
+      "lfm_declared_language_subset": {
+        "hits": 11,
+        "count": 13
+      },
+      "languages": {
+        "Arabic": {
+          "hits": 1,
+          "count": 2
+        },
+        "English": {
+          "hits": 3,
+          "count": 3
+        },
+        "French": {
+          "hits": 2,
+          "count": 2
+        },
+        "German": {
+          "hits": 2,
+          "count": 2
+        },
+        "Greek": {
+          "hits": 2,
+          "count": 2
+        },
+        "Italian": {
+          "hits": 3,
+          "count": 3
+        },
+        "Portuguese": {
+          "hits": 2,
+          "count": 2
+        },
+        "Russian": {
+          "hits": 2,
+          "count": 2
+        },
+        "Spanish": {
+          "hits": 1,
+          "count": 2
+        }
+      }
+    },
+    {
+      "model": "Qwen3.5-0.8B-Base.Q8_0.gguf",
+      "backend": "CPU",
+      "prompt": "raw",
+      "hits": 15,
+      "count": 20,
+      "median_ms": 322.1308595,
+      "empty": 0,
+      "prefix": {
+        "hits": 11,
+        "count": 11
+      },
+      "next_word": {
+        "hits": 4,
+        "count": 9
+      },
+      "lfm_declared_language_subset": {
+        "hits": 9,
+        "count": 13
+      },
+      "languages": {
+        "Arabic": {
+          "hits": 1,
+          "count": 2
+        },
+        "English": {
+          "hits": 3,
+          "count": 3
+        },
+        "French": {
+          "hits": 1,
+          "count": 2
+        },
+        "German": {
+          "hits": 2,
+          "count": 2
+        },
+        "Greek": {
+          "hits": 2,
+          "count": 2
+        },
+        "Italian": {
+          "hits": 2,
+          "count": 3
+        },
+        "Portuguese": {
+          "hits": 1,
+          "count": 2
+        },
+        "Russian": {
+          "hits": 2,
+          "count": 2
+        },
+        "Spanish": {
+          "hits": 1,
+          "count": 2
+        }
+      }
+    },
+    {
+      "model": "Qwen3.5-0.8B-Base.Q8_0.gguf",
+      "backend": "HTP0",
+      "prompt": "language_label",
+      "hits": 18,
+      "count": 20,
+      "median_ms": 311.459583,
+      "empty": 0,
+      "prefix": {
+        "hits": 11,
+        "count": 11
+      },
+      "next_word": {
+        "hits": 7,
+        "count": 9
+      },
+      "lfm_declared_language_subset": {
+        "hits": 11,
+        "count": 13
+      },
+      "languages": {
+        "Arabic": {
+          "hits": 1,
+          "count": 2
+        },
+        "English": {
+          "hits": 3,
+          "count": 3
+        },
+        "French": {
+          "hits": 2,
+          "count": 2
+        },
+        "German": {
+          "hits": 2,
+          "count": 2
+        },
+        "Greek": {
+          "hits": 2,
+          "count": 2
+        },
+        "Italian": {
+          "hits": 3,
+          "count": 3
+        },
+        "Portuguese": {
+          "hits": 2,
+          "count": 2
+        },
+        "Russian": {
+          "hits": 2,
+          "count": 2
+        },
+        "Spanish": {
+          "hits": 1,
+          "count": 2
+        }
+      }
+    },
+    {
+      "model": "Qwen3.5-0.8B-Base.Q8_0.gguf",
+      "backend": "HTP0",
+      "prompt": "raw",
+      "hits": 15,
+      "count": 20,
+      "median_ms": 302.93791699999997,
+      "empty": 0,
+      "prefix": {
+        "hits": 11,
+        "count": 11
+      },
+      "next_word": {
+        "hits": 4,
+        "count": 9
+      },
+      "lfm_declared_language_subset": {
+        "hits": 9,
+        "count": 13
+      },
+      "languages": {
+        "Arabic": {
+          "hits": 1,
+          "count": 2
+        },
+        "English": {
+          "hits": 3,
+          "count": 3
+        },
+        "French": {
+          "hits": 1,
+          "count": 2
+        },
+        "German": {
+          "hits": 2,
+          "count": 2
+        },
+        "Greek": {
+          "hits": 2,
+          "count": 2
+        },
+        "Italian": {
+          "hits": 2,
+          "count": 3
+        },
+        "Portuguese": {
+          "hits": 1,
+          "count": 2
+        },
+        "Russian": {
+          "hits": 2,
+          "count": 2
+        },
+        "Spanish": {
+          "hits": 1,
+          "count": 2
+        }
+      }
+    },
+    {
+      "model": "Qwen3.5-0.8B-Q4_K_M.gguf",
+      "backend": "CPU",
+      "prompt": "language_label",
+      "hits": 15,
+      "count": 20,
+      "median_ms": 413.7299735,
+      "empty": 0,
+      "prefix": {
+        "hits": 11,
+        "count": 11
+      },
+      "next_word": {
+        "hits": 4,
+        "count": 9
+      },
+      "lfm_declared_language_subset": {
+        "hits": 10,
+        "count": 13
+      },
+      "languages": {
+        "Arabic": {
+          "hits": 1,
+          "count": 2
+        },
+        "English": {
+          "hits": 3,
+          "count": 3
+        },
+        "French": {
+          "hits": 1,
+          "count": 2
+        },
+        "German": {
+          "hits": 2,
+          "count": 2
+        },
+        "Greek": {
+          "hits": 1,
+          "count": 2
+        },
+        "Italian": {
+          "hits": 3,
+          "count": 3
+        },
+        "Portuguese": {
+          "hits": 2,
+          "count": 2
+        },
+        "Russian": {
+          "hits": 1,
+          "count": 2
+        },
+        "Spanish": {
+          "hits": 1,
+          "count": 2
+        }
+      }
+    },
+    {
+      "model": "Qwen3.5-0.8B-Q4_K_M.gguf",
+      "backend": "CPU",
+      "prompt": "raw",
+      "hits": 14,
+      "count": 20,
+      "median_ms": 338.6604945,
+      "empty": 0,
+      "prefix": {
+        "hits": 11,
+        "count": 11
+      },
+      "next_word": {
+        "hits": 3,
+        "count": 9
+      },
+      "lfm_declared_language_subset": {
+        "hits": 9,
+        "count": 13
+      },
+      "languages": {
+        "Arabic": {
+          "hits": 1,
+          "count": 2
+        },
+        "English": {
+          "hits": 3,
+          "count": 3
+        },
+        "French": {
+          "hits": 1,
+          "count": 2
+        },
+        "German": {
+          "hits": 2,
+          "count": 2
+        },
+        "Greek": {
+          "hits": 2,
+          "count": 2
+        },
+        "Italian": {
+          "hits": 2,
+          "count": 3
+        },
+        "Portuguese": {
+          "hits": 1,
+          "count": 2
+        },
+        "Russian": {
+          "hits": 1,
+          "count": 2
+        },
+        "Spanish": {
+          "hits": 1,
+          "count": 2
+        }
+      }
+    },
+    {
+      "model": "Qwen3.5-0.8B-Q4_K_M.gguf",
+      "backend": "HTP0",
+      "prompt": "language_label",
+      "hits": 15,
+      "count": 20,
+      "median_ms": 308.476901,
+      "empty": 0,
+      "prefix": {
+        "hits": 11,
+        "count": 11
+      },
+      "next_word": {
+        "hits": 4,
+        "count": 9
+      },
+      "lfm_declared_language_subset": {
+        "hits": 10,
+        "count": 13
+      },
+      "languages": {
+        "Arabic": {
+          "hits": 1,
+          "count": 2
+        },
+        "English": {
+          "hits": 3,
+          "count": 3
+        },
+        "French": {
+          "hits": 1,
+          "count": 2
+        },
+        "German": {
+          "hits": 2,
+          "count": 2
+        },
+        "Greek": {
+          "hits": 1,
+          "count": 2
+        },
+        "Italian": {
+          "hits": 3,
+          "count": 3
+        },
+        "Portuguese": {
+          "hits": 2,
+          "count": 2
+        },
+        "Russian": {
+          "hits": 1,
+          "count": 2
+        },
+        "Spanish": {
+          "hits": 1,
+          "count": 2
+        }
+      }
+    },
+    {
+      "model": "Qwen3.5-0.8B-Q4_K_M.gguf",
+      "backend": "HTP0",
+      "prompt": "raw",
+      "hits": 14,
+      "count": 20,
+      "median_ms": 300.12229149999996,
+      "empty": 0,
+      "prefix": {
+        "hits": 11,
+        "count": 11
+      },
+      "next_word": {
+        "hits": 3,
+        "count": 9
+      },
+      "lfm_declared_language_subset": {
+        "hits": 9,
+        "count": 13
+      },
+      "languages": {
+        "Arabic": {
+          "hits": 1,
+          "count": 2
+        },
+        "English": {
+          "hits": 3,
+          "count": 3
+        },
+        "French": {
+          "hits": 1,
+          "count": 2
+        },
+        "German": {
+          "hits": 2,
+          "count": 2
+        },
+        "Greek": {
+          "hits": 2,
+          "count": 2
+        },
+        "Italian": {
+          "hits": 2,
+          "count": 3
+        },
+        "Portuguese": {
+          "hits": 1,
+          "count": 2
+        },
+        "Russian": {
+          "hits": 1,
+          "count": 2
+        },
+        "Spanish": {
+          "hits": 1,
+          "count": 2
+        }
+      }
+    },
+    {
+      "model": "Qwen3.5-0.8B-Q8_0.gguf",
+      "backend": "CPU",
+      "prompt": "language_label",
+      "hits": 15,
+      "count": 20,
+      "median_ms": 377.41375000000005,
+      "empty": 0,
+      "prefix": {
+        "hits": 11,
+        "count": 11
+      },
+      "next_word": {
+        "hits": 4,
+        "count": 9
+      },
+      "lfm_declared_language_subset": {
+        "hits": 10,
+        "count": 13
+      },
+      "languages": {
+        "Arabic": {
+          "hits": 1,
+          "count": 2
+        },
+        "English": {
+          "hits": 3,
+          "count": 3
+        },
+        "French": {
+          "hits": 1,
+          "count": 2
+        },
+        "German": {
+          "hits": 2,
+          "count": 2
+        },
+        "Greek": {
+          "hits": 1,
+          "count": 2
+        },
+        "Italian": {
+          "hits": 3,
+          "count": 3
+        },
+        "Portuguese": {
+          "hits": 2,
+          "count": 2
+        },
+        "Russian": {
+          "hits": 1,
+          "count": 2
+        },
+        "Spanish": {
+          "hits": 1,
+          "count": 2
+        }
+      }
+    },
+    {
+      "model": "Qwen3.5-0.8B-Q8_0.gguf",
+      "backend": "CPU",
+      "prompt": "raw",
+      "hits": 14,
+      "count": 20,
+      "median_ms": 314.7240885,
+      "empty": 0,
+      "prefix": {
+        "hits": 11,
+        "count": 11
+      },
+      "next_word": {
+        "hits": 3,
+        "count": 9
+      },
+      "lfm_declared_language_subset": {
+        "hits": 9,
+        "count": 13
+      },
+      "languages": {
+        "Arabic": {
+          "hits": 1,
+          "count": 2
+        },
+        "English": {
+          "hits": 3,
+          "count": 3
+        },
+        "French": {
+          "hits": 1,
+          "count": 2
+        },
+        "German": {
+          "hits": 2,
+          "count": 2
+        },
+        "Greek": {
+          "hits": 2,
+          "count": 2
+        },
+        "Italian": {
+          "hits": 2,
+          "count": 3
+        },
+        "Portuguese": {
+          "hits": 1,
+          "count": 2
+        },
+        "Russian": {
+          "hits": 1,
+          "count": 2
+        },
+        "Spanish": {
+          "hits": 1,
+          "count": 2
+        }
+      }
+    },
+    {
+      "model": "Qwen3.5-0.8B-Q8_0.gguf",
+      "backend": "HTP0",
+      "prompt": "language_label",
+      "hits": 15,
+      "count": 20,
+      "median_ms": 322.0627865,
+      "empty": 0,
+      "prefix": {
+        "hits": 11,
+        "count": 11
+      },
+      "next_word": {
+        "hits": 4,
+        "count": 9
+      },
+      "lfm_declared_language_subset": {
+        "hits": 10,
+        "count": 13
+      },
+      "languages": {
+        "Arabic": {
+          "hits": 1,
+          "count": 2
+        },
+        "English": {
+          "hits": 3,
+          "count": 3
+        },
+        "French": {
+          "hits": 1,
+          "count": 2
+        },
+        "German": {
+          "hits": 2,
+          "count": 2
+        },
+        "Greek": {
+          "hits": 1,
+          "count": 2
+        },
+        "Italian": {
+          "hits": 3,
+          "count": 3
+        },
+        "Portuguese": {
+          "hits": 2,
+          "count": 2
+        },
+        "Russian": {
+          "hits": 1,
+          "count": 2
+        },
+        "Spanish": {
+          "hits": 1,
+          "count": 2
+        }
+      }
+    },
+    {
+      "model": "Qwen3.5-0.8B-Q8_0.gguf",
+      "backend": "HTP0",
+      "prompt": "raw",
+      "hits": 14,
+      "count": 20,
+      "median_ms": 305.885156,
+      "empty": 0,
+      "prefix": {
+        "hits": 11,
+        "count": 11
+      },
+      "next_word": {
+        "hits": 3,
+        "count": 9
+      },
+      "lfm_declared_language_subset": {
+        "hits": 9,
+        "count": 13
+      },
+      "languages": {
+        "Arabic": {
+          "hits": 1,
+          "count": 2
+        },
+        "English": {
+          "hits": 3,
+          "count": 3
+        },
+        "French": {
+          "hits": 1,
+          "count": 2
+        },
+        "German": {
+          "hits": 2,
+          "count": 2
+        },
+        "Greek": {
+          "hits": 2,
+          "count": 2
+        },
+        "Italian": {
+          "hits": 2,
+          "count": 3
+        },
+        "Portuguese": {
+          "hits": 1,
+          "count": 2
+        },
+        "Russian": {
+          "hits": 1,
+          "count": 2
+        },
+        "Spanish": {
+          "hits": 1,
+          "count": 2
+        }
+      }
+    }
+  ],
+  "models": [
+    {
+      "model": "LFM2.5-350M-Q4_K_M.gguf",
+      "backend": "CPU",
+      "bytes": 229312224,
+      "load_ms": 243.503333
+    },
+    {
+      "model": "LFM2.5-350M-Q4_K_M.gguf",
+      "backend": "HTP0",
+      "bytes": 229312224,
+      "load_ms": 410.033438
+    },
+    {
+      "model": "LFM2.5-350M-Q8_0.gguf",
+      "backend": "CPU",
+      "bytes": 379217632,
+      "load_ms": 223.20599
+    },
+    {
+      "model": "LFM2.5-350M-Q8_0.gguf",
+      "backend": "HTP0",
+      "bytes": 379217632,
+      "load_ms": 326.205469
+    },
+    {
+      "model": "LFM2.5-350M-Base-Q4_K_M.gguf",
+      "backend": "CPU",
+      "bytes": 229310784,
+      "load_ms": 287.019531
+    },
+    {
+      "model": "LFM2.5-350M-Base-Q4_K_M.gguf",
+      "backend": "HTP0",
+      "bytes": 229310784,
+      "load_ms": 282.751354
+    },
+    {
+      "model": "LFM2.5-350M-Base-Q8_0.gguf",
+      "backend": "CPU",
+      "bytes": 379216192,
+      "load_ms": 170.960417
+    },
+    {
+      "model": "LFM2.5-350M-Base-Q8_0.gguf",
+      "backend": "HTP0",
+      "bytes": 379216192,
+      "load_ms": 336.554375
+    },
+    {
+      "model": "Qwen3.5-0.8B-Q4_K_M.gguf",
+      "backend": "CPU",
+      "bytes": 532517120,
+      "load_ms": 772.97974
+    },
+    {
+      "model": "Qwen3.5-0.8B-Q4_K_M.gguf",
+      "backend": "HTP0",
+      "bytes": 532517120,
+      "load_ms": 1048.912864
+    },
+    {
+      "model": "Qwen3.5-0.8B-Q8_0.gguf",
+      "backend": "CPU",
+      "bytes": 811843840,
+      "load_ms": 1099.312135
+    },
+    {
+      "model": "Qwen3.5-0.8B-Q8_0.gguf",
+      "backend": "HTP0",
+      "bytes": 811843840,
+      "load_ms": 1132.894895
+    },
+    {
+      "model": "Qwen3.5-0.8B-Base.Q4_K_M.gguf",
+      "backend": "CPU",
+      "bytes": 529297536,
+      "load_ms": 1004.348124
+    },
+    {
+      "model": "Qwen3.5-0.8B-Base.Q4_K_M.gguf",
+      "backend": "HTP0",
+      "bytes": 529297536,
+      "load_ms": 1058.190885
+    },
+    {
+      "model": "Qwen3.5-0.8B-Base.Q8_0.gguf",
+      "backend": "CPU",
+      "bytes": 811843712,
+      "load_ms": 1181.843385
+    },
+    {
+      "model": "Qwen3.5-0.8B-Base.Q8_0.gguf",
+      "backend": "HTP0",
+      "bytes": 811843712,
+      "load_ms": 1202.226146
+    }
+  ],
+  "limitations": [
+    "Hand-picked fixtures, including development regressions; not a held-out language benchmark.",
+    "Reference words are not exhaustive; other completions can also be valid.",
+    "Cold prompt evaluation with the same bounded search; model loading and cache reset are excluded from timing.",
+    "Two warmup requests per model/backend; fixtures run once in a fixed order.",
+    "Instruct and base GGUFs use different converters; this does not isolate training changes alone.",
+    "LFM does not list Italian, Russian or Greek among its supported languages."
+  ]
+}

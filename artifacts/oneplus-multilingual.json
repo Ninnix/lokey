@@ -1,0 +1,589 @@
+{
+  "multilingual": {
+    "language_switching": true,
+    "vocabularies": 23,
+    "automatic_model_selection": true,
+    "models": [
+      {
+        "model": "lfm",
+        "trials": [
+          {
+            "text": "Ciao come stai ci vediamo dom",
+            "language": "it",
+            "ms": 168,
+            "fallback_ms": 52,
+            "words": [
+              "domani",
+              "domenica",
+              "domanda"
+            ],
+            "correction": null,
+            "expected": "domani",
+            "top3": true
+          },
+          {
+            "text": "Hola c\u00f3mo est\u00e1s muchas grac",
+            "language": "es",
+            "ms": 371,
+            "fallback_ms": 48,
+            "words": [
+              "gracias",
+              "gracioso",
+              "gracia"
+            ],
+            "correction": null,
+            "expected": "gracias",
+            "top3": true
+          },
+          {
+            "text": "Bonjour comment \u00e7a va merci beau",
+            "language": "fr",
+            "ms": 88,
+            "fallback_ms": 41,
+            "words": [
+              "beaucoup",
+              "beaut\u00e9",
+              "beaux"
+            ],
+            "correction": null,
+            "expected": "beaucoup",
+            "top3": true
+          },
+          {
+            "text": "Hello how are you thank you very mu",
+            "language": "en",
+            "ms": 94,
+            "fallback_ms": 40,
+            "words": [
+              "much",
+              "music",
+              "mum"
+            ],
+            "correction": null,
+            "expected": "much",
+            "top3": true
+          },
+          {
+            "text": "Ciao ci vediamo ",
+            "language": "it",
+            "ms": 189,
+            "fallback_ms": 62,
+            "words": [
+              "che",
+              "in",
+              "quando"
+            ],
+            "correction": null,
+            "expected": "domani",
+            "top3": false
+          },
+          {
+            "text": "Hola muchas ",
+            "language": "es",
+            "ms": 159,
+            "fallback_ms": 59,
+            "words": [
+              "muchas",
+              "gracias",
+              "muchos"
+            ],
+            "correction": null,
+            "expected": "gracias",
+            "top3": true
+          },
+          {
+            "text": "Bonjour merci ",
+            "language": "fr",
+            "ms": 172,
+            "fallback_ms": 58,
+            "words": [
+              "merci",
+              "je",
+              "pour"
+            ],
+            "correction": null,
+            "expected": "beaucoup",
+            "top3": false
+          },
+          {
+            "text": "Thank you very ",
+            "language": "en",
+            "ms": 180,
+            "fallback_ms": 66,
+            "words": [
+              "much",
+              "very",
+              "nice"
+            ],
+            "correction": null,
+            "expected": "much",
+            "top3": true
+          },
+          {
+            "text": "Ciao ci vediamo doma",
+            "language": "it",
+            "ms": 106,
+            "fallback_ms": 43,
+            "words": [
+              "domani",
+              "domanda",
+              "domande"
+            ],
+            "correction": null,
+            "expected": "domani",
+            "top3": true
+          },
+          {
+            "text": "Ciao ci vediamo doman",
+            "language": "it",
+            "ms": 43,
+            "fallback_ms": 43,
+            "words": [
+              "domani",
+              "domanda",
+              "domande"
+            ],
+            "correction": null,
+            "expected": "domani",
+            "top3": true
+          },
+          {
+            "text": "Ciao ci vediamo domnai",
+            "language": "it",
+            "ms": 60,
+            "fallback_ms": 60,
+            "words": [
+              "domani"
+            ],
+            "correction": "domani",
+            "expected": "domani",
+            "top3": true
+          },
+          {
+            "text": "Hola muchas graciass",
+            "language": "es",
+            "ms": 101,
+            "fallback_ms": 49,
+            "words": [
+              "gracias"
+            ],
+            "correction": "gracias",
+            "expected": "gracias",
+            "top3": true
+          },
+          {
+            "text": "Bonjour merci beacoup",
+            "language": "fr",
+            "ms": 101,
+            "fallback_ms": 51,
+            "words": [
+              "beaucoup"
+            ],
+            "correction": "beaucoup",
+            "expected": "beaucoup",
+            "top3": true
+          },
+          {
+            "text": "Hello I will recevie",
+            "language": "en",
+            "ms": 97,
+            "fallback_ms": 48,
+            "words": [
+              "receive"
+            ],
+            "correction": "receive",
+            "expected": "receive",
+            "top3": true
+          }
+        ]
+      },
+      {
+        "model": "qwen",
+        "trials": [
+          {
+            "text": "Ciao come stai ci vediamo dom",
+            "language": "it",
+            "ms": 439,
+            "fallback_ms": 42,
+            "words": [
+              "domani",
+              "domenica",
+              "domattina"
+            ],
+            "correction": null,
+            "expected": "domani",
+            "top3": true
+          },
+          {
+            "text": "Hola c\u00f3mo est\u00e1s muchas grac",
+            "language": "es",
+            "ms": 114,
+            "fallback_ms": 36,
+            "words": [
+              "gracias",
+              "gracia",
+              "grace"
+            ],
+            "correction": null,
+            "expected": "gracias",
+            "top3": true
+          },
+          {
+            "text": "Bonjour comment \u00e7a va merci beau",
+            "language": "fr",
+            "ms": 123,
+            "fallback_ms": 38,
+            "words": [
+              "beaucoup",
+              "beaut\u00e9",
+              "beaux"
+            ],
+            "correction": null,
+            "expected": "beaucoup",
+            "top3": true
+          },
+          {
+            "text": "Hello how are you thank you very mu",
+            "language": "en",
+            "ms": 142,
+            "fallback_ms": 38,
+            "words": [
+              "much",
+              "mummy",
+              "muffled"
+            ],
+            "correction": null,
+            "expected": "much",
+            "top3": true
+          },
+          {
+            "text": "Ciao ci vediamo ",
+            "language": "it",
+            "ms": 189,
+            "fallback_ms": 48,
+            "words": [
+              "domani",
+              "in",
+              "a"
+            ],
+            "correction": null,
+            "expected": "domani",
+            "top3": true
+          },
+          {
+            "text": "Hola muchas ",
+            "language": "es",
+            "ms": 206,
+            "fallback_ms": 53,
+            "words": [
+              "gracias",
+              "de",
+              "buenas"
+            ],
+            "correction": null,
+            "expected": "gracias",
+            "top3": true
+          },
+          {
+            "text": "Bonjour merci ",
+            "language": "fr",
+            "ms": 216,
+            "fallback_ms": 55,
+            "words": [
+              "de",
+              "\u00e0",
+              "beaucoup"
+            ],
+            "correction": null,
+            "expected": "beaucoup",
+            "top3": true
+          },
+          {
+            "text": "Thank you very ",
+            "language": "en",
+            "ms": 222,
+            "fallback_ms": 53,
+            "words": [
+              "much",
+              "very",
+              "well"
+            ],
+            "correction": null,
+            "expected": "much",
+            "top3": true
+          },
+          {
+            "text": "Ciao ci vediamo doma",
+            "language": "it",
+            "ms": 163,
+            "fallback_ms": 37,
+            "words": [
+              "domani",
+              "domattina",
+              "domando"
+            ],
+            "correction": null,
+            "expected": "domani",
+            "top3": true
+          },
+          {
+            "text": "Ciao ci vediamo doman",
+            "language": "it",
+            "ms": 40,
+            "fallback_ms": 39,
+            "words": [
+              "domani",
+              "domando",
+              "domanda"
+            ],
+            "correction": null,
+            "expected": "domani",
+            "top3": true
+          },
+          {
+            "text": "Ciao ci vediamo domnai",
+            "language": "it",
+            "ms": 49,
+            "fallback_ms": 49,
+            "words": [
+              "domani"
+            ],
+            "correction": "domani",
+            "expected": "domani",
+            "top3": true
+          },
+          {
+            "text": "Hola muchas graciass",
+            "language": "es",
+            "ms": 134,
+            "fallback_ms": 49,
+            "words": [
+              "gracias"
+            ],
+            "correction": "gracias",
+            "expected": "gracias",
+            "top3": true
+          },
+          {
+            "text": "Bonjour merci beacoup",
+            "language": "fr",
+            "ms": 141,
+            "fallback_ms": 48,
+            "words": [
+              "beaucoup"
+            ],
+            "correction": "beaucoup",
+            "expected": "beaucoup",
+            "top3": true
+          },
+          {
+            "text": "Hello I will recevie",
+            "language": "en",
+            "ms": 155,
+            "fallback_ms": 49,
+            "words": [
+              "receive"
+            ],
+            "correction": "receive",
+            "expected": "receive",
+            "top3": true
+          }
+        ]
+      },
+      {
+        "model": "onejev",
+        "trials": [
+          {
+            "text": "Ciao come stai ci vediamo dom",
+            "language": "it",
+            "ms": 433,
+            "fallback_ms": 42,
+            "words": [
+              "domani",
+              "domenica",
+              "domanda"
+            ],
+            "correction": null,
+            "expected": "domani",
+            "top3": true
+          },
+          {
+            "text": "Hola c\u00f3mo est\u00e1s muchas grac",
+            "language": "es",
+            "ms": 148,
+            "fallback_ms": 38,
+            "words": [
+              "gracias",
+              "grace",
+              "gracia"
+            ],
+            "correction": null,
+            "expected": "gracias",
+            "top3": true
+          },
+          {
+            "text": "Bonjour comment \u00e7a va merci beau",
+            "language": "fr",
+            "ms": 167,
+            "fallback_ms": 39,
+            "words": [
+              "beaucoup",
+              "beaut\u00e9",
+              "beaux"
+            ],
+            "correction": null,
+            "expected": "beaucoup",
+            "top3": true
+          },
+          {
+            "text": "Hello how are you thank you very mu",
+            "language": "en",
+            "ms": 177,
+            "fallback_ms": 39,
+            "words": [
+              "much",
+              "must",
+              "multiple"
+            ],
+            "correction": null,
+            "expected": "much",
+            "top3": true
+          },
+          {
+            "text": "Ciao ci vediamo ",
+            "language": "it",
+            "ms": 238,
+            "fallback_ms": 46,
+            "words": [
+              "domani",
+              "in",
+              "a"
+            ],
+            "correction": null,
+            "expected": "domani",
+            "top3": true
+          },
+          {
+            "text": "Hola muchas ",
+            "language": "es",
+            "ms": 211,
+            "fallback_ms": 46,
+            "words": [
+              "gracias",
+              "de",
+              "a"
+            ],
+            "correction": null,
+            "expected": "gracias",
+            "top3": true
+          },
+          {
+            "text": "Bonjour merci ",
+            "language": "fr",
+            "ms": 208,
+            "fallback_ms": 45,
+            "words": [
+              "\u00e0",
+              "beaucoup",
+              "pour"
+            ],
+            "correction": null,
+            "expected": "beaucoup",
+            "top3": true
+          },
+          {
+            "text": "Thank you very ",
+            "language": "en",
+            "ms": 218,
+            "fallback_ms": 44,
+            "words": [
+              "well",
+              "much",
+              "good"
+            ],
+            "correction": null,
+            "expected": "much",
+            "top3": true
+          },
+          {
+            "text": "Ciao ci vediamo doma",
+            "language": "it",
+            "ms": 150,
+            "fallback_ms": 39,
+            "words": [
+              "domani",
+              "domanda",
+              "domande"
+            ],
+            "correction": null,
+            "expected": "domani",
+            "top3": true
+          },
+          {
+            "text": "Ciao ci vediamo doman",
+            "language": "it",
+            "ms": 39,
+            "fallback_ms": 39,
+            "words": [
+              "domani",
+              "domanda",
+              "domande"
+            ],
+            "correction": null,
+            "expected": "domani",
+            "top3": true
+          },
+          {
+            "text": "Ciao ci vediamo domnai",
+            "language": "it",
+            "ms": 46,
+            "fallback_ms": 45,
+            "words": [
+              "domani"
+            ],
+            "correction": "domani",
+            "expected": "domani",
+            "top3": true
+          },
+          {
+            "text": "Hola muchas graciass",
+            "language": "es",
+            "ms": 134,
+            "fallback_ms": 46,
+            "words": [
+              "gracias"
+            ],
+            "correction": "gracias",
+            "expected": "gracias",
+            "top3": true
+          },
+          {
+            "text": "Bonjour merci beacoup",
+            "language": "fr",
+            "ms": 135,
+            "fallback_ms": 46,
+            "words": [
+              "beaucoup"
+            ],
+            "correction": "beaucoup",
+            "expected": "beaucoup",
+            "top3": true
+          },
+          {
+            "text": "Hello I will recevie",
+            "language": "en",
+            "ms": 142,
+            "fallback_ms": 44,
+            "words": [
+              "receive"
+            ],
+            "correction": "receive",
+            "expected": "receive",
+            "top3": true
+          }
+        ]
+      }
+    ]
+  },
+  "passed": true
+}

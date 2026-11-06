@@ -1,0 +1,18 @@
+{
+  "pinyin.txt": {
+    "source": "https://github.com/mozillazg/pinyin-data",
+    "sha256": "2342a6f98c85dbc3c8d26aef31744876a36326c6466e51e9a0f16898c36c2011",
+    "license": "MIT"
+  },
+  "phrases.txt": {
+    "source": "https://github.com/mozillazg/phrase-pinyin-data",
+    "sha256": "5d4d86b1337bb2fca95bc5135564a821bfdb40597481ee3e3871bf52d4668622",
+    "license": "MIT"
+  },
+  "frequency.txt": {
+    "source": "https://github.com/fxsjy/jieba",
+    "sha256": "7197c3211ddd98962b036cdf40324d1ea2bfaa12bd028e68faa70111a88e12a8",
+    "license": "MIT"
+  },
+  "entries": 151271
+}

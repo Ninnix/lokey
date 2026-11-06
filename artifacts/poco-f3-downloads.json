@@ -1,0 +1,12 @@
+{
+  "downloads": {
+    "only_red_bundled": true,
+    "switch_download_and_decoding": true,
+    "selection_preserves_views_and_scroll": true,
+    "model_and_switch_progress": true,
+    "notification_progress": true,
+    "continues_across_pages_and_background": true,
+    "partial_retry": true
+  },
+  "passed": true
+}

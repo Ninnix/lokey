@@ -1,0 +1,15 @@
+{
+  "core_sha256": "84d78614b7e9ad3e5c7b3cd4183b7429a4b8688f18baf400766a3539c13d38a4",
+  "serial": "3B165U00WXK00000",
+  "power_mode": "balanced",
+  "models": {
+    "qwen": {
+      "auto": {
+        "backend": "CPU",
+        "load_ms": 1257.575,
+        "warm_english_median_ms": 267.997,
+        "trials": 27
+      }
+    }
+  }
+}

@@ -1,0 +1,131 @@
+{
+  "device": "OnePlus 15 CPH2747",
+  "serial": "3B165U00WXK00000",
+  "installed_apk": "app/build/outputs/apk/debug/app-debug.apk",
+  "models": [
+    {
+      "id": "lfm",
+      "variant": "Instruct",
+      "quantization": "Q4_K_M",
+      "filename": "LFM2.5-350M-Q4_K_M.gguf",
+      "bytes": 229312224
+    },
+    {
+      "id": "qwen",
+      "variant": "Instruct",
+      "quantization": "Q4_K_M",
+      "filename": "Qwen3.5-0.8B-Q4_K_M.gguf",
+      "bytes": 532517120
+    }
+  ],
+  "automatic_text_on_supported_npu": "qwen",
+  "translation": "Original Qwen Instruct prompt, sharing the Qwen text model weights",
+  "kept": [
+    "Probability-ranked complete words with prefix-compatible token paths and word-end scoring",
+    "Immediate prefix filtering of a RAM candidate pool with background refill and stale-result rejection",
+    "RAM attention/recurrent checkpoints with matching token IDs and logits; append reuse, restore or rebuild on edits"
+  ],
+  "removed": [
+    "Base model catalog, credits and download/staging changes",
+    "Experimental translation prompt formats and JNI format parameter",
+    "Temporary Base/Q8 download and model comparison test modes",
+    "Prediction constructor model/backend overrides used by comparison tests",
+    "Experimental Base and Q8 text weights and partial downloads on phone and computer"
+  ],
+  "historical_comparison_reports_retained": true,
+  "passed": true,
+  "checks": {
+    "probability": {
+      "passed": true,
+      "source": "artifacts/oneplus15-instruct-final-probability.json"
+    },
+    "probabilitylanguages": {
+      "passed": true,
+      "source": "artifacts/oneplus15-instruct-final-probabilitylanguages.json"
+    },
+    "multilingual": {
+      "passed": true,
+      "source": "artifacts/oneplus15-instruct-final-multilingual.json"
+    },
+    "completion": {
+      "passed": true,
+      "source": "artifacts/oneplus15-instruct-final-completion.json"
+    },
+    "sentence": {
+      "passed": true,
+      "source": "artifacts/oneplus15-instruct-final-sentence.json"
+    },
+    "correction": {
+      "passed": true,
+      "source": "artifacts/oneplus15-instruct-final-correction.json"
+    },
+    "translation": {
+      "passed": true,
+      "source": "artifacts/oneplus15-instruct-final-translation.json"
+    },
+    "translationui": {
+      "passed": true,
+      "source": "artifacts/oneplus15-instruct-final-translationui.json"
+    },
+    "automatic": {
+      "passed": true,
+      "source": "artifacts/oneplus15-instruct-final-automatic.json"
+    },
+    "modelui": {
+      "passed": true,
+      "source": "artifacts/oneplus15-instruct-final-modelui.json"
+    },
+    "imeflow": {
+      "passed": true,
+      "source": "artifacts/oneplus15-instruct-final-imeflow.json"
+    }
+  },
+  "native_checkpoint_models": [
+    {
+      "model": "LFM2.5-350M-Q4_K_M.gguf",
+      "backend": "CPU",
+      "speculation_isolated": true
+    },
+    {
+      "model": "LFM2.5-350M-Q4_K_M.gguf",
+      "backend": "HTP0",
+      "speculation_isolated": true
+    },
+    {
+      "model": "Qwen3.5-0.8B-Q4_K_M.gguf",
+      "backend": "CPU",
+      "speculation_isolated": true
+    },
+    {
+      "model": "Qwen3.5-0.8B-Q4_K_M.gguf",
+      "backend": "HTP0",
+      "speculation_isolated": true
+    }
+  ],
+  "prefix_cache": [
+    {
+      "prefix": "t",
+      "words": [
+        "tomorrow",
+        "there"
+      ],
+      "ms": 0.984063
+    },
+    {
+      "prefix": "to",
+      "words": [
+        "tomorrow"
+      ],
+      "ms": 0.407291
+    },
+    {
+      "prefix": "tom",
+      "words": [
+        "tomorrow"
+      ],
+      "ms": 0.315937
+    }
+  ],
+  "multilingual_evaluations": 80,
+  "multilingual_results_source": "artifacts/oneplus15-instruct-final-language-summary.json"
+}

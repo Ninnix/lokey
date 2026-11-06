@@ -1,0 +1,162 @@
+[
+  {
+    "profile": "gateron_brown",
+    "source_file": "gateron-brown-down-1.wav",
+    "asset": "app/src/main/assets/switches/gateron_brown/a-down.wav",
+    "bytes": 16478,
+    "sha256": "6f4f95b28a7e18c8dc04635e31d4e6991d987525d6999f6771b30a9cfd3d7dbb"
+  },
+  {
+    "profile": "cherry_brown",
+    "source_file": "cherry-brown-down-1.mp3",
+    "asset": "app/src/main/assets/switches/cherry_brown/a-down.mp3",
+    "bytes": 2506,
+    "sha256": "3ac7a03472bb63ae34f077b7f50d85adf5f1d4f93565c6c6608b23be7eca10ca"
+  },
+  {
+    "profile": "cherry_brown",
+    "source_file": "cherry-brown-down-2.mp3",
+    "asset": "app/src/main/assets/switches/cherry_brown/a-down-1.mp3",
+    "bytes": 2506,
+    "sha256": "9fb249de0ef96cb08602f47b53161338bc90a9d094a9c9b2ca33c513d5ca10a8"
+  },
+  {
+    "profile": "cherry_brown",
+    "source_file": "cherry-brown-down-3.mp3",
+    "asset": "app/src/main/assets/switches/cherry_brown/a-down-2.mp3",
+    "bytes": 2506,
+    "sha256": "227363367cf62d93b73994cde9124956aecd8bf44c63167909c1079ceae37688"
+  },
+  {
+    "profile": "cherry_brown",
+    "source_file": "cherry-brown-up.mp3",
+    "asset": "app/src/main/assets/switches/cherry_brown/a-up.mp3",
+    "bytes": 2088,
+    "sha256": "5aaedc220e66eeda90adf64e519aa11d4ba0e3df9d8579ffb05af47dc0adbaf8"
+  },
+  {
+    "profile": "cherry_blue",
+    "source_file": "cherry-blue-down-1.mp3",
+    "asset": "app/src/main/assets/switches/cherry_blue/a-down.mp3",
+    "bytes": 2088,
+    "sha256": "329a2cb041186579180cfd6c367b4680e82677689788210a96461ee43dc47115"
+  },
+  {
+    "profile": "cherry_blue",
+    "source_file": "cherry-blue-down-2.mp3",
+    "asset": "app/src/main/assets/switches/cherry_blue/a-down-1.mp3",
+    "bytes": 2088,
+    "sha256": "01baccca3a0b9a913063241c0eaade18d8fd6263d507fbfc4fdfa3a5a526389a"
+  },
+  {
+    "profile": "cherry_blue",
+    "source_file": "cherry-blue-down-3.mp3",
+    "asset": "app/src/main/assets/switches/cherry_blue/a-down-2.mp3",
+    "bytes": 2088,
+    "sha256": "9460f5ccd67aa5c01a125c26533fdbbcf1ce064bb049534bd7e306695fa845b4"
+  },
+  {
+    "profile": "cherry_blue",
+    "source_file": "cherry-blue-up.mp3",
+    "asset": "app/src/main/assets/switches/cherry_blue/a-up.mp3",
+    "bytes": 1670,
+    "sha256": "243e8300cbe131678b8b4d1fd44e8aaa884636c6799af67b379408a96a9e5697"
+  },
+  {
+    "profile": "holy_panda",
+    "source_file": "holy-panda-down-1.mp3",
+    "asset": "app/src/main/assets/switches/holy_panda/a-down.mp3",
+    "bytes": 2088,
+    "sha256": "79b2811f3061c406ac9dcf802ae83d68f5fac78f8ed588a515e2550d2fcd05df"
+  },
+  {
+    "profile": "holy_panda",
+    "source_file": "holy-panda-down-2.mp3",
+    "asset": "app/src/main/assets/switches/holy_panda/a-down-1.mp3",
+    "bytes": 2088,
+    "sha256": "cb9aefe55a81c48d6680d2ab8960220c20439e31ba1e32fd570106ed15c7fd40"
+  },
+  {
+    "profile": "holy_panda",
+    "source_file": "holy-panda-down-3.mp3",
+    "asset": "app/src/main/assets/switches/holy_panda/a-down-2.mp3",
+    "bytes": 2088,
+    "sha256": "d346d76ef4c32f09be58556ccce843d7a88199214f9ebfdbf8b95226faf7ba3e"
+  },
+  {
+    "profile": "holy_panda",
+    "source_file": "holy-panda-up.mp3",
+    "asset": "app/src/main/assets/switches/holy_panda/a-up.mp3",
+    "bytes": 2088,
+    "sha256": "9b0859c4ccb2adabdd9e9447aa0684f3ba12f59551aaf1a4d867d458d4ca56b1"
+  },
+  {
+    "profile": "kailh_box_jade",
+    "source_file": "kailh-box-jade-down-1.ogg",
+    "asset": "app/src/main/assets/switches/kailh_box_jade/a-down.ogg",
+    "bytes": 5436,
+    "sha256": "e22c23ced2ed3dcbc65cad6accaaca81a3acc3fa0dfbffa389cb331fc3dde4eb"
+  },
+  {
+    "profile": "razer_green",
+    "source_file": "razer-green-down-1.wav",
+    "asset": "app/src/main/assets/switches/razer_green/a-down.wav",
+    "bytes": 58958,
+    "sha256": "8186a112d6e81bda945c12b7fffe59bb1ccadfe036309086639599304575bd02",
+    "source_sha256": "407def7e5bf7e28aaa3ac09459d5e19e14ca14ecfae57170f6ff69668df411dd",
+    "conversion": "PCM signed 32-bit to PCM signed 16-bit; unchanged rate, channels and frames"
+  },
+  {
+    "profile": "razer_green",
+    "source_file": "razer-green-down-2.wav",
+    "asset": "app/src/main/assets/switches/razer_green/a-down-1.wav",
+    "bytes": 55630,
+    "sha256": "a307d947cbd11a8dba58b4e24dcc9b86171dcc397759dab9e29b7e979c7eddeb",
+    "source_sha256": "2635f94f603db8edb3168fab9eb1a65bccad687da02b1839fbb34efeb53faf96",
+    "conversion": "PCM signed 32-bit to PCM signed 16-bit; unchanged rate, channels and frames"
+  },
+  {
+    "profile": "razer_green",
+    "source_file": "razer-green-down-3.wav",
+    "asset": "app/src/main/assets/switches/razer_green/a-down-2.wav",
+    "bytes": 53838,
+    "sha256": "c188e149617af5a7b70197069cc6b2d96810195bd236138b99f678bfb5191c2b",
+    "source_sha256": "dd8da01ec673428c328be0041c30d6bbe49eb4405227dc2e82cad771b0ac95ce",
+    "conversion": "PCM signed 32-bit to PCM signed 16-bit; unchanged rate, channels and frames"
+  },
+  {
+    "profile": "topre",
+    "source_file": "topre-down-1.mp3",
+    "asset": "app/src/main/assets/switches/topre/a-down.mp3",
+    "bytes": 3342,
+    "sha256": "a61130c11937d615179cdda1dc31497ed64138dae1dc931c331be74a82c62451"
+  },
+  {
+    "profile": "topre",
+    "source_file": "topre-down-2.mp3",
+    "asset": "app/src/main/assets/switches/topre/a-down-1.mp3",
+    "bytes": 3342,
+    "sha256": "7848f347aa76b850095ff03f98e04c325de28d6d30ed24b4451bd4bfcd73ecea"
+  },
+  {
+    "profile": "topre",
+    "source_file": "topre-down-3.mp3",
+    "asset": "app/src/main/assets/switches/topre/a-down-2.mp3",
+    "bytes": 3342,
+    "sha256": "3009e146a2f17e9eb98faf34050cf534bed24be2d2295b69a0cff28e5bc43f77"
+  },
+  {
+    "profile": "topre",
+    "source_file": "topre-down-4.mp3",
+    "asset": "app/src/main/assets/switches/topre/a-down-3.mp3",
+    "bytes": 3342,
+    "sha256": "f5b3b49d4f85c228b4be3fd1cf9c11a7aebee005a127b16d3cbd81dba9bb8003"
+  },
+  {
+    "profile": "topre",
+    "source_file": "topre-up-1.mp3",
+    "asset": "app/src/main/assets/switches/topre/a-up.mp3",
+    "bytes": 2088,
+    "sha256": "0e8030c4e3c32bde47ec4873d30e2700611cea71de0ad9c5f0c48e5200b8a3cd"
+  }
+]

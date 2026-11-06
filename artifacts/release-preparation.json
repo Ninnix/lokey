@@ -1,0 +1,50 @@
+{
+  "date": "2026-11-06",
+  "signed_release": true,
+  "signing_report": "artifacts/release-signing-check.json",
+  "build_tasks": [
+    "assembleDebug",
+    "assembleDebugAndroidTest",
+    "assembleRelease",
+    "bundleRelease",
+    "lintDebug"
+  ],
+  "lint": {
+    "Warning": 111
+  },
+  "device": "OnePlus 15 CPH2747",
+  "device_checks": {
+    "privacy": true,
+    "localization": true,
+    "translation": true,
+    "translationui": true,
+    "automatic": true,
+    "correction": true,
+    "modelui": true,
+    "setup": true,
+    "translationmodels": true,
+    "probability": true
+  },
+  "shared_text_model_for_prediction_correction_translation": true,
+  "lfm_only_translation_tested": true,
+  "translation_cache_model_switch_tested": true,
+  "one_speech_model_for_dictation": true,
+  "privacy_policy": "docs/PRIVACY.md",
+  "data_safety_answers": "docs/DATA-SAFETY.md",
+  "privacy_policy_bundled_offline": true,
+  "license": "MIT",
+  "license_bundled": true,
+  "private_signing_files_ignored": true,
+  "public_policy_url_verified": false,
+  "play_console_submitted": false,
+  "test_notes": [
+    "The initial LFM greeting fixture expected only Bonjour; the final fixture accepts the valid Bonne matinée alternative.",
+    "The first probability run failed a test assertion waiting for an immediate cached t candidate. The unchanged retry passed CPU/Hexagon state checks and t/to/tom prefix reuse.",
+    "Translation fixtures are smoke checks, not a broad quality assessment. LFM can produce fluent but incorrect translations."
+  ],
+  "remaining": [
+    "Back up .local/signing securely.",
+    "Publish the policy URL and enter the prepared disclosures in Play Console.",
+    "Review interface translations with native speakers and run a wider device beta, including 16KB runtime testing."
+  ]
+}

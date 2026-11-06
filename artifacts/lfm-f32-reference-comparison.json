@@ -1,0 +1,383 @@
+{
+  "poco-f3-lfm-quantized-cpu": {
+    "top1": 18,
+    "total": 20,
+    "mean_rmse": 0.26881471589126965,
+    "rows": [
+      {
+        "same": true,
+        "reference_token": 811,
+        "token": 811,
+        "rmse": 0.5769705216622592
+      },
+      {
+        "same": true,
+        "reference_token": 64033,
+        "token": 64033,
+        "rmse": 0.24380580203076313
+      },
+      {
+        "same": true,
+        "reference_token": 7627,
+        "token": 7627,
+        "rmse": 0.4813319767461964
+      },
+      {
+        "same": true,
+        "reference_token": 52572,
+        "token": 52572,
+        "rmse": 0.21447917627255214
+      },
+      {
+        "same": true,
+        "reference_token": 1801,
+        "token": 1801,
+        "rmse": 0.24487349742230158
+      },
+      {
+        "same": true,
+        "reference_token": 52572,
+        "token": 52572,
+        "rmse": 0.1672493198503536
+      },
+      {
+        "same": true,
+        "reference_token": 2130,
+        "token": 2130,
+        "rmse": 0.3932292727083568
+      },
+      {
+        "same": true,
+        "reference_token": 64033,
+        "token": 64033,
+        "rmse": 0.15504644040675605
+      },
+      {
+        "same": true,
+        "reference_token": 1350,
+        "token": 1350,
+        "rmse": 0.27490094282970434
+      },
+      {
+        "same": true,
+        "reference_token": 47672,
+        "token": 47672,
+        "rmse": 0.3653745926522137
+      },
+      {
+        "same": false,
+        "reference_token": 9891,
+        "token": 3705,
+        "rmse": 0.21633346736145195
+      },
+      {
+        "same": false,
+        "reference_token": 52572,
+        "token": 859,
+        "rmse": 0.2437209749858291
+      },
+      {
+        "same": true,
+        "reference_token": 2130,
+        "token": 2130,
+        "rmse": 0.19736987442871293
+      },
+      {
+        "same": true,
+        "reference_token": 52572,
+        "token": 52572,
+        "rmse": 0.18738017462983445
+      },
+      {
+        "same": true,
+        "reference_token": 540,
+        "token": 540,
+        "rmse": 0.3265514462852602
+      },
+      {
+        "same": true,
+        "reference_token": 52572,
+        "token": 52572,
+        "rmse": 0.20976245585465572
+      },
+      {
+        "same": true,
+        "reference_token": 5219,
+        "token": 5219,
+        "rmse": 0.24345185549308332
+      },
+      {
+        "same": true,
+        "reference_token": 52572,
+        "token": 52572,
+        "rmse": 0.21693579677331515
+      },
+      {
+        "same": true,
+        "reference_token": 59657,
+        "token": 59657,
+        "rmse": 0.19229567746099946
+      },
+      {
+        "same": true,
+        "reference_token": 52572,
+        "token": 52572,
+        "rmse": 0.22523105197079377
+      }
+    ]
+  },
+  "oneplus15-lfm-dma32-logits-cpu": {
+    "top1": 18,
+    "total": 20,
+    "mean_rmse": 0.26881471589126965,
+    "rows": [
+      {
+        "same": true,
+        "reference_token": 811,
+        "token": 811,
+        "rmse": 0.5769705216622592
+      },
+      {
+        "same": true,
+        "reference_token": 64033,
+        "token": 64033,
+        "rmse": 0.24380580203076313
+      },
+      {
+        "same": true,
+        "reference_token": 7627,
+        "token": 7627,
+        "rmse": 0.4813319767461964
+      },
+      {
+        "same": true,
+        "reference_token": 52572,
+        "token": 52572,
+        "rmse": 0.21447917627255214
+      },
+      {
+        "same": true,
+        "reference_token": 1801,
+        "token": 1801,
+        "rmse": 0.24487349742230158
+      },
+      {
+        "same": true,
+        "reference_token": 52572,
+        "token": 52572,
+        "rmse": 0.1672493198503536
+      },
+      {
+        "same": true,
+        "reference_token": 2130,
+        "token": 2130,
+        "rmse": 0.3932292727083568
+      },
+      {
+        "same": true,
+        "reference_token": 64033,
+        "token": 64033,
+        "rmse": 0.15504644040675605
+      },
+      {
+        "same": true,
+        "reference_token": 1350,
+        "token": 1350,
+        "rmse": 0.27490094282970434
+      },
+      {
+        "same": true,
+        "reference_token": 47672,
+        "token": 47672,
+        "rmse": 0.3653745926522137
+      },
+      {
+        "same": false,
+        "reference_token": 9891,
+        "token": 3705,
+        "rmse": 0.21633346736145195
+      },
+      {
+        "same": false,
+        "reference_token": 52572,
+        "token": 859,
+        "rmse": 0.2437209749858291
+      },
+      {
+        "same": true,
+        "reference_token": 2130,
+        "token": 2130,
+        "rmse": 0.19736987442871293
+      },
+      {
+        "same": true,
+        "reference_token": 52572,
+        "token": 52572,
+        "rmse": 0.18738017462983445
+      },
+      {
+        "same": true,
+        "reference_token": 540,
+        "token": 540,
+        "rmse": 0.3265514462852602
+      },
+      {
+        "same": true,
+        "reference_token": 52572,
+        "token": 52572,
+        "rmse": 0.20976245585465572
+      },
+      {
+        "same": true,
+        "reference_token": 5219,
+        "token": 5219,
+        "rmse": 0.24345185549308332
+      },
+      {
+        "same": true,
+        "reference_token": 52572,
+        "token": 52572,
+        "rmse": 0.21693579677331515
+      },
+      {
+        "same": true,
+        "reference_token": 59657,
+        "token": 59657,
+        "rmse": 0.19229567746099946
+      },
+      {
+        "same": true,
+        "reference_token": 52572,
+        "token": 52572,
+        "rmse": 0.22523105197079377
+      }
+    ]
+  },
+  "oneplus15-lfm-dma32-logits-htp": {
+    "top1": 17,
+    "total": 20,
+    "mean_rmse": 0.2727659446949996,
+    "rows": [
+      {
+        "same": true,
+        "reference_token": 811,
+        "token": 811,
+        "rmse": 0.6696420631710758
+      },
+      {
+        "same": true,
+        "reference_token": 64033,
+        "token": 64033,
+        "rmse": 0.23204099926153174
+      },
+      {
+        "same": true,
+        "reference_token": 7627,
+        "token": 7627,
+        "rmse": 0.38557557124469516
+      },
+      {
+        "same": true,
+        "reference_token": 52572,
+        "token": 52572,
+        "rmse": 0.20108281202402326
+      },
+      {
+        "same": false,
+        "reference_token": 1801,
+        "token": 12895,
+        "rmse": 0.22312369956846995
+      },
+      {
+        "same": true,
+        "reference_token": 52572,
+        "token": 52572,
+        "rmse": 0.26802866049616525
+      },
+      {
+        "same": true,
+        "reference_token": 2130,
+        "token": 2130,
+        "rmse": 0.2284704143882993
+      },
+      {
+        "same": true,
+        "reference_token": 64033,
+        "token": 64033,
+        "rmse": 0.2609310640549431
+      },
+      {
+        "same": true,
+        "reference_token": 1350,
+        "token": 1350,
+        "rmse": 0.2854533242623137
+      },
+      {
+        "same": false,
+        "reference_token": 47672,
+        "token": 19403,
+        "rmse": 0.3620567122544863
+      },
+      {
+        "same": false,
+        "reference_token": 9891,
+        "token": 3705,
+        "rmse": 0.31792253863160874
+      },
+      {
+        "same": true,
+        "reference_token": 52572,
+        "token": 52572,
+        "rmse": 0.19050992415531096
+      },
+      {
+        "same": true,
+        "reference_token": 2130,
+        "token": 2130,
+        "rmse": 0.18750051620892166
+      },
+      {
+        "same": true,
+        "reference_token": 52572,
+        "token": 52572,
+        "rmse": 0.208657669796022
+      },
+      {
+        "same": true,
+        "reference_token": 540,
+        "token": 540,
+        "rmse": 0.2355250820951691
+      },
+      {
+        "same": true,
+        "reference_token": 52572,
+        "token": 52572,
+        "rmse": 0.19037237196978482
+      },
+      {
+        "same": true,
+        "reference_token": 5219,
+        "token": 5219,
+        "rmse": 0.3342195934138935
+      },
+      {
+        "same": true,
+        "reference_token": 52572,
+        "token": 52572,
+        "rmse": 0.2049499553402766
+      },
+      {
+        "same": true,
+        "reference_token": 59657,
+        "token": 59657,
+        "rmse": 0.23800595536555458
+      },
+      {
+        "same": true,
+        "reference_token": 52572,
+        "token": 52572,
+        "rmse": 0.23124996619744673
+      }
+    ]
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "device": "OnePlus 15 (CPH2747)",
+  "text_test": {
+    "prompts": 7,
+    "passes": 2,
+    "quantization": "Q4_K_M",
+    "threads": 4,
+    "backend": "CPU",
+    "debounce_excluded_ms": 100
+  },
+  "text_models": [
+    {
+      "id": "lfm",
+      "warm_median_ms": 35.7,
+      "warm_min_ms": 19.7,
+      "warm_max_ms": 54.9
+    },
+    {
+      "id": "qwen",
+      "warm_median_ms": 84.4,
+      "warm_min_ms": 46.3,
+      "warm_max_ms": 102.2
+    },
+    {
+      "id": "onejev",
+      "warm_median_ms": 97.5,
+      "warm_min_ms": 48.0,
+      "warm_max_ms": 110.9
+    }
+  ],
+  "speech": {
+    "model": "Parakeet TDT 0.6B v3 Q4_K",
+    "audio_seconds": 11,
+    "transcription_ms": [
+      1919.0,
+      1883.5
+    ],
+    "fixture_transcribed_correctly": true
+  },
+  "default_text_model": "lfm",
+  "limits": [
+    "Short English prompts, not a general model-quality benchmark.",
+    "Speech timing uses a clean recorded sample, not noisy live dictation.",
+    "Word candidates use next-word token logits constrained by the typed prefix.",
+    "Qwen3-ASR is not integrated; dictation uses Parakeet."
+  ]
+}

@@ -1,0 +1,42 @@
+[
+  {
+    "file": "files/models/LFM2.5-350M-Q4_K_M.gguf",
+    "copied": true,
+    "sha256": "7e6f72643caafc9a68256686638c4d7916f2cec76d1df478d4c3ddcd95a6aed4"
+  },
+  {
+    "file": "files/models/Qwen3.5-0.8B-Q4_K_M.gguf",
+    "copied": true,
+    "sha256": "bd258782e35f7f458f8aced1adc053e6e92e89bc735ba3be89d38a06121dc517"
+  },
+  {
+    "file": "files/models/parakeet-tdt-0.6b-v3-q4_k.gguf",
+    "copied": true,
+    "sha256": "addef407ab841eef45739e78920fd8c00e63f78eaa823c490e600e0ab58080a1"
+  },
+  {
+    "file": "files/models/Qwen3-ASR-0.6B-Q8_0.gguf",
+    "copied": true,
+    "sha256": "bca259818b50ca7c4c05e9bdb35a5dc04fa039653a6d6f3f0f331f96f6aa1971"
+  },
+  {
+    "file": "files/models/mmproj-Qwen3-ASR-0.6B-Q8_0.gguf",
+    "copied": true,
+    "sha256": "41a342b5e4c514e968cb756de6cd1b7be39eff43c44c57a2ef5fc6522e36603d"
+  },
+  {
+    "file": "files/jfk.wav",
+    "copied": true,
+    "sha256": "59dfb9a4acb36fe2a2affc14bacbee2920ff435cb13cc314a08c13f66ba7860e"
+  },
+  {
+    "file": "files/asr-zh.wav",
+    "copied": true,
+    "sha256": "46dbc998c9d1d48111267c40741dd3200f2e5bcf4075f8c4c97f4451160dce50"
+  },
+  {
+    "file": "files/asr-en.wav",
+    "copied": true,
+    "sha256": "362b00d8239efb084c01e0d74c83495310682aa883b0b3c15e7e30b969c0feb9"
+  }
+]

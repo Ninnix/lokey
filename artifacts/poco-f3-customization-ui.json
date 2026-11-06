@@ -1,0 +1,4 @@
+{
+  "passed": false,
+  "error": "AssertionError('Missing control: Light keyboard theme')"
+}

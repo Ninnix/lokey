@@ -1,0 +1,13 @@
+{
+  "customizationui": {
+    "global_keys_reset_individual_and_row_colors": true,
+    "global_keys_include_space_and_controls": true,
+    "light_preset_restores_white_keys_and_clears_overrides": true,
+    "preset_save_as_new_apply_delete_and_image_last": true,
+    "color_panels_in_both_appearances": true,
+    "visible_add_remap_secondary_move_drag_and_save": true,
+    "custom_layout_types_into_live_android_editor": true,
+    "layout_delete_restores_automatic": true
+  },
+  "passed": true
+}

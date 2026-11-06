@@ -1,0 +1,11 @@
+{
+  "privacy": {
+    "models_link_opens_policy": true,
+    "setup_link": true,
+    "bundled_policy_offline": true,
+    "contact_and_retention": true,
+    "clickable_contact": true,
+    "download_metadata_disclosed": true
+  },
+  "passed": true
+}

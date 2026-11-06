@@ -1,0 +1,376 @@
+{
+  "layouts": {
+    "keymaps": [
+      {
+        "layout": "intl",
+        "all_letters": true,
+        "one_letter_shift": true
+      },
+      {
+        "layout": "qwerty",
+        "all_letters": true,
+        "one_letter_shift": true
+      },
+      {
+        "layout": "spanish",
+        "all_letters": true,
+        "one_letter_shift": true
+      },
+      {
+        "layout": "portuguese",
+        "all_letters": true,
+        "one_letter_shift": true
+      },
+      {
+        "layout": "turkish",
+        "all_letters": true,
+        "one_letter_shift": true
+      },
+      {
+        "layout": "vietnamese",
+        "all_letters": true,
+        "one_letter_shift": true
+      },
+      {
+        "layout": "azerty",
+        "all_letters": true,
+        "one_letter_shift": true
+      },
+      {
+        "layout": "qwertz",
+        "all_letters": true,
+        "one_letter_shift": true
+      },
+      {
+        "layout": "cyrillic",
+        "all_letters": true,
+        "one_letter_shift": true
+      },
+      {
+        "layout": "ukrainian",
+        "all_letters": true,
+        "one_letter_shift": true
+      },
+      {
+        "layout": "arabic",
+        "all_letters": true,
+        "one_letter_shift": true
+      },
+      {
+        "layout": "persian",
+        "all_letters": true,
+        "one_letter_shift": true
+      },
+      {
+        "layout": "greek",
+        "all_letters": true,
+        "one_letter_shift": true
+      },
+      {
+        "layout": "hindi",
+        "all_letters": true,
+        "one_letter_shift": true
+      },
+      {
+        "layout": "hindi_phonetic",
+        "all_letters": true,
+        "one_letter_shift": true
+      },
+      {
+        "layout": "bolnagri",
+        "all_letters": true,
+        "one_letter_shift": true
+      },
+      {
+        "layout": "korean",
+        "all_letters": true,
+        "one_letter_shift": true
+      },
+      {
+        "layout": "japanese",
+        "all_letters": true,
+        "one_letter_shift": true
+      },
+      {
+        "layout": "pinyin",
+        "all_letters": true,
+        "one_letter_shift": true
+      },
+      {
+        "layout": "jyutping",
+        "all_letters": true,
+        "one_letter_shift": true
+      },
+      {
+        "layout": "cangjie",
+        "all_letters": true,
+        "one_letter_shift": true
+      },
+      {
+        "layout": "sucheng",
+        "all_letters": true,
+        "one_letter_shift": true
+      },
+      {
+        "layout": "thai",
+        "all_letters": true,
+        "one_letter_shift": true
+      }
+    ],
+    "pinyin": [
+      {
+        "input": "nihao",
+        "first": "\u4f60\u597d",
+        "ms": 1087
+      },
+      {
+        "input": "zhongguo",
+        "first": "\u4e2d\u56fd",
+        "ms": 2
+      },
+      {
+        "input": "beijing",
+        "first": "\u5317\u4eac",
+        "ms": 2
+      },
+      {
+        "input": "xiexie",
+        "first": "\u8c22\u8c22",
+        "ms": 3
+      },
+      {
+        "input": "woaini",
+        "first": "\u6211\u7231\u4f60",
+        "ms": 2
+      },
+      {
+        "input": "xi'an",
+        "first": "\u897f\u5b89",
+        "ms": 22
+      }
+    ],
+    "japanese": [
+      {
+        "reading": "\u306b\u307b\u3093",
+        "first": "\u306b\u307b\u3093",
+        "expected_in_candidates": "\u65e5\u672c"
+      },
+      {
+        "reading": "\u308f\u305f\u3057",
+        "first": "\u308f\u305f\u3057",
+        "expected_in_candidates": "\u79c1"
+      },
+      {
+        "reading": "\u3068\u3046\u304d\u3087\u3046",
+        "first": "\u6771\u4eac",
+        "expected_in_candidates": "\u6771\u4eac"
+      }
+    ],
+    "new_input_methods": [
+      {
+        "method": "jyutping",
+        "raw": "neihou",
+        "expected": "\u4f60\u597d",
+        "first": "\u4f60\u597d",
+        "ms": 649
+      },
+      {
+        "method": "jyutping",
+        "raw": "nei5hou2",
+        "expected": "\u4f60\u597d",
+        "first": "\u4f60\u597d",
+        "ms": 3
+      },
+      {
+        "method": "jyutping",
+        "raw": "nei5'hou2",
+        "expected": "\u4f60\u597d",
+        "first": "\u4f60\u597d",
+        "ms": 2
+      },
+      {
+        "method": "jyutping",
+        "raw": "hoenggong",
+        "expected": "\u9999\u6e2f",
+        "first": "\u9999\u6e2f",
+        "ms": 2
+      },
+      {
+        "method": "jyutping",
+        "raw": "mgoi",
+        "expected": "\u5514\u8a72",
+        "first": "\u5514\u8a72",
+        "ms": 1
+      },
+      {
+        "method": "jyutping",
+        "raw": "doze",
+        "expected": "\u591a\u8b1d",
+        "first": "\u591a\u8b1d",
+        "ms": 0
+      },
+      {
+        "method": "jyutping",
+        "raw": "gwongdungwaa",
+        "expected": "\u5ee3\u6771\u8a71",
+        "first": "\u5ee3\u6771\u8a71",
+        "ms": 2
+      },
+      {
+        "method": "jyutping",
+        "raw": "gamjat",
+        "expected": "\u4eca\u65e5",
+        "first": "\u4eca\u65e5",
+        "ms": 1
+      },
+      {
+        "method": "jyutping",
+        "raw": "m",
+        "expected": "\u5514",
+        "first": "\u5514",
+        "ms": 25
+      },
+      {
+        "method": "jyutping",
+        "raw": "fu1",
+        "expected": "\u592b",
+        "first": "\u547c",
+        "ms": 13
+      },
+      {
+        "method": "jyutping",
+        "raw": "fu2",
+        "expected": "\u864e",
+        "first": "\u82e6",
+        "ms": 11
+      },
+      {
+        "method": "cangjie",
+        "raw": "onf",
+        "expected": "\u4f60",
+        "first": "\u4f60",
+        "ms": 283
+      },
+      {
+        "method": "cangjie",
+        "raw": "vnd",
+        "expected": "\u597d",
+        "first": "\u597d",
+        "ms": 1
+      },
+      {
+        "method": "cangjie",
+        "raw": "onfvnd",
+        "expected": "\u4f60\u597d",
+        "first": "\u4f60\u597d",
+        "ms": 0
+      },
+      {
+        "method": "sucheng",
+        "raw": "of",
+        "expected": "\u4f60",
+        "first": "\u4fc2",
+        "ms": 197
+      },
+      {
+        "method": "sucheng",
+        "raw": "vd",
+        "expected": "\u597d",
+        "first": "\u597d",
+        "ms": 1
+      },
+      {
+        "method": "sucheng",
+        "raw": "ofvd",
+        "expected": "\u4f60\u597d",
+        "first": "\u4fc2\u597d",
+        "ms": 1
+      },
+      {
+        "method": "sucheng",
+        "raw": "hu",
+        "expected": "\ud86c\udfee",
+        "first": "\u5148",
+        "ms": 1
+      },
+      {
+        "method": "hindi",
+        "raw": "namaste",
+        "expected": "\u0928\u092e\u0938\u094d\u0924\u0947",
+        "first": "\u0928\u092e\u0938\u094d\u0924\u0947",
+        "ms": 219
+      },
+      {
+        "method": "hindi",
+        "raw": "hindi",
+        "expected": "\u0939\u093f\u0902\u0926\u0940",
+        "first": "\u0939\u093f\u0902\u0926\u0940",
+        "ms": 0
+      },
+      {
+        "method": "hindi",
+        "raw": "dhanyavad",
+        "expected": "\u0927\u0928\u094d\u092f\u0935\u093e\u0926",
+        "first": "\u0927\u0928\u094d\u092f\u0935\u093e\u0926",
+        "ms": 0
+      },
+      {
+        "method": "hindi",
+        "raw": "kripya",
+        "expected": "\u0915\u0943\u092a\u092f\u093e",
+        "first": "\u0915\u0943\u092a\u092f\u093e",
+        "ms": 1
+      },
+      {
+        "method": "hindi",
+        "raw": "mera",
+        "expected": "\u092e\u0947\u0930\u093e",
+        "first": "\u092e\u0947\u0930\u093e",
+        "ms": 0
+      },
+      {
+        "method": "hindi",
+        "raw": "khaa",
+        "expected": "\u0916\u093e",
+        "first": "\u0916\u093e",
+        "ms": 0
+      }
+    ],
+    "composers": {
+      "korean": 5,
+      "japanese": 6,
+      "vietnamese": 8,
+      "hindi_phonetic": 5,
+      "locale_cases": 22,
+      "families": 11,
+      "variants": 23
+    },
+    "accent_typing": [
+      {
+        "language": "German",
+        "key": "u",
+        "typed": "\u00fc",
+        "detected_language_updates_menu": true
+      },
+      {
+        "language": "Romanian",
+        "key": "i",
+        "typed": "\u00ee",
+        "detected_language_updates_menu": true
+      },
+      {
+        "language": "Czech",
+        "key": "r",
+        "typed": "\u0159",
+        "detected_language_updates_menu": true
+      },
+      {
+        "language": "Dutch",
+        "key": "j",
+        "typed": "j\u0301",
+        "detected_language_updates_menu": true
+      }
+    ]
+  },
+  "passed": true
+}

@@ -1,0 +1,32 @@
+{
+  "themes": {
+    "theme_editor_opens": true,
+    "switch_selection_preserves_scroll": true,
+    "toggles_follow_app_accent": true,
+    "feel_settings_grouped": true,
+    "appearance_section_prominent": true,
+    "back_to_feel": true,
+    "horizontal_switch_cards": true,
+    "duplicate_theme_controls_removed": true,
+    "image_slot_starts_with_upload_icon": true,
+    "visual_preset_previews": true,
+    "customize_any_preset": true,
+    "quick_color_swatches": true,
+    "sun_moon_toggles_app": true,
+    "recorded_switch_sound": true,
+    "sound_respects_silent_mode": true,
+    "dark_default_palette": true,
+    "white_orange_preset": true,
+    "active_caps_orange": true,
+    "per_key_color_persists": true,
+    "whole_row_color_persists": true,
+    "tap_key_to_customize": true,
+    "automatic_image_palette": true,
+    "image_import_bounded": true,
+    "image_spans_keycaps": true,
+    "automatic_palette_is_editable": true,
+    "bundled_great_wave": true,
+    "app_and_keyboard_independent": true
+  },
+  "passed": true
+}

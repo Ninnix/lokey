@@ -1,0 +1,4 @@
+{
+  "passed": false,
+  "error": "java.lang.IllegalStateException: Check failed.\n\tat org.lokey.app.KeyboardTest.imeFlowTest$inject(KeyboardTest.kt:472)\n\tat org.lokey.app.KeyboardTest.imeFlowTest$swipe(KeyboardTest.kt:478)\n\tat org.lokey.app.KeyboardTest.imeFlowTest(KeyboardTest.kt:498)\n\tat org.lokey.app.KeyboardTest.onStart(KeyboardTest.kt:31)\n\tat android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:2632)\n"
+}

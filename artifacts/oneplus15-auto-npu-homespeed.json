@@ -1,0 +1,29 @@
+{
+  "homespeed": {
+    "choose_lokey_reflects_system_selection": true,
+    "selected_button_uses_accent": true,
+    "intelligence_and_privacy_header": true,
+    "footer_copy_removed": true,
+    "speed_test_layout_cases": [
+      {
+        "preferred_layout": "pinyin",
+        "speed_layout": "intl",
+        "english_hint": true,
+        "original_layout_restored": true
+      },
+      {
+        "preferred_layout": "persian",
+        "speed_layout": "intl",
+        "english_hint": true,
+        "original_layout_restored": true
+      },
+      {
+        "preferred_layout": "cyrillic",
+        "speed_layout": "intl",
+        "english_hint": true,
+        "original_layout_restored": true
+      }
+    ]
+  },
+  "passed": true
+}

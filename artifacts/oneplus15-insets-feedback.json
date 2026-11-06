@@ -1,0 +1,54 @@
+{
+  "feedback": {
+    "profiles": [
+      {
+        "id": "cherry_red",
+        "decoded_samples": 86,
+        "press_stream": 1
+      },
+      {
+        "id": "gateron_brown",
+        "decoded_samples": 1,
+        "press_stream": 3
+      },
+      {
+        "id": "cherry_brown",
+        "decoded_samples": 4,
+        "press_stream": 4
+      },
+      {
+        "id": "cherry_blue",
+        "decoded_samples": 4,
+        "press_stream": 6
+      },
+      {
+        "id": "holy_panda",
+        "decoded_samples": 4,
+        "press_stream": 8
+      },
+      {
+        "id": "kailh_box_jade",
+        "decoded_samples": 1,
+        "press_stream": 10
+      },
+      {
+        "id": "razer_green",
+        "decoded_samples": 3,
+        "press_stream": 11
+      },
+      {
+        "id": "topre",
+        "decoded_samples": 5,
+        "press_stream": 12
+      }
+    ],
+    "low_tick_tick_click_supported": [
+      false,
+      false,
+      false
+    ],
+    "system_taps": true,
+    "amplitude_control": true
+  },
+  "passed": true
+}

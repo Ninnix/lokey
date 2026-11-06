@@ -1,0 +1,123 @@
+{
+  "layoutui": {
+    "layouts": [
+      {
+        "layout": "qwerty",
+        "typed": "Ciao",
+        "live_input": true
+      },
+      {
+        "layout": "intl",
+        "typed": "É",
+        "live_input": true
+      },
+      {
+        "layout": "spanish",
+        "typed": "Niño",
+        "live_input": true
+      },
+      {
+        "layout": "portuguese",
+        "typed": "Cç",
+        "live_input": true
+      },
+      {
+        "layout": "turkish",
+        "typed": "Iiş",
+        "live_input": true
+      },
+      {
+        "layout": "azerty",
+        "typed": "Aze",
+        "live_input": true
+      },
+      {
+        "layout": "qwertz",
+        "typed": "Qwe",
+        "live_input": true
+      },
+      {
+        "layout": "cyrillic",
+        "typed": "Йцу",
+        "live_input": true
+      },
+      {
+        "layout": "ukrainian",
+        "typed": "Привіт",
+        "live_input": true
+      },
+      {
+        "layout": "arabic",
+        "typed": "ضصث",
+        "live_input": true
+      },
+      {
+        "layout": "persian",
+        "typed": "سلام",
+        "live_input": true
+      },
+      {
+        "layout": "greek",
+        "typed": "Γεια",
+        "live_input": true
+      },
+      {
+        "layout": "hindi",
+        "typed": "नमस्ते",
+        "live_input": true
+      },
+      {
+        "layout": "bolnagri",
+        "typed": "नमस्ते",
+        "live_input": true
+      },
+      {
+        "layout": "hindi_phonetic",
+        "typed": "नमस्ते ",
+        "live_input": true
+      },
+      {
+        "layout": "korean",
+        "typed": "한글",
+        "live_input": true
+      },
+      {
+        "layout": "japanese",
+        "typed": "東京",
+        "live_input": true
+      },
+      {
+        "layout": "pinyin",
+        "typed": "你好",
+        "live_input": true
+      },
+      {
+        "layout": "jyutping",
+        "typed": "你好",
+        "live_input": true
+      },
+      {
+        "layout": "cangjie",
+        "typed": "你好",
+        "live_input": true
+      },
+      {
+        "layout": "sucheng",
+        "typed": "你好",
+        "live_input": true
+      },
+      {
+        "layout": "vietnamese",
+        "typed": "Tiếng",
+        "live_input": true
+      },
+      {
+        "layout": "thai",
+        "typed": "สวัสดี",
+        "live_input": true
+      }
+    ],
+    "pinyin_space_and_selection": true
+  },
+  "passed": true
+}

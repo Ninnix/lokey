@@ -1,0 +1,31 @@
+Cherry MX Red: original per-key ABS-keycap recordings by
+Hai Nguyen / Mechvibes. The bundled WAV files are slices of the original
+recordings, using the project's press/release timing maps, trimmed only
+for leading/trailing silence and attenuated uniformly by 20%.
+https://github.com/hainguyents13/mechvibes/tree/main/soundpacks/keyboard
+MIT license: see MECHVIBES-LICENSE.txt in this directory.
+
+Gateron Brown: bundled original recording.
+Source: WhatPulse mechanical switch sound board, whose credits identify
+this recording as sourced from the Mechvibes community.
+https://whatpulse.org/tools/mechanical-switch-sound-board
+https://whatpulse.org/assets/audio/switches/gateron-brown-down-1.wav
+The source provides a single recorded tap, without separate release samples.
+
+Additional bundled original recordings:
+- Cherry MX Brown and Blue: three press takes and one release each.
+  WhatPulse credits Nathan Fiscaletti's keyboardsounds project, whose
+  recording license credits Thomas Lai / tplai/kbsim (MIT).
+- Holy Panda: three press takes and one release. WhatPulse credits
+  Nathan Fiscaletti's keyboardsounds project.
+- Kailh BOX Jade: one click-bar take, without a separate release.
+  WhatPulse credits the Mechvibes community.
+- Razer Green: three press takes, without separate release recordings.
+  Converted from 32-bit to 16-bit PCM for Android SoundPool compatibility.
+  WhatPulse credits the Mechvibes community.
+- Topre 45g: four press takes and one release. WhatPulse credits tplai/kbsim.
+https://whatpulse.org/tools/mechanical-switch-sound-board
+https://github.com/nathan-fiscaletti/keyboardsounds
+https://github.com/tplai/kbsim
+No recording is substituted or relabeled as Cherry MX Silent Red.
+See KBSIM-LICENSE.txt for the MIT recording license.

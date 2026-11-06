@@ -1,0 +1,17 @@
+{
+  "customization": {
+    "independent_image_copies": true,
+    "palette_row_and_key_round_trip": true,
+    "save_creates_new_preset": true,
+    "built_in_designs_protected": true,
+    "custom_layout_storage_and_reordering": true,
+    "built_in_layouts_protected": true,
+    "empty_keys_rejected": true,
+    "dead_key_rules_preserved": true,
+    "custom_primary_secondary_and_action_input": true,
+    "emoji_flick_preserves_unicode": true,
+    "default_emoji_order": true,
+    "custom_layout_deletion": true
+  },
+  "passed": true
+}

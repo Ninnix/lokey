@@ -1,0 +1,39 @@
+{
+  "comparisonfetch": [
+    [
+      {
+        "source": "https:\/\/huggingface.co\/mradermacher\/Qwen3.5-0.8B-Base-GGUF\/resolve\/d98ffedc21f95bcd34909d356dffa47cffcd0066\/Qwen3.5-0.8B-Base.Q4_K_M.gguf",
+        "bytes": 529297536,
+        "sha256": "99fe51dc14029f8fb69c9c90a8c59ce733488df22a2de09f4e69203bf1e9fd93",
+        "ms": 741
+      },
+      {
+        "source": "https:\/\/huggingface.co\/mradermacher\/Qwen3.5-0.8B-Base-GGUF\/resolve\/d98ffedc21f95bcd34909d356dffa47cffcd0066\/Qwen3.5-0.8B-Base.Q8_0.gguf",
+        "bytes": 811843712,
+        "sha256": "7dabaedd7464a3b7f39ac969c25f8c1f15f7cad2d464929ea2e235c90f4aac42",
+        "ms": 1061
+      }
+    ],
+    [
+      {
+        "source": "https:\/\/huggingface.co\/LiquidAI\/LFM2.5-350M-GGUF\/resolve\/657e078c94084481950a2d555a941481f715536b\/LFM2.5-350M-Q8_0.gguf",
+        "bytes": 379217632,
+        "sha256": "be036a757295e550098b85e13f6af2735d0fa73b41e1156a40c7d8e8e32a5766",
+        "ms": 520
+      },
+      {
+        "source": "https:\/\/huggingface.co\/chartreuse-verte\/LFM2.5-350M-Base-GGUF\/resolve\/b67520d572ab5d7caa2db719e541a3e1221dac73\/LFM2.5-350M-Base-Q4_K_M.gguf",
+        "bytes": 229310784,
+        "sha256": "d258e2676d87fb0ffccdc1ccb94a8a84cf3662d31781ab7d99295735960c90c1",
+        "ms": 308
+      },
+      {
+        "source": "https:\/\/huggingface.co\/chartreuse-verte\/LFM2.5-350M-Base-GGUF\/resolve\/b67520d572ab5d7caa2db719e541a3e1221dac73\/LFM2.5-350M-Base-Q8_0.gguf",
+        "bytes": 379216192,
+        "sha256": "78ac3189003047f26d8c390a8ac1b73a01132beac6ecb42e71931b1552cffdbf",
+        "ms": 435
+      }
+    ]
+  ],
+  "passed": true
+}

@@ -1,0 +1,40 @@
+{
+  "device": "OnePlus 15",
+  "language_scope": "Parakeet v3 or Qwen3 ASR",
+  "supported_languages": 39,
+  "keyboard_families": 11,
+  "keyboard_variants": 18,
+  "main_character_coverage": {
+    "available": 35,
+    "partial": 3,
+    "missing": 1
+  },
+  "common_accent_characters": 75,
+  "removed_characters": [
+    "ō",
+    "ŷ",
+    "ŵ",
+    "ẁ",
+    "ẃ",
+    "ẅ",
+    "ð",
+    "ĝ",
+    "ĥ",
+    "ĵ",
+    "þ"
+  ],
+  "intl_before_accent": true,
+  "build_and_lint": "passed",
+  "checks": {
+    "languagemap": true,
+    "layouts": true,
+    "setup": true,
+    "layoutpicker": true,
+    "interaction": true,
+    "gestures": true,
+    "layoutui": true,
+    "translationui": true,
+    "launch": true
+  },
+  "ui_input_delivery": "Android accessibility actions; guarded direct View events for gesture checks"
+}

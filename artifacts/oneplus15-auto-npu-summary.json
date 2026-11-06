@@ -1,0 +1,81 @@
+{
+  "device": "OnePlus 15 / CPH2747",
+  "date": "2026-11-05",
+  "update_installed": true,
+  "build": {
+    "assembleDebug": true,
+    "assembleDebugAndroidTest": true,
+    "lintDebug": true,
+    "lint_errors": 0
+  },
+  "npu_available": true,
+  "automatic": {
+    "language_source": "Lokey setup language, with device-language fallback",
+    "policy_cases": 39,
+    "ui_language_cases": [
+      "en",
+      "it",
+      "zh",
+      "bg",
+      "uk",
+      "mt"
+    ],
+    "npu_text": "qwen",
+    "npu_speech": "qwen_asr where supported; otherwise parakeet",
+    "parakeet_exceptions": [
+      "bg",
+      "hr",
+      "et",
+      "lv",
+      "lt",
+      "mt",
+      "sk",
+      "sl",
+      "uk"
+    ],
+    "preferences_restored_after_tests": true
+  },
+  "text_fixtures": [
+    {
+      "model": "lfm",
+      "backend": "HTP0",
+      "warm_median_ms": 44.4
+    },
+    {
+      "model": "qwen",
+      "backend": "HTP0",
+      "warm_median_ms": 111.2
+    }
+  ],
+  "speech_fixtures": {
+    "model": "qwen_asr",
+    "backend": "HTP0 encoder + decoder",
+    "jfk_warm_ms": 1354,
+    "fixtures": [
+      "jfk",
+      "jfk",
+      "asr-zh.wav",
+      "asr-en.wav"
+    ],
+    "silence_passed": true
+  },
+  "checks_passed": [
+    "automatic",
+    "models",
+    "speech",
+    "homespeed",
+    "modelui",
+    "setup",
+    "customization"
+  ],
+  "reports": {
+    "automatic": "oneplus15-auto-npu-automatic.json",
+    "models": "oneplus15-auto-npu-models.json",
+    "speech": "oneplus15-auto-npu-speech.json",
+    "homespeed": "oneplus15-auto-npu-homespeed.json",
+    "modelui": "oneplus15-auto-npu-modelui.json",
+    "setup": "oneplus15-auto-npu-setup.json",
+    "customization": "oneplus15-auto-npu-customization.json"
+  },
+  "limits": "Short inference fixtures and model-selection tests; not an accuracy evaluation across all supported languages. CPU recommendations were tested as policy cases, not on a second attached phone."
+}

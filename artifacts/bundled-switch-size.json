@@ -1,0 +1,48 @@
+{
+  "profiles": {
+    "cherry_red": {
+      "files": 86,
+      "raw_bytes": 430644,
+      "apk_bytes": 430644
+    },
+    "cherry_blue": {
+      "files": 4,
+      "raw_bytes": 7934,
+      "apk_bytes": 7934
+    },
+    "cherry_brown": {
+      "files": 4,
+      "raw_bytes": 9606,
+      "apk_bytes": 9606
+    },
+    "gateron_brown": {
+      "files": 1,
+      "raw_bytes": 16478,
+      "apk_bytes": 16478
+    },
+    "holy_panda": {
+      "files": 4,
+      "raw_bytes": 8352,
+      "apk_bytes": 8352
+    },
+    "kailh_box_jade": {
+      "files": 1,
+      "raw_bytes": 5436,
+      "apk_bytes": 5436
+    },
+    "topre": {
+      "files": 5,
+      "raw_bytes": 15456,
+      "apk_bytes": 15456
+    },
+    "razer_green": {
+      "files": 3,
+      "raw_bytes": 168426,
+      "apk_bytes": 168426
+    }
+  },
+  "additional_audio_apk_bytes": 231688,
+  "all_audio_apk_bytes": 662332,
+  "apk_bytes": 24232545,
+  "default": "cherry_red"
+}

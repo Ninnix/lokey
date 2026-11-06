@@ -1,0 +1,26 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <application android:name=".LokeyApp" android:label="Lokey" android:icon="@mipmap/ic_launcher" android:theme="@style/AppTheme"
+        android:localeConfig="@xml/locales_config" android:allowBackup="false" android:dataExtractionRules="@xml/data_extraction" android:supportsRtl="true" android:usesCleartextTraffic="false">
+        <uses-native-library android:name="libcdsprpc.so" android:required="false"/>
+        <activity android:name=".MainActivity" android:exported="true" android:windowSoftInputMode="adjustResize">
+            <intent-filter><action android:name="android.intent.action.MAIN"/><category android:name="android.intent.category.LAUNCHER"/></intent-filter>
+        </activity>
+        <activity android:name=".SetupActivity" android:exported="false"/>
+        <activity android:name=".LanguageActivity" android:exported="false" android:windowSoftInputMode="adjustResize"/>
+        <activity android:name=".LayoutEditorActivity" android:exported="false" android:windowSoftInputMode="adjustResize"/>
+        <activity android:name=".CreditsActivity" android:exported="false"/>
+        <activity android:name=".PrivacyActivity" android:exported="false"/>
+        <service android:name=".DownloadService" android:exported="true" android:permission="android.permission.BIND_JOB_SERVICE"/>
+        <provider android:name=".ScoreProvider" android:authorities="org.lokey.app.scores"
+            android:exported="false" android:grantUriPermissions="true"/>
+        <service android:name=".LokeyService" android:label="Lokey" android:permission="android.permission.BIND_INPUT_METHOD" android:exported="true">
+            <intent-filter><action android:name="android.view.InputMethod"/></intent-filter>
+            <meta-data android:name="android.view.im" android:resource="@xml/input_method"/>
+        </service>
+    </application>
+</manifest>

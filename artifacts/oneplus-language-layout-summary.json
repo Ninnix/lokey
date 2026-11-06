@@ -1,0 +1,78 @@
+{
+  "date": "2026-11-05",
+  "device": "OnePlus 15",
+  "language_scope": "Parakeet v3 or Qwen3 ASR",
+  "supported_languages": 39,
+  "keyboard_families": 11,
+  "keyboard_variants": 23,
+  "main_character_or_conversion_coverage": {
+    "available": 39,
+    "partial": 0,
+    "missing": 0
+  },
+  "common_accent_characters": 75,
+  "removed_characters": [
+    "ō",
+    "ŷ",
+    "ŵ",
+    "ẁ",
+    "ẃ",
+    "ẅ",
+    "ð",
+    "ĝ",
+    "ĥ",
+    "ĵ",
+    "þ"
+  ],
+  "intl_before_accent": true,
+  "hindi_variants": [
+    "InScript",
+    "Roman transliteration",
+    "Bolnagri"
+  ],
+  "cantonese_variants": [
+    "Jyutping",
+    "Cangjie 5",
+    "Sucheng"
+  ],
+  "conversion_fixtures": {
+    "jyutping": {
+      "first_lookup_including_load_ms": 649,
+      "warm_median_fixture_ms": 2.0,
+      "fixtures": 11
+    },
+    "cangjie": {
+      "first_lookup_including_load_ms": 283,
+      "warm_median_fixture_ms": 0.5,
+      "fixtures": 3
+    },
+    "sucheng": {
+      "first_lookup_including_load_ms": 197,
+      "warm_median_fixture_ms": 1,
+      "fixtures": 4
+    },
+    "hindi": {
+      "first_lookup_including_load_ms": 219,
+      "warm_median_fixture_ms": 0,
+      "fixtures": 6
+    }
+  },
+  "hindi_spaces_and_selection": true,
+  "jyutping_optional_tones_and_literal_numbers": true,
+  "sucheng_paging_accepts_visible_candidate": true,
+  "sucheng_rare_exact_candidates_preserved": true,
+  "build_and_lint": "passed",
+  "checks": {
+    "languagemap": true,
+    "layouts": true,
+    "layoutui": true,
+    "setup": true,
+    "layoutpicker": true,
+    "interaction": true,
+    "gestures": true,
+    "cursor": true,
+    "launch": true
+  },
+  "ui_input_delivery": "Android accessibility actions against Lokey; guarded direct View events for gesture checks",
+  "limits": "Character access and input-method checks do not measure native-speaker usability or equal prediction quality. Regional and phone-specific alternatives remain limited."
+}

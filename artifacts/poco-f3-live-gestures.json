@@ -1,0 +1,27 @@
+{
+  "gestures": {
+    "typing": true,
+    "key_gutters": true,
+    "US_alternate": true,
+    "letter_accents": true,
+    "uppercase_accents": true,
+    "three_shift_modes": true,
+    "symbol_page_preserved": true,
+    "space_cursor": true,
+    "space_hold_cursor": true,
+    "enter_tap": true,
+    "enter_hold_voice": true,
+    "recording_lock_stop": true,
+    "recording_lock_cancel": true,
+    "recording_cancel_gestures": true,
+    "recording_rejection": true,
+    "equal_number_keys": true,
+    "punctuation_slide": true,
+    "stationary_punctuation": true,
+    "instant_secondary_flicks": true,
+    "delete_repeat": true,
+    "touch_cancel": true,
+    "adaptive_layout": true
+  },
+  "passed": true
+}

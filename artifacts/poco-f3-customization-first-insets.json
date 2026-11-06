@@ -1,0 +1,4 @@
+{
+  "passed": false,
+  "error": "java.lang.IllegalStateException: Keyboard did not open\n\tat org.lokey.app.InsetsChecks.run(InsetsChecks.kt:83)\n\tat org.lokey.app.KeyboardTest.onStart(KeyboardTest.kt:75)\n\tat android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:2418)\n"
+}

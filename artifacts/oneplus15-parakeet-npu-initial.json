@@ -1,0 +1,18 @@
+{
+  "load_ms": 616.889,
+  "trials": [
+    {
+      "pass": 0,
+      "ms": 1599.844,
+      "fixture": "jfk.wav",
+      "text": "And so, my fellow Americans, ask not what your country can do for you, ask what you can do for your country."
+    },
+    {
+      "pass": 1,
+      "ms": 1649.847,
+      "fixture": "jfk.wav",
+      "text": "And so, my fellow Americans, ask not what your country can do for you, ask what you can do for your country."
+    }
+  ],
+  "invalid_npu_comparison": "Registry name mismatch selected CPU; excluded from NPU results."
+}

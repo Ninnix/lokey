@@ -1,0 +1,261 @@
+{
+  "op_filter": "",
+  "mm_select": "1",
+  "backends": {
+    "cpu": {
+      "backend": "CPU",
+      "cases": [
+        {
+          "prompt": "I am on my way ",
+          "restore_max_error": 0
+        },
+        {
+          "prompt": "Can you send me the ",
+          "restore_max_error": 0
+        },
+        {
+          "prompt": "Thank you for your ",
+          "restore_max_error": 0
+        },
+        {
+          "prompt": "See you ",
+          "restore_max_error": 0
+        },
+        {
+          "prompt": "Good mor",
+          "restore_max_error": 0
+        },
+        {
+          "prompt": "I would like to ",
+          "restore_max_error": 0
+        },
+        {
+          "prompt": "Let me know when you ",
+          "restore_max_error": 0
+        },
+        {
+          "prompt": "Ciao come stai ",
+          "restore_max_error": 0
+        },
+        {
+          "prompt": "Bonjour comment allez vous ",
+          "restore_max_error": 0
+        },
+        {
+          "prompt": "Hola como estas ",
+          "restore_max_error": 0
+        }
+      ]
+    },
+    "htp": {
+      "backend": "HTP0",
+      "cases": [
+        {
+          "prompt": "I am on my way ",
+          "restore_max_error": 0
+        },
+        {
+          "prompt": "Can you send me the ",
+          "restore_max_error": 0
+        },
+        {
+          "prompt": "Thank you for your ",
+          "restore_max_error": 0
+        },
+        {
+          "prompt": "See you ",
+          "restore_max_error": 0
+        },
+        {
+          "prompt": "Good mor",
+          "restore_max_error": 0
+        },
+        {
+          "prompt": "I would like to ",
+          "restore_max_error": 0
+        },
+        {
+          "prompt": "Let me know when you ",
+          "restore_max_error": 0
+        },
+        {
+          "prompt": "Ciao come stai ",
+          "restore_max_error": 0
+        },
+        {
+          "prompt": "Bonjour comment allez vous ",
+          "restore_max_error": 0
+        },
+        {
+          "prompt": "Hola como estas ",
+          "restore_max_error": 0
+        }
+      ]
+    }
+  },
+  "logits": [
+    {
+      "prompt": "I am on my way ",
+      "stage": "prefill",
+      "cosine": 0.9998772341550507,
+      "rmse": 0.8938330389664146,
+      "max_error": 2.779510498046875,
+      "top1_same": true
+    },
+    {
+      "prompt": "I am on my way ",
+      "stage": "restored_decode",
+      "cosine": 0.9922395696903238,
+      "rmse": 0.4043746921225217,
+      "max_error": 1.9953816533088684,
+      "top1_same": true
+    },
+    {
+      "prompt": "Can you send me the ",
+      "stage": "prefill",
+      "cosine": 0.9998320526141655,
+      "rmse": 0.6135024582921161,
+      "max_error": 2.3002357482910156,
+      "top1_same": true
+    },
+    {
+      "prompt": "Can you send me the ",
+      "stage": "restored_decode",
+      "cosine": 0.9854822047351042,
+      "rmse": 0.5730979248607575,
+      "max_error": 2.229001522064209,
+      "top1_same": true
+    },
+    {
+      "prompt": "Thank you for your ",
+      "stage": "prefill",
+      "cosine": 0.9999118996109486,
+      "rmse": 0.2982167091042531,
+      "max_error": 1.7642841339111328,
+      "top1_same": false
+    },
+    {
+      "prompt": "Thank you for your ",
+      "stage": "restored_decode",
+      "cosine": 0.9923622769836667,
+      "rmse": 0.3927952022311933,
+      "max_error": 1.7262444496154785,
+      "top1_same": true
+    },
+    {
+      "prompt": "See you ",
+      "stage": "prefill",
+      "cosine": 0.9997468150264037,
+      "rmse": 0.660233700735012,
+      "max_error": 2.7062835693359375,
+      "top1_same": true
+    },
+    {
+      "prompt": "See you ",
+      "stage": "restored_decode",
+      "cosine": 0.9915026065572501,
+      "rmse": 0.36672532644990324,
+      "max_error": 1.5705386102199554,
+      "top1_same": true
+    },
+    {
+      "prompt": "Good mor",
+      "stage": "prefill",
+      "cosine": 0.9998437532077401,
+      "rmse": 0.529885336868839,
+      "max_error": 1.9466571807861328,
+      "top1_same": true
+    },
+    {
+      "prompt": "Good mor",
+      "stage": "restored_decode",
+      "cosine": 0.9930316895032804,
+      "rmse": 0.3622136416797945,
+      "max_error": 1.7699551582336426,
+      "top1_same": true
+    },
+    {
+      "prompt": "I would like to ",
+      "stage": "prefill",
+      "cosine": 0.9998704301875684,
+      "rmse": 0.5253314308087846,
+      "max_error": 2.0286293029785156,
+      "top1_same": false
+    },
+    {
+      "prompt": "I would like to ",
+      "stage": "restored_decode",
+      "cosine": 0.9944930271531615,
+      "rmse": 0.3196830833047222,
+      "max_error": 1.5422927141189575,
+      "top1_same": false
+    },
+    {
+      "prompt": "Let me know when you ",
+      "stage": "prefill",
+      "cosine": 0.999870860488579,
+      "rmse": 0.3386210308247658,
+      "max_error": 1.7339439392089844,
+      "top1_same": true
+    },
+    {
+      "prompt": "Let me know when you ",
+      "stage": "restored_decode",
+      "cosine": 0.9909503629749806,
+      "rmse": 0.4540996329800863,
+      "max_error": 1.8785632569342852,
+      "top1_same": true
+    },
+    {
+      "prompt": "Ciao come stai ",
+      "stage": "prefill",
+      "cosine": 0.9998830135805975,
+      "rmse": 0.5537888158651056,
+      "max_error": 2.029545783996582,
+      "top1_same": true
+    },
+    {
+      "prompt": "Ciao come stai ",
+      "stage": "restored_decode",
+      "cosine": 0.9947348994250189,
+      "rmse": 0.40789346870361504,
+      "max_error": 1.7839465141296387,
+      "top1_same": true
+    },
+    {
+      "prompt": "Bonjour comment allez vous ",
+      "stage": "prefill",
+      "cosine": 0.9998546357947473,
+      "rmse": 0.38588931259112813,
+      "max_error": 2.217174530029297,
+      "top1_same": true
+    },
+    {
+      "prompt": "Bonjour comment allez vous ",
+      "stage": "restored_decode",
+      "cosine": 0.9914322738664775,
+      "rmse": 0.514099590155636,
+      "max_error": 2.13730525970459,
+      "top1_same": true
+    },
+    {
+      "prompt": "Hola como estas ",
+      "stage": "prefill",
+      "cosine": 0.9999118968476639,
+      "rmse": 0.2980055949380996,
+      "max_error": 1.5211238861083984,
+      "top1_same": true
+    },
+    {
+      "prompt": "Hola como estas ",
+      "stage": "restored_decode",
+      "cosine": 0.9922696332764388,
+      "rmse": 0.45230903332673,
+      "max_error": 2.142106533050537,
+      "top1_same": true
+    }
+  ],
+  "minimum_cosine": 0.9854822047351042,
+  "top1_agreement": 17,
+  "cases": 20
+}

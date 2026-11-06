@@ -1,0 +1,156 @@
+{
+  "models": {
+    "text": [
+      {
+        "id": "lfm",
+        "missing": true
+      },
+      {
+        "id": "qwen",
+        "load_ms": 1871.335468,
+        "trials": [
+          {
+            "pass": 0,
+            "prompt": "I am on my way ",
+            "ms": 485.169947,
+            "suggestions": [
+              "to",
+              "home"
+            ]
+          },
+          {
+            "pass": 0,
+            "prompt": "Can you send me the ",
+            "ms": 474.890781,
+            "suggestions": [
+              "text",
+              "following"
+            ]
+          },
+          {
+            "pass": 0,
+            "prompt": "Thank you for your ",
+            "ms": 501.929375,
+            "suggestions": [
+              "email",
+              "patience",
+              "response"
+            ]
+          },
+          {
+            "pass": 0,
+            "prompt": "See you ",
+            "ms": 371.905573,
+            "suggestions": [
+              "at",
+              "next",
+              "later"
+            ]
+          },
+          {
+            "pass": 0,
+            "prompt": "Good mor",
+            "ms": 207.875416,
+            "suggestions": [
+              "morning"
+            ]
+          },
+          {
+            "pass": 0,
+            "prompt": "I would like to ",
+            "ms": 485.298281,
+            "suggestions": [
+              "know",
+              "ask",
+              "express"
+            ]
+          },
+          {
+            "pass": 0,
+            "prompt": "Let me know when you ",
+            "ms": 350.699427,
+            "suggestions": [
+              "can",
+              "have",
+              "get"
+            ]
+          },
+          {
+            "pass": 1,
+            "prompt": "I am on my way ",
+            "ms": 401.511145,
+            "suggestions": [
+              "to",
+              "home",
+              "down"
+            ]
+          },
+          {
+            "pass": 1,
+            "prompt": "Can you send me the ",
+            "ms": 343.277969,
+            "suggestions": [
+              "text",
+              "following",
+              "English"
+            ]
+          },
+          {
+            "pass": 1,
+            "prompt": "Thank you for your ",
+            "ms": 713.765677,
+            "suggestions": [
+              "email",
+              "patience"
+            ]
+          },
+          {
+            "pass": 1,
+            "prompt": "See you ",
+            "ms": 583.028594,
+            "suggestions": [
+              "at",
+              "next"
+            ]
+          },
+          {
+            "pass": 1,
+            "prompt": "Good mor",
+            "ms": 272.077604,
+            "suggestions": [
+              "morning"
+            ]
+          },
+          {
+            "pass": 1,
+            "prompt": "I would like to ",
+            "ms": 590.789062,
+            "suggestions": [
+              "know",
+              "ask"
+            ]
+          },
+          {
+            "pass": 1,
+            "prompt": "Let me know when you ",
+            "ms": 603.565573,
+            "suggestions": [
+              "can",
+              "have",
+              "get"
+            ]
+          }
+        ],
+        "whole_word_scores": [
+          -6.2123976,
+          -20.59199
+        ]
+      },
+      {
+        "id": "onejev",
+        "missing": true
+      }
+    ]
+  },
+  "passed": true
+}

@@ -1,0 +1,270 @@
+{
+  "size": "Physical size: 1080x2400",
+  "density": "Physical density: 440",
+  "nodes": [
+    {
+      "label": "Back to Feel",
+      "class": "android.view.View",
+      "package": "org.lokey.app",
+      "bounds": [
+        66,
+        118,
+        176,
+        228
+      ]
+    },
+    {
+      "label": "Appearance",
+      "class": "android.widget.TextView",
+      "package": "org.lokey.app",
+      "bounds": [
+        198,
+        135,
+        893,
+        210
+      ]
+    },
+    {
+      "label": "Switch to light theme",
+      "class": "android.view.View",
+      "package": "org.lokey.app",
+      "bounds": [
+        893,
+        118,
+        1014,
+        228
+      ]
+    },
+    {
+      "label": "Make it yours.",
+      "class": "android.widget.TextView",
+      "package": "org.lokey.app",
+      "bounds": [
+        66,
+        310,
+        1014,
+        411
+      ]
+    },
+    {
+      "label": "Customize your keyboard’s theme, colors, and keycaps.",
+      "class": "android.widget.TextView",
+      "package": "org.lokey.app",
+      "bounds": [
+        66,
+        433,
+        1014,
+        480
+      ]
+    },
+    {
+      "label": "Keyboard themes",
+      "class": "android.widget.TextView",
+      "package": "org.lokey.app",
+      "bounds": [
+        104,
+        581,
+        976,
+        668
+      ]
+    },
+    {
+      "label": "Choose a starting point, then edit its colors below.",
+      "class": "android.widget.TextView",
+      "package": "org.lokey.app",
+      "bounds": [
+        104,
+        668,
+        976,
+        735
+      ]
+    },
+    {
+      "label": "Dark keyboard theme",
+      "class": "android.widget.LinearLayout",
+      "package": "org.lokey.app",
+      "bounds": [
+        104,
+        751,
+        524,
+        1174
+      ]
+    },
+    {
+      "label": "Dark ●",
+      "class": "android.widget.TextView",
+      "package": "org.lokey.app",
+      "bounds": [
+        120,
+        1087,
+        508,
+        1158
+      ]
+    },
+    {
+      "label": "Light keyboard theme",
+      "class": "android.widget.LinearLayout",
+      "package": "org.lokey.app",
+      "bounds": [
+        540,
+        751,
+        960,
+        1174
+      ]
+    },
+    {
+      "label": "Light",
+      "class": "android.widget.TextView",
+      "package": "org.lokey.app",
+      "bounds": [
+        556,
+        1087,
+        944,
+        1158
+      ]
+    },
+    {
+      "label": "Great Wave keyboard theme",
+      "class": "android.widget.LinearLayout",
+      "package": "org.lokey.app",
+      "bounds": [
+        104,
+        1206,
+        524,
+        1629
+      ]
+    },
+    {
+      "label": "Great Wave",
+      "class": "android.widget.TextView",
+      "package": "org.lokey.app",
+      "bounds": [
+        120,
+        1542,
+        508,
+        1613
+      ]
+    },
+    {
+      "label": "Your image keyboard theme",
+      "class": "android.widget.LinearLayout",
+      "package": "org.lokey.app",
+      "bounds": [
+        540,
+        1206,
+        960,
+        1630
+      ]
+    },
+    {
+      "label": "Upload your image",
+      "class": "android.view.View",
+      "package": "org.lokey.app",
+      "bounds": [
+        556,
+        1222,
+        944,
+        1543
+      ]
+    },
+    {
+      "label": "Your image",
+      "class": "android.widget.TextView",
+      "package": "org.lokey.app",
+      "bounds": [
+        556,
+        1543,
+        944,
+        1614
+      ]
+    },
+    {
+      "label": "Your palette",
+      "class": "android.widget.TextView",
+      "package": "org.lokey.app",
+      "bounds": [
+        104,
+        1745,
+        976,
+        1832
+      ]
+    },
+    {
+      "label": "Background, keys, and accent.",
+      "class": "android.widget.TextView",
+      "package": "org.lokey.app",
+      "bounds": [
+        104,
+        1832,
+        976,
+        1899
+      ]
+    },
+    {
+      "label": "Background",
+      "class": "android.widget.TextView",
+      "package": "org.lokey.app",
+      "bounds": [
+        104,
+        1915,
+        976,
+        2036
+      ]
+    },
+    {
+      "label": "Keys",
+      "class": "android.widget.TextView",
+      "package": "org.lokey.app",
+      "bounds": [
+        104,
+        2052,
+        976,
+        2169
+      ]
+    },
+    {
+      "label": "Keyboard",
+      "class": "android.widget.TextView",
+      "package": "org.lokey.app",
+      "bounds": [
+        33,
+        2191,
+        286,
+        2276
+      ]
+    },
+    {
+      "label": "Feel",
+      "class": "android.widget.TextView",
+      "package": "org.lokey.app",
+      "bounds": [
+        286,
+        2191,
+        539,
+        2276
+      ]
+    },
+    {
+      "label": "Models",
+      "class": "android.widget.TextView",
+      "package": "org.lokey.app",
+      "bounds": [
+        539,
+        2191,
+        793,
+        2276
+      ]
+    },
+    {
+      "label": "Try it",
+      "class": "android.widget.TextView",
+      "package": "org.lokey.app",
+      "bounds": [
+        793,
+        2191,
+        1047,
+        2276
+      ]
+    }
+  ]
+}

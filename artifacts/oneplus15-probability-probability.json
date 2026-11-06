@@ -1,0 +1,456 @@
+{
+  "probability": {
+    "native": [
+      {
+        "model": "LFM2.5-350M-Q4_K_M.gguf",
+        "backend": "CPU",
+        "reuse": [
+          {
+            "context": "I will meet you at the station",
+            "reused_ms": 27.035052,
+            "cold_ms": 117.689166,
+            "max_logprob_error": 0,
+            "max_probability_error": 0
+          },
+          {
+            "context": "I will meet you",
+            "reused_ms": 0.163958,
+            "cold_ms": 87.50125,
+            "max_logprob_error": 0,
+            "max_probability_error": 0
+          },
+          {
+            "context": "I will meet you today",
+            "reused_ms": 15.846094,
+            "cold_ms": 97.303177,
+            "max_logprob_error": 0,
+            "max_probability_error": 0
+          },
+          {
+            "context": "The evening was wondrous",
+            "reused_ms": 100.340209,
+            "cold_ms": 98.591458,
+            "max_logprob_error": 0,
+            "max_probability_error": 0
+          },
+          {
+            "context": "I will",
+            "reused_ms": 67.634479,
+            "cold_ms": 67.15875,
+            "max_logprob_error": 0,
+            "max_probability_error": 0
+          },
+          {
+            "context": "A different field starts here",
+            "reused_ms": 97.274323,
+            "cold_ms": 99.886979,
+            "max_logprob_error": 0,
+            "max_probability_error": 0
+          }
+        ],
+        "pool": [
+          "see",
+          "in",
+          "when",
+          "soon",
+          "yourself",
+          "tomorrow",
+          "at",
+          "later",
+          "seeseeseeseesee"
+        ],
+        "pool_ms": 256.205885,
+        "prefixes": [],
+        "speculation_isolated": true
+      },
+      {
+        "model": "LFM2.5-350M-Q4_K_M.gguf",
+        "backend": "HTP0",
+        "reuse": [
+          {
+            "context": "I will meet you at the station",
+            "reused_ms": 12.403542,
+            "cold_ms": 16.347604,
+            "max_logprob_error": 0.34727764,
+            "max_probability_error": 0.0017536306
+          },
+          {
+            "context": "I will meet you",
+            "reused_ms": 0.264062,
+            "cold_ms": 15.709739,
+            "max_logprob_error": 0,
+            "max_probability_error": 0
+          },
+          {
+            "context": "I will meet you today",
+            "reused_ms": 10.041042,
+            "cold_ms": 16.415573,
+            "max_logprob_error": 0.08380127,
+            "max_probability_error": 0.010975793
+          },
+          {
+            "context": "The evening was wondrous",
+            "reused_ms": 15.675834,
+            "cold_ms": 13.226354,
+            "max_logprob_error": 0,
+            "max_probability_error": 0
+          },
+          {
+            "context": "I will",
+            "reused_ms": 15.183958,
+            "cold_ms": 13.121458,
+            "max_logprob_error": 0,
+            "max_probability_error": 0
+          },
+          {
+            "context": "A different field starts here",
+            "reused_ms": 13.354739,
+            "cold_ms": 13.415052,
+            "max_logprob_error": 0,
+            "max_probability_error": 0
+          }
+        ],
+        "pool": [
+          "see",
+          "in",
+          "when",
+          "soon",
+          "yourself",
+          "tomorrow",
+          "seeseeseeseesee",
+          "later",
+          "me"
+        ],
+        "pool_ms": 253.274219,
+        "prefixes": [],
+        "speculation_isolated": true
+      },
+      {
+        "model": "Qwen3.5-0.8B-Q4_K_M.gguf",
+        "backend": "CPU",
+        "reuse": [
+          {
+            "context": "I will meet you at the station",
+            "reused_ms": 75.638906,
+            "cold_ms": 246.376771,
+            "max_logprob_error": 0,
+            "max_probability_error": 0
+          },
+          {
+            "context": "I will meet you",
+            "reused_ms": 1.685261,
+            "cold_ms": 184.618646,
+            "max_logprob_error": 0,
+            "max_probability_error": 0
+          },
+          {
+            "context": "I will meet you today",
+            "reused_ms": 41.363646,
+            "cold_ms": 204.781823,
+            "max_logprob_error": 0,
+            "max_probability_error": 0
+          },
+          {
+            "context": "The evening was wondrous",
+            "reused_ms": 210.401094,
+            "cold_ms": 207.24901,
+            "max_logprob_error": 0,
+            "max_probability_error": 0
+          },
+          {
+            "context": "I will",
+            "reused_ms": 144.647135,
+            "cold_ms": 149.431771,
+            "max_logprob_error": 0,
+            "max_probability_error": 0
+          },
+          {
+            "context": "A different field starts here",
+            "reused_ms": 204.053021,
+            "cold_ms": 205.704375,
+            "max_logprob_error": 0,
+            "max_probability_error": 0
+          }
+        ],
+        "pool": [
+          "at",
+          "next",
+          "later",
+          "in",
+          "again",
+          "soon"
+        ],
+        "pool_ms": 272.080729,
+        "prefixes": [
+          {
+            "prefix": "azzu",
+            "words": [
+              "azzurra",
+              "azzurro"
+            ]
+          },
+          {
+            "prefix": "azzur",
+            "words": [
+              "azzurra",
+              "azzurro"
+            ]
+          }
+        ],
+        "speculation_isolated": true
+      },
+      {
+        "model": "Qwen3.5-0.8B-Q4_K_M.gguf",
+        "backend": "HTP0",
+        "reuse": [
+          {
+            "context": "I will meet you at the station",
+            "reused_ms": 49.418229,
+            "cold_ms": 46.557708,
+            "max_logprob_error": 0.10721016,
+            "max_probability_error": 0.021855295
+          },
+          {
+            "context": "I will meet you",
+            "reused_ms": 2.86724,
+            "cold_ms": 46.295312,
+            "max_logprob_error": 0,
+            "max_probability_error": 0
+          },
+          {
+            "context": "I will meet you today",
+            "reused_ms": 32.187396,
+            "cold_ms": 46.918802,
+            "max_logprob_error": 0.098882675,
+            "max_probability_error": 0.0061492026
+          },
+          {
+            "context": "The evening was wondrous",
+            "reused_ms": 41.373541,
+            "cold_ms": 44.987083,
+            "max_logprob_error": 0,
+            "max_probability_error": 0
+          },
+          {
+            "context": "I will",
+            "reused_ms": 44.91875,
+            "cold_ms": 39.987396,
+            "max_logprob_error": 0.21486187,
+            "max_probability_error": 0.00036606763
+          },
+          {
+            "context": "A different field starts here",
+            "reused_ms": 42.06776,
+            "cold_ms": 41.848177,
+            "max_logprob_error": 0,
+            "max_probability_error": 0
+          }
+        ],
+        "pool": [
+          "at",
+          "next",
+          "in",
+          "later",
+          "again",
+          "on",
+          "tomorrow"
+        ],
+        "pool_ms": 273.413021,
+        "prefixes": [
+          {
+            "prefix": "azzu",
+            "words": [
+              "azzurra",
+              "azzurro"
+            ]
+          },
+          {
+            "prefix": "azzur",
+            "words": [
+              "azzurra",
+              "azzurro"
+            ]
+          }
+        ],
+        "speculation_isolated": true
+      },
+      {
+        "model": "Qwen3.5-0.8B-Q8_0.gguf",
+        "backend": "CPU",
+        "reuse": [
+          {
+            "context": "I will meet you at the station",
+            "reused_ms": 49.00552,
+            "cold_ms": 183.801511,
+            "max_logprob_error": 0,
+            "max_probability_error": 0
+          },
+          {
+            "context": "I will meet you",
+            "reused_ms": 1.293073,
+            "cold_ms": 142.158073,
+            "max_logprob_error": 0,
+            "max_probability_error": 0
+          },
+          {
+            "context": "I will meet you today",
+            "reused_ms": 32.377343,
+            "cold_ms": 154.82651,
+            "max_logprob_error": 0,
+            "max_probability_error": 0
+          },
+          {
+            "context": "The evening was wondrous",
+            "reused_ms": 156.643333,
+            "cold_ms": 155.455104,
+            "max_logprob_error": 0,
+            "max_probability_error": 0
+          },
+          {
+            "context": "I will",
+            "reused_ms": 111.783594,
+            "cold_ms": 111.009687,
+            "max_logprob_error": 0,
+            "max_probability_error": 0
+          },
+          {
+            "context": "A different field starts here",
+            "reused_ms": 159.539791,
+            "cold_ms": 155.132761,
+            "max_logprob_error": 0,
+            "max_probability_error": 0
+          }
+        ],
+        "pool": [
+          "at",
+          "in",
+          "next",
+          "later",
+          "again",
+          "on",
+          "soon"
+        ],
+        "pool_ms": 248.978385,
+        "prefixes": [
+          {
+            "prefix": "azzu",
+            "words": [
+              "azzurra",
+              "azzurro"
+            ]
+          },
+          {
+            "prefix": "azzur",
+            "words": [
+              "azzurra",
+              "azzurro"
+            ]
+          }
+        ],
+        "speculation_isolated": true
+      },
+      {
+        "model": "Qwen3.5-0.8B-Q8_0.gguf",
+        "backend": "HTP0",
+        "reuse": [
+          {
+            "context": "I will meet you at the station",
+            "reused_ms": 42.441875,
+            "cold_ms": 44.574427,
+            "max_logprob_error": 0.114305496,
+            "max_probability_error": 0.0044947416
+          },
+          {
+            "context": "I will meet you",
+            "reused_ms": 1.971406,
+            "cold_ms": 43.623958,
+            "max_logprob_error": 0,
+            "max_probability_error": 0
+          },
+          {
+            "context": "I will meet you today",
+            "reused_ms": 33.441354,
+            "cold_ms": 44.001042,
+            "max_logprob_error": 0.08137131,
+            "max_probability_error": 0.0022520572
+          },
+          {
+            "context": "The evening was wondrous",
+            "reused_ms": 43.244635,
+            "cold_ms": 43.296927,
+            "max_logprob_error": 0,
+            "max_probability_error": 0
+          },
+          {
+            "context": "I will",
+            "reused_ms": 41.368073,
+            "cold_ms": 39.109792,
+            "max_logprob_error": 0.17998695,
+            "max_probability_error": 0.0001434196
+          },
+          {
+            "context": "A different field starts here",
+            "reused_ms": 42.132031,
+            "cold_ms": 41.882708,
+            "max_logprob_error": 0,
+            "max_probability_error": 0
+          }
+        ],
+        "pool": [
+          "at",
+          "in",
+          "next",
+          "later",
+          "again",
+          "on",
+          "tomorrow"
+        ],
+        "pool_ms": 244.95375,
+        "prefixes": [
+          {
+            "prefix": "azzu",
+            "words": [
+              "azzurra",
+              "azzurro"
+            ]
+          },
+          {
+            "prefix": "azzur",
+            "words": [
+              "azzurra",
+              "azzurro"
+            ]
+          }
+        ],
+        "speculation_isolated": true
+      }
+    ],
+    "cache": [
+      {
+        "prefix": "t",
+        "words": [
+          "tomorrow"
+        ],
+        "ms": 1.492032
+      },
+      {
+        "prefix": "to",
+        "words": [
+          "tomorrow"
+        ],
+        "ms": 0.621979
+      },
+      {
+        "prefix": "tom",
+        "words": [
+          "tomorrow"
+        ],
+        "ms": 0.512969
+      }
+    ],
+    "sliding_editor_window_cached": true,
+    "stale_results_discarded": true,
+    "session_cache_cleared": true
+  },
+  "passed": true
+}

@@ -1,0 +1,107 @@
+{
+  "date": "2026-11-06",
+  "recommendation": "Closed beta after release signing and store preparation; complete the remaining reviews before public release.",
+  "public_release_ready": false,
+  "device": "OnePlus 15 (CPH2747)",
+  "localization": {
+    "languages": 39,
+    "locale_variants": 40,
+    "strings_per_locale": 519,
+    "android_resource_checks_passed": true,
+    "visible_ui_pages": 27,
+    "visible_ui_locales": [
+      "ar",
+      "de",
+      "en",
+      "fa",
+      "fil",
+      "id",
+      "it",
+      "ja",
+      "yue"
+    ],
+    "follows_android_system_language": true,
+    "native_speaker_review_complete": false
+  },
+  "device_checks": {
+    "localization": true,
+    "themes": true,
+    "customizationui": true,
+    "interaction": true,
+    "speed": true,
+    "correction": true,
+    "translation": true,
+    "translationui": true,
+    "automatic": true,
+    "modelui": true,
+    "imeflow": true,
+    "setup": true
+  },
+  "test_notes": [
+    "The first imeflow attempt timed out waiting for the keyboard accessibility node; the isolated retry passed without an application change."
+  ],
+  "build": {
+    "passed": true,
+    "tasks": [
+      "assembleDebug",
+      "assembleDebugAndroidTest",
+      "lintDebug",
+      "bundleRelease"
+    ],
+    "lint": {
+      "Warning": 111
+    },
+    "log": ".local/localization/final-build.log"
+  },
+  "release_bundle": {
+    "bundle": "app/build/outputs/bundle/release/app-release.aab",
+    "bytes": 20862288,
+    "signatures": [
+      "META-INF/LOKEY-UP.RSA"
+    ],
+    "signed": true,
+    "libraries": [
+      {
+        "library": "base/lib/arm64-v8a/libggml-htp-v81.so",
+        "machine": 164,
+        "bytes": 997568,
+        "android_library": false
+      },
+      {
+        "library": "base/lib/arm64-v8a/liblokey.so",
+        "machine": 183,
+        "bytes": 8670000,
+        "android_library": true,
+        "load_segments": [
+          {
+            "alignment": 16384,
+            "compatible_16kb": true
+          },
+          {
+            "alignment": 16384,
+            "compatible_16kb": true
+          },
+          {
+            "alignment": 16384,
+            "compatible_16kb": true
+          }
+        ],
+        "compatible_16kb": true
+      }
+    ],
+    "arm64_elf_16kb_compatible": true,
+    "device_page_size": 4096,
+    "runtime_tested_on_16kb_device": false
+  },
+  "restored_phone_settings": {
+    "app_locale": "system default",
+    "stay_on_while_plugged_in": 0
+  },
+  "remaining": [
+    "Back up .local/signing securely.",
+    "Publish the policy URL and enter the prepared disclosures in Play Console.",
+    "Review interface translations with native speakers and run a wider device beta, including 16KB runtime testing."
+  ],
+  "signed_release_verified": true,
+  "release_preparation_report": "artifacts/release-preparation.json"
+}

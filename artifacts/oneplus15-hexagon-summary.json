@@ -1,0 +1,80 @@
+{
+  "device": "OnePlus 15 / CPH2747 / SM8850 / Android 16",
+  "runtimes": {
+    "loina-core": {
+      "url": "https://github.com/Loina-AI/loina-core",
+      "revision": "6f490499a881038fb48b381c1c652c27a2c303aa"
+    },
+    "llama.cpp": {
+      "url": "https://github.com/Loina-AI/llama.cpp",
+      "revision": "c798b38ee5b8b33e77f39b1f09a09ff7b66341b1"
+    },
+    "whisper.cpp": {
+      "url": "https://github.com/Loina-AI/whisper.cpp",
+      "revision": "dff14be273545d38c1dceab53234ba8755b36559"
+    }
+  },
+  "power_mode": "balanced",
+  "comparison": "Native.predict, same updated APK, seven warm English prompts per backend; excludes keyboard debounce and initial model load",
+  "results": [
+    {
+      "model": "lfm",
+      "backend": "CPU",
+      "cpu_warm_median_ms": 84.508229,
+      "auto_warm_median_ms": 88.142864,
+      "speedup": 0.9587642738724713,
+      "samples_per_backend": 7,
+      "cpu_load_ms": 181.222135,
+      "auto_load_ms": 182.355208
+    },
+    {
+      "model": "qwen",
+      "backend": "HTP0",
+      "cpu_warm_median_ms": 224.431407,
+      "auto_warm_median_ms": 133.862396,
+      "speedup": 1.6765829217639285,
+      "samples_per_backend": 7,
+      "cpu_load_ms": 275.6125,
+      "auto_load_ms": 941.204687
+    },
+    {
+      "model": "onejev",
+      "backend": "HTP0",
+      "cpu_warm_median_ms": 207.412916,
+      "auto_warm_median_ms": 134.390886,
+      "speedup": 1.5433555218915664,
+      "samples_per_backend": 7,
+      "cpu_load_ms": 273.194115,
+      "auto_load_ms": 808.46401
+    }
+  ],
+  "checks": {
+    "models": true,
+    "completion": true,
+    "multilingual": true,
+    "correction": true,
+    "speech": true
+  },
+  "cpu_only_benchmark": true,
+  "initialization_failure_fallback": {
+    "passed": true,
+    "scenario": "Qwen auto run from a directory without the NPU kernel",
+    "selected_backend": "CPU"
+  },
+  "numerical_checks": {
+    "Q4_K_and_Q6_K_matmul": 8,
+    "GATED_DELTA_NET": 2
+  },
+  "automatic_policy": "Qwen3.5 architectures, including the installed OneJev, use Hexagon when available. LFM stays on CPU because NPU completion produced repeated fragments. Voice and translation remain on CPU.",
+  "packaged_kernel_versions": [
+    81
+  ],
+  "compatibility_fix": "Parakeet crops relative-position scores before creating a strided view, satisfying the new shared GGML bounds checks.",
+  "apk_sha256": "952c72e62fd7d7aa407ae86db963cef1966e6125a5120881447ad6e211c9a4c2",
+  "native_sha256": "5173533c8b9f4511e87e2fee6c9aea7ae050ce0da489347acbb6f94b8507d584",
+  "subsequent_changes": {
+    "qwen_asr": "oneplus15-asr-npu-summary.json",
+    "keyboard_navigation": "oneplus15-final-insets.json",
+    "bundled_switches": "bundled-switch-size.json"
+  }
+}

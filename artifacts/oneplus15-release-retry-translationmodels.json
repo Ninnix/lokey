@@ -1,0 +1,66 @@
+{
+  "translationmodels": {
+    "lfm_only_uses_lfm": true,
+    "qwen_only_uses_qwen": true,
+    "shared_text_selection": true,
+    "manual_model_respected": true,
+    "cache_tracks_model": true,
+    "cases": [
+      {
+        "model": "lfm",
+        "source": "Good morning.",
+        "target": "French",
+        "text": "Bonne matinée.",
+        "error": null,
+        "busy_updates": 2,
+        "ms": 1357
+      },
+      {
+        "model": "lfm",
+        "source": "Good morning.",
+        "target": "French",
+        "text": "Bonne matinée.",
+        "error": null,
+        "busy_updates": 0,
+        "ms": 1
+      },
+      {
+        "model": "qwen",
+        "source": "Good morning.",
+        "target": "French",
+        "text": "Bonjour.",
+        "error": null,
+        "busy_updates": 1,
+        "ms": 2251
+      },
+      {
+        "model": "lfm",
+        "source": "Good morning.",
+        "target": "French",
+        "text": "Bonne matinée.",
+        "error": null,
+        "busy_updates": 2,
+        "ms": 1450
+      },
+      {
+        "model": "lfm",
+        "source": "Good morning.",
+        "target": "Spanish",
+        "text": "Buenos días.",
+        "error": null,
+        "busy_updates": 1,
+        "ms": 1254
+      },
+      {
+        "model": "lfm",
+        "source": "Thank you.",
+        "target": "French",
+        "text": "Merci.",
+        "error": null,
+        "busy_updates": 1,
+        "ms": 1199
+      }
+    ]
+  },
+  "passed": true
+}

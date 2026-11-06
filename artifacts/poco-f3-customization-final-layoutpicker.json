@@ -1,0 +1,9 @@
+{
+  "layoutpicker": {
+    "layout_before_appearance": true,
+    "family_and_variant_selection": true,
+    "automatic_restored": true,
+    "dark_and_light": true
+  },
+  "passed": true
+}

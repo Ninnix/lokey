@@ -1,0 +1,30 @@
+{
+  "device": "POCO F3 / SM8250 / Android 13",
+  "backend": "CPU; this Hexagon build targets newer DSPs",
+  "text_warm_median_ms": {
+    "lfm": 139.477969,
+    "qwen": 318.294947
+  },
+  "parakeet_warm_jfk_ms": 3222,
+  "qwen_asr_q8_warm_jfk_ms": 7419,
+  "jfk_audio_seconds": 11,
+  "passed_checks": [
+    "models",
+    "multilingual",
+    "completion",
+    "insets",
+    "cursor",
+    "gestures",
+    "interaction",
+    "feedback",
+    "recordings",
+    "correction",
+    "Parakeet speech",
+    "Qwen ASR speech"
+  ],
+  "autocorrection_fix": "Finish the editor composing span before replacement and undo, preserving preceding text; regression passed on both POCO and OnePlus.",
+  "razer_fix": "All three Razer Green recordings converted PCM32 to PCM16; user confirms interference is gone.",
+  "lfm_report": "lfm-corrected-parity-summary.json",
+  "limitations": "Short fixtures, not a broad quality, noisy speech, battery or sustained thermal evaluation.",
+  "final_apk_sha256": "b925a7eca834111e24c11586f120ecc27dc595273f0f5b18bdb085a538c2a584"
+}

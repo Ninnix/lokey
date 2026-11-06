@@ -1,0 +1,264 @@
+{
+  "device": "OnePlus 15 CPH2747 / SM8850 / Hexagon v81 / Android 16",
+  "runtimes": {
+    "loina-core": {
+      "url": "https://github.com/Loina-AI/loina-core",
+      "revision": "f11990801c78f6736ed9f8d672a8a7af7e4fc6c9"
+    },
+    "llama.cpp": {
+      "url": "https://github.com/Loina-AI/llama.cpp",
+      "revision": "fc75d063f0ac136f443eebe882c1a971a286673a"
+    },
+    "whisper.cpp": {
+      "url": "https://github.com/Loina-AI/whisper.cpp",
+      "revision": "66c475eab12593a40770c06dccb50c7817ce0a6f"
+    }
+  },
+  "catalog": [
+    "lfm",
+    "qwen"
+  ],
+  "onejev_removed": true,
+  "memory_policy": "Direct DSP mappings (GGML_HEXAGON_DMA64=0), balanced power. CPU fallback on unavailable backend or initialization failure.",
+  "text_performance": [
+    {
+      "model": "lfm",
+      "cpu_warm_median_ms": 116.036146,
+      "npu_warm_median_ms": 38.876094,
+      "speedup": 2.9847686344209374
+    },
+    {
+      "model": "qwen",
+      "cpu_warm_median_ms": 259.375886,
+      "npu_warm_median_ms": 132.651667,
+      "speedup": 1.9553156915849386
+    }
+  ],
+  "parakeet": {
+    "cpu_backend": "CPU",
+    "npu_backend": "HTP0 Parakeet",
+    "trials": [
+      {
+        "fixture": "jfk.wav",
+        "pass": 0,
+        "cpu_ms": 2188.636,
+        "npu_ms": 674.784,
+        "same_words": true,
+        "exact_text": true,
+        "cpu_text": "And so, my fellow Americans, ask not what your country can do for you, ask what you can do for your country.",
+        "npu_text": "And so, my fellow Americans, ask not what your country can do for you, ask what you can do for your country."
+      },
+      {
+        "fixture": "asr-en.wav",
+        "pass": 0,
+        "cpu_ms": 3510.979,
+        "npu_ms": 394.482,
+        "same_words": true,
+        "exact_text": true,
+        "cpu_text": "Mhm. Oh yeah, yeah. He wasn't even that big when I started listening to him. But and his solo music didn't do overly well, but he did very well when he started writing for other people.",
+        "npu_text": "Mhm. Oh yeah, yeah. He wasn't even that big when I started listening to him. But and his solo music didn't do overly well, but he did very well when he started writing for other people."
+      },
+      {
+        "fixture": "jfk.wav",
+        "pass": 1,
+        "cpu_ms": 2848.37,
+        "npu_ms": 299.337,
+        "same_words": true,
+        "exact_text": true,
+        "cpu_text": "And so, my fellow Americans, ask not what your country can do for you, ask what you can do for your country.",
+        "npu_text": "And so, my fellow Americans, ask not what your country can do for you, ask what you can do for your country."
+      },
+      {
+        "fixture": "asr-en.wav",
+        "pass": 1,
+        "cpu_ms": 3960.875,
+        "npu_ms": 375.312,
+        "same_words": true,
+        "exact_text": true,
+        "cpu_text": "Mhm. Oh yeah, yeah. He wasn't even that big when I started listening to him. But and his solo music didn't do overly well, but he did very well when he started writing for other people.",
+        "npu_text": "Mhm. Oh yeah, yeah. He wasn't even that big when I started listening to him. But and his solo music didn't do overly well, but he did very well when he started writing for other people."
+      }
+    ]
+  },
+  "qwen_asr": {
+    "cpu_backend": "CPU",
+    "npu_backend": "HTP0 encoder + decoder",
+    "trials": [
+      {
+        "fixture": "jfk.wav",
+        "pass": 0,
+        "cpu_ms": 4767.55,
+        "npu_ms": 1455.622,
+        "same_words": true,
+        "exact_text": false,
+        "cpu_text": "And so, my fellow Americans, ask not what your country can do for you; ask what you can do for your country.",
+        "npu_text": "And so, my fellow Americans, ask not what your country can do for you, ask what you can do for your country."
+      },
+      {
+        "fixture": "asr-zh.wav",
+        "pass": 0,
+        "cpu_ms": 2028.001,
+        "npu_ms": 541.611,
+        "same_words": true,
+        "exact_text": true,
+        "cpu_text": "甚至出现交易几乎停滞的情况。",
+        "npu_text": "甚至出现交易几乎停滞的情况。"
+      },
+      {
+        "fixture": "asr-en.wav",
+        "pass": 0,
+        "cpu_ms": 6489.726,
+        "npu_ms": 2090.044,
+        "same_words": true,
+        "exact_text": false,
+        "cpu_text": "Hmm. Oh, yeah, yeah. He wasn't even that big when I started listening to him, but and his solo music didn't do overly well. But he did very well when he started writing for other people.",
+        "npu_text": "Hmm. Oh, yeah, yeah. He wasn't even that big when I started listening to him, but and his solo music didn't do overly well, but he did very well when he started writing for other people."
+      },
+      {
+        "fixture": "jfk.wav",
+        "pass": 1,
+        "cpu_ms": 4450.952,
+        "npu_ms": 1407.658,
+        "same_words": true,
+        "exact_text": false,
+        "cpu_text": "And so, my fellow Americans, ask not what your country can do for you; ask what you can do for your country.",
+        "npu_text": "And so, my fellow Americans, ask not what your country can do for you, ask what you can do for your country."
+      },
+      {
+        "fixture": "asr-zh.wav",
+        "pass": 1,
+        "cpu_ms": 2034.35,
+        "npu_ms": 537.942,
+        "same_words": true,
+        "exact_text": true,
+        "cpu_text": "甚至出现交易几乎停滞的情况。",
+        "npu_text": "甚至出现交易几乎停滞的情况。"
+      },
+      {
+        "fixture": "asr-en.wav",
+        "pass": 1,
+        "cpu_ms": 5723.423,
+        "npu_ms": 2057.241,
+        "same_words": true,
+        "exact_text": false,
+        "cpu_text": "Hmm. Oh, yeah, yeah. He wasn't even that big when I started listening to him, but and his solo music didn't do overly well. But he did very well when he started writing for other people.",
+        "npu_text": "Hmm. Oh, yeah, yeah. He wasn't even that big when I started listening to him, but and his solo music didn't do overly well, but he did very well when he started writing for other people."
+      }
+    ]
+  },
+  "qwen_encoder_embeddings": [
+    {
+      "chunk": 0,
+      "elements": 106496,
+      "cosine": 0.9997870107469177,
+      "normalized_rmse": 0.020810497247241665,
+      "max_error": 0.00709880143404007
+    },
+    {
+      "chunk": 1,
+      "elements": 53248,
+      "cosine": 0.999733494785312,
+      "normalized_rmse": 0.023120674667893092,
+      "max_error": 0.00720638781785965
+    },
+    {
+      "chunk": 2,
+      "elements": 66560,
+      "cosine": 0.999852309745863,
+      "normalized_rmse": 0.017258788145948133,
+      "max_error": 0.0035547763109207153
+    },
+    {
+      "chunk": 3,
+      "elements": 106496,
+      "cosine": 0.9998538704501698,
+      "normalized_rmse": 0.017110767214301936,
+      "max_error": 0.0032022297382354736
+    },
+    {
+      "chunk": 4,
+      "elements": 106496,
+      "cosine": 0.9997654519433216,
+      "normalized_rmse": 0.021657429355344534,
+      "max_error": 0.008909903466701508
+    },
+    {
+      "chunk": 5,
+      "elements": 106496,
+      "cosine": 0.9997870107469177,
+      "normalized_rmse": 0.020810497247241665,
+      "max_error": 0.00709880143404007
+    },
+    {
+      "chunk": 6,
+      "elements": 53248,
+      "cosine": 0.999733494785312,
+      "normalized_rmse": 0.023120674667893092,
+      "max_error": 0.00720638781785965
+    },
+    {
+      "chunk": 7,
+      "elements": 66560,
+      "cosine": 0.999852309745863,
+      "normalized_rmse": 0.017258788145948133,
+      "max_error": 0.0035547763109207153
+    },
+    {
+      "chunk": 8,
+      "elements": 106496,
+      "cosine": 0.9998538704501698,
+      "normalized_rmse": 0.017110767214301936,
+      "max_error": 0.0032022297382354736
+    },
+    {
+      "chunk": 9,
+      "elements": 106496,
+      "cosine": 0.9997654519433216,
+      "normalized_rmse": 0.021657429355344534,
+      "max_error": 0.008909903466701508
+    }
+  ],
+  "lfm_parity": {
+    "top1_agreement": 17,
+    "cases": 20,
+    "minimum_cosine": 0.996092604671944,
+    "state_restore_max_error": 0,
+    "bit_identical": false,
+    "details": "oneplus15-lfm-dma32-logits-summary.json"
+  },
+  "repeat_regression": {
+    "float32_and_float16_extended_sources": true,
+    "source_offsets": [
+      0,
+      128
+    ],
+    "exact_matches": 4,
+    "existing_cpu_reference_cases_passed": 12
+  },
+  "fallback": {
+    "speech_without_kernels": "oneplus15-speech-fallback-summary.json",
+    "lfm_without_kernels": "oneplus15-lfm-cpu-fallback-lfm-auto.json",
+    "all_report_cpu": true
+  },
+  "app_checks": {
+    "oneplus15-final-npu-models.json": true,
+    "oneplus15-final-npu-multilingual.json": true,
+    "oneplus15-final-npu-completion.json": true,
+    "oneplus15-final-npu-correction.json": true,
+    "oneplus15-final-npu-speech.json": true,
+    "oneplus15-qwen-final-npu-speech.json": true
+  },
+  "build_and_lint_passed": true,
+  "apk_sha256": "226105c25da88b353bb1f63ff4395aad59e491d4b4985d9581487d8c2f2e8bd2",
+  "apk_bytes": 24232545,
+  "kernel_sha256": "92df07605dbca8f9203264f48ba1cd8bda008aaa5c0c64c8d4300804abfae8d3",
+  "limits": [
+    "Clean English and Chinese audio fixtures, short text prompts; not a broad accuracy or power-consumption evaluation.",
+    "NPU floating-point results are not bit-identical to CPU; LFM has 17/20 matching top tokens.",
+    "Only OnePlus 15 physically tested in this pass. Missing-kernel CPU fallback was tested separately.",
+    "Warm timing varies with device load and temperature; initial model loading is excluded."
+  ],
+  "runtime_commits_published": true,
+  "installed_apk_sha256_verified": true,
+  "temporary_model_copies_removed": true
+}

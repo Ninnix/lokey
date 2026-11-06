@@ -1,0 +1,4 @@
+{
+  "passed": false,
+  "error": "java.lang.IllegalStateException: Home / speed-test screen did not become ready\n\tat org.lokey.app.HomeSpeedChecks.run$await(HomeSpeedChecks.kt:27)\n\tat org.lokey.app.HomeSpeedChecks.run(HomeSpeedChecks.kt:70)\n\tat org.lokey.app.KeyboardTest.onStart(KeyboardTest.kt:92)\n\tat android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:2418)\n"
+}

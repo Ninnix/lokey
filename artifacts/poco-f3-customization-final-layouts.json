@@ -1,0 +1,376 @@
+{
+  "layouts": {
+    "keymaps": [
+      {
+        "layout": "intl",
+        "all_letters": true,
+        "one_letter_shift": true
+      },
+      {
+        "layout": "qwerty",
+        "all_letters": true,
+        "one_letter_shift": true
+      },
+      {
+        "layout": "spanish",
+        "all_letters": true,
+        "one_letter_shift": true
+      },
+      {
+        "layout": "portuguese",
+        "all_letters": true,
+        "one_letter_shift": true
+      },
+      {
+        "layout": "turkish",
+        "all_letters": true,
+        "one_letter_shift": true
+      },
+      {
+        "layout": "vietnamese",
+        "all_letters": true,
+        "one_letter_shift": true
+      },
+      {
+        "layout": "azerty",
+        "all_letters": true,
+        "one_letter_shift": true
+      },
+      {
+        "layout": "qwertz",
+        "all_letters": true,
+        "one_letter_shift": true
+      },
+      {
+        "layout": "cyrillic",
+        "all_letters": true,
+        "one_letter_shift": true
+      },
+      {
+        "layout": "ukrainian",
+        "all_letters": true,
+        "one_letter_shift": true
+      },
+      {
+        "layout": "arabic",
+        "all_letters": true,
+        "one_letter_shift": true
+      },
+      {
+        "layout": "persian",
+        "all_letters": true,
+        "one_letter_shift": true
+      },
+      {
+        "layout": "greek",
+        "all_letters": true,
+        "one_letter_shift": true
+      },
+      {
+        "layout": "hindi",
+        "all_letters": true,
+        "one_letter_shift": true
+      },
+      {
+        "layout": "hindi_phonetic",
+        "all_letters": true,
+        "one_letter_shift": true
+      },
+      {
+        "layout": "bolnagri",
+        "all_letters": true,
+        "one_letter_shift": true
+      },
+      {
+        "layout": "korean",
+        "all_letters": true,
+        "one_letter_shift": true
+      },
+      {
+        "layout": "japanese",
+        "all_letters": true,
+        "one_letter_shift": true
+      },
+      {
+        "layout": "pinyin",
+        "all_letters": true,
+        "one_letter_shift": true
+      },
+      {
+        "layout": "jyutping",
+        "all_letters": true,
+        "one_letter_shift": true
+      },
+      {
+        "layout": "cangjie",
+        "all_letters": true,
+        "one_letter_shift": true
+      },
+      {
+        "layout": "sucheng",
+        "all_letters": true,
+        "one_letter_shift": true
+      },
+      {
+        "layout": "thai",
+        "all_letters": true,
+        "one_letter_shift": true
+      }
+    ],
+    "pinyin": [
+      {
+        "input": "nihao",
+        "first": "你好",
+        "ms": 928
+      },
+      {
+        "input": "zhongguo",
+        "first": "中国",
+        "ms": 2
+      },
+      {
+        "input": "beijing",
+        "first": "北京",
+        "ms": 3
+      },
+      {
+        "input": "xiexie",
+        "first": "谢谢",
+        "ms": 3
+      },
+      {
+        "input": "woaini",
+        "first": "我爱你",
+        "ms": 2
+      },
+      {
+        "input": "xi'an",
+        "first": "西安",
+        "ms": 25
+      }
+    ],
+    "japanese": [
+      {
+        "reading": "にほん",
+        "first": "にほん",
+        "expected_in_candidates": "日本"
+      },
+      {
+        "reading": "わたし",
+        "first": "わたし",
+        "expected_in_candidates": "私"
+      },
+      {
+        "reading": "とうきょう",
+        "first": "東京",
+        "expected_in_candidates": "東京"
+      }
+    ],
+    "new_input_methods": [
+      {
+        "method": "jyutping",
+        "raw": "neihou",
+        "expected": "你好",
+        "first": "你好",
+        "ms": 698
+      },
+      {
+        "method": "jyutping",
+        "raw": "nei5hou2",
+        "expected": "你好",
+        "first": "你好",
+        "ms": 3
+      },
+      {
+        "method": "jyutping",
+        "raw": "nei5'hou2",
+        "expected": "你好",
+        "first": "你好",
+        "ms": 3
+      },
+      {
+        "method": "jyutping",
+        "raw": "hoenggong",
+        "expected": "香港",
+        "first": "香港",
+        "ms": 2
+      },
+      {
+        "method": "jyutping",
+        "raw": "mgoi",
+        "expected": "唔該",
+        "first": "唔該",
+        "ms": 0
+      },
+      {
+        "method": "jyutping",
+        "raw": "doze",
+        "expected": "多謝",
+        "first": "多謝",
+        "ms": 1
+      },
+      {
+        "method": "jyutping",
+        "raw": "gwongdungwaa",
+        "expected": "廣東話",
+        "first": "廣東話",
+        "ms": 1
+      },
+      {
+        "method": "jyutping",
+        "raw": "gamjat",
+        "expected": "今日",
+        "first": "今日",
+        "ms": 1
+      },
+      {
+        "method": "jyutping",
+        "raw": "m",
+        "expected": "唔",
+        "first": "唔",
+        "ms": 25
+      },
+      {
+        "method": "jyutping",
+        "raw": "fu1",
+        "expected": "夫",
+        "first": "呼",
+        "ms": 13
+      },
+      {
+        "method": "jyutping",
+        "raw": "fu2",
+        "expected": "虎",
+        "first": "苦",
+        "ms": 14
+      },
+      {
+        "method": "cangjie",
+        "raw": "onf",
+        "expected": "你",
+        "first": "你",
+        "ms": 300
+      },
+      {
+        "method": "cangjie",
+        "raw": "vnd",
+        "expected": "好",
+        "first": "好",
+        "ms": 0
+      },
+      {
+        "method": "cangjie",
+        "raw": "onfvnd",
+        "expected": "你好",
+        "first": "你好",
+        "ms": 1
+      },
+      {
+        "method": "sucheng",
+        "raw": "of",
+        "expected": "你",
+        "first": "係",
+        "ms": 226
+      },
+      {
+        "method": "sucheng",
+        "raw": "vd",
+        "expected": "好",
+        "first": "好",
+        "ms": 34
+      },
+      {
+        "method": "sucheng",
+        "raw": "ofvd",
+        "expected": "你好",
+        "first": "係好",
+        "ms": 33
+      },
+      {
+        "method": "sucheng",
+        "raw": "hu",
+        "expected": "𫏮",
+        "first": "先",
+        "ms": 55
+      },
+      {
+        "method": "hindi",
+        "raw": "namaste",
+        "expected": "नमस्ते",
+        "first": "नमस्ते",
+        "ms": 242
+      },
+      {
+        "method": "hindi",
+        "raw": "hindi",
+        "expected": "हिंदी",
+        "first": "हिंदी",
+        "ms": 33
+      },
+      {
+        "method": "hindi",
+        "raw": "dhanyavad",
+        "expected": "धन्यवाद",
+        "first": "धन्यवाद",
+        "ms": 33
+      },
+      {
+        "method": "hindi",
+        "raw": "kripya",
+        "expected": "कृपया",
+        "first": "कृपया",
+        "ms": 33
+      },
+      {
+        "method": "hindi",
+        "raw": "mera",
+        "expected": "मेरा",
+        "first": "मेरा",
+        "ms": 32
+      },
+      {
+        "method": "hindi",
+        "raw": "khaa",
+        "expected": "खा",
+        "first": "खा",
+        "ms": 33
+      }
+    ],
+    "composers": {
+      "korean": 5,
+      "japanese": 6,
+      "vietnamese": 8,
+      "hindi_phonetic": 5,
+      "locale_cases": 22,
+      "families": 11,
+      "variants": 23
+    },
+    "accent_typing": [
+      {
+        "language": "German",
+        "key": "u",
+        "typed": "ü",
+        "detected_language_updates_menu": true
+      },
+      {
+        "language": "Romanian",
+        "key": "i",
+        "typed": "î",
+        "detected_language_updates_menu": true
+      },
+      {
+        "language": "Czech",
+        "key": "r",
+        "typed": "ř",
+        "detected_language_updates_menu": true
+      },
+      {
+        "language": "Dutch",
+        "key": "j",
+        "typed": "j́",
+        "detected_language_updates_menu": true
+      }
+    ]
+  },
+  "passed": true
+}

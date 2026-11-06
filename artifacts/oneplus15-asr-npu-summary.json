@@ -1,0 +1,132 @@
+{
+  "device": "OnePlus 15 CPH2747",
+  "serial": "3B165U00WXK00000",
+  "model": "Qwen3-ASR-0.6B Q8_0",
+  "policy": "CPU audio encoder + Hexagon decoder when available; CPU fallback on initialization failure",
+  "cpu": {
+    "speech": {
+      "models": [
+        {
+          "model": "qwen_asr",
+          "load_ms": 893,
+          "backend": "CPU",
+          "cases": [
+            {
+              "fixture": "jfk",
+              "pass": 0,
+              "ms": 3538,
+              "text": "And so, my fellow Americans, ask not what your country can do for you; ask what you can do for your country."
+            },
+            {
+              "fixture": "jfk",
+              "pass": 1,
+              "ms": 3345,
+              "text": "And so, my fellow Americans, ask not what your country can do for you; ask what you can do for your country."
+            },
+            {
+              "fixture": "asr-zh.wav",
+              "ms": 1466,
+              "audio_seconds": 4.2039375,
+              "text": "甚至出现交易几乎停滞的情况。"
+            },
+            {
+              "fixture": "asr-en.wav",
+              "ms": 4728,
+              "audio_seconds": 15.0511875,
+              "text": "Hmm. Oh, yeah, yeah. He wasn't even that big when I started listening to him, but and his solo music didn't do overly well. But he did very well when he started writing for other people."
+            }
+          ]
+        }
+      ],
+      "silence": true,
+      "qwen_quantization": "Q8_0"
+    },
+    "passed": true
+  },
+  "npu_decoder": {
+    "speech": {
+      "models": [
+        {
+          "model": "qwen_asr",
+          "load_ms": 727,
+          "backend": "CPU encoder + HTP0 decoder",
+          "cases": [
+            {
+              "fixture": "jfk",
+              "pass": 0,
+              "ms": 2370,
+              "text": "And so, my fellow Americans, ask not what your country can do for you, ask what you can do for your country."
+            },
+            {
+              "fixture": "jfk",
+              "pass": 1,
+              "ms": 2125,
+              "text": "And so, my fellow Americans, ask not what your country can do for you, ask what you can do for your country."
+            },
+            {
+              "fixture": "asr-zh.wav",
+              "ms": 859,
+              "audio_seconds": 4.2039375,
+              "text": "甚至出现交易几乎停滞的情况。"
+            },
+            {
+              "fixture": "asr-en.wav",
+              "ms": 3141,
+              "audio_seconds": 15.0511875,
+              "text": "Hmm. Oh, yeah, yeah. He wasn't even that big when I started listening to him, but and his solo music didn't do overly well. But he did very well when he started writing for other people."
+            }
+          ]
+        }
+      ],
+      "silence": true,
+      "qwen_quantization": "Q8_0"
+    },
+    "passed": true
+  },
+  "auto": {
+    "speech": {
+      "models": [
+        {
+          "model": "qwen_asr",
+          "load_ms": 1400,
+          "backend": "CPU encoder + HTP0 decoder",
+          "cases": [
+            {
+              "fixture": "jfk",
+              "pass": 0,
+              "ms": 4768,
+              "text": "And so, my fellow Americans, ask not what your country can do for you, ask what you can do for your country."
+            },
+            {
+              "fixture": "jfk",
+              "pass": 1,
+              "ms": 2275,
+              "text": "And so, my fellow Americans, ask not what your country can do for you, ask what you can do for your country."
+            },
+            {
+              "fixture": "asr-zh.wav",
+              "ms": 898,
+              "audio_seconds": 4.2039375,
+              "text": "甚至出现交易几乎停滞的情况。"
+            },
+            {
+              "fixture": "asr-en.wav",
+              "ms": 3225,
+              "audio_seconds": 15.0511875,
+              "text": "Hmm. Oh, yeah, yeah. He wasn't even that big when I started listening to him, but and his solo music didn't do overly well. But he did very well when he started writing for other people."
+            }
+          ]
+        }
+      ],
+      "silence": true,
+      "qwen_quantization": "Q8_0"
+    },
+    "passed": true
+  },
+  "npu_encoder": {
+    "passed": false,
+    "reason": "Forced encoder + decoder Hexagon test aborted during clip_encode; encoder remains on CPU.",
+    "log": "oneplus15-asr-hexagon-speech.log"
+  },
+  "limits": "Short English and Chinese clean-speech fixtures. Warm speed measurements are not a broad language-quality or cold-start guarantee."
+}

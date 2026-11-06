@@ -1,0 +1,118 @@
+{
+  "completion": {
+    "cases": [
+      {
+        "text": "",
+        "words": [
+          "The",
+          "This",
+          "I"
+        ],
+        "language": "en",
+        "fallback_ms": 83,
+        "ms": 1321
+      },
+      {
+        "text": "Im",
+        "words": [
+          "I'm",
+          "Image",
+          "Improved"
+        ],
+        "language": "en",
+        "fallback_ms": 65,
+        "ms": 120
+      },
+      {
+        "text": "im",
+        "words": [
+          "I'm",
+          "image",
+          "improved"
+        ],
+        "language": "en",
+        "fallback_ms": 86,
+        "ms": 88
+      },
+      {
+        "text": "I'm ",
+        "words": [
+          "not",
+          "a",
+          "going"
+        ],
+        "language": "en",
+        "fallback_ms": 68,
+        "ms": 201
+      },
+      {
+        "text": "C'é un amico mio che ha una casa in costa azzu",
+        "words": [
+          "azzurra"
+        ],
+        "language": "it",
+        "fallback_ms": 140,
+        "ms": 271
+      },
+      {
+        "text": "C'é un amico mio che ha una casa in costa azzur",
+        "words": [
+          "azzurra"
+        ],
+        "language": "it",
+        "fallback_ms": 99,
+        "ms": 99
+      },
+      {
+        "text": "C’è un amico mio che ha una casa in costa azzu",
+        "words": [
+          "azzurra"
+        ],
+        "language": "it",
+        "fallback_ms": 72,
+        "ms": 231
+      },
+      {
+        "text": "C'è un amico mio che ha una casa in costa azzur",
+        "words": [
+          "azzurra"
+        ],
+        "language": "it",
+        "fallback_ms": 81,
+        "ms": 227
+      },
+      {
+        "text": "The mitochondria produce adenosine triphos",
+        "words": [
+          "triphosphate"
+        ],
+        "language": "en",
+        "fallback_ms": 92,
+        "ms": 201
+      },
+      {
+        "text": "Hola quiero un caf",
+        "words": [
+          "café",
+          "cafetería"
+        ],
+        "language": "es",
+        "fallback_ms": 44,
+        "ms": 128
+      },
+      {
+        "text": "Bonjour merci beau",
+        "words": [
+          "monde",
+          "et",
+          "beaucoup"
+        ],
+        "language": "fr",
+        "fallback_ms": 56,
+        "ms": 211
+      }
+    ],
+    "azzurra_not_in_vocabulary": true
+  },
+  "passed": true
+}

@@ -1,0 +1,28 @@
+{
+  "speech": {
+    "models": [
+      {
+        "model": "parakeet",
+        "load_ms": 564,
+        "backend": "CPU",
+        "cases": [
+          {
+            "fixture": "jfk",
+            "pass": 0,
+            "ms": 3244,
+            "text": "And so, my fellow Americans, ask not what your country can do for you, ask what you can do for your country."
+          },
+          {
+            "fixture": "jfk",
+            "pass": 1,
+            "ms": 3222,
+            "text": "And so, my fellow Americans, ask not what your country can do for you, ask what you can do for your country."
+          }
+        ]
+      }
+    ],
+    "silence": true,
+    "qwen_quantization": "Q8_0"
+  },
+  "passed": true
+}

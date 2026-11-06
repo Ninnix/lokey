@@ -1,0 +1,4 @@
+{
+  "passed": false,
+  "error": "java.lang.IllegalStateException: Missing visible Move key → / null\n\tat org.lokey.app.CustomizationUiChecks.run$node(CustomizationUiChecks.kt:40)\n\tat org.lokey.app.CustomizationUiChecks.run$click(CustomizationUiChecks.kt:42)\n\tat org.lokey.app.CustomizationUiChecks.run$click$default(CustomizationUiChecks.kt:42)\n\tat org.lokey.app.CustomizationUiChecks.run(CustomizationUiChecks.kt:78)\n\tat org.lokey.app.KeyboardTest.onStart(KeyboardTest.kt:90)\n\tat android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:2418)\n"
+}

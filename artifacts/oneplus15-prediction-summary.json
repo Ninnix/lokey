@@ -1,0 +1,549 @@
+{
+  "device": "OnePlus 15 (CPH2747)",
+  "serial": "3B165U00WXK00000",
+  "checks": {
+    "probabilitylanguages": {
+      "passed": true,
+      "file": "artifacts/oneplus15-probability-probabilitylanguages.json"
+    },
+    "multilingual": {
+      "passed": true,
+      "file": "artifacts/oneplus15-probability-multilingual.json"
+    },
+    "probability": {
+      "passed": true,
+      "file": "artifacts/oneplus15-probability-probability.json"
+    },
+    "completion": {
+      "passed": true,
+      "file": "artifacts/oneplus15-probability-completion.json"
+    },
+    "sentence": {
+      "passed": true,
+      "file": "artifacts/oneplus15-probability-sentence.json"
+    },
+    "correction": {
+      "passed": true,
+      "file": "artifacts/oneplus15-probability-correction.json"
+    },
+    "imeflow": {
+      "passed": true,
+      "file": "artifacts/oneplus15-probability-imeflow.json"
+    }
+  },
+  "candidate_pool_limit": 24,
+  "display_limit": 3,
+  "ram_checkpoints": 3,
+  "neural_context_characters": 192,
+  "cache_filter_ms": {
+    "t": 1.492032,
+    "to": 0.621979,
+    "tom": 0.512969
+  },
+  "automatic_selection": {
+    "supported_npu": "qwen",
+    "cpu": "language recommendation with installed-model fallback"
+  },
+  "model_matrix": {
+    "file": "artifacts/oneplus15-prediction-model-summary.json",
+    "evaluations": 640,
+    "languages": 9,
+    "fixtures": 20,
+    "hexagon_language_labelled_results": [
+      {
+        "model": "LFM2.5-350M-Base-Q4_K_M.gguf",
+        "backend": "HTP0",
+        "prompt": "language_label",
+        "hits": 12,
+        "count": 20,
+        "median_ms": 266.82619750000003,
+        "empty": 0,
+        "prefix": {
+          "hits": 10,
+          "count": 11
+        },
+        "next_word": {
+          "hits": 2,
+          "count": 9
+        },
+        "lfm_declared_language_subset": {
+          "hits": 9,
+          "count": 13
+        },
+        "languages": {
+          "Arabic": {
+            "hits": 1,
+            "count": 2
+          },
+          "English": {
+            "hits": 3,
+            "count": 3
+          },
+          "French": {
+            "hits": 1,
+            "count": 2
+          },
+          "German": {
+            "hits": 2,
+            "count": 2
+          },
+          "Greek": {
+            "hits": 0,
+            "count": 2
+          },
+          "Italian": {
+            "hits": 2,
+            "count": 3
+          },
+          "Portuguese": {
+            "hits": 1,
+            "count": 2
+          },
+          "Russian": {
+            "hits": 1,
+            "count": 2
+          },
+          "Spanish": {
+            "hits": 1,
+            "count": 2
+          }
+        }
+      },
+      {
+        "model": "LFM2.5-350M-Base-Q8_0.gguf",
+        "backend": "HTP0",
+        "prompt": "language_label",
+        "hits": 12,
+        "count": 20,
+        "median_ms": 271.01788999999997,
+        "empty": 0,
+        "prefix": {
+          "hits": 10,
+          "count": 11
+        },
+        "next_word": {
+          "hits": 2,
+          "count": 9
+        },
+        "lfm_declared_language_subset": {
+          "hits": 9,
+          "count": 13
+        },
+        "languages": {
+          "Arabic": {
+            "hits": 1,
+            "count": 2
+          },
+          "English": {
+            "hits": 3,
+            "count": 3
+          },
+          "French": {
+            "hits": 1,
+            "count": 2
+          },
+          "German": {
+            "hits": 2,
+            "count": 2
+          },
+          "Greek": {
+            "hits": 0,
+            "count": 2
+          },
+          "Italian": {
+            "hits": 2,
+            "count": 3
+          },
+          "Portuguese": {
+            "hits": 1,
+            "count": 2
+          },
+          "Russian": {
+            "hits": 1,
+            "count": 2
+          },
+          "Spanish": {
+            "hits": 1,
+            "count": 2
+          }
+        }
+      },
+      {
+        "model": "LFM2.5-350M-Q4_K_M.gguf",
+        "backend": "HTP0",
+        "prompt": "language_label",
+        "hits": 10,
+        "count": 20,
+        "median_ms": 264.4106505,
+        "empty": 3,
+        "prefix": {
+          "hits": 8,
+          "count": 11
+        },
+        "next_word": {
+          "hits": 2,
+          "count": 9
+        },
+        "lfm_declared_language_subset": {
+          "hits": 8,
+          "count": 13
+        },
+        "languages": {
+          "Arabic": {
+            "hits": 0,
+            "count": 2
+          },
+          "English": {
+            "hits": 3,
+            "count": 3
+          },
+          "French": {
+            "hits": 1,
+            "count": 2
+          },
+          "German": {
+            "hits": 2,
+            "count": 2
+          },
+          "Greek": {
+            "hits": 0,
+            "count": 2
+          },
+          "Italian": {
+            "hits": 2,
+            "count": 3
+          },
+          "Portuguese": {
+            "hits": 1,
+            "count": 2
+          },
+          "Russian": {
+            "hits": 0,
+            "count": 2
+          },
+          "Spanish": {
+            "hits": 1,
+            "count": 2
+          }
+        }
+      },
+      {
+        "model": "LFM2.5-350M-Q8_0.gguf",
+        "backend": "HTP0",
+        "prompt": "language_label",
+        "hits": 10,
+        "count": 20,
+        "median_ms": 273.003854,
+        "empty": 0,
+        "prefix": {
+          "hits": 8,
+          "count": 11
+        },
+        "next_word": {
+          "hits": 2,
+          "count": 9
+        },
+        "lfm_declared_language_subset": {
+          "hits": 8,
+          "count": 13
+        },
+        "languages": {
+          "Arabic": {
+            "hits": 0,
+            "count": 2
+          },
+          "English": {
+            "hits": 3,
+            "count": 3
+          },
+          "French": {
+            "hits": 1,
+            "count": 2
+          },
+          "German": {
+            "hits": 2,
+            "count": 2
+          },
+          "Greek": {
+            "hits": 0,
+            "count": 2
+          },
+          "Italian": {
+            "hits": 1,
+            "count": 3
+          },
+          "Portuguese": {
+            "hits": 1,
+            "count": 2
+          },
+          "Russian": {
+            "hits": 1,
+            "count": 2
+          },
+          "Spanish": {
+            "hits": 1,
+            "count": 2
+          }
+        }
+      },
+      {
+        "model": "Qwen3.5-0.8B-Base.Q4_K_M.gguf",
+        "backend": "HTP0",
+        "prompt": "language_label",
+        "hits": 17,
+        "count": 20,
+        "median_ms": 313.31192699999997,
+        "empty": 0,
+        "prefix": {
+          "hits": 11,
+          "count": 11
+        },
+        "next_word": {
+          "hits": 6,
+          "count": 9
+        },
+        "lfm_declared_language_subset": {
+          "hits": 10,
+          "count": 13
+        },
+        "languages": {
+          "Arabic": {
+            "hits": 1,
+            "count": 2
+          },
+          "English": {
+            "hits": 3,
+            "count": 3
+          },
+          "French": {
+            "hits": 1,
+            "count": 2
+          },
+          "German": {
+            "hits": 2,
+            "count": 2
+          },
+          "Greek": {
+            "hits": 2,
+            "count": 2
+          },
+          "Italian": {
+            "hits": 3,
+            "count": 3
+          },
+          "Portuguese": {
+            "hits": 2,
+            "count": 2
+          },
+          "Russian": {
+            "hits": 2,
+            "count": 2
+          },
+          "Spanish": {
+            "hits": 1,
+            "count": 2
+          }
+        }
+      },
+      {
+        "model": "Qwen3.5-0.8B-Base.Q8_0.gguf",
+        "backend": "HTP0",
+        "prompt": "language_label",
+        "hits": 18,
+        "count": 20,
+        "median_ms": 311.459583,
+        "empty": 0,
+        "prefix": {
+          "hits": 11,
+          "count": 11
+        },
+        "next_word": {
+          "hits": 7,
+          "count": 9
+        },
+        "lfm_declared_language_subset": {
+          "hits": 11,
+          "count": 13
+        },
+        "languages": {
+          "Arabic": {
+            "hits": 1,
+            "count": 2
+          },
+          "English": {
+            "hits": 3,
+            "count": 3
+          },
+          "French": {
+            "hits": 2,
+            "count": 2
+          },
+          "German": {
+            "hits": 2,
+            "count": 2
+          },
+          "Greek": {
+            "hits": 2,
+            "count": 2
+          },
+          "Italian": {
+            "hits": 3,
+            "count": 3
+          },
+          "Portuguese": {
+            "hits": 2,
+            "count": 2
+          },
+          "Russian": {
+            "hits": 2,
+            "count": 2
+          },
+          "Spanish": {
+            "hits": 1,
+            "count": 2
+          }
+        }
+      },
+      {
+        "model": "Qwen3.5-0.8B-Q4_K_M.gguf",
+        "backend": "HTP0",
+        "prompt": "language_label",
+        "hits": 15,
+        "count": 20,
+        "median_ms": 308.476901,
+        "empty": 0,
+        "prefix": {
+          "hits": 11,
+          "count": 11
+        },
+        "next_word": {
+          "hits": 4,
+          "count": 9
+        },
+        "lfm_declared_language_subset": {
+          "hits": 10,
+          "count": 13
+        },
+        "languages": {
+          "Arabic": {
+            "hits": 1,
+            "count": 2
+          },
+          "English": {
+            "hits": 3,
+            "count": 3
+          },
+          "French": {
+            "hits": 1,
+            "count": 2
+          },
+          "German": {
+            "hits": 2,
+            "count": 2
+          },
+          "Greek": {
+            "hits": 1,
+            "count": 2
+          },
+          "Italian": {
+            "hits": 3,
+            "count": 3
+          },
+          "Portuguese": {
+            "hits": 2,
+            "count": 2
+          },
+          "Russian": {
+            "hits": 1,
+            "count": 2
+          },
+          "Spanish": {
+            "hits": 1,
+            "count": 2
+          }
+        }
+      },
+      {
+        "model": "Qwen3.5-0.8B-Q8_0.gguf",
+        "backend": "HTP0",
+        "prompt": "language_label",
+        "hits": 15,
+        "count": 20,
+        "median_ms": 322.0627865,
+        "empty": 0,
+        "prefix": {
+          "hits": 11,
+          "count": 11
+        },
+        "next_word": {
+          "hits": 4,
+          "count": 9
+        },
+        "lfm_declared_language_subset": {
+          "hits": 10,
+          "count": 13
+        },
+        "languages": {
+          "Arabic": {
+            "hits": 1,
+            "count": 2
+          },
+          "English": {
+            "hits": 3,
+            "count": 3
+          },
+          "French": {
+            "hits": 1,
+            "count": 2
+          },
+          "German": {
+            "hits": 2,
+            "count": 2
+          },
+          "Greek": {
+            "hits": 1,
+            "count": 2
+          },
+          "Italian": {
+            "hits": 3,
+            "count": 3
+          },
+          "Portuguese": {
+            "hits": 2,
+            "count": 2
+          },
+          "Russian": {
+            "hits": 1,
+            "count": 2
+          },
+          "Spanish": {
+            "hits": 1,
+            "count": 2
+          }
+        }
+      }
+    ]
+  },
+  "runtime_revisions": {
+    "loina-core": {
+      "url": "https://github.com/Loina-AI/loina-core",
+      "revision": "f11990801c78f6736ed9f8d672a8a7af7e4fc6c9"
+    },
+    "llama.cpp": {
+      "url": "https://github.com/Loina-AI/llama.cpp",
+      "revision": "fc75d063f0ac136f443eebe882c1a971a286673a"
+    },
+    "whisper.cpp": {
+      "url": "https://github.com/Loina-AI/whisper.cpp",
+      "revision": "66c475eab12593a40770c06dccb50c7817ce0a6f"
+    }
+  },
+  "limitations": [
+    "Hand-picked fixtures, including development regressions; not a held-out language benchmark.",
+    "Reference words are not exhaustive; other completions can also be valid.",
+    "Cold prompt evaluation with the same bounded search; model loading and cache reset are excluded from timing.",
+    "Two warmup requests per model/backend; fixtures run once in a fixed order.",
+    "Instruct and base GGUFs use different converters; this does not isolate training changes alone.",
+    "LFM does not list Italian, Russian or Greek among its supported languages."
+  ]
+}

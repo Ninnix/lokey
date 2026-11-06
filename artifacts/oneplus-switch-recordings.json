@@ -1,0 +1,48 @@
+{
+  "recordings": {
+    "eight_distinct_switches": true,
+    "profiles": [
+      {
+        "id": "cherry_red",
+        "samples": 86,
+        "sha256": "569ffa575a60b13e3c5f447014316b600bb20f9e49ae02a887afeb68a13c3fa1"
+      },
+      {
+        "id": "gateron_brown",
+        "samples": 1,
+        "sha256": "6f4f95b28a7e18c8dc04635e31d4e6991d987525d6999f6771b30a9cfd3d7dbb"
+      },
+      {
+        "id": "cherry_brown",
+        "samples": 86,
+        "sha256": "45c115f1ee35bd77ef6aec0b844044284308847237d9d2d6db5653fb42e02468"
+      },
+      {
+        "id": "cherry_blue",
+        "samples": 86,
+        "sha256": "35c028b562d515347c18789a25300cb8d77f7bb64be3cabf5143074b2a805bd7"
+      },
+      {
+        "id": "holy_panda",
+        "samples": 4,
+        "sha256": "79b2811f3061c406ac9dcf802ae83d68f5fac78f8ed588a515e2550d2fcd05df"
+      },
+      {
+        "id": "kailh_box_jade",
+        "samples": 1,
+        "sha256": "e22c23ced2ed3dcbc65cad6accaaca81a3acc3fa0dfbffa389cb331fc3dde4eb"
+      },
+      {
+        "id": "razer_green",
+        "samples": 3,
+        "sha256": "407def7e5bf7e28aaa3ac09459d5e19e14ca14ecfae57170f6ff69668df411dd"
+      },
+      {
+        "id": "topre",
+        "samples": 5,
+        "sha256": "a61130c11937d615179cdda1dc31497ed64138dae1dc931c331be74a82c62451"
+      }
+    ]
+  },
+  "passed": true
+}

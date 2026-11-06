@@ -1,0 +1,10 @@
+{
+  "imeflow": {
+    "real_swipe_commits_word": true,
+    "consecutive_swipes": true,
+    "punctuation_removes_auto_space": true,
+    "italian_swipe": true,
+    "fast_swipes_and_following_tap_preserved": true
+  },
+  "passed": true
+}

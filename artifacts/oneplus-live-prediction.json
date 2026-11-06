@@ -1,0 +1,25 @@
+{
+  "passed": true,
+  "cases": [
+    {
+      "language": "es",
+      "space_corrected_typo": true,
+      "backspace_restored_original": true
+    },
+    {
+      "language": "it",
+      "space_corrected_typo": true,
+      "backspace_restored_original": true
+    },
+    {
+      "language": "fr",
+      "space_corrected_typo": true,
+      "backspace_restored_original": true
+    },
+    {
+      "language": "en",
+      "space_corrected_typo": true,
+      "backspace_restored_original": true
+    }
+  ]
+}

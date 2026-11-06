@@ -1,0 +1,12 @@
+{
+  "tools": {
+    "fast_overlapping_typing_uses_one_capital": true,
+    "symbols_hold_tools_keeps_keyboard": true,
+    "clipboard_pin_reload_duplicate_clear_delete": true,
+    "clipboard_expiry_and_sensitive_clips": true,
+    "selection_only_and_stale_editor_guards": true,
+    "long_editor_selected_passage": true,
+    "translation_stream_slot_and_cursor_guard": true
+  },
+  "passed": true
+}

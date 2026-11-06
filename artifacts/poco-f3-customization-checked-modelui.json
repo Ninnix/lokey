@@ -1,0 +1,15 @@
+{
+  "modelui": {
+    "four_curated_models": true,
+    "setup_and_import_controls_removed": true,
+    "concise_automatic_description": true,
+    "selected_and_available_colors_differ": true,
+    "provider_logos": 4,
+    "large_section_titles": true,
+    "credits_below_microphone": true,
+    "pinned_runtime_sources": 3,
+    "model_licenses_available_offline": 4,
+    "input_and_design_credits_separate": true
+  },
+  "passed": true
+}

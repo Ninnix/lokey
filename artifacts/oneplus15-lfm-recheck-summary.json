@@ -1,0 +1,139 @@
+{
+  "source_sha256_at_collection": "005f73758787935d1408fa614e208311254799d1f58d4597ea2eb133403f8447",
+  "serial": "3B165U00WXK00000",
+  "power_mode": "balanced",
+  "models": {
+    "lfm": {
+      "cpu": {
+        "backend": "CPU",
+        "load_ms": 965.96,
+        "warm_english_median_ms": 120.075,
+        "trials": 27
+      },
+      "htp": {
+        "backend": "HTP0",
+        "load_ms": 1784.679,
+        "warm_english_median_ms": 64.28999999999999,
+        "trials": 27
+      },
+      "speedup": 1.8677088194120395,
+      "identical_suggestions": 8,
+      "differences": [
+        {
+          "prompt": "I am on my way ",
+          "pass": 0,
+          "cpu": "to\nwith\n",
+          "htp": "to\nwith\nherewherewherewherewherewherewho\n"
+        },
+        {
+          "prompt": "Can you send me the ",
+          "pass": 0,
+          "cpu": "letter\ninformation\n",
+          "htp": "letter\ninformation\nrecipe\n"
+        },
+        {
+          "prompt": "Thank you for your ",
+          "pass": 0,
+          "cpu": "help\ncontribution\n",
+          "htp": "help\ncontribution\nassistance\n"
+        },
+        {
+          "prompt": "See you ",
+          "pass": 0,
+          "cpu": "see\nseesee\n",
+          "htp": "see\nseeseesee\nwhen\n"
+        },
+        {
+          "prompt": "I would like to ",
+          "pass": 0,
+          "cpu": "discuss\nexplore\nrequest\n",
+          "htp": "explore\ndiscuss\nsee\n"
+        },
+        {
+          "prompt": "Let me know when you ",
+          "pass": 0,
+          "cpu": "see\nfeel\nget\n",
+          "htp": "see\nfeel\nknowwherewherewherewherewherewh\n"
+        },
+        {
+          "prompt": "C'é un amico mio che ha una casa in costa azzu",
+          "pass": 0,
+          "cpu": "",
+          "htp": "azzullo\n"
+        },
+        {
+          "prompt": "I am on my way ",
+          "pass": 1,
+          "cpu": "to\nwith\nhere\n",
+          "htp": "to\nwith\nherewherewherewherewherewherewho\n"
+        },
+        {
+          "prompt": "Can you send me the ",
+          "pass": 1,
+          "cpu": "letter\ninformation\nmessage\n",
+          "htp": "letter\ninformation\nrecipe\n"
+        },
+        {
+          "prompt": "See you ",
+          "pass": 1,
+          "cpu": "see\nseesee\nin\n",
+          "htp": "see\nseeseesee\nwhen\n"
+        },
+        {
+          "prompt": "I would like to ",
+          "pass": 1,
+          "cpu": "discuss\nexplore\nrequest\n",
+          "htp": "explore\ndiscuss\nsee\n"
+        },
+        {
+          "prompt": "Let me know when you ",
+          "pass": 1,
+          "cpu": "see\nfeel\nget\n",
+          "htp": "see\nfeel\nknowwherewherewherewherewherewh\n"
+        },
+        {
+          "prompt": "C'é un amico mio che ha una casa in costa azzu",
+          "pass": 1,
+          "cpu": "",
+          "htp": "azzullo\n"
+        },
+        {
+          "prompt": "I am on my way ",
+          "pass": 2,
+          "cpu": "to\nwith\nhere\n",
+          "htp": "to\nwith\nherewherewherewherewherewherewho\n"
+        },
+        {
+          "prompt": "Can you send me the ",
+          "pass": 2,
+          "cpu": "letter\ninformation\nmessage\n",
+          "htp": "letter\ninformation\nrecipe\n"
+        },
+        {
+          "prompt": "See you ",
+          "pass": 2,
+          "cpu": "see\nseesee\nin\n",
+          "htp": "see\nseeseesee\nwhen\n"
+        },
+        {
+          "prompt": "I would like to ",
+          "pass": 2,
+          "cpu": "discuss\nexplore\nrequest\n",
+          "htp": "explore\ndiscuss\nsee\n"
+        },
+        {
+          "prompt": "Let me know when you ",
+          "pass": 2,
+          "cpu": "see\nfeel\nget\n",
+          "htp": "see\nfeel\nknowwherewherewherewherewherewh\n"
+        },
+        {
+          "prompt": "C'é un amico mio che ha una casa in costa azzu",
+          "pass": 2,
+          "cpu": "",
+          "htp": "azzullo\n"
+        }
+      ]
+    }
+  }
+}

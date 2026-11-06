@@ -1,0 +1,528 @@
+{
+  "insets": {
+    "insets_change_without_resizing_keys": true,
+    "consumed_insets_not_added_twice": true,
+    "windows": [],
+    "keys": [
+      {
+        "label": "Space",
+        "bounds": [
+          324,
+          2111,
+          810,
+          2268
+        ]
+      },
+      {
+        "label": "Enter",
+        "bounds": [
+          918,
+          2111,
+          1080,
+          2268
+        ]
+      }
+    ],
+    "navigation": [],
+    "nodes": [
+      {
+        "label": "Writing assistance hub",
+        "bounds": [
+          32,
+          1265,
+          142,
+          1375
+        ]
+      },
+      {
+        "label": "GIF",
+        "bounds": [
+          183,
+          1265,
+          293,
+          1375
+        ]
+      },
+      {
+        "label": "Stickers",
+        "bounds": [
+          334,
+          1265,
+          444,
+          1375
+        ]
+      },
+      {
+        "label": "Clipboard",
+        "bounds": [
+          485,
+          1265,
+          595,
+          1375
+        ]
+      },
+      {
+        "label": "Translator",
+        "bounds": [
+          636,
+          1265,
+          746,
+          1375
+        ]
+      },
+      {
+        "label": "Bing Search",
+        "bounds": [
+          787,
+          1265,
+          897,
+          1375
+        ]
+      },
+      {
+        "label": "More keyboard options",
+        "bounds": [
+          938,
+          1265,
+          1048,
+          1375
+        ]
+      },
+      {
+        "label": "Close Microsoft SwiftKey Beta toolbar",
+        "id": "com.touchtype.swiftkey.beta:id/toolbar_button",
+        "bounds": [
+          19,
+          1417,
+          75,
+          1473
+        ]
+      },
+      {
+        "label": "Ma",
+        "bounds": [
+          94,
+          1382,
+          361,
+          1507
+        ]
+      },
+      {
+        "label": "I",
+        "bounds": [
+          361,
+          1382,
+          718,
+          1507
+        ]
+      },
+      {
+        "label": "❤️ emoji",
+        "bounds": [
+          718,
+          1382,
+          986,
+          1507
+        ]
+      },
+      {
+        "label": "capital 1",
+        "bounds": [
+          0,
+          1507,
+          108,
+          1640
+        ]
+      },
+      {
+        "label": "capital 2",
+        "bounds": [
+          108,
+          1507,
+          216,
+          1640
+        ]
+      },
+      {
+        "label": "capital 3",
+        "bounds": [
+          216,
+          1507,
+          324,
+          1640
+        ]
+      },
+      {
+        "label": "capital 4",
+        "bounds": [
+          324,
+          1507,
+          432,
+          1640
+        ]
+      },
+      {
+        "label": "capital 5",
+        "bounds": [
+          432,
+          1507,
+          540,
+          1640
+        ]
+      },
+      {
+        "label": "capital 6",
+        "bounds": [
+          540,
+          1507,
+          648,
+          1640
+        ]
+      },
+      {
+        "label": "capital 7",
+        "bounds": [
+          648,
+          1507,
+          756,
+          1640
+        ]
+      },
+      {
+        "label": "capital 8",
+        "bounds": [
+          756,
+          1507,
+          864,
+          1640
+        ]
+      },
+      {
+        "label": "capital 9",
+        "bounds": [
+          864,
+          1507,
+          972,
+          1640
+        ]
+      },
+      {
+        "label": "capital 0",
+        "bounds": [
+          972,
+          1507,
+          1080,
+          1640
+        ]
+      },
+      {
+        "label": "capital Q",
+        "bounds": [
+          0,
+          1640,
+          108,
+          1797
+        ]
+      },
+      {
+        "label": "capital W",
+        "bounds": [
+          108,
+          1640,
+          216,
+          1797
+        ]
+      },
+      {
+        "label": "capital E",
+        "bounds": [
+          216,
+          1640,
+          324,
+          1797
+        ]
+      },
+      {
+        "label": "capital R",
+        "bounds": [
+          324,
+          1640,
+          432,
+          1797
+        ]
+      },
+      {
+        "label": "capital T",
+        "bounds": [
+          432,
+          1640,
+          540,
+          1797
+        ]
+      },
+      {
+        "label": "capital Y",
+        "bounds": [
+          540,
+          1640,
+          648,
+          1797
+        ]
+      },
+      {
+        "label": "capital U",
+        "bounds": [
+          648,
+          1640,
+          756,
+          1797
+        ]
+      },
+      {
+        "label": "capital I",
+        "bounds": [
+          756,
+          1640,
+          864,
+          1797
+        ]
+      },
+      {
+        "label": "capital O",
+        "bounds": [
+          864,
+          1640,
+          972,
+          1797
+        ]
+      },
+      {
+        "label": "capital P",
+        "bounds": [
+          972,
+          1640,
+          1080,
+          1797
+        ]
+      },
+      {
+        "label": "capital A",
+        "bounds": [
+          0,
+          1797,
+          162,
+          1954
+        ]
+      },
+      {
+        "label": "capital S",
+        "bounds": [
+          162,
+          1797,
+          270,
+          1954
+        ]
+      },
+      {
+        "label": "capital D",
+        "bounds": [
+          270,
+          1797,
+          378,
+          1954
+        ]
+      },
+      {
+        "label": "capital F",
+        "bounds": [
+          378,
+          1797,
+          486,
+          1954
+        ]
+      },
+      {
+        "label": "capital G",
+        "bounds": [
+          486,
+          1797,
+          594,
+          1954
+        ]
+      },
+      {
+        "label": "capital H",
+        "bounds": [
+          594,
+          1797,
+          702,
+          1954
+        ]
+      },
+      {
+        "label": "capital J",
+        "bounds": [
+          702,
+          1797,
+          810,
+          1954
+        ]
+      },
+      {
+        "label": "capital K",
+        "bounds": [
+          810,
+          1797,
+          918,
+          1954
+        ]
+      },
+      {
+        "label": "capital L",
+        "bounds": [
+          918,
+          1797,
+          1080,
+          1954
+        ]
+      },
+      {
+        "label": "Double tap for uppercase",
+        "bounds": [
+          0,
+          1954,
+          151,
+          2111
+        ]
+      },
+      {
+        "label": "capital Z",
+        "bounds": [
+          151,
+          1954,
+          270,
+          2111
+        ]
+      },
+      {
+        "label": "capital X",
+        "bounds": [
+          270,
+          1954,
+          378,
+          2111
+        ]
+      },
+      {
+        "label": "capital C",
+        "bounds": [
+          378,
+          1954,
+          486,
+          2111
+        ]
+      },
+      {
+        "label": "capital V",
+        "bounds": [
+          486,
+          1954,
+          594,
+          2111
+        ]
+      },
+      {
+        "label": "capital B",
+        "bounds": [
+          594,
+          1954,
+          702,
+          2111
+        ]
+      },
+      {
+        "label": "capital N",
+        "bounds": [
+          702,
+          1954,
+          810,
+          2111
+        ]
+      },
+      {
+        "label": "capital M",
+        "bounds": [
+          810,
+          1954,
+          929,
+          2111
+        ]
+      },
+      {
+        "label": "Delete",
+        "bounds": [
+          929,
+          1954,
+          1080,
+          2111
+        ]
+      },
+      {
+        "label": "Symbols and numbers",
+        "bounds": [
+          0,
+          2111,
+          108,
+          2268
+        ]
+      },
+      {
+        "label": "Emoji",
+        "bounds": [
+          108,
+          2111,
+          216,
+          2268
+        ]
+      },
+      {
+        "label": ",, alternatives available, Voice typing, long press to activate",
+        "bounds": [
+          216,
+          2111,
+          324,
+          2268
+        ]
+      },
+      {
+        "label": "Space",
+        "bounds": [
+          324,
+          2111,
+          810,
+          2268
+        ]
+      },
+      {
+        "label": ".",
+        "bounds": [
+          810,
+          2111,
+          918,
+          2268
+        ]
+      },
+      {
+        "label": "Enter",
+        "bounds": [
+          918,
+          2111,
+          1080,
+          2268
+        ]
+      }
+    ],
+    "no_navigation_overlap": true
+  },
+  "passed": true
+}

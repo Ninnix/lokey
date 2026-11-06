@@ -1,0 +1,458 @@
+{
+  "insets": {
+    "insets_change_without_resizing_keys": true,
+    "consumed_insets_not_added_twice": true,
+    "keys": [
+      {
+        "label": "?123, hold for tools",
+        "bounds": [
+          17,
+          2488,
+          197,
+          2691
+        ]
+      },
+      {
+        "label": "space, hold for Hold for cursor",
+        "bounds": [
+          327,
+          2488,
+          945,
+          2691
+        ]
+      },
+      {
+        "label": "Done, hold to record, slide up to lock",
+        "bounds": [
+          1075,
+          2488,
+          1255,
+          2691
+        ]
+      }
+    ],
+    "navigation": [
+      {
+        "label": "Switch input method",
+        "id": "android:id/input_method_nav_ime_switcher",
+        "bounds": [
+          1056,
+          2711,
+          1210,
+          2865
+        ]
+      }
+    ],
+    "nodes": [
+      {
+        "label": "1, hold for !",
+        "bounds": [
+          17,
+          2774,
+          129,
+          2956
+        ]
+      },
+      {
+        "label": "2, hold for @",
+        "bounds": [
+          142,
+          2774,
+          254,
+          2956
+        ]
+      },
+      {
+        "label": "3, hold for #",
+        "bounds": [
+          267,
+          2774,
+          379,
+          2956
+        ]
+      },
+      {
+        "label": "4, hold for $",
+        "bounds": [
+          392,
+          2774,
+          504,
+          2956
+        ]
+      },
+      {
+        "label": "5, hold for %",
+        "bounds": [
+          517,
+          2774,
+          629,
+          2956
+        ]
+      },
+      {
+        "label": "6, hold for ^",
+        "bounds": [
+          643,
+          2774,
+          755,
+          2956
+        ]
+      },
+      {
+        "label": "7, hold for &",
+        "bounds": [
+          768,
+          2774,
+          880,
+          2956
+        ]
+      },
+      {
+        "label": "8, hold for *",
+        "bounds": [
+          893,
+          1682,
+          1005,
+          1864
+        ]
+      },
+      {
+        "label": "9, hold for (",
+        "bounds": [
+          1018,
+          1682,
+          1130,
+          1864
+        ]
+      },
+      {
+        "label": "0, hold for )",
+        "bounds": [
+          1143,
+          1682,
+          1255,
+          1864
+        ]
+      },
+      {
+        "label": "Q",
+        "bounds": [
+          17,
+          1884,
+          129,
+          2065
+        ]
+      },
+      {
+        "label": "W",
+        "bounds": [
+          142,
+          1884,
+          254,
+          2065
+        ]
+      },
+      {
+        "label": "E, hold for È",
+        "bounds": [
+          267,
+          1884,
+          379,
+          2065
+        ]
+      },
+      {
+        "label": "R, hold for Ŕ",
+        "bounds": [
+          392,
+          1884,
+          504,
+          2065
+        ]
+      },
+      {
+        "label": "T, hold for Ť",
+        "bounds": [
+          517,
+          1884,
+          629,
+          2065
+        ]
+      },
+      {
+        "label": "Y, hold for Ý",
+        "bounds": [
+          643,
+          1884,
+          755,
+          2065
+        ]
+      },
+      {
+        "label": "U, hold for Ù",
+        "bounds": [
+          768,
+          1884,
+          880,
+          2065
+        ]
+      },
+      {
+        "label": "I, hold for Ì",
+        "bounds": [
+          893,
+          1884,
+          1005,
+          2065
+        ]
+      },
+      {
+        "label": "O, hold for Ò",
+        "bounds": [
+          1018,
+          1884,
+          1130,
+          2065
+        ]
+      },
+      {
+        "label": "P",
+        "bounds": [
+          1143,
+          1884,
+          1255,
+          2065
+        ]
+      },
+      {
+        "label": "A, hold for À",
+        "bounds": [
+          70,
+          2085,
+          184,
+          2267
+        ]
+      },
+      {
+        "label": "S, hold for ẞ",
+        "bounds": [
+          197,
+          2085,
+          311,
+          2267
+        ]
+      },
+      {
+        "label": "D, hold for Ď",
+        "bounds": [
+          324,
+          2085,
+          439,
+          2267
+        ]
+      },
+      {
+        "label": "F",
+        "bounds": [
+          452,
+          2085,
+          566,
+          2267
+        ]
+      },
+      {
+        "label": "G, hold for Ğ",
+        "bounds": [
+          579,
+          2085,
+          693,
+          2267
+        ]
+      },
+      {
+        "label": "H, hold for Ħ",
+        "bounds": [
+          706,
+          2085,
+          820,
+          2267
+        ]
+      },
+      {
+        "label": "J",
+        "bounds": [
+          834,
+          2085,
+          948,
+          2267
+        ]
+      },
+      {
+        "label": "K, hold for Ķ",
+        "bounds": [
+          961,
+          2085,
+          1075,
+          2267
+        ]
+      },
+      {
+        "label": "L, hold for Ł",
+        "bounds": [
+          1088,
+          2085,
+          1202,
+          2267
+        ]
+      },
+      {
+        "label": "Shift on for next letter",
+        "bounds": [
+          17,
+          2287,
+          178,
+          2468
+        ]
+      },
+      {
+        "label": "Z, hold for Ž",
+        "bounds": [
+          191,
+          2287,
+          307,
+          2468
+        ]
+      },
+      {
+        "label": "X",
+        "bounds": [
+          320,
+          2287,
+          436,
+          2468
+        ]
+      },
+      {
+        "label": "C, hold for Ç",
+        "bounds": [
+          449,
+          2287,
+          565,
+          2468
+        ]
+      },
+      {
+        "label": "V",
+        "bounds": [
+          578,
+          2287,
+          694,
+          2468
+        ]
+      },
+      {
+        "label": "B",
+        "bounds": [
+          707,
+          2287,
+          823,
+          2468
+        ]
+      },
+      {
+        "label": "N, hold for Ñ",
+        "bounds": [
+          836,
+          2287,
+          952,
+          2468
+        ]
+      },
+      {
+        "label": "M",
+        "bounds": [
+          965,
+          2287,
+          1081,
+          2468
+        ]
+      },
+      {
+        "label": "Backspace, hold to keep deleting",
+        "bounds": [
+          1094,
+          2287,
+          1255,
+          2468
+        ]
+      },
+      {
+        "label": "?123, hold for tools",
+        "bounds": [
+          17,
+          2488,
+          197,
+          2691
+        ]
+      },
+      {
+        "label": ",, hold for ☺",
+        "bounds": [
+          210,
+          2488,
+          314,
+          2691
+        ]
+      },
+      {
+        "label": "space, hold for Hold for cursor",
+        "bounds": [
+          327,
+          2488,
+          945,
+          2691
+        ]
+      },
+      {
+        "label": "., hold for ! , ?",
+        "bounds": [
+          958,
+          2488,
+          1062,
+          2691
+        ]
+      },
+      {
+        "label": "Done, hold to record, slide up to lock",
+        "bounds": [
+          1075,
+          2488,
+          1255,
+          2691
+        ]
+      },
+      {
+        "label": "Back",
+        "id": "android:id/input_method_nav_back",
+        "bounds": [
+          62,
+          2711,
+          216,
+          2865
+        ]
+      },
+      {
+        "label": "Switch input method",
+        "id": "android:id/input_method_nav_ime_switcher",
+        "bounds": [
+          1056,
+          2711,
+          1210,
+          2865
+        ]
+      }
+    ],
+    "no_navigation_overlap": true
+  },
+  "passed": true
+}

@@ -1,0 +1,15 @@
+{
+  "source_sha256_at_collection": "1a5dc3822cabbaf4ccddad641975a8d1f00e63cea5e507c50f96f09f7bb31881",
+  "serial": "3B165U00WXK00000",
+  "power_mode": "balanced",
+  "models": {
+    "lfm": {
+      "htp": {
+        "backend": "HTP0",
+        "load_ms": 1763.208,
+        "warm_english_median_ms": 77.52199999999999,
+        "trials": 27
+      }
+    }
+  }
+}

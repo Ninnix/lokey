@@ -1,0 +1,4 @@
+{
+  "passed": false,
+  "error": "java.lang.IllegalStateException: Lokey IME did not become ready\n\tat org.lokey.app.KeyboardTest.imeFlowTest(KeyboardTest.kt:572)\n\tat org.lokey.app.KeyboardTest.onStart(KeyboardTest.kt:83)\n\tat android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:2632)\n"
+}

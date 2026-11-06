@@ -1,0 +1,21 @@
+{
+  "languages": 39,
+  "locale_variants": 40,
+  "strings_per_locale": 519,
+  "source_language": "en",
+  "translation_source": "Google Translate, generated from public interface strings during development",
+  "date": "2026-11-06",
+  "runtime_translation_service": false,
+  "review": "Context-specific interface labels, home-screen slogans and haptic levels corrected; full native-speaker review remains pending.",
+  "preserved": [
+    "User text and clipboard entries",
+    "Custom layout and design names",
+    "Keyboard characters and inference language identifiers",
+    "Original license texts and provider/model names"
+  ],
+  "checks": [
+    "tools/check-locales.py",
+    "localization instrumentation",
+    "tools/test-app-locales.py"
+  ]
+}

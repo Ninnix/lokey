@@ -1,0 +1,15 @@
+{
+  "source_sha256_at_collection": "2402462ee3c752142d1212e5c0d627c16474367968aab6d7d464ac76d612b88b",
+  "serial": "3B165U00WXK00000",
+  "power_mode": "balanced",
+  "models": {
+    "lfm": {
+      "auto": {
+        "backend": "CPU",
+        "load_ms": 1355.875,
+        "warm_english_median_ms": 214.6395,
+        "trials": 27
+      }
+    }
+  }
+}

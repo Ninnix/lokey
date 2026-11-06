@@ -1,0 +1,31 @@
+{
+  "load_ms": 851.321,
+  "backend": "CPU",
+  "trials": [
+    {
+      "pass": 0,
+      "ms": 2160.268,
+      "fixture": "jfk.wav",
+      "text": "And so, my fellow Americans, ask not what your country can do for you, ask what you can do for your country."
+    },
+    {
+      "pass": 0,
+      "ms": 3960.579,
+      "fixture": "asr-en.wav",
+      "text": "Mhm. Oh yeah, yeah. He wasn't even that big when I started listening to him. But and his solo music didn't do overly well, but he did very well when he started writing for other people."
+    },
+    {
+      "pass": 1,
+      "ms": 2833.864,
+      "fixture": "jfk.wav",
+      "text": "And so, my fellow Americans, ask not what your country can do for you, ask what you can do for your country."
+    },
+    {
+      "pass": 1,
+      "ms": 3594.623,
+      "fixture": "asr-en.wav",
+      "text": "Mhm. Oh yeah, yeah. He wasn't even that big when I started listening to him. But and his solo music didn't do overly well, but he did very well when he started writing for other people."
+    }
+  ],
+  "invalid_npu_comparison": "Reported backend CPU; excluded from NPU results."
+}
