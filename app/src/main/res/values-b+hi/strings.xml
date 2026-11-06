@@ -41,7 +41,7 @@
     <string name="ui_accuracy">"सटीकता"</string>
     <string name="ui_accent">"इंटरफ़ेस एक्सेंट रंग"</string>
     <string name="ui_accent_1_s_letter_to_compose_space_for_literal">"एक्सेंट %1$s · लिखने के लिए पत्र · शाब्दिक के लिए स्थान"</string>
-    <string name="ui_accent_menus">"डायक्रिटिक मेनू"</string>
+    <string name="ui_accent_menus">"मात्राएँ"</string>
     <string name="ui_adaptive_letter_sizes">"अनुकूली अक्षर आकार"</string>
     <string name="ui_add_1_s_in_lokey_models">"Lokey में %1$s जोड़ें → मॉडल"</string>
     <string name="ui_add_a_text_model_in_lokey_models_to_translate">"Lokey → अनुवाद करने के लिए मॉडल में एक टेक्स्ट मॉडल जोड़ें।"</string>
@@ -208,7 +208,7 @@
     <string name="ui_input_design_credits">"इनपुट और डिज़ाइन क्रेडिट"</string>
     <string name="ui_input_credits">"इनपुट क्रेडिट"</string>
     <string name="ui_intelligent_typing_private_by_design">"बुद्धिमान टाइपिंग। डिज़ाइन द्वारा निजी."</string>
-    <string name="ui_intl_dead_keys">"अंतर्राष्ट्रीय · मृत कुंजियाँ"</string>
+    <string name="ui_intl_dead_keys">"Intl · डेड की"</string>
     <string name="ui_intl_hold_l_for_or_hold_q_for_or_dead_keys_e_e_space_accent_share">"अंतर्राष्ट्रीय · \' या \" के लिए एल दबाए रखें; \' या ~ के लिए क्यू दबाए रखें। मृत कुंजियाँ: \' + ई → ई, ` + ई → ई, \' + स्पेस → \'.\nAccent · साझा उच्चारण मेनू, आपकी भाषा के लिए अतिरिक्त अक्षरों के साथ।"</string>
     <string name="ui_invalid_mp3_bitrate">"अमान्य एमपी3 बिटरेट"</string>
     <string name="ui_invalid_mp3_rate">"अमान्य एमपी3 दर"</string>
@@ -323,7 +323,7 @@
     <string name="ui_privacy_policy">"गोपनीयता नीति"</string>
     <string name="ui_provider_logo_sources">"प्रदाता लोगो स्रोत"</string>
     <string name="ui_purple">"बैंगनी"</string>
-    <string name="ui_qwerty_accent">"QWERTY एक्सेंट"</string>
+    <string name="ui_qwerty_accent">"QWERTY · मात्राएँ"</string>
     <string name="ui_qwerty_intl">"QWERTY अंतर्राष्ट्रीय"</string>
     <string name="ui_queued">"कतारबद्ध"</string>
     <string name="ui_qwen_audio_encoder">"Qwen ऑडियो एनकोडर"</string>
@@ -384,7 +384,7 @@
     <string name="ui_sound_feedback">"ध्वनि और प्रतिक्रिया"</string>
     <string name="ui_sound_volume">"ध्वनि की मात्रा"</string>
     <string name="ui_source_at_this_revision">"इस संशोधन का स्रोत"</string>
-    <string name="ui_space">"स्पेसबार"</string>
+    <string name="ui_space">"स्पेस"</string>
     <string name="ui_space_cursor">"स्पेस/कर्सर"</string>
     <string name="ui_space_hold_to_move_cursor">"स्पेस, कर्सर को हिलाने के लिए दबाए रखें"</string>
     <string name="ui_spacebar_row">"स्पेसबार पंक्ति"</string>
@@ -494,7 +494,7 @@
     <string name="ui_more">"अधिक प्रतीक"</string>
     <string name="ui_required_for_qwen_asr">"Qwen ASR के लिए आवश्यक"</string>
     <string name="ui_shift">"शिफ्ट कुंजी"</string>
-    <string name="ui_space_0803df4">"स्पेसबार"</string>
+    <string name="ui_space_0803df4">"स्पेस"</string>
     <string name="ui_text_model">"टेक्स्ट मॉडल"</string>
     <string name="ui_tools">"कीबोर्ड उपकरण"</string>
     <string name="ui_1_02_gb">"~1.02 जीबी"</string>

@@ -41,7 +41,7 @@
     <string name="ui_accuracy">"PONTOSSÁG"</string>
     <string name="ui_accent">"Interfész kiemelő színe"</string>
     <string name="ui_accent_1_s_letter_to_compose_space_for_literal">"Ékezet %1$s · Levél íráshoz · Szóköz a literál számára"</string>
-    <string name="ui_accent_menus">"Diakritikus menük"</string>
+    <string name="ui_accent_menus">"Ékezetek"</string>
     <string name="ui_adaptive_letter_sizes">"Adaptív betűméretek"</string>
     <string name="ui_add_1_s_in_lokey_models">"%1$s hozzáadása a Lokey → Modellek menüponthoz"</string>
     <string name="ui_add_a_text_model_in_lokey_models_to_translate">"Szöveges modell hozzáadása a Lokey → Fordítandó modellek menüpontban."</string>
@@ -208,7 +208,7 @@
     <string name="ui_input_design_credits">"Bemeneti és tervezési kreditek"</string>
     <string name="ui_input_credits">"Bemeneti kreditek"</string>
     <string name="ui_intelligent_typing_private_by_design">"Intelligens gépelés. Tervezés szerint privát."</string>
-    <string name="ui_intl_dead_keys">"Intl · halott kulcsok"</string>
+    <string name="ui_intl_dead_keys">"Intl · holt billentyűk"</string>
     <string name="ui_intl_hold_l_for_or_hold_q_for_or_dead_keys_e_e_space_accent_share">"Intl · tartsa lenyomva az L billentyűt a \' vagy \"\" kifejezéshez; tartsa lenyomva a Q billentyűt a ` vagy ~ esetén. Halott billentyűk: \' + e → é, ` + e → è, \' + Szóköz → \'.\nAékezet · megosztott ékezetes menük, extra betűkkel az Ön nyelvéhez."</string>
     <string name="ui_invalid_mp3_bitrate">"Érvénytelen MP3 bitráta"</string>
     <string name="ui_invalid_mp3_rate">"Érvénytelen MP3 sebesség"</string>
@@ -323,7 +323,7 @@
     <string name="ui_privacy_policy">"Privacy policy"</string>
     <string name="ui_provider_logo_sources">"Szolgáltató logójának forrásai"</string>
     <string name="ui_purple">"Lila"</string>
-    <string name="ui_qwerty_accent">"QWERTY Kiemelés"</string>
+    <string name="ui_qwerty_accent">"QWERTY · Ékezetek"</string>
     <string name="ui_qwerty_intl">"QWERTY Intl"</string>
     <string name="ui_queued">"Sorban"</string>
     <string name="ui_qwen_audio_encoder">"Qwen audio kódoló"</string>

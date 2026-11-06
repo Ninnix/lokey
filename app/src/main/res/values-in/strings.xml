@@ -41,7 +41,7 @@
     <string name="ui_accuracy">"AKURASI"</string>
     <string name="ui_accent">"Warna aksen antarmuka"</string>
     <string name="ui_accent_1_s_letter_to_compose_space_for_literal">"Aksen %1$s · Huruf untuk ditulis · Spasi untuk literal"</string>
-    <string name="ui_accent_menus">"Menu diakritik"</string>
+    <string name="ui_accent_menus">"Aksen"</string>
     <string name="ui_adaptive_letter_sizes">"Ukuran huruf adaptif"</string>
     <string name="ui_add_1_s_in_lokey_models">"Tambahkan %1$s di Lokey → Model"</string>
     <string name="ui_add_a_text_model_in_lokey_models_to_translate">"Tambahkan model teks di Lokey → Model untuk diterjemahkan."</string>
@@ -208,7 +208,7 @@
     <string name="ui_input_design_credits">"Kredit masukan &amp; desain"</string>
     <string name="ui_input_credits">"Masukkan kredit"</string>
     <string name="ui_intelligent_typing_private_by_design">"Pengetikan cerdas. Pribadi berdasarkan desain."</string>
-    <string name="ui_intl_dead_keys">"Intl · kunci mati"</string>
+    <string name="ui_intl_dead_keys">"Intl · tombol mati"</string>
     <string name="ui_intl_hold_l_for_or_hold_q_for_or_dead_keys_e_e_space_accent_share">"Intl · tahan L untuk \' atau \"; tahan Q untuk ` atau ~. Tombol mati: \' + e → é, ` + e → è, \' + Spasi → \'.\nAccent · menu aksen bersama, dengan huruf tambahan untuk bahasa Anda."</string>
     <string name="ui_invalid_mp3_bitrate">"Kecepatan bit MP3 tidak valid"</string>
     <string name="ui_invalid_mp3_rate">"Kecepatan MP3 tidak valid"</string>
@@ -323,7 +323,7 @@
     <string name="ui_privacy_policy">"Kebijakan privasi"</string>
     <string name="ui_provider_logo_sources">"Sumber logo penyedia"</string>
     <string name="ui_purple">"Ungu"</string>
-    <string name="ui_qwerty_accent">"Aksen QWERTY"</string>
+    <string name="ui_qwerty_accent">"QWERTY · Aksen"</string>
     <string name="ui_qwerty_intl">"QWERTY Intl"</string>
     <string name="ui_queued">"Mengantri"</string>
     <string name="ui_qwen_audio_encoder">"pembuat enkode audio Qwen"</string>

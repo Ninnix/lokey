@@ -41,7 +41,7 @@
     <string name="ui_accuracy">"准确性"</string>
     <string name="ui_accent">"界面强调色"</string>
     <string name="ui_accent_1_s_letter_to_compose_space_for_literal">"重音%1$s·要撰写的字母·文字的空格"</string>
-    <string name="ui_accent_menus">"变音符号菜单"</string>
+    <string name="ui_accent_menus">"附加符号"</string>
     <string name="ui_adaptive_letter_sizes">"自适应字母大小"</string>
     <string name="ui_add_1_s_in_lokey_models">"在Lokey→型号中添加%1$s"</string>
     <string name="ui_add_a_text_model_in_lokey_models_to_translate">"在Lokey→要翻译的模型中添加文本模型。"</string>
@@ -208,7 +208,7 @@
     <string name="ui_input_design_credits">"输入和设计学分"</string>
     <string name="ui_input_credits">"输入积分"</string>
     <string name="ui_intelligent_typing_private_by_design">"智能打字。设计上的私密性。"</string>
-    <string name="ui_intl_dead_keys">"国际·死钥匙"</string>
+    <string name="ui_intl_dead_keys">"Intl · 组合键"</string>
     <string name="ui_intl_hold_l_for_or_hold_q_for_or_dead_keys_e_e_space_accent_share">"Intl · 按住 L 表示 \' 或 \"；按住 Q 表示 ` 或 ~。死键：\' + e → é、` + e → è、\' + Space → \'。\nAccent · 共享重音菜单，带有适合您的语言的额外字母。"</string>
     <string name="ui_invalid_mp3_bitrate">"无效的MP3比特率"</string>
     <string name="ui_invalid_mp3_rate">"MP3速率无效"</string>
@@ -323,7 +323,7 @@
     <string name="ui_privacy_policy">"隐私政策"</string>
     <string name="ui_provider_logo_sources">"提供商标识源"</string>
     <string name="ui_purple">"紫色"</string>
-    <string name="ui_qwerty_accent">"QWERTY 口音"</string>
+    <string name="ui_qwerty_accent">"QWERTY · 附加符号"</string>
     <string name="ui_qwerty_intl">"QWERTY 国际"</string>
     <string name="ui_queued">"排队"</string>
     <string name="ui_qwen_audio_encoder">"Qwen音频编码器"</string>
@@ -384,7 +384,7 @@
     <string name="ui_sound_feedback">"声音和反馈"</string>
     <string name="ui_sound_volume">"音量"</string>
     <string name="ui_source_at_this_revision">"本次修订的来源"</string>
-    <string name="ui_space">"空格键"</string>
+    <string name="ui_space">"空格"</string>
     <string name="ui_space_cursor">"空格/光标"</string>
     <string name="ui_space_hold_to_move_cursor">"空格键，按住可移动光标"</string>
     <string name="ui_spacebar_row">"空格键行"</string>
@@ -494,7 +494,7 @@
     <string name="ui_more">"更多符号"</string>
     <string name="ui_required_for_qwen_asr">"需要Qwen ASR"</string>
     <string name="ui_shift">"Shift键"</string>
-    <string name="ui_space_0803df4">"空格键"</string>
+    <string name="ui_space_0803df4">"空格"</string>
     <string name="ui_text_model">"文本模型"</string>
     <string name="ui_tools">"键盘工具"</string>
     <string name="ui_1_02_gb">"~1.02GB"</string>

@@ -1,0 +1,194 @@
+{
+  "passed": true,
+  "cases": [
+    {
+      "locale": "en",
+      "page": "home",
+      "expected": "Type. Speak. One flow.",
+      "visible": true,
+      "screenshot": "/home/nicolo/hack/loina/lokey/artifacts/release-0-1-1-locales-en-home.png"
+    },
+    {
+      "locale": "en",
+      "page": "feel",
+      "expected": "Keyboard layout",
+      "visible": true,
+      "screenshot": "/home/nicolo/hack/loina/lokey/artifacts/release-0-1-1-locales-en-feel.png"
+    },
+    {
+      "locale": "en",
+      "page": "models",
+      "expected": "Small models. Close to you.",
+      "visible": true,
+      "screenshot": "/home/nicolo/hack/loina/lokey/artifacts/release-0-1-1-locales-en-models.png"
+    },
+    {
+      "locale": "it",
+      "page": "home",
+      "expected": "Scrivi. Parla. Un unico flusso.",
+      "visible": true,
+      "screenshot": "/home/nicolo/hack/loina/lokey/artifacts/release-0-1-1-locales-it-home.png"
+    },
+    {
+      "locale": "it",
+      "page": "feel",
+      "expected": "Layout della tastiera",
+      "visible": true,
+      "screenshot": "/home/nicolo/hack/loina/lokey/artifacts/release-0-1-1-locales-it-feel.png"
+    },
+    {
+      "locale": "it",
+      "page": "models",
+      "expected": "Piccoli modelli. Vicino a voi.",
+      "visible": true,
+      "screenshot": "/home/nicolo/hack/loina/lokey/artifacts/release-0-1-1-locales-it-models.png"
+    },
+    {
+      "locale": "de",
+      "page": "home",
+      "expected": "Tippen. Sprechen. Alles im Fluss.",
+      "visible": true,
+      "screenshot": "/home/nicolo/hack/loina/lokey/artifacts/release-0-1-1-locales-de-home.png"
+    },
+    {
+      "locale": "de",
+      "page": "feel",
+      "expected": "Tastaturlayout",
+      "visible": true,
+      "screenshot": "/home/nicolo/hack/loina/lokey/artifacts/release-0-1-1-locales-de-feel.png"
+    },
+    {
+      "locale": "de",
+      "page": "models",
+      "expected": "Kleine Modelle. In Ihrer Nähe.",
+      "visible": true,
+      "screenshot": "/home/nicolo/hack/loina/lokey/artifacts/release-0-1-1-locales-de-models.png"
+    },
+    {
+      "locale": "ar",
+      "page": "home",
+      "expected": "اكتب. تحدّث. بسلاسة تامة.",
+      "visible": true,
+      "screenshot": "/home/nicolo/hack/loina/lokey/artifacts/release-0-1-1-locales-ar-home.png"
+    },
+    {
+      "locale": "ar",
+      "page": "feel",
+      "expected": "تخطيط لوحة المفاتيح",
+      "visible": true,
+      "screenshot": "/home/nicolo/hack/loina/lokey/artifacts/release-0-1-1-locales-ar-feel.png"
+    },
+    {
+      "locale": "ar",
+      "page": "models",
+      "expected": "النماذج الصغيرة. قريب منك.",
+      "visible": true,
+      "screenshot": "/home/nicolo/hack/loina/lokey/artifacts/release-0-1-1-locales-ar-models.png"
+    },
+    {
+      "locale": "fa",
+      "page": "home",
+      "expected": "تایپ کنید. صحبت کنید. روان و پیوسته.",
+      "visible": true,
+      "screenshot": "/home/nicolo/hack/loina/lokey/artifacts/release-0-1-1-locales-fa-home.png"
+    },
+    {
+      "locale": "fa",
+      "page": "feel",
+      "expected": "طرح صفحه کلید",
+      "visible": true,
+      "screenshot": "/home/nicolo/hack/loina/lokey/artifacts/release-0-1-1-locales-fa-feel.png"
+    },
+    {
+      "locale": "fa",
+      "page": "models",
+      "expected": "مدل‌های کوچک. نزدیک به شما.",
+      "visible": true,
+      "screenshot": "/home/nicolo/hack/loina/lokey/artifacts/release-0-1-1-locales-fa-models.png"
+    },
+    {
+      "locale": "ja",
+      "page": "home",
+      "expected": "入力も、音声も。 ひとつの流れに。",
+      "visible": true,
+      "screenshot": "/home/nicolo/hack/loina/lokey/artifacts/release-0-1-1-locales-ja-home.png"
+    },
+    {
+      "locale": "ja",
+      "page": "feel",
+      "expected": "キーボードレイアウト",
+      "visible": true,
+      "screenshot": "/home/nicolo/hack/loina/lokey/artifacts/release-0-1-1-locales-ja-feel.png"
+    },
+    {
+      "locale": "ja",
+      "page": "models",
+      "expected": "小型モデル。 あなたの近くに。",
+      "visible": true,
+      "screenshot": "/home/nicolo/hack/loina/lokey/artifacts/release-0-1-1-locales-ja-models.png"
+    },
+    {
+      "locale": "yue",
+      "page": "home",
+      "expected": "打字。講嘢。 一氣呵成。",
+      "visible": true,
+      "screenshot": "/home/nicolo/hack/loina/lokey/artifacts/release-0-1-1-locales-yue-home.png"
+    },
+    {
+      "locale": "yue",
+      "page": "feel",
+      "expected": "鍵盤布局",
+      "visible": true,
+      "screenshot": "/home/nicolo/hack/loina/lokey/artifacts/release-0-1-1-locales-yue-feel.png"
+    },
+    {
+      "locale": "yue",
+      "page": "models",
+      "expected": "小型型號。 靠近你。",
+      "visible": true,
+      "screenshot": "/home/nicolo/hack/loina/lokey/artifacts/release-0-1-1-locales-yue-models.png"
+    },
+    {
+      "locale": "fil",
+      "page": "home",
+      "expected": "Mag-type. Magsalita. Tuloy-tuloy.",
+      "visible": true,
+      "screenshot": "/home/nicolo/hack/loina/lokey/artifacts/release-0-1-1-locales-fil-home.png"
+    },
+    {
+      "locale": "fil",
+      "page": "feel",
+      "expected": "Layout ng keyboard",
+      "visible": true,
+      "screenshot": "/home/nicolo/hack/loina/lokey/artifacts/release-0-1-1-locales-fil-feel.png"
+    },
+    {
+      "locale": "fil",
+      "page": "models",
+      "expected": "Maliit na mga modelo. Malapit sa iyo.",
+      "visible": true,
+      "screenshot": "/home/nicolo/hack/loina/lokey/artifacts/release-0-1-1-locales-fil-models.png"
+    },
+    {
+      "locale": "id",
+      "page": "home",
+      "expected": "Ketik. Bicara. Tanpa jeda.",
+      "visible": true,
+      "screenshot": "/home/nicolo/hack/loina/lokey/artifacts/release-0-1-1-locales-id-home.png"
+    },
+    {
+      "locale": "id",
+      "page": "feel",
+      "expected": "Tata letak papan ketik",
+      "visible": true,
+      "screenshot": "/home/nicolo/hack/loina/lokey/artifacts/release-0-1-1-locales-id-feel.png"
+    },
+    {
+      "locale": "id",
+      "page": "models",
+      "expected": "Model kecil. Dekat dengan Anda.",
+      "visible": true,
+      "screenshot": "/home/nicolo/hack/loina/lokey/artifacts/release-0-1-1-locales-id-models.png"
+    }
+  ]
+}

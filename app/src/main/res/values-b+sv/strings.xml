@@ -41,7 +41,7 @@
     <string name="ui_accuracy">"NOGGRANNHET"</string>
     <string name="ui_accent">"Gränssnittsaccentfärg"</string>
     <string name="ui_accent_1_s_letter_to_compose_space_for_literal">"Accent %1$s · Bokstav att komponera · Utrymme för bokstavlig"</string>
-    <string name="ui_accent_menus">"Diakritiska menyer"</string>
+    <string name="ui_accent_menus">"Accenter"</string>
     <string name="ui_adaptive_letter_sizes">"Adaptiva bokstavsstorlekar"</string>
     <string name="ui_add_1_s_in_lokey_models">"Lägg till %1$s i Lokey → Modeller"</string>
     <string name="ui_add_a_text_model_in_lokey_models_to_translate">"Lägg till en textmodell i Lokey → Modeller för att översätta."</string>
@@ -208,7 +208,7 @@
     <string name="ui_input_design_credits">"Input &amp; design credits"</string>
     <string name="ui_input_credits">"Inmatningspoäng"</string>
     <string name="ui_intelligent_typing_private_by_design">"Intelligent skrivande. Privat genom design."</string>
-    <string name="ui_intl_dead_keys">"Intl · döda nycklar"</string>
+    <string name="ui_intl_dead_keys">"Intl · döda tangenter"</string>
     <string name="ui_intl_hold_l_for_or_hold_q_for_or_dead_keys_e_e_space_accent_share">"Intl · håll L för \' eller \"; håll Q för ` eller ~. Döda tangenter: \' + e → é, ` + e → è, \' + Mellanslag → \'.\nAccent · delade accentmenyer, med extra bokstäver för ditt språk."</string>
     <string name="ui_invalid_mp3_bitrate">"Ogiltig MP3-bithastighet"</string>
     <string name="ui_invalid_mp3_rate">"Ogiltig MP3-hastighet"</string>
@@ -323,7 +323,7 @@
     <string name="ui_privacy_policy">"Integritetspolicy"</string>
     <string name="ui_provider_logo_sources">"Leverantörslogokällor"</string>
     <string name="ui_purple">"Lila"</string>
-    <string name="ui_qwerty_accent">"QWERTY Accent"</string>
+    <string name="ui_qwerty_accent">"QWERTY · Accenter"</string>
     <string name="ui_qwerty_intl">"QWERTY Intl"</string>
     <string name="ui_queued">"Kö"</string>
     <string name="ui_qwen_audio_encoder">"Qwen ljudkodare"</string>

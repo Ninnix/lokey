@@ -41,7 +41,7 @@
     <string name="ui_accuracy">"ТОЧНОСТ"</string>
     <string name="ui_accent">"Акцентен цвят на интерфейса"</string>
     <string name="ui_accent_1_s_letter_to_compose_space_for_literal">"Акцент %1$s · Писмо за съставяне · Място за буквално"</string>
-    <string name="ui_accent_menus">"Диакритични менюта"</string>
+    <string name="ui_accent_menus">"Диакритични знаци"</string>
     <string name="ui_adaptive_letter_sizes">"Адаптивни размери на буквите"</string>
     <string name="ui_add_1_s_in_lokey_models">"Добавете %1$s в Lokey → Модели"</string>
     <string name="ui_add_a_text_model_in_lokey_models_to_translate">"Добавяне на текстов модел в Lokey → Модели за превод."</string>
@@ -208,7 +208,7 @@
     <string name="ui_input_design_credits">"Кредити за въвеждане и проектиране"</string>
     <string name="ui_input_credits">"Входящи кредити"</string>
     <string name="ui_intelligent_typing_private_by_design">"Интелигентно въвеждане. Частен по дизайн."</string>
-    <string name="ui_intl_dead_keys">"Вътрешни · мъртви ключове"</string>
+    <string name="ui_intl_dead_keys">"Intl · мъртви клавиши"</string>
     <string name="ui_intl_hold_l_for_or_hold_q_for_or_dead_keys_e_e_space_accent_share">"Intl · задръжте L за \' или \"; задръжте Q за ` или ~. Мъртви клавиши: \' + e → é, ` + e → è, \' + интервал → \'.\nAccent · споделени менюта с акценти, с допълнителни букви за вашия език."</string>
     <string name="ui_invalid_mp3_bitrate">"Невалиден MP3 битрейт"</string>
     <string name="ui_invalid_mp3_rate">"Невалидна MP3 скорост"</string>
@@ -323,7 +323,7 @@
     <string name="ui_privacy_policy">"Политика за поверителност"</string>
     <string name="ui_provider_logo_sources">"Източници на логото на доставчика"</string>
     <string name="ui_purple">"Лилаво"</string>
-    <string name="ui_qwerty_accent">"QWERTY Акцент"</string>
+    <string name="ui_qwerty_accent">"QWERTY · Диакритични знаци"</string>
     <string name="ui_qwerty_intl">"QWERTY Intl"</string>
     <string name="ui_queued">"На опашка"</string>
     <string name="ui_qwen_audio_encoder">"Qwen аудио енкодер"</string>

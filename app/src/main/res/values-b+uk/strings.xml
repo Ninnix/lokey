@@ -41,7 +41,7 @@
     <string name="ui_accuracy">"ТОЧНІСТЬ"</string>
     <string name="ui_accent">"Акцентний колір інтерфейсу"</string>
     <string name="ui_accent_1_s_letter_to_compose_space_for_literal">"Акцент %1$s · Літера для складання · Пробіл для літерала"</string>
-    <string name="ui_accent_menus">"Діакритичні меню"</string>
+    <string name="ui_accent_menus">"Діакритика"</string>
     <string name="ui_adaptive_letter_sizes">"Адаптивні розміри букв"</string>
     <string name="ui_add_1_s_in_lokey_models">"Додайте %1$s у Lokey → Моделі"</string>
     <string name="ui_add_a_text_model_in_lokey_models_to_translate">"Додайте текстову модель у Lokey → Моделі для перекладу."</string>
@@ -208,7 +208,7 @@
     <string name="ui_input_design_credits">"Вхідні та дизайнерські кредити"</string>
     <string name="ui_input_credits">"Вхідні кредити"</string>
     <string name="ui_intelligent_typing_private_by_design">"Інтелектуальне введення. Приватний за дизайном."</string>
-    <string name="ui_intl_dead_keys">"Внутрішні · мертві ключі"</string>
+    <string name="ui_intl_dead_keys">"Intl · мертві клавіші"</string>
     <string name="ui_intl_hold_l_for_or_hold_q_for_or_dead_keys_e_e_space_accent_share">"Intl · утримуйте L для \' або \"; утримуйте Q для ` або ~. Неактивні клавіші: \' + e → é, ` + e → è, \' + Пробіл → \'.\nAccent · спільні меню з акцентами з додатковими літерами для вашої мови."</string>
     <string name="ui_invalid_mp3_bitrate">"Недійсний бітрейт MP3"</string>
     <string name="ui_invalid_mp3_rate">"Недійсна швидкість MP3"</string>
@@ -323,7 +323,7 @@
     <string name="ui_privacy_policy">"Політика конфіденційності"</string>
     <string name="ui_provider_logo_sources">"Джерела логотипу постачальника"</string>
     <string name="ui_purple">"Фіолетовий"</string>
-    <string name="ui_qwerty_accent">"QWERTY Акцент"</string>
+    <string name="ui_qwerty_accent">"QWERTY · Діакритика"</string>
     <string name="ui_qwerty_intl">"QWERTY Міжн"</string>
     <string name="ui_queued">"У черзі"</string>
     <string name="ui_qwen_audio_encoder">"Аудіокодер Qwen"</string>

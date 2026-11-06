@@ -2,7 +2,7 @@ package org.lokey.app
 
 import org.json.JSONObject
 
-class SpeedRun(val passage: String = PASSAGE) {
+class SpeedRun(val passage: String = PASSAGE, val passageId:String = ID, val language:String = "en", val layout:String = "intl") {
     private val marks = ArrayList<Boolean>()
     var started = 0L
         private set
@@ -40,7 +40,7 @@ class SpeedRun(val passage: String = PASSAGE) {
         return events
     }
     fun disqualify() { eligible = false }
-    fun snapshot(now: Long) = JSONObject().put("version",2).put("passage", ID).put("score", score).put("wpm", wpm(now)).put("accuracy", accuracy)
+    fun snapshot(now: Long) = JSONObject().put("version",2).put("passage", passageId).put("language",language).put("layout",layout).put("score", score).put("wpm", wpm(now)).put("accuracy", accuracy)
         .put("combo", bestCombo).put("prediction_taps", predictionTaps).put("assisted_words", assistedWords).put("elapsed_ms", elapsed(now)).put("eligible", eligible)
     companion object {
         const val ID = "inferno-i-longfellow-1"

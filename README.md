@@ -10,6 +10,12 @@ The keyboard is native Kotlin and Android Canvas, with a C11 bridge to the
 inference runtimes. It supports **39 languages**, eleven keyboard families,
 and a few small models chosen for work that belongs on a phone.
 
+## Screenshots
+
+| Word suggestions | Translation | Appearance |
+| --- | --- | --- |
+| <img src="docs/screenshots/local-word-suggestions.png" alt="Lokey keyboard suggesting words while typing" width="240"> | <img src="docs/screenshots/translate-as-you-type.png" alt="Lokey translating English text into Spanish" width="240"> | <img src="docs/screenshots/appearance.png" alt="Lokey keyboard themes and appearance settings" width="240"> |
+
 ## What you can do
 
 * Get up to three complete-word suggestions, ranked from model probabilities.

@@ -41,7 +41,7 @@
     <string name="ui_accuracy">"TUMPAK"</string>
     <string name="ui_accent">"Kulay ng accent ng interface"</string>
     <string name="ui_accent_1_s_letter_to_compose_space_for_literal">"Accent %1$s · Sulat na bubuuin · Puwang para sa literal"</string>
-    <string name="ui_accent_menus">"Mga diacritic na menu"</string>
+    <string name="ui_accent_menus">"Mga tuldik"</string>
     <string name="ui_adaptive_letter_sizes">"Mga adaptive na laki ng titik"</string>
     <string name="ui_add_1_s_in_lokey_models">"Magdagdag ng %1$s sa Lokey → Mga Modelo"</string>
     <string name="ui_add_a_text_model_in_lokey_models_to_translate">"Magdagdag ng isang modelo ng teksto sa Lokey → Mga modelo na isasalin."</string>
@@ -208,7 +208,7 @@
     <string name="ui_input_design_credits">"Mga kredito sa input at disenyo"</string>
     <string name="ui_input_credits">"Mga kredito sa pag-input"</string>
     <string name="ui_intelligent_typing_private_by_design">"Matalinong pag-type. Pribado ayon sa disenyo."</string>
-    <string name="ui_intl_dead_keys">"Intl · patay na mga susi"</string>
+    <string name="ui_intl_dead_keys">"Intl · mga dead key"</string>
     <string name="ui_intl_hold_l_for_or_hold_q_for_or_dead_keys_e_e_space_accent_share">"Intl · pindutin nang matagal ang L para sa \' o \"; pindutin nang matagal ang Q para sa ` o ~. Mga patay na key: \' + e → é, ` + e → è, \' + Space → \'.\nAccent · shared accent menu, na may mga karagdagang titik para sa iyong wika."</string>
     <string name="ui_invalid_mp3_bitrate">"Di-wastong MP3 bitrate"</string>
     <string name="ui_invalid_mp3_rate">"Di-wastong MP3 rate"</string>
@@ -323,7 +323,7 @@
     <string name="ui_privacy_policy">"Patakaran sa privacy"</string>
     <string name="ui_provider_logo_sources">"Mga source ng logo ng provider"</string>
     <string name="ui_purple">"Lila"</string>
-    <string name="ui_qwerty_accent">"QWERTY Accent"</string>
+    <string name="ui_qwerty_accent">"QWERTY · Mga tuldik"</string>
     <string name="ui_qwerty_intl">"QWERTY Intl"</string>
     <string name="ui_queued">"Nakapila"</string>
     <string name="ui_qwen_audio_encoder">"Qwen audio encoder"</string>
@@ -384,7 +384,7 @@
     <string name="ui_sound_feedback">"Tunog at feedback"</string>
     <string name="ui_sound_volume">"Dami ng tunog"</string>
     <string name="ui_source_at_this_revision">"Pinagmulan sa rebisyong ito"</string>
-    <string name="ui_space">"Spacebar"</string>
+    <string name="ui_space">"Espasyo"</string>
     <string name="ui_space_cursor">"Space / cursor"</string>
     <string name="ui_space_hold_to_move_cursor">"Space, pindutin nang matagal upang ilipat ang cursor"</string>
     <string name="ui_spacebar_row">"Spacebar row"</string>
@@ -494,7 +494,7 @@
     <string name="ui_more">"Higit pang mga simbolo"</string>
     <string name="ui_required_for_qwen_asr">"kinakailangan para sa Qwen ASR"</string>
     <string name="ui_shift">"Shift key"</string>
-    <string name="ui_space_0803df4">"Spacebar"</string>
+    <string name="ui_space_0803df4">"Espasyo"</string>
     <string name="ui_text_model">"modelo ng teksto"</string>
     <string name="ui_tools">"Mga tool sa keyboard"</string>
     <string name="ui_1_02_gb">"~1.02 GB"</string>

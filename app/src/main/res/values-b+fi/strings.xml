@@ -41,7 +41,7 @@
     <string name="ui_accuracy">"TARKKUUS"</string>
     <string name="ui_accent">"Käyttöliittymän korostusväri"</string>
     <string name="ui_accent_1_s_letter_to_compose_space_for_literal">"Aksentti %1$s · Kirjoitettava kirjain · Tila kirjaimelle"</string>
-    <string name="ui_accent_menus">"Diakriittiset valikot"</string>
+    <string name="ui_accent_menus">"Tarkkeet"</string>
     <string name="ui_adaptive_letter_sizes">"Mukautuvat kirjainten koot"</string>
     <string name="ui_add_1_s_in_lokey_models">"Lisää %1$s kohtaan Lokey → Mallit"</string>
     <string name="ui_add_a_text_model_in_lokey_models_to_translate">"Lisää tekstimalli kohtaan Lokey → Käännettävät mallit."</string>
@@ -208,7 +208,7 @@
     <string name="ui_input_design_credits">"Input &amp; design krediittejä"</string>
     <string name="ui_input_credits">"Syöttöpisteet"</string>
     <string name="ui_intelligent_typing_private_by_design">"Älykäs kirjoitus. Suunniteltu yksityinen."</string>
-    <string name="ui_intl_dead_keys">"Intl · kuolleet avaimet"</string>
+    <string name="ui_intl_dead_keys">"Intl · kuolleet näppäimet"</string>
     <string name="ui_intl_hold_l_for_or_hold_q_for_or_dead_keys_e_e_space_accent_share">"Intl · pidä L painettuna \' tai \"; pidä Q painettuna \' tai ~. Kuolleet näppäimet: \' + e → é, ` + e → è, \' + Välilyönti → \'.\nAaksentti · jaetut aksenttivalikot, joissa on ylimääräisiä kirjaimia kielellesi."</string>
     <string name="ui_invalid_mp3_bitrate">"Virheellinen MP3-bittinopeus"</string>
     <string name="ui_invalid_mp3_rate">"Virheellinen MP3-nopeus"</string>
@@ -323,7 +323,7 @@
     <string name="ui_privacy_policy">"Tietosuojakäytäntö"</string>
     <string name="ui_provider_logo_sources">"Palveluntarjoajan logolähteet"</string>
     <string name="ui_purple">"Violetti"</string>
-    <string name="ui_qwerty_accent">"QWERTY Aksentti"</string>
+    <string name="ui_qwerty_accent">"QWERTY · Tarkkeet"</string>
     <string name="ui_qwerty_intl">"QWERTY Intl"</string>
     <string name="ui_queued">"Jonossa"</string>
     <string name="ui_qwen_audio_encoder">"Qwen-äänikooderi"</string>

@@ -4,6 +4,7 @@
 **/.cxx/
 local.properties
 .local/
+/play-store/
 *.gguf
 *.part
 *.part.validator

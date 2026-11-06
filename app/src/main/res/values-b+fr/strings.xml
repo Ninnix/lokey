@@ -41,7 +41,7 @@
     <string name="ui_accuracy">"PRÉCISION"</string>
     <string name="ui_accent">"Couleur d’accentuation"</string>
     <string name="ui_accent_1_s_letter_to_compose_space_for_literal">"Accent %1$s · Lettre à composer · Espace pour littéral"</string>
-    <string name="ui_accent_menus">"Menus diacritiques"</string>
+    <string name="ui_accent_menus">"Accents"</string>
     <string name="ui_adaptive_letter_sizes">"Tailles de lettres adaptatives"</string>
     <string name="ui_add_1_s_in_lokey_models">"Ajouter %1$s dans Lokey → Modèles"</string>
     <string name="ui_add_a_text_model_in_lokey_models_to_translate">"Ajouter un modèle de texte dans Lokey → Modèles à traduire."</string>
@@ -208,7 +208,7 @@
     <string name="ui_input_design_credits">"Crédits de saisie et de conception"</string>
     <string name="ui_input_credits">"Crédits d\'entrée"</string>
     <string name="ui_intelligent_typing_private_by_design">"Saisie intelligente. Privé par conception."</string>
-    <string name="ui_intl_dead_keys">"Intl·clés mortes"</string>
+    <string name="ui_intl_dead_keys">"Intl · touches mortes"</string>
     <string name="ui_intl_hold_l_for_or_hold_q_for_or_dead_keys_e_e_space_accent_share">"Intl · maintenez L pour \' ou \" ; maintenez Q pour ` ou ~. Touches mortes : \' + e → é, ` + e → è, \' + Espace → \'.\nAccent · menus d\'accent partagés, avec des lettres supplémentaires pour votre langue."</string>
     <string name="ui_invalid_mp3_bitrate">"Débit binaire MP3 invalide"</string>
     <string name="ui_invalid_mp3_rate">"Débit MP3 invalide"</string>
@@ -323,7 +323,7 @@
     <string name="ui_privacy_policy">"Politique de confidentialité"</string>
     <string name="ui_provider_logo_sources">"Sources du logo du fournisseur"</string>
     <string name="ui_purple">"Violet"</string>
-    <string name="ui_qwerty_accent">"Accent QWERTY"</string>
+    <string name="ui_qwerty_accent">"QWERTY · Accents"</string>
     <string name="ui_qwerty_intl">"QWERTY International"</string>
     <string name="ui_queued">"En file d\'attente"</string>
     <string name="ui_qwen_audio_encoder">"Encodeur audio Qwen"</string>
@@ -384,7 +384,7 @@
     <string name="ui_sound_feedback">"Son et retour"</string>
     <string name="ui_sound_volume">"Volume sonore"</string>
     <string name="ui_source_at_this_revision">"Source lors de cette révision"</string>
-    <string name="ui_space">"Barre d\'espace"</string>
+    <string name="ui_space">"Espace"</string>
     <string name="ui_space_cursor">"Espace/curseur"</string>
     <string name="ui_space_hold_to_move_cursor">"Espace, maintenez pour déplacer le curseur"</string>
     <string name="ui_spacebar_row">"Ligne de barre d\'espace"</string>
@@ -494,7 +494,7 @@
     <string name="ui_more">"Plus de symboles"</string>
     <string name="ui_required_for_qwen_asr">"requis pour Qwen ASR"</string>
     <string name="ui_shift">"Touche Maj"</string>
-    <string name="ui_space_0803df4">"Barre d\'espace"</string>
+    <string name="ui_space_0803df4">"Espace"</string>
     <string name="ui_text_model">"modèle de texte"</string>
     <string name="ui_tools">"Outils clavier"</string>
     <string name="ui_1_02_gb">"~1,02 Go"</string>

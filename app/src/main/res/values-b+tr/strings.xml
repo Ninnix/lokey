@@ -41,7 +41,7 @@
     <string name="ui_accuracy">"DOĞRULUK"</string>
     <string name="ui_accent">"Arayüz vurgu rengi"</string>
     <string name="ui_accent_1_s_letter_to_compose_space_for_literal">"Vurgu %1$s · Yazılacak mektup · Gerçek metin için alan"</string>
-    <string name="ui_accent_menus">"Aksan menüleri"</string>
+    <string name="ui_accent_menus">"Aksanlar"</string>
     <string name="ui_adaptive_letter_sizes">"Uyarlanabilir harf boyutları"</string>
     <string name="ui_add_1_s_in_lokey_models">"Lokey\'ye %1$s\'yi ekleyin → Modeller"</string>
     <string name="ui_add_a_text_model_in_lokey_models_to_translate">"Lokey → Çevrilecek Modeller\'e bir metin modeli ekleyin."</string>
@@ -208,7 +208,7 @@
     <string name="ui_input_design_credits">"Girdi ve tasarım kredileri"</string>
     <string name="ui_input_credits">"Giriş kredileri"</string>
     <string name="ui_intelligent_typing_private_by_design">"Akıllı yazma. Tasarım gereği özel."</string>
-    <string name="ui_intl_dead_keys">"Uluslararası · ölü anahtarlar"</string>
+    <string name="ui_intl_dead_keys">"Intl · ölü tuşlar"</string>
     <string name="ui_intl_hold_l_for_or_hold_q_for_or_dead_keys_e_e_space_accent_share">"Uluslararası · \' veya \" için L tuşunu basılı tutun; ` veya ~ için Q tuşunu basılı tutun. Ölü tuşlar: \' + e → é, ` + e → è, \' + Boşluk → \'.\nAvurgu · diliniz için ekstra harflerle birlikte paylaşılan vurgu menüleri."</string>
     <string name="ui_invalid_mp3_bitrate">"Geçersiz MP3 bit hızı"</string>
     <string name="ui_invalid_mp3_rate">"Geçersiz MP3 hızı"</string>
@@ -323,7 +323,7 @@
     <string name="ui_privacy_policy">"Gizlilik politikası"</string>
     <string name="ui_provider_logo_sources">"Sağlayıcı logosu kaynakları"</string>
     <string name="ui_purple">"Mor"</string>
-    <string name="ui_qwerty_accent">"QWERTY Aksan"</string>
+    <string name="ui_qwerty_accent">"QWERTY · Aksanlar"</string>
     <string name="ui_qwerty_intl">"QWERTY Uluslararası"</string>
     <string name="ui_queued">"Sıraya alındı"</string>
     <string name="ui_qwen_audio_encoder">"Qwen ses kodlayıcı"</string>
@@ -384,7 +384,7 @@
     <string name="ui_sound_feedback">"Ses ve geri bildirim"</string>
     <string name="ui_sound_volume">"Ses düzeyi"</string>
     <string name="ui_source_at_this_revision">"Bu revizyondaki kaynak"</string>
-    <string name="ui_space">"Ara Çubuğu"</string>
+    <string name="ui_space">"Boşluk"</string>
     <string name="ui_space_cursor">"Boşluk / imleç"</string>
     <string name="ui_space_hold_to_move_cursor">"Boşluk, imleci hareket ettirmek için basılı tutun"</string>
     <string name="ui_spacebar_row">"Boşluk çubuğu satırı"</string>
@@ -494,7 +494,7 @@
     <string name="ui_more">"Daha fazla sembol"</string>
     <string name="ui_required_for_qwen_asr">"Qwen ASR için gereklidir"</string>
     <string name="ui_shift">"Shift klavye tuşu"</string>
-    <string name="ui_space_0803df4">"Ara Çubuğu"</string>
+    <string name="ui_space_0803df4">"Boşluk"</string>
     <string name="ui_text_model">"metin modeli"</string>
     <string name="ui_tools">"Klavye araçları"</string>
     <string name="ui_1_02_gb">"~1,02 GB"</string>

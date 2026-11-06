@@ -41,7 +41,7 @@
     <string name="ui_accuracy">"PRECIZIE"</string>
     <string name="ui_accent">"Culoare de accent interfață"</string>
     <string name="ui_accent_1_s_letter_to_compose_space_for_literal">"Accent %1$s · Literă de compus · Spațiu pentru literal"</string>
-    <string name="ui_accent_menus">"Meniuri cu diacritice"</string>
+    <string name="ui_accent_menus">"Diacritice"</string>
     <string name="ui_adaptive_letter_sizes">"Dimensiuni adaptive ale literelor"</string>
     <string name="ui_add_1_s_in_lokey_models">"Adăugați %1$s în Lokey → Modele"</string>
     <string name="ui_add_a_text_model_in_lokey_models_to_translate">"Adăugați un model text în Lokey → Modele de tradus."</string>
@@ -208,7 +208,7 @@
     <string name="ui_input_design_credits">"Credite de intrare și proiectare"</string>
     <string name="ui_input_credits">"Credite de intrare"</string>
     <string name="ui_intelligent_typing_private_by_design">"Tastare inteligentă. Privat prin design."</string>
-    <string name="ui_intl_dead_keys">"Intl · chei moarte"</string>
+    <string name="ui_intl_dead_keys">"Intl · taste moarte"</string>
     <string name="ui_intl_hold_l_for_or_hold_q_for_or_dead_keys_e_e_space_accent_share">"Intl · țineți apăsat L pentru \' sau \"; țineți apăsat Q pentru ` sau ~. Taste nefuncționale: \' + e → é, ` + e → è, \' + Spațiu → \'.\nAcent · meniuri de accent partajate, cu litere suplimentare pentru limba dvs."</string>
     <string name="ui_invalid_mp3_bitrate">"Rată de biți MP3 nevalidă"</string>
     <string name="ui_invalid_mp3_rate">"Rată MP3 nevalidă"</string>
@@ -323,7 +323,7 @@
     <string name="ui_privacy_policy">"Politica de confidențialitate"</string>
     <string name="ui_provider_logo_sources">"Surse sigle ale furnizorului"</string>
     <string name="ui_purple">"Violet"</string>
-    <string name="ui_qwerty_accent">"QWERTY Accent"</string>
+    <string name="ui_qwerty_accent">"QWERTY · Diacritice"</string>
     <string name="ui_qwerty_intl">"QWERTY Intl"</string>
     <string name="ui_queued">"În coadă"</string>
     <string name="ui_qwen_audio_encoder">"codificator audio Qwen"</string>
@@ -384,7 +384,7 @@
     <string name="ui_sound_feedback">"Sunet și feedback"</string>
     <string name="ui_sound_volume">"Volumul sunetului"</string>
     <string name="ui_source_at_this_revision">"Sursa la această revizuire"</string>
-    <string name="ui_space">"Bara de spațiu"</string>
+    <string name="ui_space">"Spațiu"</string>
     <string name="ui_space_cursor">"Spațiu/cursor"</string>
     <string name="ui_space_hold_to_move_cursor">"Space, țineți apăsat pentru a muta cursorul"</string>
     <string name="ui_spacebar_row">"Rând bara de spațiu"</string>
@@ -494,7 +494,7 @@
     <string name="ui_more">"Mai multe simboluri"</string>
     <string name="ui_required_for_qwen_asr">"necesar pentru Qwen ASR"</string>
     <string name="ui_shift">"Tasta Shift de la tastatură"</string>
-    <string name="ui_space_0803df4">"Bara de spațiu"</string>
+    <string name="ui_space_0803df4">"Spațiu"</string>
     <string name="ui_text_model">"model text"</string>
     <string name="ui_tools">"Instrumente de tastatură"</string>
     <string name="ui_1_02_gb">"~1,02 GB"</string>

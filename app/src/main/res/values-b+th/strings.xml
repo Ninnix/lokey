@@ -41,7 +41,7 @@
     <string name="ui_accuracy">"ความแม่นยำ"</string>
     <string name="ui_accent">"สีเน้นอินเทอร์เฟซ"</string>
     <string name="ui_accent_1_s_letter_to_compose_space_for_literal">"สำเนียง %1$s · ตัวอักษรที่จะเขียน · พื้นที่สำหรับตัวอักษร"</string>
-    <string name="ui_accent_menus">"เมนูตัวกำกับเสียง"</string>
+    <string name="ui_accent_menus">"เครื่องหมายกำกับ"</string>
     <string name="ui_adaptive_letter_sizes">"ขนาดตัวอักษรที่ปรับเปลี่ยนได้"</string>
     <string name="ui_add_1_s_in_lokey_models">"เพิ่ม %1$s ใน Lokey → รุ่น"</string>
     <string name="ui_add_a_text_model_in_lokey_models_to_translate">"เพิ่มโมเดลข้อความใน Lokey → โมเดลที่จะแปล"</string>
@@ -208,7 +208,7 @@
     <string name="ui_input_design_credits">"เครดิตการป้อนข้อมูลและการออกแบบ"</string>
     <string name="ui_input_credits">"เครดิตเข้า"</string>
     <string name="ui_intelligent_typing_private_by_design">"การพิมพ์อัจฉริยะ ส่วนตัวด้วยการออกแบบ"</string>
-    <string name="ui_intl_dead_keys">"นานาชาติ · กุญแจตาย"</string>
+    <string name="ui_intl_dead_keys">"Intl · ปุ่มประกอบอักขระ"</string>
     <string name="ui_intl_hold_l_for_or_hold_q_for_or_dead_keys_e_e_space_accent_share">"Intl · กด L สำหรับ \' หรือ \"; กด Q ค้างไว้สำหรับ ` หรือ ~ ปุ่มตาย: \' + e → é, ` + e → è, \' + Space → \'.\nAccent · เมนูสำเนียงที่ใช้ร่วมกัน พร้อมตัวอักษรพิเศษสำหรับภาษาของคุณ"</string>
     <string name="ui_invalid_mp3_bitrate">"บิตเรต MP3 ไม่ถูกต้อง"</string>
     <string name="ui_invalid_mp3_rate">"อัตรา MP3 ไม่ถูกต้อง"</string>
@@ -323,8 +323,8 @@
     <string name="ui_privacy_policy">"นโยบายความเป็นส่วนตัว"</string>
     <string name="ui_provider_logo_sources">"แหล่งที่มาของโลโก้ผู้ให้บริการ"</string>
     <string name="ui_purple">"สีม่วง"</string>
-    <string name="ui_qwerty_accent">"สำเนียง QWERTY"</string>
-    <string name="ui_qwerty_intl">"สนามบินนานาชาติ QWERTY"</string>
+    <string name="ui_qwerty_accent">"QWERTY · เครื่องหมายกำกับ"</string>
+    <string name="ui_qwerty_intl">"QWERTY Intl"</string>
     <string name="ui_queued">"เข้าคิว"</string>
     <string name="ui_qwen_audio_encoder">"ตัวเข้ารหัสเสียง Qwen"</string>
     <string name="ui_recording_locked_tap_stop_to_finish">"การบันทึกถูกล็อค · แตะหยุดเพื่อเสร็จสิ้น"</string>
@@ -384,7 +384,7 @@
     <string name="ui_sound_feedback">"เสียงและการตอบรับ"</string>
     <string name="ui_sound_volume">"ระดับเสียง"</string>
     <string name="ui_source_at_this_revision">"ที่มาในฉบับแก้ไขนี้"</string>
-    <string name="ui_space">"สเปซบาร์"</string>
+    <string name="ui_space">"เว้นวรรค"</string>
     <string name="ui_space_cursor">"เว้นวรรค / เคอร์เซอร์"</string>
     <string name="ui_space_hold_to_move_cursor">"Space กดค้างไว้เพื่อเลื่อนเคอร์เซอร์"</string>
     <string name="ui_spacebar_row">"แถวสเปซบาร์"</string>
@@ -494,7 +494,7 @@
     <string name="ui_more">"สัญลักษณ์เพิ่มเติม"</string>
     <string name="ui_required_for_qwen_asr">"จำเป็นสำหรับ Qwen ASR"</string>
     <string name="ui_shift">"ปุ่ม Shift บนคีย์บอร์ด"</string>
-    <string name="ui_space_0803df4">"สเปซบาร์"</string>
+    <string name="ui_space_0803df4">"เว้นวรรค"</string>
     <string name="ui_text_model">"โมเดลข้อความ"</string>
     <string name="ui_tools">"เครื่องมือคีย์บอร์ด"</string>
     <string name="ui_1_02_gb">"~1.02GB"</string>

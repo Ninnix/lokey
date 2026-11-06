@@ -41,7 +41,7 @@
     <string name="ui_accuracy">"ΑΚΡΙΒΕΙΑ"</string>
     <string name="ui_accent">"Χρώμα προφοράς διεπαφής"</string>
     <string name="ui_accent_1_s_letter_to_compose_space_for_literal">"Προφορά %1$s · Γράμμα για σύνθεση · Χώρος για κυριολεκτικά"</string>
-    <string name="ui_accent_menus">"Διακριτικά μενού"</string>
+    <string name="ui_accent_menus">"Τόνοι"</string>
     <string name="ui_adaptive_letter_sizes">"Προσαρμόσιμα μεγέθη γραμμάτων"</string>
     <string name="ui_add_1_s_in_lokey_models">"Προσθήκη %1$s στο Lokey → Μοντέλα"</string>
     <string name="ui_add_a_text_model_in_lokey_models_to_translate">"Προσθέστε ένα μοντέλο κειμένου στο Lokey → Μοντέλα προς μετάφραση."</string>
@@ -208,7 +208,7 @@
     <string name="ui_input_design_credits">"Πιστώσεις εισόδου και σχεδίασης"</string>
     <string name="ui_input_credits">"Πιστώσεις εισόδου"</string>
     <string name="ui_intelligent_typing_private_by_design">"Έξυπνη πληκτρολόγηση. Ιδιωτικό από σχέδιο."</string>
-    <string name="ui_intl_dead_keys">"Διεθνές · νεκρά κλειδιά"</string>
+    <string name="ui_intl_dead_keys">"Intl · νεκρά πλήκτρα"</string>
     <string name="ui_intl_hold_l_for_or_hold_q_for_or_dead_keys_e_e_space_accent_share">"Intl · κρατήστε πατημένο το L για \' ή \"; κρατήστε πατημένο το Q για ` ή ~. Κλειδιά νεκρά: \' + e → é, ` + e → è, \' + Space → \'.\nAccent · κοινόχρηστα μενού τονισμού, με επιπλέον γράμματα για τη γλώσσα σας."</string>
     <string name="ui_invalid_mp3_bitrate">"Μη έγκυρος ρυθμός μετάδοσης bit MP3"</string>
     <string name="ui_invalid_mp3_rate">"Μη έγκυρος ρυθμός MP3"</string>
@@ -323,7 +323,7 @@
     <string name="ui_privacy_policy">"Πολιτική απορρήτου"</string>
     <string name="ui_provider_logo_sources">"Πηγές λογότυπου παρόχου"</string>
     <string name="ui_purple">"Μωβ"</string>
-    <string name="ui_qwerty_accent">"QWERTY Προφορά"</string>
+    <string name="ui_qwerty_accent">"QWERTY · Τόνοι"</string>
     <string name="ui_qwerty_intl">"QWERTY Διεθνές"</string>
     <string name="ui_queued">"Σε ουρά"</string>
     <string name="ui_qwen_audio_encoder">"Κωδικοποιητής ήχου Qwen"</string>
@@ -384,7 +384,7 @@
     <string name="ui_sound_feedback">"Ήχος και σχόλια"</string>
     <string name="ui_sound_volume">"Ένταση ήχου"</string>
     <string name="ui_source_at_this_revision">"Πηγή σε αυτήν την αναθεώρηση"</string>
-    <string name="ui_space">"Spacebar"</string>
+    <string name="ui_space">"Κενό"</string>
     <string name="ui_space_cursor">"Διάστημα / δρομέας"</string>
     <string name="ui_space_hold_to_move_cursor">"Κενό, κρατήστε πατημένο για να μετακινήσετε τον κέρσορα"</string>
     <string name="ui_spacebar_row">"Σειρά διαστήματος"</string>
@@ -494,7 +494,7 @@
     <string name="ui_more">"Περισσότερα σύμβολα"</string>
     <string name="ui_required_for_qwen_asr">"απαιτείται για Qwen ASR"</string>
     <string name="ui_shift">"Πλήκτρο Shift"</string>
-    <string name="ui_space_0803df4">"Spacebar"</string>
+    <string name="ui_space_0803df4">"Κενό"</string>
     <string name="ui_text_model">"μοντέλο κειμένου"</string>
     <string name="ui_tools">"Εργαλεία πληκτρολογίου"</string>
     <string name="ui_1_02_gb">"~1,02 GB"</string>

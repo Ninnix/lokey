@@ -41,7 +41,7 @@
     <string name="ui_accuracy">"ĐỘ CHÍNH XÁC"</string>
     <string name="ui_accent">"Màu nhấn giao diện"</string>
     <string name="ui_accent_1_s_letter_to_compose_space_for_literal">"Giọng %1$s · Thư để sáng tác · Khoảng trống cho nghĩa đen"</string>
-    <string name="ui_accent_menus">"Menu dấu phụ"</string>
+    <string name="ui_accent_menus">"Dấu thanh"</string>
     <string name="ui_adaptive_letter_sizes">"Kích thước chữ thích ứng"</string>
     <string name="ui_add_1_s_in_lokey_models">"Thêm %1$s vào Lokey → Kiểu máy"</string>
     <string name="ui_add_a_text_model_in_lokey_models_to_translate">"Thêm mô hình văn bản trong Lokey → Mô hình cần dịch."</string>
@@ -323,7 +323,7 @@
     <string name="ui_privacy_policy">"Chính sách bảo mật"</string>
     <string name="ui_provider_logo_sources">"Nguồn logo nhà cung cấp"</string>
     <string name="ui_purple">"Màu tím"</string>
-    <string name="ui_qwerty_accent">"Giọng QWERTY"</string>
+    <string name="ui_qwerty_accent">"QWERTY · Dấu thanh"</string>
     <string name="ui_qwerty_intl">"QWERTY quốc tế"</string>
     <string name="ui_queued">"Đã xếp hàng"</string>
     <string name="ui_qwen_audio_encoder">"Bộ mã hóa âm thanh Qwen"</string>
@@ -384,7 +384,7 @@
     <string name="ui_sound_feedback">"Âm thanh và phản hồi"</string>
     <string name="ui_sound_volume">"Âm lượng"</string>
     <string name="ui_source_at_this_revision">"Nguồn tại bản sửa đổi này"</string>
-    <string name="ui_space">"Phím cách"</string>
+    <string name="ui_space">"Dấu cách"</string>
     <string name="ui_space_cursor">"Dấu cách/con trỏ"</string>
     <string name="ui_space_hold_to_move_cursor">"Phím cách, giữ để di chuyển con trỏ"</string>
     <string name="ui_spacebar_row">"Hàng phím cách"</string>
@@ -494,7 +494,7 @@
     <string name="ui_more">"Thêm ký hiệu"</string>
     <string name="ui_required_for_qwen_asr">"cần thiết cho Qwen ASR"</string>
     <string name="ui_shift">"Phím bàn phím Shift"</string>
-    <string name="ui_space_0803df4">"Phím cách"</string>
+    <string name="ui_space_0803df4">"Dấu cách"</string>
     <string name="ui_text_model">"mô hình văn bản"</string>
     <string name="ui_tools">"Công cụ bàn phím"</string>
     <string name="ui_1_02_gb">"~1,02 GB"</string>

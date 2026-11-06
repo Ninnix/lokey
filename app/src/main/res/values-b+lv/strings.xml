@@ -41,7 +41,7 @@
     <string name="ui_accuracy">"PRECIZITĀTE"</string>
     <string name="ui_accent">"Interfeisa akcenta krāsa"</string>
     <string name="ui_accent_1_s_letter_to_compose_space_for_literal">"Uzsvars %1$s · Vēstule sacerēšanai · Atstarpe burtiem"</string>
-    <string name="ui_accent_menus">"Diakritiskās izvēlnes"</string>
+    <string name="ui_accent_menus">"Diakritiskās zīmes"</string>
     <string name="ui_adaptive_letter_sizes">"Adaptīvi burtu izmēri"</string>
     <string name="ui_add_1_s_in_lokey_models">"Pievienojiet %1$s sadaļā Lokey → Modeļi"</string>
     <string name="ui_add_a_text_model_in_lokey_models_to_translate">"Pievienojiet teksta modeli sadaļā Lokey → Tulkojamie modeļi."</string>
@@ -208,7 +208,7 @@
     <string name="ui_input_design_credits">"Ievades un dizaina kredīti"</string>
     <string name="ui_input_credits">"Ievades kredīti"</string>
     <string name="ui_intelligent_typing_private_by_design">"Saprātīga rakstīšana. Privāti pēc dizaina."</string>
-    <string name="ui_intl_dead_keys">"Intl · mirušie taustiņi"</string>
+    <string name="ui_intl_dead_keys">"Intl · mēmie taustiņi"</string>
     <string name="ui_intl_hold_l_for_or_hold_q_for_or_dead_keys_e_e_space_accent_share">"Intl · turiet L, lai ievadītu \' vai \"; turiet Q, lai ` vai ~. Nedzīvi taustiņi: \' + e → é, ` + e → è, \' + Space → \'.\nAccent · koplietotas akcentu izvēlnes ar papildu burtiem jūsu valodai."</string>
     <string name="ui_invalid_mp3_bitrate">"Nederīgs MP3 bitu pārraides ātrums"</string>
     <string name="ui_invalid_mp3_rate">"Nederīgs MP3 ātrums"</string>
@@ -323,7 +323,7 @@
     <string name="ui_privacy_policy">"Privātuma politika"</string>
     <string name="ui_provider_logo_sources">"Pakalpojumu sniedzēja logotipu avoti"</string>
     <string name="ui_purple">"Violeta"</string>
-    <string name="ui_qwerty_accent">"QWERTY akcents"</string>
+    <string name="ui_qwerty_accent">"QWERTY · Diakritiskās zīmes"</string>
     <string name="ui_qwerty_intl">"QWERTY Intl"</string>
     <string name="ui_queued">"Rindā"</string>
     <string name="ui_qwen_audio_encoder">"Qwen audio kodētājs"</string>
@@ -384,7 +384,7 @@
     <string name="ui_sound_feedback">"Skaņa un atgriezeniskā saite"</string>
     <string name="ui_sound_volume">"Skaņas skaļums"</string>
     <string name="ui_source_at_this_revision">"Avots šajā redakcijā"</string>
-    <string name="ui_space">"Atstarpes taustiņš"</string>
+    <string name="ui_space">"Atstarpe"</string>
     <string name="ui_space_cursor">"Atstarpe / kursors"</string>
     <string name="ui_space_hold_to_move_cursor">"Atstarpe, turiet, lai pārvietotu kursoru"</string>
     <string name="ui_spacebar_row">"Atstarpes taustiņa rinda"</string>
@@ -494,7 +494,7 @@
     <string name="ui_more">"Vairāk simbolu"</string>
     <string name="ui_required_for_qwen_asr">"Nepieciešams Qwen ASR"</string>
     <string name="ui_shift">"Shift tastatūras taustiņš"</string>
-    <string name="ui_space_0803df4">"Atstarpes taustiņš"</string>
+    <string name="ui_space_0803df4">"Atstarpe"</string>
     <string name="ui_text_model">"teksta modelis"</string>
     <string name="ui_tools">"Tastatūras rīki"</string>
     <string name="ui_1_02_gb">"~1,02 GB"</string>

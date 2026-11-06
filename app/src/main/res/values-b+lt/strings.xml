@@ -41,7 +41,7 @@
     <string name="ui_accuracy">"TIKSLUMAS"</string>
     <string name="ui_accent">"Sąsajos akcento spalva"</string>
     <string name="ui_accent_1_s_letter_to_compose_space_for_literal">"Kirtis %1$s · Raidė rašyti · Tarpas pažodžiui"</string>
-    <string name="ui_accent_menus">"Diakritiniai meniu"</string>
+    <string name="ui_accent_menus">"Diakritiniai ženklai"</string>
     <string name="ui_adaptive_letter_sizes">"Prisitaikantys raidžių dydžiai"</string>
     <string name="ui_add_1_s_in_lokey_models">"Pridėti %1$s prie Lokey → Modeliai"</string>
     <string name="ui_add_a_text_model_in_lokey_models_to_translate">"Pridėkite teksto modelį į Lokey → Models to versti."</string>
@@ -208,7 +208,7 @@
     <string name="ui_input_design_credits">"Įvesties ir dizaino kreditai"</string>
     <string name="ui_input_credits">"Įvesties kreditai"</string>
     <string name="ui_intelligent_typing_private_by_design">"Pažangus spausdinimas. Privatus pagal dizainą."</string>
-    <string name="ui_intl_dead_keys">"Intl · neveikiantys klavišai"</string>
+    <string name="ui_intl_dead_keys">"Intl · kombinavimo klavišai"</string>
     <string name="ui_intl_hold_l_for_or_hold_q_for_or_dead_keys_e_e_space_accent_share">"Intl · laikykite L, jei norite \" arba \"; laikykite Q, jei norite \' arba ~. Neveikiantys klavišai: \' + e → é, ` + e → è, \' + Tarpas → \'.\nAccent · bendrinami kirčio meniu su papildomomis raidėmis jūsų kalbai."</string>
     <string name="ui_invalid_mp3_bitrate">"Neteisingas MP3 bitų greitis"</string>
     <string name="ui_invalid_mp3_rate">"Netinkamas MP3 greitis"</string>
@@ -323,7 +323,7 @@
     <string name="ui_privacy_policy">"Privatumo politika"</string>
     <string name="ui_provider_logo_sources">"Teikėjo logotipo šaltiniai"</string>
     <string name="ui_purple">"Violetinė"</string>
-    <string name="ui_qwerty_accent">"QWERTY akcentas"</string>
+    <string name="ui_qwerty_accent">"QWERTY · Diakritiniai ženklai"</string>
     <string name="ui_qwerty_intl">"QWERTY Intl"</string>
     <string name="ui_queued">"Eilėje"</string>
     <string name="ui_qwen_audio_encoder">"Qwen garso kodavimo įrenginys"</string>
@@ -384,7 +384,7 @@
     <string name="ui_sound_feedback">"Garsas ir atsiliepimai"</string>
     <string name="ui_sound_volume">"Garso garsumas"</string>
     <string name="ui_source_at_this_revision">"Šios peržiūros šaltinis"</string>
-    <string name="ui_space">"Tarpo klavišas"</string>
+    <string name="ui_space">"Tarpas"</string>
     <string name="ui_space_cursor">"Tarpas / žymeklis"</string>
     <string name="ui_space_hold_to_move_cursor">"Tarpas, laikykite, kad perkeltumėte žymeklį"</string>
     <string name="ui_spacebar_row">"Tarpo klavišo eilutė"</string>
@@ -494,7 +494,7 @@
     <string name="ui_more">"Daugiau simbolių"</string>
     <string name="ui_required_for_qwen_asr">"reikalingas Qwen ASR"</string>
     <string name="ui_shift">"„Shift“ klaviatūros klavišas"</string>
-    <string name="ui_space_0803df4">"Tarpo klavišas"</string>
+    <string name="ui_space_0803df4">"Tarpas"</string>
     <string name="ui_text_model">"teksto modelis"</string>
     <string name="ui_tools">"Klaviatūros įrankiai"</string>
     <string name="ui_1_02_gb">"~1,02 GB"</string>

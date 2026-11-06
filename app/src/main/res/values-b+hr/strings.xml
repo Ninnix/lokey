@@ -41,7 +41,7 @@
     <string name="ui_accuracy">"TOČNOST"</string>
     <string name="ui_accent">"Boja akcenta sučelja"</string>
     <string name="ui_accent_1_s_letter_to_compose_space_for_literal">"Naglasak %1$s · Slovo za sastavljanje · Prostor za doslovno"</string>
-    <string name="ui_accent_menus">"Dijakritički izbornici"</string>
+    <string name="ui_accent_menus">"Dijakritici"</string>
     <string name="ui_adaptive_letter_sizes">"Prilagodljive veličine slova"</string>
     <string name="ui_add_1_s_in_lokey_models">"Dodajte %1$s u Lokey → Modeli"</string>
     <string name="ui_add_a_text_model_in_lokey_models_to_translate">"Dodajte tekstualni model u Lokey → Modeli za prijevod."</string>
@@ -208,7 +208,7 @@
     <string name="ui_input_design_credits">"Zasluge za unos i dizajn"</string>
     <string name="ui_input_credits">"Ulazni krediti"</string>
     <string name="ui_intelligent_typing_private_by_design">"Inteligentno tipkanje. Privatno po dizajnu."</string>
-    <string name="ui_intl_dead_keys">"Intl · mrtvi ključevi"</string>
+    <string name="ui_intl_dead_keys">"Intl · mrtve tipke"</string>
     <string name="ui_intl_hold_l_for_or_hold_q_for_or_dead_keys_e_e_space_accent_share">"Intl · držite L za \' ili \"; držite Q za ` ili ~. Mrtve tipke: \' + e → é, ` + e → è, \' + Space → \'.\nAccent · zajednički izbornici s naglaskom, s dodatnim slovima za vaš jezik."</string>
     <string name="ui_invalid_mp3_bitrate">"Nevažeći MP3 bitrate"</string>
     <string name="ui_invalid_mp3_rate">"Nevažeća MP3 brzina"</string>
@@ -323,7 +323,7 @@
     <string name="ui_privacy_policy">"Politika privatnosti"</string>
     <string name="ui_provider_logo_sources">"Izvori logotipa pružatelja usluga"</string>
     <string name="ui_purple">"Ljubičasta"</string>
-    <string name="ui_qwerty_accent">"QWERTY Naglasak"</string>
+    <string name="ui_qwerty_accent">"QWERTY · Dijakritici"</string>
     <string name="ui_qwerty_intl">"QWERTY Intl"</string>
     <string name="ui_queued">"U redu"</string>
     <string name="ui_qwen_audio_encoder">"Qwen audio koder"</string>
@@ -384,7 +384,7 @@
     <string name="ui_sound_feedback">"Zvuk i povratna informacija"</string>
     <string name="ui_sound_volume">"Glasnoća zvuka"</string>
     <string name="ui_source_at_this_revision">"Izvor u ovoj reviziji"</string>
-    <string name="ui_space">"Razmaknica"</string>
+    <string name="ui_space">"Razmak"</string>
     <string name="ui_space_cursor">"Razmak / kursor"</string>
     <string name="ui_space_hold_to_move_cursor">"Razmaknica, držite za pomicanje kursora"</string>
     <string name="ui_spacebar_row">"Red razmaknice"</string>
@@ -494,7 +494,7 @@
     <string name="ui_more">"Više simbola"</string>
     <string name="ui_required_for_qwen_asr">"potrebno za Qwen ASR"</string>
     <string name="ui_shift">"Tipka Shift"</string>
-    <string name="ui_space_0803df4">"Razmaknica"</string>
+    <string name="ui_space_0803df4">"Razmak"</string>
     <string name="ui_text_model">"tekstualni model"</string>
     <string name="ui_tools">"Alati za tipkovnicu"</string>
     <string name="ui_1_02_gb">"~1,02 GB"</string>

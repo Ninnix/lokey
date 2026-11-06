@@ -53,7 +53,7 @@ try:
         print(mode+(': passed' if passed else ': FAILED: '+result.get('error','No result').splitlines()[0]),flush=True)
         if not passed: failures.append(mode)
         if passed and mode=='homespeed':
-            for name in ['home-clean','speed-intl-pinyin','speed-intl-persian','speed-intl-cyrillic']:
+            for name in ['home-clean','speed-selected-pinyin','speed-selected-persian','speed-selected-cyrillic']:
                 (out/f'{args.label}-{name}.png').write_bytes(run('exec-out','run-as','org.lokey.app','cat',f'files/{name}.png',timeout=180))
         if passed and mode=='automatic':
             for name in ['automatic-en','automatic-bg']:

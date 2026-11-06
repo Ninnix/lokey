@@ -1,0 +1,71 @@
+{
+  "version": "0.1.1",
+  "version_code": 2,
+  "signed": true,
+  "same_certificate_as_0_1_0": true,
+  "certificate_sha256": "781fd3566f35af4a6feae7950d2817a71bfecfe898589912d4b3f05ecc117f9a",
+  "apk_verified": true,
+  "aab_verified": true,
+  "apk_zipalign_16kb_checked": true,
+  "runtime_tested_on_16kb_device": false,
+  "native_libraries_unchanged_from_0_1_0": true,
+  "native_libraries": [
+    {
+      "library": "lib/arm64-v8a/libggml-htp-v81.so",
+      "sha256": "92df07605dbca8f9203264f48ba1cd8bda008aaa5c0c64c8d4300804abfae8d3",
+      "bytes": 997568
+    },
+    {
+      "library": "lib/arm64-v8a/liblokey.so",
+      "sha256": "613e928b047367484e572e599453300d1e2bfaaa88cafa4d755d91fec458a552",
+      "bytes": 8670000,
+      "load_segment_alignment": [
+        16384,
+        16384,
+        16384
+      ]
+    }
+  ],
+  "speed_test_languages": 39,
+  "speed_test_locales": 40,
+  "speed_test_excerpt": "Inferno I, lines 1–6",
+  "artifacts": [
+    {
+      "name": "lokey-0.1.1-arm64.apk",
+      "bytes": 19993205,
+      "sha256": "086245eaa27025813e9902b31ec591fcb214828be973332ad2bef2c2c9b20850"
+    },
+    {
+      "name": "lokey-0.1.1.aab",
+      "bytes": 20870449,
+      "sha256": "0042881cd7f6574bf2e02cc6005e89e08f61319005cc27574b85b8c7eeeb87ee"
+    },
+    {
+      "name": "lokey-upload-certificate.pem",
+      "bytes": 1790,
+      "sha256": "29007dd918d4cf78dfbe4b94d0dcb254522275001ec50ee8059c33b58e5d25bb"
+    }
+  ],
+  "lint": {
+    "Warning": 111
+  },
+  "date": "2026-11-06",
+  "build_tasks": [
+    "assembleRelease",
+    "bundleRelease",
+    "lintDebug"
+  ],
+  "device": "OnePlus 15 CPH2747",
+  "device_checks": {
+    "tools": true,
+    "speed": true,
+    "speedui": true,
+    "homespeed": true,
+    "localization": true
+  },
+  "device_test_build": "Debug build with the release source and the unchanged 0.1.0 native libraries",
+  "android_app_language_switching_cases": 27,
+  "locale_resources": 40,
+  "native_libraries_reused_from": "v0.1.0; native source and JNI interface unchanged",
+  "play_console_submitted": false
+}

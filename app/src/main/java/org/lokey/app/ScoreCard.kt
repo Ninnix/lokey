@@ -40,7 +40,7 @@ object ScoreCard {
             text(label, x, y, 23f, Color.LTGRAY,maxWidth=390f); text(value, x, y + 65f, 49f, bold = true,maxWidth=390f)
         }
         text(context.tr("DANTE / INFERNO I"), 76f, 1124f, 26f, red, true)
-        text(if (score.optBoolean("eligible", true)) context.tr("English translation · Prediction assisted") else context.tr("Practice run · Voice or paste used"), 76f, 1174f, 26f)
+        text(if (score.optBoolean("eligible", true)) java.util.Locale.forLanguageTag(score.optString("language","en")).getDisplayLanguage(context.uiLocale())+" · "+context.layoutName(KeyboardLayouts.find(score.optString("layout","intl"))) else context.tr("Practice run · Voice or paste used"), 76f, 1174f, 26f)
         text(context.tr("EVERY CHARACTER COUNTS."), 76f, 1270f, 27f)
         val file = File(context.cacheDir, "lokey-speed-record.png")
         file.outputStream().use { bitmap.compress(Bitmap.CompressFormat.PNG, 100, it) }; bitmap.recycle()

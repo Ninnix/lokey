@@ -40,6 +40,7 @@ open class SpeedEditor(context:Context,private val passage:String,private val in
             }
             val paint=TextPaint(this.paint).apply { color=(ink and 0xffffff) or 0x44000000 }
             preview=StaticLayout.Builder.obtain(display,0,display.length,paint,width)
+                .setTextDirection(if(layoutDirection==LAYOUT_DIRECTION_RTL) android.text.TextDirectionHeuristics.FIRSTSTRONG_RTL else android.text.TextDirectionHeuristics.FIRSTSTRONG_LTR)
                 .setIncludePad(includeFontPadding).setLineSpacing(lineSpacingExtra,lineSpacingMultiplier)
                 .setBreakStrategy(breakStrategy).setHyphenationFrequency(hyphenationFrequency).build()
             shown=typed;available=width;caret=-1

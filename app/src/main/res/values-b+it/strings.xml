@@ -40,8 +40,8 @@
     <string name="ui_a_subtle_bump_followed_by_a_gentle_bottom_out">"Un leggero urto, seguito da un leggero fondocorsa."</string>
     <string name="ui_accuracy">"PRECISIONE"</string>
     <string name="ui_accent">"Colore accento"</string>
-    <string name="ui_accent_1_s_letter_to_compose_space_for_literal">"Accento %1$s · Lettera da comporre · Spazio per letterale"</string>
-    <string name="ui_accent_menus">"Menu diacritici"</string>
+    <string name="ui_accent_1_s_letter_to_compose_space_for_literal">"Accento %1$s · Premi una lettera per aggiungerlo, Spazio per inserirlo da solo"</string>
+    <string name="ui_accent_menus">"Accenti"</string>
     <string name="ui_adaptive_letter_sizes">"Dimensioni delle lettere adattative"</string>
     <string name="ui_add_1_s_in_lokey_models">"Aggiungere %1$s in Lokey → Modelli"</string>
     <string name="ui_add_a_text_model_in_lokey_models_to_translate">"Aggiungere un modello di testo in Lokey → Modelli da tradurre."</string>
@@ -208,8 +208,8 @@
     <string name="ui_input_design_credits">"Crediti di input e progettazione"</string>
     <string name="ui_input_credits">"Immettere crediti"</string>
     <string name="ui_intelligent_typing_private_by_design">"Digitazione intelligente. Privato per progettazione."</string>
-    <string name="ui_intl_dead_keys">"Intl · chiavi morte"</string>
-    <string name="ui_intl_hold_l_for_or_hold_q_for_or_dead_keys_e_e_space_accent_share">"Intl · tieni premuto L per \' o \"; tieni premuto Q per ` o ~. Tasti morti: \' + e → é, ` + e → è, \' + Spazio → \'.\nAccent · menu con accenti condivisi, con lettere extra per la tua lingua."</string>
+    <string name="ui_intl_dead_keys">"Intl · tasti accento"</string>
+    <string name="ui_intl_hold_l_for_or_hold_q_for_or_dead_keys_e_e_space_accent_share">"Intl · tieni premuto L per \' o \"; tieni premuto Q per ` o ~. Tasti accento: \' + e → é, ` + e → è, \' + Spazio → \'.\nAccenti · tieni premuta una lettera per scegliere gli accenti e le lettere aggiuntive della tua lingua."</string>
     <string name="ui_invalid_mp3_bitrate">"Bitrate MP3 non valido"</string>
     <string name="ui_invalid_mp3_rate">"Tariffa MP3 non valida"</string>
     <string name="ui_invalid_resumed_response">"Risposta ripresa non valida"</string>
@@ -323,8 +323,8 @@
     <string name="ui_privacy_policy">"Informativa sulla privacy"</string>
     <string name="ui_provider_logo_sources">"Fonti del logo del fornitore"</string>
     <string name="ui_purple">"Viola"</string>
-    <string name="ui_qwerty_accent">"QWERTY Accento"</string>
-    <string name="ui_qwerty_intl">"QWERTY Internazionale"</string>
+    <string name="ui_qwerty_accent">"QWERTY · Accenti"</string>
+    <string name="ui_qwerty_intl">"QWERTY Intl"</string>
     <string name="ui_queued">"In coda"</string>
     <string name="ui_qwen_audio_encoder">"Codificatore audio Qwen"</string>
     <string name="ui_recording_locked_tap_stop_to_finish">"REGISTRAZIONE BLOCCATA · TOCCA STOP PER FINIRE"</string>
@@ -384,7 +384,7 @@
     <string name="ui_sound_feedback">"Suono e feedback"</string>
     <string name="ui_sound_volume">"Volume del suono"</string>
     <string name="ui_source_at_this_revision">"Fonte in questa revisione"</string>
-    <string name="ui_space">"Barra spaziatrice"</string>
+    <string name="ui_space">"Spazio"</string>
     <string name="ui_space_cursor">"Spazio/cursore"</string>
     <string name="ui_space_hold_to_move_cursor">"Spazio, tieni premuto per spostare il cursore"</string>
     <string name="ui_spacebar_row">"Riga della barra spaziatrice"</string>
@@ -494,7 +494,7 @@
     <string name="ui_more">"Più simboli"</string>
     <string name="ui_required_for_qwen_asr">"richiesto per Qwen ASR"</string>
     <string name="ui_shift">"Tasto Maiusc"</string>
-    <string name="ui_space_0803df4">"Barra spaziatrice"</string>
+    <string name="ui_space_0803df4">"Spazio"</string>
     <string name="ui_text_model">"modello testuale"</string>
     <string name="ui_tools">"Strumenti da tastiera"</string>
     <string name="ui_1_02_gb">"~1,02GB"</string>

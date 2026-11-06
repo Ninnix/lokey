@@ -41,7 +41,7 @@
     <string name="ui_accuracy">"دقت"</string>
     <string name="ui_accent">"رنگ لهجه رابط"</string>
     <string name="ui_accent_1_s_letter_to_compose_space_for_literal">"لهجه %1$s · نامه برای نوشتن · فضایی برای لفظ"</string>
-    <string name="ui_accent_menus">"منوهای دیاکریتیک"</string>
+    <string name="ui_accent_menus">"نشانه‌های آوایی"</string>
     <string name="ui_adaptive_letter_sizes">"اندازه حروف تطبیقی"</string>
     <string name="ui_add_1_s_in_lokey_models">"%1$s را در Lokey → Models اضافه کنید"</string>
     <string name="ui_add_a_text_model_in_lokey_models_to_translate">"یک مدل نوشتاری در Lokey → Models to translate اضافه کنید."</string>
@@ -208,7 +208,7 @@
     <string name="ui_input_design_credits">"اعتبارات ورودی و طراحی"</string>
     <string name="ui_input_credits">"اعتبارات ورودی"</string>
     <string name="ui_intelligent_typing_private_by_design">"تایپ هوشمند. خصوصی بر اساس طراحی"</string>
-    <string name="ui_intl_dead_keys">"بین المللی · کلیدهای مرده"</string>
+    <string name="ui_intl_dead_keys">"Intl · کلیدهای ترکیبی"</string>
     <string name="ui_intl_hold_l_for_or_hold_q_for_or_dead_keys_e_e_space_accent_share">"Intl · L را برای \' یا \" نگه دارید؛ Q را برای ` یا ~ نگه دارید. کلیدهای مرده: \' + e → é, ` + e → è, \' + Space → \'. \nAccent · منوهای تاکیدی مشترک با حروف اضافی برای زبان شما."</string>
     <string name="ui_invalid_mp3_bitrate">"میزان بیت MP3 نامعتبر است"</string>
     <string name="ui_invalid_mp3_rate">"نرخ MP3 نامعتبر است"</string>
@@ -323,7 +323,7 @@
     <string name="ui_privacy_policy">"سیاست حفظ حریم خصوصی"</string>
     <string name="ui_provider_logo_sources">"منابع آرم ارائه دهنده"</string>
     <string name="ui_purple">"بنفش"</string>
-    <string name="ui_qwerty_accent">"لهجه QWERTY"</string>
+    <string name="ui_qwerty_accent">"QWERTY · نشانه‌های آوایی"</string>
     <string name="ui_qwerty_intl">"QWERTY بین المللی"</string>
     <string name="ui_queued">"در صف"</string>
     <string name="ui_qwen_audio_encoder">"رمزگذار صوتی Qwen"</string>

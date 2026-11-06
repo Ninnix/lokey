@@ -41,7 +41,7 @@
     <string name="ui_accuracy">"PRESNOSŤ"</string>
     <string name="ui_accent">"Farba zvýraznenia rozhrania"</string>
     <string name="ui_accent_1_s_letter_to_compose_space_for_literal">"Prízvuk %1$s · Písmeno na zostavenie · Priestor pre doslov"</string>
-    <string name="ui_accent_menus">"Diakritické menu"</string>
+    <string name="ui_accent_menus">"Diakritika"</string>
     <string name="ui_adaptive_letter_sizes">"Adaptívne veľkosti písmen"</string>
     <string name="ui_add_1_s_in_lokey_models">"Pridajte %1$s do Lokey → Modely"</string>
     <string name="ui_add_a_text_model_in_lokey_models_to_translate">"Pridajte textový model v Lokey → Modely na preklad."</string>
@@ -323,7 +323,7 @@
     <string name="ui_privacy_policy">"Zásady ochrany osobných údajov"</string>
     <string name="ui_provider_logo_sources">"Zdroje loga poskytovateľa"</string>
     <string name="ui_purple">"Fialová"</string>
-    <string name="ui_qwerty_accent">"QWERTY Prízvuk"</string>
+    <string name="ui_qwerty_accent">"QWERTY · Diakritika"</string>
     <string name="ui_qwerty_intl">"QWERTY Intl"</string>
     <string name="ui_queued">"V rade"</string>
     <string name="ui_qwen_audio_encoder">"Zvukový kódovač Qwen"</string>
@@ -384,7 +384,7 @@
     <string name="ui_sound_feedback">"Zvuk a spätná väzba"</string>
     <string name="ui_sound_volume">"Hlasitosť zvuku"</string>
     <string name="ui_source_at_this_revision">"Zdroj v tejto revízii"</string>
-    <string name="ui_space">"Medzerník"</string>
+    <string name="ui_space">"Medzera"</string>
     <string name="ui_space_cursor">"Medzerník/kurzor"</string>
     <string name="ui_space_hold_to_move_cursor">"Medzerník, podržaním presuniete kurzor"</string>
     <string name="ui_spacebar_row">"Riadok medzerníka"</string>
@@ -494,7 +494,7 @@
     <string name="ui_more">"Viac symbolov"</string>
     <string name="ui_required_for_qwen_asr">"potrebné pre Qwen ASR"</string>
     <string name="ui_shift">"Kláves Shift"</string>
-    <string name="ui_space_0803df4">"Medzerník"</string>
+    <string name="ui_space_0803df4">"Medzera"</string>
     <string name="ui_text_model">"textový model"</string>
     <string name="ui_tools">"Klávesové nástroje"</string>
     <string name="ui_1_02_gb">"~1,02 GB"</string>

@@ -41,7 +41,7 @@
     <string name="ui_accuracy">"EŻATEĊITÀ"</string>
     <string name="ui_accent">"Kulur tal-aċċent tal-interface"</string>
     <string name="ui_accent_1_s_letter_to_compose_space_for_literal">"Aċċent %1$s · Ittra biex tikkomponi · Spazju għal letterali"</string>
-    <string name="ui_accent_menus">"Menus dijakritiċi"</string>
+    <string name="ui_accent_menus">"Aċċenti"</string>
     <string name="ui_adaptive_letter_sizes">"Daqsijiet tal-ittri adattivi"</string>
     <string name="ui_add_1_s_in_lokey_models">"Żid %1$s f\'Lokey → Mudelli"</string>
     <string name="ui_add_a_text_model_in_lokey_models_to_translate">"Żid mudell ta\' test f\'Lokey → Mudelli biex tittraduċi."</string>
@@ -208,7 +208,7 @@
     <string name="ui_input_design_credits">"Input u krediti tad-disinn"</string>
     <string name="ui_input_credits">"Krediti tal-input"</string>
     <string name="ui_intelligent_typing_private_by_design">"Ittajpjar intelliġenti. Privat bid-disinn."</string>
-    <string name="ui_intl_dead_keys">"Intl · ċwievet mejta"</string>
+    <string name="ui_intl_dead_keys">"Intl · tasti mejta"</string>
     <string name="ui_intl_hold_l_for_or_hold_q_for_or_dead_keys_e_e_space_accent_share">"Intl · żomm L għal \' jew \"; żomm Q għal ` jew ~. Ċwievet mejta: \' + e → é, ` + e → è, \' + Spazju → \'.\nAċċent · menus tal-aċċent kondiviżi, b\'ittri żejda għal-lingwa tiegħek."</string>
     <string name="ui_invalid_mp3_bitrate">"Bitrate MP3 invalida"</string>
     <string name="ui_invalid_mp3_rate">"Rata MP3 mhux valida"</string>
@@ -323,7 +323,7 @@
     <string name="ui_privacy_policy">"Politika ta\' privatezza"</string>
     <string name="ui_provider_logo_sources">"Sorsi tal-logo tal-fornitur"</string>
     <string name="ui_purple">"Vjola"</string>
-    <string name="ui_qwerty_accent">"QWERTY Aċċent"</string>
+    <string name="ui_qwerty_accent">"QWERTY · Aċċenti"</string>
     <string name="ui_qwerty_intl">"QWERTY Intl"</string>
     <string name="ui_queued">"Fil-kju"</string>
     <string name="ui_qwen_audio_encoder">"Encoder tal-awdjo Qwen"</string>
@@ -384,7 +384,7 @@
     <string name="ui_sound_feedback">"Ħoss u feedback"</string>
     <string name="ui_sound_volume">"Volum tal-ħoss"</string>
     <string name="ui_source_at_this_revision">"Sors f\'din ir-reviżjoni"</string>
-    <string name="ui_space">"Spacebar"</string>
+    <string name="ui_space">"Spazju"</string>
     <string name="ui_space_cursor">"Spazju / cursor"</string>
     <string name="ui_space_hold_to_move_cursor">"Spazju, żomm biex timxi l-cursor"</string>
     <string name="ui_spacebar_row">"Ringiela ta\' l-ispazju"</string>
@@ -494,7 +494,7 @@
     <string name="ui_more">"Aktar simboli"</string>
     <string name="ui_required_for_qwen_asr">"meħtieġ għal Qwen ASR"</string>
     <string name="ui_shift">"Tasti tat-tastiera Shift"</string>
-    <string name="ui_space_0803df4">"Spacebar"</string>
+    <string name="ui_space_0803df4">"Spazju"</string>
     <string name="ui_text_model">"mudell tat-test"</string>
     <string name="ui_tools">"Għodod tat-tastiera"</string>
     <string name="ui_1_02_gb">"~1.02 GB"</string>

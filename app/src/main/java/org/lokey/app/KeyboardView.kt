@@ -49,7 +49,7 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
     private var automaticCapital = false
     private var symbols = false
     private var toolsOpen=false
-    private val toolBounds=Array(3) { RectF() }
+    private val toolBounds=Array(2) { RectF() }
     private var symbolPage = false
     private var numeric = false
     private var enterLabel = "↵"
@@ -60,10 +60,8 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
     var moreCandidates=false
     var forceLatin=false
         set(value) { if(field!=value) { field=value;cancelTouches();requestLayout();layoutKeys();invalidate() } }
-    var editorLayout:String?=null
-        set(value) { if(field!=value) { field=value;cancelTouches();requestLayout();layoutKeys();invalidate() } }
     var previewLayout:KeyboardLayouts.Layout?=null
-    private val layout get()=previewLayout ?: editorLayout?.let { KeyboardLayouts.find(it) } ?: if(forceLatin) KeyboardLayouts.find("qwerty") else prefs.currentLayout
+    private val layout get()=previewLayout ?: if(forceLatin) KeyboardLayouts.find("qwerty") else prefs.currentLayout
     private val flowEnabled get()=prefs.flow && layout.flow
     private fun punctuation(value:String)=if(numeric) value else layout.punctuation(value)
     private fun customOutput(key:CustomLayouts.Key):String {
@@ -435,9 +433,9 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
             val key=keys.firstOrNull { it.code=="symbols" }
             if(key!=null) {
                 val left=dp(5f);val top=key.rect.top-dp(66f)
-                val rect=RectF(left,top,left+dp(204f),top+dp(60f))
+                val rect=RectF(left,top,left+dp(136f),top+dp(60f))
                 paint.color=palette.special;canvas.drawRoundRect(rect,dp(12f),dp(12f),paint)
-                listOf("clipboard" to context.tr("Clipboard"),"translate" to context.tr("Translate"),"layout" to context.tr("Layout")).forEachIndexed { i,(icon,title) ->
+                listOf("clipboard" to context.tr("Clipboard"),"translate" to context.tr("Translate")).forEachIndexed { i,(icon,title) ->
                     val bounds=toolBounds[i];bounds.set(left+i*dp(68f),top,left+(i+1)*dp(68f),rect.bottom)
                     ToolIcons.draw(canvas,icon,bounds.centerX(),top+dp(21f),dp(24f),ink)
                     label(canvas,title,bounds.centerX(),top+dp(48f),fitSize(title,11f,bounds.width()-dp(8f)),ink)
@@ -595,11 +593,11 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
         if(toolsOpen && event.actionMasked==MotionEvent.ACTION_DOWN) {
             val selected=toolBounds.indexOfFirst { it.contains(event.x,event.y) }
             toolsOpen=false;invalidate()
-            if(selected>=0) { cancelTouches();listener.tool(when(selected) { 0 -> "clipboard";1 -> "translate";else -> "layout" });return true }
+            if(selected>=0) { cancelTouches();listener.tool(when(selected) { 0 -> "clipboard";else -> "translate" });return true }
         }
         if(toolsOpen && event.actionMasked==MotionEvent.ACTION_UP) {
             val selected=toolBounds.indexOfFirst { it.contains(event.x,event.y) }
-            if(selected>=0) { toolsOpen=false;cancelTouches();listener.tool(when(selected) { 0 -> "clipboard";1 -> "translate";else -> "layout" });return true }
+            if(selected>=0) { toolsOpen=false;cancelTouches();listener.tool(when(selected) { 0 -> "clipboard";else -> "translate" });return true }
         }
         if (resize != null) return resize(event)
         if (suggestionsVisible && event.actionMasked == MotionEvent.ACTION_DOWN && event.y < dp(12f) && voiceState.isEmpty() && touches.isEmpty()) {
@@ -725,12 +723,12 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
                 className = "android.inputmethodservice.KeyboardView"
                 keys.indices.forEach { addChild(this@KeyboardView, it) }
                 if (suggestionsVisible && voiceState.isEmpty() && resize?.held != true) suggestions.indices.forEach { addChild(this@KeyboardView, 1000 + it) }
-                if(toolsOpen) repeat(3) { addChild(this@KeyboardView,2000+it) }
+                if(toolsOpen) repeat(2) { addChild(this@KeyboardView,2000+it) }
                 if(moreCandidates && suggestionsVisible) addChild(this@KeyboardView,1003)
             }
-            if(id in 2000..2002 && toolsOpen) return AccessibilityNodeInfo.obtain().apply {
+            if(id in 2000..2001 && toolsOpen) return AccessibilityNodeInfo.obtain().apply {
                 setSource(this@KeyboardView,id);setParent(this@KeyboardView);packageName=context.packageName
-                className="android.widget.Button";contentDescription=when(id) { 2000 -> context.tr("Clipboard");2001 -> context.tr("Translate");else -> context.tr("Layout") }
+                className="android.widget.Button";contentDescription=when(id) { 2000 -> context.tr("Clipboard");else -> context.tr("Translate") }
                 isEnabled=true;isClickable=true;isVisibleToUser=true
                 val rect=Rect();toolBounds[id-2000].roundOut(rect);setBoundsInParent(rect)
                 val position=IntArray(2);getLocationOnScreen(position);rect.offset(position[0],position[1]);setBoundsInScreen(rect)
@@ -788,8 +786,8 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
                 val word = suggestions.getOrNull(id - 1000) ?: return false
                 activity(); listener.candidate(word); return true
             }
-            if(action==AccessibilityNodeInfo.ACTION_CLICK && id in 2000..2002 && toolsOpen) {
-                toolsOpen=false;invalidate();listener.tool(when(id) { 2000 -> "clipboard";2001 -> "translate";else -> "layout" });return true
+            if(action==AccessibilityNodeInfo.ACTION_CLICK && id in 2000..2001 && toolsOpen) {
+                toolsOpen=false;invalidate();listener.tool(when(id) { 2000 -> "clipboard";else -> "translate" });return true
             }
             if (action == AccessibilityNodeInfo.ACTION_CLICK) {
                 keys.getOrNull(id)?.let { key -> if(chooseKey!=null) chooseKey!!.invoke(key.custom?.id ?: key.code) else activate(key);activity();invalidate() }

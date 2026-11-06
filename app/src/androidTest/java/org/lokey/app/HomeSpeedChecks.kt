@@ -16,6 +16,7 @@ import java.io.File
 object HomeSpeedChecks {
     fun run(test:Instrumentation,context:Context):JSONObject {
         val prefs=Prefs(context);val original=if(prefs.automaticLayout) "auto" else prefs.layout
+        val originalLanguage=prefs.setupLanguage
         val report=JSONObject();val cases=JSONArray()
         val service=test.uiAutomation.serviceInfo
         service.flags=service.flags or android.accessibilityservice.AccessibilityServiceInfo.FLAG_RETRIEVE_INTERACTIVE_WINDOWS
@@ -61,13 +62,14 @@ object HomeSpeedChecks {
             report.put("choose_lokey_reflects_system_selection",true).put("selected_button_uses_accent",active).put("intelligence_and_privacy_header",true).put("footer_copy_removed",true)
         } finally { test.runOnMainSync { home.finish() } }
         try {
-            for(id in listOf("pinyin","persian","cyrillic")) {
-                prefs.layout=id
+            for((id,name) in listOf("pinyin" to "Chinese","persian" to "Persian","cyrillic" to "Russian")) {
+                prefs.layout=id;prefs.setupLanguage=name
+                val first=KeyboardLayouts.find(id).rows.first().first()
                 val activity=test.startActivitySync(Intent().setClass(context,MainActivity::class.java).putExtra("page","lab").addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK))
                 try {
                     await { var ready=false;test.runOnMainSync { ready=activity.hasWindowFocus() };ready }
                     test.runOnMainSync { views(activity.window.decorView).filterIsInstance<Switch>().first { it.text.toString()=="Speed test" }.performClick() }
-                    await { "9, hold for [ {" in keyboard() }
+                    await { keyboard().any { it.substringBefore(',').equals(first,true) } }
                     check(prefs.layout==id)
                     var language="";var direction=0
                     test.runOnMainSync {
@@ -75,19 +77,18 @@ object HomeSpeedChecks {
                         val info=android.view.inputmethod.EditorInfo();game.editor.onCreateInputConnection(info)
                         language=info.hintLocales?.get(0)?.language.orEmpty();direction=game.editor.textDirection
                     }
-                    check(language=="en" && direction==View.TEXT_DIRECTION_LTR)
-                    shot("speed-intl-$id")
+                    check(language==LanguageLayouts.all.getValue(name).code && direction==if(name=="Persian") View.TEXT_DIRECTION_RTL else View.TEXT_DIRECTION_LTR)
+                    shot("speed-selected-$id")
                     test.runOnMainSync { views(activity.window.decorView).filterIsInstance<Switch>().first { it.text.toString()=="Speed test" }.performClick() }
-                    val first=KeyboardLayouts.find(id).rows.first().first()
                     await {
                         val keys=keyboard()
-                        keys.any { it.substringBefore(',').equals(first,true) } && "9, hold for [ {" !in keys
+                        keys.any { it.substringBefore(',').equals(first,true) }
                     }
                     check(prefs.layout==id)
-                    cases.put(JSONObject().put("preferred_layout",id).put("speed_layout","intl").put("english_hint",true).put("original_layout_restored",true))
+                    cases.put(JSONObject().put("preferred_layout",id).put("speed_layout",id).put("language_hint",language).put("original_layout_restored",true))
                 } finally { test.runOnMainSync { activity.finish() } }
             }
-        } finally { prefs.layout=original }
+        } finally { prefs.layout=original;prefs.setupLanguage=originalLanguage }
         return report.put("speed_test_layout_cases",cases)
     }
 }

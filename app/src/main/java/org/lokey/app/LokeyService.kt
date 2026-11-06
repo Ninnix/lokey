@@ -74,8 +74,8 @@ class LokeyService : InputMethodService(), KeyboardView.Listener {
     private var composeWaiting=false
     private val composeQueued=StringBuilder()
     private fun speedTestEditor()=currentInputEditorInfo?.let { it.packageName==packageName && it.privateImeOptions=="org.lokey.app.speedtest" }==true
-    private fun inputLayout()=if(speedTestEditor()) KeyboardLayouts.find("intl") else prefs.currentLayout
-    private fun inputHint()=if(speedTestEditor()) "English" else ModelLanguages.inputHint(this,prefs)
+    private fun inputLayout()=prefs.currentLayout
+    private fun inputHint()=if(speedTestEditor()) ModelLanguages.selected(this,prefs).name else ModelLanguages.inputHint(this,prefs)
     private fun composeKind()=if(toolMode=="languages" || privateField) "" else inputLayout().composer
     private fun phonetic()=KeyboardLayouts.all.any { it.composer==composeMethod.ifEmpty { composeKind() } && it.phonetic }
     private fun unspaced()=toolMode!="languages" && !inputLayout().wordSpaces
@@ -183,7 +183,6 @@ class LokeyService : InputMethodService(), KeyboardView.Listener {
         root.setBackgroundColor(KeyboardTheme.colors(prefs).background)
         root.removeAllViews();translationBar=null;languagePicker=null
         keyboard?.suggestionsVisible=toolMode!="languages"
-        keyboard?.editorLayout=if(speedTestEditor()) "intl" else null
         keyboard?.forceLatin=toolMode=="languages"
         val height=dp((if(resources.configuration.screenWidthDp>resources.configuration.screenHeightDp) 260 else 325)*prefs.height/100)
         when(toolMode) {
@@ -319,7 +318,6 @@ class LokeyService : InputMethodService(), KeyboardView.Listener {
             else -> "↵"
         }
         editorAction=action
-        keyboard?.editorLayout=if(speedTestEditor()) "intl" else null
         keyboard?.editor(type == InputType.TYPE_CLASS_NUMBER || type == InputType.TYPE_CLASS_PHONE, action,
             inputLayout().automaticCaps && info.inputType and InputType.TYPE_TEXT_FLAG_CAP_SENTENCES != 0 && currentInputConnection?.getCursorCapsMode(info.inputType) != 0)
         keyboard?.requestLayout()

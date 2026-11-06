@@ -41,7 +41,7 @@
     <string name="ui_accuracy">"DOKŁADNOŚĆ"</string>
     <string name="ui_accent">"Kolor akcentujący interfejsu"</string>
     <string name="ui_accent_1_s_letter_to_compose_space_for_literal">"Akcent %1$s · Litera do ułożenia · Miejsce na dosłowność"</string>
-    <string name="ui_accent_menus">"Menu diakrytyczne"</string>
+    <string name="ui_accent_menus">"Znaki diakrytyczne"</string>
     <string name="ui_adaptive_letter_sizes">"Adaptacyjne rozmiary liter"</string>
     <string name="ui_add_1_s_in_lokey_models">"Dodaj %1$s w Lokey → Modele"</string>
     <string name="ui_add_a_text_model_in_lokey_models_to_translate">"Dodaj model tekstowy w Lokey → Modele do przetłumaczenia."</string>
@@ -208,7 +208,7 @@
     <string name="ui_input_design_credits">"Autorzy wkładu i projektu"</string>
     <string name="ui_input_credits">"Kredyty wejściowe"</string>
     <string name="ui_intelligent_typing_private_by_design">"Inteligentne pisanie. Prywatny z założenia."</string>
-    <string name="ui_intl_dead_keys">"Intl · martwe klucze"</string>
+    <string name="ui_intl_dead_keys">"Intl · martwe klawisze"</string>
     <string name="ui_intl_hold_l_for_or_hold_q_for_or_dead_keys_e_e_space_accent_share">"Intl · przytrzymaj L dla \' lub \"; przytrzymaj Q dla ` lub ~. Martwe klawisze: \' + e → é, ` + e → è, \' + Spacja → \'.\nAccent · wspólne menu akcentów, z dodatkowymi literami dla Twojego języka."</string>
     <string name="ui_invalid_mp3_bitrate">"Nieprawidłowa szybkość transmisji MP3"</string>
     <string name="ui_invalid_mp3_rate">"Nieprawidłowa szybkość MP3"</string>
@@ -323,7 +323,7 @@
     <string name="ui_privacy_policy">"Polityka prywatności"</string>
     <string name="ui_provider_logo_sources">"Źródła logo dostawcy"</string>
     <string name="ui_purple">"Fioletowy"</string>
-    <string name="ui_qwerty_accent">"Akcent QWERTY"</string>
+    <string name="ui_qwerty_accent">"QWERTY · Znaki diakrytyczne"</string>
     <string name="ui_qwerty_intl">"QWERTY Międzynarodowy"</string>
     <string name="ui_queued">"W kolejce"</string>
     <string name="ui_qwen_audio_encoder">"Koder audio Qwen"</string>

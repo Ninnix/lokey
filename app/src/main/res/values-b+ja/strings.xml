@@ -41,7 +41,7 @@
     <string name="ui_accuracy">"精度"</string>
     <string name="ui_accent">"インターフェースのアクセントカラー"</string>
     <string name="ui_accent_1_s_letter_to_compose_space_for_literal">"アクセント %1$s ・作成する文字 ・リテラル用のスペース"</string>
-    <string name="ui_accent_menus">"発音記号メニュー"</string>
+    <string name="ui_accent_menus">"アクセント"</string>
     <string name="ui_adaptive_letter_sizes">"適応文字サイズ"</string>
     <string name="ui_add_1_s_in_lokey_models">"Lokey→モデルに%1$sを追加"</string>
     <string name="ui_add_a_text_model_in_lokey_models_to_translate">"Lokey→翻訳するモデルにテキストモデルを追加します。"</string>
@@ -208,7 +208,7 @@
     <string name="ui_input_design_credits">"入力およびデザインのクレジット"</string>
     <string name="ui_input_credits">"クレジットの入力"</string>
     <string name="ui_intelligent_typing_private_by_design">"インテリジェントタイピング。デザインによるプライベート。"</string>
-    <string name="ui_intl_dead_keys">"国際・デッドキー"</string>
+    <string name="ui_intl_dead_keys">"Intl · デッドキー"</string>
     <string name="ui_intl_hold_l_for_or_hold_q_for_or_dead_keys_e_e_space_accent_share">"Intl · \' または \" の場合は L を押し、` または ~ の場合は Q を押します。デッド キー: \' + e → é、` + e → è、\' + Space → \'。\nAccent · 共有アクセント メニュー。言語に応じた追加の文字が表示されます。"</string>
     <string name="ui_invalid_mp3_bitrate">"無効なMP3ビットレート"</string>
     <string name="ui_invalid_mp3_rate">"無効なMP3レート"</string>
@@ -323,8 +323,8 @@
     <string name="ui_privacy_policy">"プライバシーポリシー"</string>
     <string name="ui_provider_logo_sources">"プロバイダのロゴソース"</string>
     <string name="ui_purple">"紫"</string>
-    <string name="ui_qwerty_accent">"QWERTY アクセント"</string>
-    <string name="ui_qwerty_intl">"QWERTY国際空港"</string>
+    <string name="ui_qwerty_accent">"QWERTY · アクセント"</string>
+    <string name="ui_qwerty_intl">"QWERTY Intl"</string>
     <string name="ui_queued">"キューに入れられました"</string>
     <string name="ui_qwen_audio_encoder">"Qwenオーディオエンコーダ"</string>
     <string name="ui_recording_locked_tap_stop_to_finish">"録音がロックされています · 終了するには「停止」をタップしてください"</string>
@@ -384,7 +384,7 @@
     <string name="ui_sound_feedback">"サウンドとフィードバック"</string>
     <string name="ui_sound_volume">"音量"</string>
     <string name="ui_source_at_this_revision">"この改訂版の出典"</string>
-    <string name="ui_space">"スペースバー"</string>
+    <string name="ui_space">"空白"</string>
     <string name="ui_space_cursor">"スペース/カーソル"</string>
     <string name="ui_space_hold_to_move_cursor">"スペース、ホールドしてカーソルを移動"</string>
     <string name="ui_spacebar_row">"スペースバー行"</string>
@@ -494,7 +494,7 @@
     <string name="ui_more">"その他のシンボル"</string>
     <string name="ui_required_for_qwen_asr">"Qwen ASR に必要"</string>
     <string name="ui_shift">"キーボードのシフトキー"</string>
-    <string name="ui_space_0803df4">"スペースバー"</string>
+    <string name="ui_space_0803df4">"空白"</string>
     <string name="ui_text_model">"テキストモデル"</string>
     <string name="ui_tools">"キーボードツール"</string>
     <string name="ui_1_02_gb">"~1.02GB"</string>

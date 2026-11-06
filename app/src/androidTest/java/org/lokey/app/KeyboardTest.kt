@@ -1052,6 +1052,7 @@ class KeyboardTest : Instrumentation() {
                 view.draw(android.graphics.Canvas(bitmap));File(targetContext.filesDir,"tools-menu.png").outputStream().use { bitmap.compress(android.graphics.Bitmap.CompressFormat.PNG,100,it) };bitmap.recycle()
                 check(view.accessibilityNodeProvider.createAccessibilityNodeInfo(2000)!!.contentDescription=="Clipboard")
                 check(view.accessibilityNodeProvider.createAccessibilityNodeInfo(2001)!!.contentDescription=="Translate")
+                check(view.accessibilityNodeProvider.createAccessibilityNodeInfo(2002)==null)
                 view.accessibilityNodeProvider.performAction(2000,android.view.accessibility.AccessibilityNodeInfo.ACTION_CLICK,null)
             }
             check(tools==listOf("clipboard") && switched==0);result.put("symbols_hold_tools_keeps_keyboard",true)
@@ -1568,7 +1569,7 @@ class KeyboardTest : Instrumentation() {
                         val toggle=find(activity.window.decorView,android.widget.Switch::class.java)!!
                         val box=IntArray(2);val control=IntArray(2);game.editor.getLocationOnScreen(box);toggle.getLocationOnScreen(control)
                         check(control[1]>=box[1]+game.editor.height)
-                        val prefix="Midway upon the journey "
+                        val prefix=game.run.passage.take(24)
                         game.editor.setText(prefix);game.editor.setSelection(prefix.length)
                         check(game.run.score>0 && game.run.combo==prefix.length)
                         val connection=game.editor.onCreateInputConnection(android.view.inputmethod.EditorInfo())!!
@@ -1590,6 +1591,21 @@ class KeyboardTest : Instrumentation() {
         return JSONObject().put("themes",report)
     }
     private fun speedTest(): JSONObject {
+        val prefs=Prefs(targetContext);val originalLanguage=prefs.setupLanguage
+        try {
+            val texts=HashSet<String>()
+            for((name,mapping) in LanguageLayouts.all) {
+                prefs.setupLanguage=name
+                val passage=SpeedPassages.selected(targetContext,prefs)
+                check(passage.code.substringBefore('-')==mapping.code && passage.text.isNotBlank())
+                check(texts.add(passage.text))
+                val run=SpeedRun(passage.text,passage.id,passage.code,prefs.currentLayout.id)
+                run.update(passage.text,1000)
+                check(run.finished && run.accuracy==100.0)
+                check(run.snapshot(2000).getString("language")==passage.code)
+            }
+            check(texts.size==39)
+        } finally { prefs.setupLanguage=originalLanguage }
         val game=SpeedRun("a ".repeat(15))
         check(game.started==0L)
         for(index in game.passage.indices) game.update(game.passage.take(index+1),1000L+index*100)
@@ -1615,7 +1631,7 @@ class KeyboardTest : Instrumentation() {
                 val view = SpeedTestView(activity)
                 activity.setContentView(view)
                 view.editor.showSoftInputOnFocus = false
-                view.editor.setText("Midway upon the journey of our life ")
+                view.editor.setText(view.run.passage.take(35))
                 check(view.run.index==view.editor.length() && view.run.combo==view.editor.length())
                 view.editor.onPrivateIMECommand("org.lokey.app.PREDICTION", Bundle().apply { putInt("words", 2) })
                 check(view.run.predictionTaps == 1 && view.run.assistedWords == 2)
@@ -1624,7 +1640,7 @@ class KeyboardTest : Instrumentation() {
                 view.restart()
                 check(view.run.index == 0 && view.run.started == 0L && view.run.predictionTaps == 0)
                 view.editor.showSoftInputOnFocus = false
-                view.editor.setText("Midway upon the journey ")
+                view.editor.setText(view.run.passage.take(24))
                 val width = targetContext.resources.displayMetrics.widthPixels
                 view.measure(View.MeasureSpec.makeMeasureSpec(width, View.MeasureSpec.EXACTLY), View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED))
                 view.layout(0, 0, view.measuredWidth, view.measuredHeight)

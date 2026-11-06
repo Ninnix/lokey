@@ -20,13 +20,15 @@ import android.view.inputmethod.InputConnectionWrapper
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import org.json.JSONObject
-import java.util.Locale
 
 class SpeedTestView(context:Context):LinearLayout(context) {
-    var run=SpeedRun()
+    private val prefs=Prefs(context)
+    private val passage=SpeedPassages.selected(context,prefs)
+    private fun newRun()=SpeedRun(passage.text,passage.id,passage.code,prefs.currentLayout.id)
+    var run=newRun()
         private set
     private val store=context.getSharedPreferences("speedtest",Context.MODE_PRIVATE)
-    private val light=Prefs(context).appLight
+    private val light=prefs.appLight
     private val ink=if(light) Color.rgb(28,29,30) else Color.rgb(245,240,231)
     private val accent=if(light) Color.rgb(255,90,0) else Color.rgb(240,92,94)
     private val muted=if(light) Color.rgb(110,111,108) else Color.rgb(160,161,158)
@@ -39,7 +41,7 @@ class SpeedTestView(context:Context):LinearLayout(context) {
     private val share=action(context.tr("Share result"),true) { shareResult() }
     private var record=false
     private var predictionCommit=false
-    val editor:EditText=object:SpeedEditor(context,SpeedRun.PASSAGE,ink,accent) {
+    val editor:EditText=object:SpeedEditor(context,passage.text,ink,accent) {
         override fun onPrivateIMECommand(action:String?,data:Bundle?):Boolean {
             if(command(action,data)) return true
             return super.onPrivateIMECommand(action,data)
@@ -51,7 +53,7 @@ class SpeedTestView(context:Context):LinearLayout(context) {
         override fun onCreateInputConnection(info:EditorInfo):InputConnection? {
             val base=super.onCreateInputConnection(info) ?: return null
             info.privateImeOptions="org.lokey.app.speedtest"
-            info.hintLocales=android.os.LocaleList(Locale.ENGLISH)
+            info.hintLocales=android.os.LocaleList(passage.locale)
             return object:InputConnectionWrapper(base,false) {
                 override fun commitText(text:CharSequence?,newCursorPosition:Int):Boolean {
                     if(!predictionCommit && Languages.tokens(text?.toString().orEmpty()).size>1) run.disqualify()
@@ -71,8 +73,9 @@ class SpeedTestView(context:Context):LinearLayout(context) {
         val box=FrameLayout(context).apply { background=shape(surface,20);clipToOutline=true }
         editor.apply {
             id=generateViewId();textSize=20f;setTextColor(ink);gravity=Gravity.TOP
-            textDirection=android.view.View.TEXT_DIRECTION_LTR;layoutDirection=android.view.View.LAYOUT_DIRECTION_LTR
-            setTextLocale(Locale.ENGLISH)
+            layoutDirection=android.text.TextUtils.getLayoutDirectionFromLocale(passage.locale)
+            textDirection=if(layoutDirection==android.view.View.LAYOUT_DIRECTION_RTL) android.view.View.TEXT_DIRECTION_RTL else android.view.View.TEXT_DIRECTION_LTR
+            setTextLocale(passage.locale)
             inputType=InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_MULTI_LINE or InputType.TYPE_TEXT_FLAG_CAP_SENTENCES
             setPadding(dp(20),dp(20),dp(20),dp(38));background=null
             addTextChangedListener(object:TextWatcher {
@@ -122,7 +125,8 @@ class SpeedTestView(context:Context):LinearLayout(context) {
         gravity=Gravity.CENTER;background=shape(if(primary) accent else control,13);typeface=Typeface.create("sans-serif",Typeface.BOLD)
         isClickable=true;isFocusable=true;isSoundEffectsEnabled=false;setOnClickListener { clicked() }
     }
-    private fun best():JSONObject?=runCatching { JSONObject(store.getString("best-characters",null) ?: return null).takeIf { it.optInt("version")==2 } }.getOrNull()
+    private fun bestKey()="best-${run.passageId}-${run.layout}"
+    private fun best():JSONObject?=runCatching { JSONObject(store.getString(bestKey(),null) ?: return null).takeIf { it.optInt("version")==2 } }.getOrNull()
     private fun updateStats() {
         val summary=String.format(context.uiLocale(),context.tr("%1\$.0f WPM · %2\$.0f%% accuracy · %3\$d/%4\$d"),run.wpm(SystemClock.elapsedRealtime()),run.accuracy,run.index,run.passage.length)
         if(stats.text.toString()!=summary) stats.text=summary
@@ -131,7 +135,7 @@ class SpeedTestView(context:Context):LinearLayout(context) {
             val note=when {
             !run.eligible -> context.tr("Practice run · paste or voice used")
             run.started==0L && best!=null -> String.format(context.uiLocale(),context.tr("Personal best %1\$.1f WPM · %2\$d character combo"),best.getDouble("wpm"),best.getInt("combo"))
-            else -> context.tr("Dante · Inferno I · English translation")
+            else -> context.tr("DANTE / INFERNO I")+" · "+passage.locale.getDisplayLanguage(context.uiLocale())
             }
             if(outcome.text.toString()!=note) outcome.text=note
         }
@@ -140,7 +144,7 @@ class SpeedTestView(context:Context):LinearLayout(context) {
         val now=SystemClock.elapsedRealtime();val score=run.snapshot(now)
         record=run.eligible && run.accuracy>=90 && run.wpm(now)>(best()?.optDouble("wpm") ?: 0.0)
         store.edit().putString("last",score.toString()).apply()
-        if(record) store.edit().putString("best-characters",score.toString()).apply()
+        if(record) store.edit().putString(bestKey(),score.toString()).apply()
         outcome.text=when { !run.eligible -> context.tr("Practice complete · %1\$s points",run.score);record -> context.tr("New personal best · %1\$s points",run.score);else -> context.tr("Finished · %1\$s best combo",run.bestCombo) }
         pulse.text=context.tr("%1\$s points · %2\$s best combo",run.score,run.bestCombo)
         share.visibility=VISIBLE;editor.clearFocus();editor.isEnabled=false
@@ -148,7 +152,7 @@ class SpeedTestView(context:Context):LinearLayout(context) {
         removeCallbacks(tick)
     }
     fun restart() {
-        run=SpeedRun();predictionCommit=false;record=false
+        run=newRun();predictionCommit=false;record=false
         editor.isEnabled=true;editor.setText("");share.visibility=GONE;streak.progress=0
         pulse.text=context.tr("Every character counts · ×1");updateStats();removeCallbacks(tick);post(tick)
         editor.requestFocus()

@@ -37,4 +37,8 @@ for code in codes:
         assert collections.Counter(format.findall(value))==collections.Counter(format.findall(base[key])),f'Format mismatch {code}: {key}'
         assert not re.search(r'ZXQ\s*\d+\s*QXZ',value,re.I),f'Translation marker in {code}: {key}'
     summary.append({'locale':code,'strings':len(values)-1,'identical_to_english':sum(value==base[key] for key,value in values.items() if key!='ui_language_tag')})
+passages=json.loads((root/'app/src/main/assets/speed-passages.json').read_text())
+assert set(passages)==set(codes),'Speed-test passages differ from the supported locales'
+assert all(text.strip()==text and '\n' not in text and len(text)>60 for text in passages.values()),'Invalid speed-test passage'
+assert len(set(passages.values()))==len(passages),'Duplicate speed-test translations'
 print(json.dumps({'languages':len(supported),'locales':summary,'passed':True},ensure_ascii=False,indent=2))
