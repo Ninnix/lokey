@@ -54,7 +54,7 @@ object LayoutChecks {
                 event(android.view.MotionEvent.ACTION_MOVE,dy=-15f);event(android.view.MotionEvent.ACTION_UP,dy=-15f)
             } else {
                 SystemClock.sleep(350)
-                val direction=if(code in listOf("0","p")) -1 else 1
+                val direction=if(x>view.width/2f+density) -1 else 1
                 event(android.view.MotionEvent.ACTION_MOVE,dx=41f*index*direction)
                 if(shot!=null) capture(shot)
                 event(android.view.MotionEvent.ACTION_UP,dx=41f*index*direction)

@@ -385,7 +385,13 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
                 val size=fitSize(key.label,baseSize,key.rect.width()-dp(8f))
                 label(canvas,key.label,key.rect.centerX(),key.rect.centerY()+dp(if(key.label.length>2) 5f else 8f),size,color)
                 val hint=if(key.code in listOf("shift","delete","symbols","page","enter")) context.tr(secondaryLabel(key)) else secondaryLabel(key)
-                if (hint.isNotEmpty()) label(canvas, hint, key.rect.right - dp(5f), key.rect.top + dp(11f), fitSize(hint,if(hint.length>2) 7f else 9f,key.rect.width()-dp(10f)), if(bitmap!=null) color else KeyboardTheme.blend(color,fill,.35f), Paint.Align.RIGHT)
+                if(hint.isNotEmpty()) {
+                    val symbols=key.custom==null && layout.composer=="dead" && !numeric && layout.variants(key.code).isNotEmpty()
+                    val text=if(symbols) hint.replace(" ","") else hint
+                    label(canvas,text,key.rect.right-dp(if(symbols) 3f else 5f),key.rect.top+dp(if(symbols) 13f else 11f),
+                        fitSize(text,if(symbols) 12f else if(hint.length>2) 7f else 9f,key.rect.width()-dp(if(symbols) 6f else 10f)),
+                        if(bitmap!=null) color else KeyboardTheme.blend(color,fill,if(symbols) .15f else .35f),Paint.Align.RIGHT)
+                }
             }
         }
         imageLabels=false
@@ -472,7 +478,7 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
         canvas.drawRoundRect(x - dp(5f), y - dp(1f), x + dp(5f), y + dp(6f), dp(2f), dp(2f), strokes)
     }
     private fun uppercaseVariant(value: String) = if (value == "ß") "ẞ" else value.uppercase()
-    private fun reverseOptions(key:Key)=if(key.custom!=null) key.rect.centerX()>width/2 else layout.composer=="dead" && !numeric && key.code in listOf("0","p")
+    private fun reverseOptions(key:Key)=key.rect.centerX()>width/2f+dp(1f) && !(key.custom==null && !key.native && key.code==".")
     private fun options(key: Key): List<String> {
         key.custom?.let { return if((shift || caps) && layout.cased) it.secondary.map(::uppercaseVariant) else it.secondary }
         val variants=variants(key.code)
@@ -559,7 +565,7 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
             if (delta != 0) { listener.cursor(delta); touch.x += delta * dp(9f) }
         } else if (!touch.held && (touch.key.code == "." || touch.key.alternate.isNotBlank()) && (touch.key.custom==null || touch.key.custom.action.isEmpty() && touch.key.custom.secondary.isNotEmpty())) {
             val value = when {
-                reverseOptions(touch.key) && dx <= -dp(10f) && abs(dx)>abs(dy) -> options(touch.key).last()
+                (layout.composer=="dead" || touch.key.custom!=null) && reverseOptions(touch.key) && dx <= -dp(10f) && abs(dx)>abs(dy) -> options(touch.key).last()
                 touch.key.custom?.secondary?.isNotEmpty()==true && dx >= dp(10f) && abs(dx)>abs(dy) -> options(touch.key).last()
                 touch.key.custom==null && !touch.key.native && touch.key.code == "." && abs(dx) >= dp(10f) && abs(dx) > abs(dy) -> punctuation(if(dx>0) "?" else "!")
                 dy <= -dp(10f) && abs(dy) > abs(dx) -> if (touch.key.custom==null && !touch.key.native && touch.key.code == ".") punctuation(",") else touch.key.alternate
@@ -578,7 +584,8 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
             val delta=if(reverseOptions(touch.key)) -dx else dx
             val cell=rect.width()/options.size
             val available=if(reverseOptions(touch.key)) touch.startX-dp(1f) else width-dp(1f)-touch.startX
-            val step=if((layout.composer=="dead" || touch.key.custom!=null) && initial==0 && options.size>1) min(cell,available/options.lastIndex).coerceAtLeast(dp(1f)) else cell
+            // Keep the full menu reachable without moving a finger past the screen edge.
+            val step=if(initial==0 && options.size>1) min(cell,available/options.lastIndex).coerceAtLeast(dp(1f)) else cell
             touch.choice = (initial + (delta / step).roundToInt()).coerceIn(0, options.lastIndex)
         } else if (!touch.held && touch.flick == null && touch.key.code != "space" && touch.trace.isEmpty() && (abs(dx) > dp(28f) || abs(dy) > dp(45f))) {
             callbacks.remove(id)?.let { main.removeCallbacks(it) }; touches.remove(id)
@@ -627,7 +634,7 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
                 listener.feedback(key.code)
                 if (key.code == "delete") listener.delete()
                 val hasHold = if(key.custom?.action=="") key.custom.secondary.isNotEmpty() else key.code in listOf("space", "enter", "delete", "shift", "symbols", ".", ",") ||
-                    key.custom?.secondary?.isNotEmpty()==true || (key.code.length == 1 && key.alternate.isNotBlank())
+                    key.custom?.secondary?.isNotEmpty()==true || ((key.native || key.code.length==1) && key.alternate.isNotBlank())
                 if (hasHold && !touch.stopping) {
                     val task = Runnable { hold(id) }; callbacks[id] = task
                     main.postDelayed(task, when (key.code) { "enter", "delete", "space" -> 320L; else -> 250L })
@@ -650,7 +657,7 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
                         touch.cursor -> Unit
                         touch.glide -> { listener.glide(touch.trace.toList(), touch.centers, if (caps) 2 else if (shift) 1 else 0); if (!caps) shift = false }
                         touch.flick != null -> emit(if(touch.key.code.singleOrNull() in 'a'..'z') {
-                            val accent=if(touch.key.custom!=null || reverseOptions(touch.key)) touch.flick!! else variants(touch.key.code).firstOrNull() ?: touch.flick!!
+                            val accent=if(touch.key.custom!=null || layout.composer=="dead") touch.flick!! else variants(touch.key.code).firstOrNull() ?: touch.flick!!
                             if((shift || caps) && layout.cased) uppercaseVariant(accent) else accent
                         } else touch.flick!!)
                         touch.held -> if (touch.choice >= 0) emit(options(touch.key).getOrElse(touch.choice) { touch.key.alternate })
@@ -794,7 +801,7 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
                 return true
             }
             if (action == AccessibilityNodeInfo.ACTION_LONG_CLICK) {
-                keys.getOrNull(id)?.let { if(it.custom?.secondary?.isNotEmpty()==true) emit(options(it).first()) else if(it.code=="symbols") { toolsOpen=true;invalidate();sendAccessibilityEvent(AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED) } else if(it.code=="shift") { caps=true;shift=true;layoutKeys();invalidate() } else if (it.code == "enter" && startRecording()) recordingLocked = true else if (it.code.length == 1 && it.alternate.isNotEmpty()) emit(options(it).first()) }
+                keys.getOrNull(id)?.let { if(it.custom?.secondary?.isNotEmpty()==true) emit(options(it).first()) else if(it.code=="symbols") { toolsOpen=true;invalidate();sendAccessibilityEvent(AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED) } else if(it.code=="shift") { caps=true;shift=true;layoutKeys();invalidate() } else if (it.code == "enter" && startRecording()) recordingLocked = true else if ((it.native || it.code.length==1) && it.alternate.isNotEmpty()) emit(options(it).first()) }
                 return true
             }
             return false

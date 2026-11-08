@@ -1,0 +1,19 @@
+{
+  "intl": {
+    "secondary_symbols": 17,
+    "all_secondary_labels_visible": true,
+    "fast_upward_flick": true,
+    "zero_brace_slide_left": true,
+    "zero_brace_fast_left_flick": true,
+    "p_backslash_slide_left": true,
+    "p_backslash_fast_left_flick": true,
+    "held_symbol_selection": true,
+    "dead_key_cases": 7,
+    "shift_preserved": true,
+    "dedicated_apostrophe_removed": true,
+    "numeric_fields_unchanged": true,
+    "popup_screenshots_with_and_without_suggestions": true,
+    "event_delivery": "Direct events to Lokey View"
+  },
+  "passed": true
+}

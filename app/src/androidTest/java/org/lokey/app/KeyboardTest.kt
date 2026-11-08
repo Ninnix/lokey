@@ -70,6 +70,7 @@ class KeyboardTest : Instrumentation() {
             if(mode=="speedui") report.put("speedui",speedUiTest())
             if(mode=="layouts") report.put("layouts",LayoutChecks.run(this,targetContext))
             if(mode=="intl") report.put("intl",LayoutChecks.intl(this,targetContext))
+            if(mode=="popups") report.put("popups",PopupChecks.run(this,targetContext))
             if(mode=="downloads") report.put("downloads",DownloadChecks.run(this,targetContext))
             if(mode=="layoutui") report.put("layoutui",LayoutChecks.live(this,targetContext))
             if(mode=="insets") report.put("insets",InsetsChecks.run(this,targetContext))

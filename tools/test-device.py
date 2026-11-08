@@ -71,6 +71,9 @@ try:
         if passed and mode=='intl':
             for name in ['intl-symbols','intl-popup-number','intl-popup-p','intl-popup-m','intl-popup-no-suggestions']:
                 (out/f'{args.label}-{name}.png').write_bytes(run('exec-out','run-as','org.lokey.app','cat',f'files/{name}.png'))
+        if passed and mode=='popups':
+            for name in ['o-acute','intl-labels','vietnamese-o']:
+                (out/f'{args.label}-popup-{name}.png').write_bytes(run('exec-out','run-as','org.lokey.app','cat',f'files/popup-{name}.png'))
         if passed and mode=='layoutui':
             (out/f'{args.label}-keyboard.png').write_bytes(run('exec-out','run-as','org.lokey.app','cat','files/layout-live-intl.png'))
         if passed and mode=='insets':
