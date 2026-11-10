@@ -3,6 +3,16 @@ package org.lokey.app
 object Native {
     init { System.loadLibrary("lokey") }
     external fun npuAvailable():Boolean
+    external fun beginModelUse(kind:Int)
+    external fun endModelUse(kind:Int)
+    external fun touchModel(kind:Int)
+    external fun modelGeneration(kind:Int):Long
+    external fun modelIdleMillis(kind:Int):Long
+    external fun modelUsers(kind:Int):Int
+    external fun residentModels():Int
+    external fun nextModelIdleMillis(idleMillis:Long):Long
+    external fun trimModels(idleMillis:Long):Int
+    private fun modelChanged() { ModelMemory.changed() }
     external fun loadText(path: String,accelerator:Int=0): Boolean
     external fun textBackend():String
     external fun resetText()

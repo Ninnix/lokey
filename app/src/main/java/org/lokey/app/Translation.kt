@@ -3,17 +3,17 @@ package org.lokey.app
 import android.content.Context
 import android.os.Handler
 import android.os.Looper
-import java.util.concurrent.Executors
 import java.util.concurrent.atomic.AtomicInteger
 
 class Translation(private val context:Context) {
     fun interface Sink { fun text(value:String) }
     data class Result(val source:String,val target:String,val text:String="",val busy:Boolean=false,val error:String?=null)
     private val main=Handler(Looper.getMainLooper())
-    private val worker=Executors.newSingleThreadExecutor { r -> Thread(r,"lokey-translation") }
+    private val worker=ModelMemory.Worker("lokey-translation",ModelMemory.TRANSLATION)
     private val version=AtomicInteger()
     private var pending:Runnable?=null
     private var loaded=""
+    private var loadedGeneration=-1L
     private var active=false
     private var lastSource=""
     private var lastTarget=""
@@ -39,10 +39,11 @@ class Translation(private val context:Context) {
                 if(ticket!=version.get()) return@execute
                 try {
                     check(model!=null && file!=null) { context.tr("Add a text model in Lokey → Models to translate.") }
-                    if(loaded!=identity) {
+                    if(loaded!=identity || loadedGeneration!=Native.modelGeneration(ModelMemory.TRANSLATION)) {
                         loaded=""
                         check(Native.loadTranslator(file.path)) { context.tr("Could not load %1\$s for translation.",model.title) }
                         loaded=identity
+                        loadedGeneration=Native.modelGeneration(ModelMemory.TRANSLATION)
                     }
                     if(ticket!=version.get()) return@execute
                     val text=Native.translate(source,target,epoch,Sink { partial -> deliver(Result(source,target,partial,busy=true)) }).trim()

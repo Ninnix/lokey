@@ -7,12 +7,11 @@ import android.media.AudioRecord
 import android.media.MediaRecorder
 import android.os.Handler
 import android.os.Looper
-import java.util.concurrent.Executors
 import kotlin.math.sqrt
 
 class Voice(private val context: Context) {
     private val main = Handler(Looper.getMainLooper())
-    private val worker = Executors.newSingleThreadExecutor { r -> Thread(r, "lokey-transcription") }
+    private val worker=ModelMemory.Worker("lokey-transcription",ModelMemory.SPEECH)
     @Volatile private var active = false
     @Volatile private var processing = false
     @Volatile private var generation = 0
@@ -22,11 +21,12 @@ class Voice(private val context: Context) {
         val file=Models.file(context,model)
         val encoder=model.parts.firstOrNull()?.let { Models.file(context,it) }
         val identity="${model.id}:${file.length()}:${file.lastModified()}:${encoder?.length()}:${encoder?.lastModified()}"
-        if(identity!=loaded) {
+        if(identity!=loaded || loadedGeneration!=Native.modelGeneration(ModelMemory.SPEECH)) {
             loaded=""
             check(Native.loadSpeech(file.path,encoder?.path ?: "")) { context.tr("Could not load %1\$s",model.title) }
             Acceleration.observed(Native.speechBackend())
             loaded=identity
+            loadedGeneration=Native.modelGeneration(ModelMemory.SPEECH)
         }
     }
     private var audio: AudioRecord? = null
@@ -52,7 +52,7 @@ class Voice(private val context: Context) {
                 val samples = FloatArray(16000 * 60)
                 val buffer = ShortArray(800)
                 var count = 0
-                if (active && ticket == generation) recorder.startRecording()
+                if (active && ticket == generation) { recorder.startRecording();prepare() }
                 while (active && ticket == generation && count < samples.size - buffer.size) {
                     val n = recorder.read(buffer, 0, buffer.size)
                     check(n >= 0 || !active) { context.tr("Microphone interrupted") }
@@ -93,5 +93,6 @@ class Voice(private val context: Context) {
     companion object {
         private val speechLock=Any()
         private var loaded=""
+        private var loadedGeneration=-1L
     }
 }

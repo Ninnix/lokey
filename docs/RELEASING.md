@@ -1,7 +1,7 @@
 # Releasing Lokey
 
 Commands below run from the repository root. The package is `org.lokey.app`.
-The current release is version 0.1.2, version code 3. Increase the version code
+The current release is version 0.1.3, version code 4. Increase the version code
 before uploading a later release to Play.
 
 ## Signing key

@@ -158,6 +158,7 @@ class LokeyService : InputMethodService(), KeyboardView.Listener {
     private var displayedPrediction:Prediction.Result?=null
     private fun clearGlide() { pendingGlide = null; glideQueue.clear(); glideWords = emptyList(); autoSpace = null }
     private var privateField = false
+    private var inputVisible=false
     private var recording = false
     private var processing = false
     private var session = 0
@@ -274,7 +275,7 @@ class LokeyService : InputMethodService(), KeyboardView.Listener {
         refresh()
     }
     private fun updateTranslation() {
-        if(toolMode!="translate" || privateField || recording || processing || composeDraft.isNotEmpty() && phonetic()) return
+        if(!inputVisible || toolMode!="translate" || privateField || recording || processing || composeDraft.isNotEmpty() && phonetic()) return
         val host=currentInputConnection ?: return
         val source=sourceEditor?.text?.toString() ?: return
         if(translationSource==source && translationLanguage==prefs.translationTarget) return
@@ -309,6 +310,7 @@ class LokeyService : InputMethodService(), KeyboardView.Listener {
     }
     override fun onStartInputView(info: EditorInfo, restarting: Boolean) {
         super.onStartInputView(info, restarting)
+        inputVisible=true
         val type = info.inputType and InputType.TYPE_MASK_CLASS
         val action = when (info.imeOptions and EditorInfo.IME_MASK_ACTION) {
             EditorInfo.IME_ACTION_SEARCH -> "⌕"
@@ -327,7 +329,6 @@ class LokeyService : InputMethodService(), KeyboardView.Listener {
             w.navigationBarColor=colors.background
             w.decorView.systemUiVisibility=if(KeyboardTheme.light(colors.background)) View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR else 0
         }
-        if (!privateField) voice.prepare()
         if(!privateField) captureClipboard()
         if(phonetic()) dictionary().request("") { }
         refresh()
@@ -509,6 +510,7 @@ class LokeyService : InputMethodService(), KeyboardView.Listener {
         return AdaptiveKeys.allowed(info.inputType,info.imeOptions)
     }
     private fun refresh() {
+        if(!inputVisible) return
         keyboard?.adaptiveInput=adaptiveField()
         if(deadKeys.pending.isNotEmpty()) {
             if(!validDead()) clearDead()
@@ -549,8 +551,10 @@ class LokeyService : InputMethodService(), KeyboardView.Listener {
     override fun onUpdateSelection(oldSelStart: Int, oldSelEnd: Int, newSelStart: Int, newSelEnd: Int, candidatesStart: Int, candidatesEnd: Int) {
         super.onUpdateSelection(oldSelStart, oldSelEnd, newSelStart, newSelEnd, candidatesStart, candidatesEnd)
         selectionStart = newSelStart; selectionEnd = newSelEnd
-        if (newSelStart != oldSelStart || newSelEnd != oldSelEnd) keyboard?.activity()
-        refresh()
+        if(inputVisible) {
+            if (newSelStart != oldSelStart || newSelEnd != oldSelEnd) keyboard?.activity()
+            refresh()
+        }
     }
     override fun voice(start: Boolean): Boolean {
         clearDead(true)
@@ -606,6 +610,7 @@ class LokeyService : InputMethodService(), KeyboardView.Listener {
         }
         return super.onKeyDown(keyCode,event)
     }
-    override fun onFinishInputView(finishingInput: Boolean) { session++; displayedPrediction=null;clearGlide(); cancelVoice(); prediction.clear(); correction.reset(); keyboard?.cancelTouches();endTool(false); super.onFinishInputView(finishingInput) }
+    override fun onWindowHidden() { inputVisible=false;super.onWindowHidden() }
+    override fun onFinishInputView(finishingInput: Boolean) { inputVisible=false;session++; displayedPrediction=null;clearGlide(); cancelVoice(); prediction.clear(); correction.reset(); keyboard?.cancelTouches();endTool(false); super.onFinishInputView(finishingInput) }
     override fun onDestroy() { getSharedPreferences("lokey",MODE_PRIVATE).unregisterOnSharedPreferenceChangeListener(layoutListener);getSystemService(ClipboardManager::class.java).removePrimaryClipChangedListener(clipboardListener);translation.close();voice.close(); prediction.close(); feedback.close(); super.onDestroy() }
 }

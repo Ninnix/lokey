@@ -13,11 +13,14 @@ parser=argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--serial',required=True)
 parser.add_argument('--label',required=True)
 parser.add_argument('--install-tests',action='store_true')
+parser.add_argument('--headless',action='store_true',help='Run background checks without waking or unlocking the screen')
 parser.add_argument('--speech-model',choices=['selected','parakeet','qwen_asr'],default='selected')
 parser.add_argument('--accelerator',choices=['auto','cpu','hexagon'],default='auto')
 parser.add_argument('--speech-accelerator',choices=['auto','cpu','decoder','hexagon'],default='auto')
 parser.add_argument('modes',nargs='+')
 args=parser.parse_args()
+if args.headless:
+    assert set(args.modes)<={'battery','memory','memoryidle','probability','probabilitylanguages','speech','languagemap','local','responsiveness'},'This mode opens a screen'
 device_lock=open('/tmp/lokey-inference-'+args.serial.replace('/','_')+'.lock','w')
 fcntl.flock(device_lock,fcntl.LOCK_EX)
 assert all(c.isalnum() or c in '-_' for c in args.label)
@@ -38,12 +41,13 @@ failures=[]
 original_layout=prefs.get('layout','auto')
 try:
     for mode in args.modes:
-        run('shell','input','keyevent','KEYCODE_WAKEUP')
-        run('shell','wm','dismiss-keyguard')
+        if not args.headless:
+            run('shell','input','keyevent','KEYCODE_WAKEUP')
+            run('shell','wm','dismiss-keyguard')
         layout='qwerty' if mode in ['gestures','interaction','flow','imeflow','cursor','correction','completion','sentence'] else original_layout
         options=['-e','mode',mode,'-e','layout',layout]
         if mode=='speech': options+=['-e','speech_model',voice,'-e','speech_accelerator',args.speech_accelerator]
-        if mode=='models': options+=['-e','accelerator',args.accelerator]
+        if mode in ['models','memory','memoryidle']: options+=['-e','accelerator',args.accelerator]
         log=run('shell','am','instrument','-w',*options,'org.lokey.app.test/org.lokey.app.KeyboardTest',timeout=900)
         (out/f'{args.label}-{mode}.log').write_bytes(log)
         rows=[line.split('results=',1)[1] for line in log.decode().splitlines() if line.startswith('INSTRUMENTATION_RESULT: results=')]

@@ -34,6 +34,29 @@ fixture is prepared/staged by `research/tools/research-local-fixtures.py` and
 model files/preferences remain in place.
 `adaptiveenable` enables adaptive letters and swipe for hands-on testing.
 
+The `memory` mode checks both text and both dictation models for warm reuse,
+release, unmapped GGUF files and successful inference after reload. It also
+checks worker reservations and prediction/speech/translation cache invalidation.
+Use `--accelerator cpu` or `--accelerator hexagon` to require the actual backend;
+translation retains its CPU path. The public speech fixture is
+`../whisper.cpp/samples/jfk.wav`, staged as `files/jfk.wav` in the test app.
+The `memoryidle` mode waits for the real two-minute production sweep, records
+PSS before/after eviction and checks reloading. Leave the phone idle for these
+checks so the active IME cannot warm models in the same process.
+Repeated editor cleanup runs during the timeout check and must not postpone
+model eviction. These checks run without opening a test or loading screen.
+Keep the device awake when measuring the timer separately from deep sleep or
+Android's earlier background reclamation.
+The headless `battery` mode checks that no memory sweeps run with an empty model
+cache, repeated cleanups do not queue native resets, new work still receives one
+cleanup, and hidden refreshes do not query an editor. These are work-avoidance
+checks, not a measurement of battery percentage or hours saved.
+
+```sh
+python3 tools/test-device.py --serial SERIAL --label memory-cpu --accelerator cpu memory memoryidle
+python3 tools/test-device.py --serial SERIAL --label memory-npu --accelerator hexagon memory memoryidle
+```
+
 The runner saves JSON results and logs in `artifacts/`; screenshots are kept
 locally and ignored by Git. Keep source fixtures with tests or in `research/`.
 

@@ -14,4 +14,9 @@ class LokeyApp : Application() {
         Downloads.resume(this)
         Thread({ Languages.shared(this) }, "lokey-vocabulary").apply { priority = Thread.MIN_PRIORITY; start() }
     }
+    override fun onTrimMemory(level:Int) {
+        super.onTrimMemory(level)
+        if(level==TRIM_MEMORY_RUNNING_LOW || level==TRIM_MEMORY_RUNNING_CRITICAL || level>=TRIM_MEMORY_BACKGROUND) ModelMemory.trim()
+    }
+    override fun onLowMemory() { super.onLowMemory();ModelMemory.trim() }
 }

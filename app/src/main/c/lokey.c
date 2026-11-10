@@ -1,6 +1,8 @@
 #include <jni.h>
 #include <ctype.h>
 #include <math.h>
+#include <malloc.h>
+#include <android/api-level.h>
 #include <pthread.h>
 #include <stdatomic.h>
 #include <stdbool.h>
@@ -32,6 +34,11 @@ static atomic_bool cancelled, speech_cancelled;
 static struct llama_model *translation_model;
 static struct llama_context *translation_ctx;
 static pthread_mutex_t translation_mutex=PTHREAD_MUTEX_INITIALIZER;
+enum { MODEL_TEXT, MODEL_SPEECH, MODEL_TRANSLATION, MODEL_COUNT };
+static pthread_mutex_t *model_mutexes[]={&text_mutex,&speech_mutex,&translation_mutex};
+static atomic_uint_least64_t model_used[MODEL_COUNT],model_generation[MODEL_COUNT];
+static int model_users[MODEL_COUNT];
+static atomic_uint resident_models;
 static atomic_uint_least64_t translation_epoch;
 static uint64_t translation_active;
 static float letter_probs[26];
@@ -54,6 +61,87 @@ static pthread_once_t backend_once=PTHREAD_ONCE_INIT;
 extern int htpdrv_get_arch(int domain,int *arch);
 #endif
 
+static uint64_t model_millis(void) {
+    struct timespec time;
+    clock_gettime(CLOCK_BOOTTIME,&time);
+    return (uint64_t)time.tv_sec*1000+(uint64_t)time.tv_nsec/1000000;
+}
+static void model_touch(int kind) { atomic_store(&model_used[kind],model_millis()); }
+static void model_closed(int kind) {
+    atomic_fetch_and(&resident_models,~(1u<<kind));
+    atomic_fetch_add(&model_generation[kind],1);
+}
+static void model_loaded(int kind) {
+    model_touch(kind);atomic_fetch_or(&resident_models,1u<<kind);
+}
+static void model_changed(JNIEnv *env,jobject self) {
+    if((*env)->ExceptionCheck(env)) return;
+    jclass type=(*env)->GetObjectClass(env,self);
+    if(!type) return;
+    jmethodID changed=(*env)->GetMethodID(env,type,"modelChanged","()V");
+    if(changed) (*env)->CallVoidMethod(env,self,changed);
+    (*env)->DeleteLocalRef(env,type);
+}
+static void purge_models(void) {
+    // Returning model allocations alone can leave hundreds of MB in allocator caches.
+    mallopt(android_get_device_api_level()>=34?M_PURGE_ALL:M_PURGE,0);
+}
+JNIEXPORT void JNICALL Java_org_lokey_app_Native_touchModel(JNIEnv *env,jobject self,jint kind) {
+    (void)env;(void)self;
+    if(kind>=0 && kind<MODEL_COUNT) model_touch(kind);
+}
+JNIEXPORT void JNICALL Java_org_lokey_app_Native_beginModelUse(JNIEnv *env,jobject self,jint kind) {
+    (void)env;(void)self;
+    if(kind<0 || kind>=MODEL_COUNT) return;
+    pthread_mutex_lock(model_mutexes[kind]);
+    model_users[kind]++;model_touch(kind);
+    pthread_mutex_unlock(model_mutexes[kind]);
+}
+JNIEXPORT void JNICALL Java_org_lokey_app_Native_endModelUse(JNIEnv *env,jobject self,jint kind) {
+    (void)env;(void)self;
+    if(kind<0 || kind>=MODEL_COUNT) return;
+    pthread_mutex_lock(model_mutexes[kind]);
+    if(model_users[kind]>0) model_users[kind]--;
+    model_touch(kind);
+    pthread_mutex_unlock(model_mutexes[kind]);
+}
+JNIEXPORT jlong JNICALL Java_org_lokey_app_Native_modelGeneration(JNIEnv *env,jobject self,jint kind) {
+    (void)env;(void)self;
+    return kind>=0 && kind<MODEL_COUNT?(jlong)atomic_load(&model_generation[kind]):-1;
+}
+JNIEXPORT jlong JNICALL Java_org_lokey_app_Native_modelIdleMillis(JNIEnv *env,jobject self,jint kind) {
+    (void)env;(void)self;
+    return kind>=0 && kind<MODEL_COUNT?(jlong)(model_millis()-atomic_load(&model_used[kind])):-1;
+}
+JNIEXPORT jint JNICALL Java_org_lokey_app_Native_modelUsers(JNIEnv *env,jobject self,jint kind) {
+    (void)env;(void)self;
+    if(kind<0 || kind>=MODEL_COUNT) return -1;
+    pthread_mutex_lock(model_mutexes[kind]);int users=model_users[kind];pthread_mutex_unlock(model_mutexes[kind]);
+    return users;
+}
+JNIEXPORT jint JNICALL Java_org_lokey_app_Native_residentModels(JNIEnv *env,jobject self) {
+    (void)env;(void)self;return (jint)atomic_load(&resident_models);
+}
+JNIEXPORT jlong JNICALL Java_org_lokey_app_Native_nextModelIdleMillis(JNIEnv *env,jobject self,jlong idle_millis) {
+    (void)env;(void)self;
+    uint64_t now=model_millis(),age=idle_millis>0?(uint64_t)idle_millis:0;
+    unsigned resident=atomic_load(&resident_models);
+    int64_t next=-1;
+    for(int kind=0;kind<MODEL_COUNT;kind++) if(resident&(1u<<kind)) {
+        uint64_t used=atomic_load(&model_used[kind]);
+        uint64_t elapsed=now>=used?now-used:0;
+        int64_t delay=elapsed<age?(int64_t)(age-elapsed):0;
+        if(!delay) {
+            if(pthread_mutex_trylock(model_mutexes[kind])) delay=1000;
+            else {
+                if(model_users[kind]) delay=1000;
+                pthread_mutex_unlock(model_mutexes[kind]);
+            }
+        }
+        if(next<0 || delay<next) next=delay;
+    }
+    return (jlong)next;
+}
 static void init_backends(void) {
 #ifdef LOKEY_HEXAGON
     Dl_info info;
@@ -196,6 +284,13 @@ static void clear_text_cache(void) {
     free(token_pieces);token_pieces=NULL;vocab_size=0;
     clear_word_cache();
 }
+static void close_text(void) {
+    clear_text_cache();
+    if(text_ctx) llama_free(text_ctx);
+    if(model) llama_model_free(model);
+    text_ctx=NULL;model=NULL;text_accelerated=false;
+    memset(letter_probs,0,sizeof(letter_probs));model_closed(MODEL_TEXT);
+}
 static struct word_token *cached_token(const struct llama_vocab *vocab,const char *word) {
     if(cached_words>WORD_CACHE*3/4) clear_word_cache();
     uint32_t hash=2166136261u;
@@ -290,10 +385,7 @@ JNIEXPORT jboolean JNICALL Java_org_lokey_app_Native_loadText(JNIEnv *env,jobjec
     jboolean loaded;
     pthread_mutex_lock(&text_mutex);
     atomic_store(&cancelled,false);
-    clear_text_cache();
-    if(text_ctx) llama_free(text_ctx);
-    if(model) llama_model_free(model);
-    text_ctx=NULL;model=NULL;text_accelerated=false;
+    close_text();
     char *filename=utf(env,path);
     if(!filename) goto done;
     pthread_once(&backend_once,init_backends);
@@ -321,7 +413,7 @@ JNIEXPORT jboolean JNICALL Java_org_lokey_app_Native_loadText(JNIEnv *env,jobjec
     vocab_size=llama_vocab_n_tokens(vocab);
     token_pieces=calloc((size_t)vocab_size,sizeof(*token_pieces));
     token_ends=calloc((size_t)vocab_size,sizeof(*token_ends));
-    if(!token_pieces || !token_ends) { clear_text_cache();llama_free(text_ctx);text_ctx=NULL;goto done; }
+    if(!token_pieces || !token_ends) { close_text();goto done; }
     for(int i=0;i<vocab_size;i++) if(!llama_vocab_is_control(vocab,i) && !llama_vocab_is_eog(vocab,i)) token_pieces[i]=piece(vocab,i);
     for(int i=0;i<vocab_size;i++) {
         token_ends[i]=llama_vocab_is_eog(vocab,i);
@@ -335,7 +427,9 @@ JNIEXPORT jboolean JNICALL Java_org_lokey_app_Native_loadText(JNIEnv *env,jobjec
     }
 done:
     loaded=text_ctx!=NULL;
+    if(loaded) model_loaded(MODEL_TEXT);else close_text();
     pthread_mutex_unlock(&text_mutex);
+    model_changed(env,self);
     return loaded;
 }
 JNIEXPORT jstring JNICALL Java_org_lokey_app_Native_textBackend(JNIEnv *env,jobject self) {
@@ -376,6 +470,7 @@ JNIEXPORT jfloatArray JNICALL Java_org_lokey_app_Native_rank(JNIEnv *env,jobject
     if(result) (*env)->SetFloatArrayRegion(env,result,0,n,scores);
 done:
     free(scores);free(prompt);free(text);free(lang);
+    model_touch(MODEL_TEXT);
     pthread_mutex_unlock(&text_mutex);
     return result;
 }
@@ -651,6 +746,7 @@ JNIEXPORT jstring JNICALL Java_org_lokey_app_Native_complete(JNIEnv *env,jobject
     if(text_ctx && text && lang && start) complete(text,lang,start,edits?1:0,output);
     jstring result=java_string(env,output);
     free(text);free(lang);free(start);
+    model_touch(MODEL_TEXT);
     pthread_mutex_unlock(&text_mutex);
     return result;
 }
@@ -716,6 +812,7 @@ JNIEXPORT jfloatArray JNICALL Java_org_lokey_app_Native_score(JNIEnv *env,jobjec
 done:
     if(saved) restore_text(state,state_size);
     free(state);free(prompt);free(text);free(lang);
+    model_touch(MODEL_TEXT);
     pthread_mutex_unlock(&text_mutex);
     return result;
 }
@@ -748,6 +845,7 @@ JNIEXPORT jstring JNICALL Java_org_lokey_app_Native_predict(JNIEnv *env,jobject 
     }
     free(text);
     jstring result=java_string(env,output);
+    model_touch(MODEL_TEXT);
     pthread_mutex_unlock(&text_mutex);
     return result;
 }
@@ -765,6 +863,10 @@ static void free_asr(void) {
     if(asr_model) llama_model_free(asr_model);
     asr_audio=NULL;asr_ctx=NULL;asr_model=NULL;
     speech_accelerator=0;
+}
+static void close_speech(void) {
+    if(speech_ctx) parakeet_free(speech_ctx);
+    speech_ctx=NULL;free_asr();model_closed(MODEL_SPEECH);
 }
 static bool load_asr(const char *filename,const char *encoder,int accelerator) {
     speech_devices[0]=NULL;
@@ -791,8 +893,7 @@ JNIEXPORT jboolean JNICALL Java_org_lokey_app_Native_loadSpeech(JNIEnv *env,jobj
     (void)self;
     pthread_mutex_lock(&speech_mutex);
     atomic_store(&speech_cancelled,false);
-    if(speech_ctx) parakeet_free(speech_ctx);
-    speech_ctx=NULL;free_asr();
+    close_speech();
     char *filename=utf(env,path),*encoder=utf(env,projector);
     pthread_once(&backend_once,init_backends);
     if(filename && encoder && *encoder) {
@@ -816,7 +917,9 @@ JNIEXPORT jboolean JNICALL Java_org_lokey_app_Native_loadSpeech(JNIEnv *env,jobj
     }
     free(filename);free(encoder);
     jboolean loaded=speech_ctx!=NULL || asr_audio!=NULL;
+    if(loaded) model_loaded(MODEL_SPEECH);else close_speech();
     pthread_mutex_unlock(&speech_mutex);
+    model_changed(env,self);
     return loaded;
 }
 JNIEXPORT jstring JNICALL Java_org_lokey_app_Native_speechBackend(JNIEnv *env,jobject self) {
@@ -898,6 +1001,7 @@ JNIEXPORT jstring JNICALL Java_org_lokey_app_Native_transcribe(JNIEnv *env,jobje
     for(int i=0;i<count;i++) strcat(text,parakeet_full_get_segment_text(speech_ctx,i));
     result=java_string(env,text);free(text);
 done:
+    model_touch(MODEL_SPEECH);
     pthread_mutex_unlock(&speech_mutex);
     return result;
 }
@@ -909,25 +1013,27 @@ JNIEXPORT jlong JNICALL Java_org_lokey_app_Native_cancelTranslation(JNIEnv *env,
     (void)env;(void)self;
     return (jlong)(atomic_fetch_add(&translation_epoch,1)+1);
 }
-static void close_translator(void) {
-    atomic_fetch_add(&translation_epoch,1);
-    pthread_mutex_lock(&translation_mutex);
+static void free_translator(void) {
     if(translation_ctx) llama_free(translation_ctx);
     if(translation_model) llama_model_free(translation_model);
     translation_ctx=NULL;translation_model=NULL;
+    model_closed(MODEL_TRANSLATION);
+}
+static void close_translator(void) {
+    atomic_fetch_add(&translation_epoch,1);
+    pthread_mutex_lock(&translation_mutex);
+    free_translator();
     pthread_mutex_unlock(&translation_mutex);
 }
 JNIEXPORT void JNICALL Java_org_lokey_app_Native_closeTranslator(JNIEnv *env,jobject self) {
-    (void)env;(void)self;close_translator();
+    close_translator();purge_models();model_changed(env,self);
 }
 JNIEXPORT jboolean JNICALL Java_org_lokey_app_Native_loadTranslator(JNIEnv *env,jobject self,jstring path) {
     (void)self;
     pthread_mutex_lock(&translation_mutex);
+    free_translator();
     char *filename=utf(env,path);
     if(!filename) { pthread_mutex_unlock(&translation_mutex);return false; }
-    if(translation_ctx) llama_free(translation_ctx);
-    if(translation_model) llama_model_free(translation_model);
-    translation_ctx=NULL;
     pthread_once(&backend_once,init_backends);
     struct llama_model_params mp=cpu_model_params();
     translation_model=llama_model_load_from_file(filename,mp);free(filename);
@@ -938,7 +1044,9 @@ JNIEXPORT jboolean JNICALL Java_org_lokey_app_Native_loadTranslator(JNIEnv *env,
         translation_ctx=llama_init_from_model(translation_model,cp);
     }
     jboolean ready=translation_ctx!=NULL;
+    if(ready) model_loaded(MODEL_TRANSLATION);else free_translator();
     pthread_mutex_unlock(&translation_mutex);
+    model_changed(env,self);
     return ready;
 }
 JNIEXPORT jstring JNICALL Java_org_lokey_app_Native_translate(JNIEnv *env,jobject self,jstring input,jstring target,jlong epoch,jobject sink) {
@@ -1015,20 +1123,37 @@ JNIEXPORT jstring JNICALL Java_org_lokey_app_Native_translate(JNIEnv *env,jobjec
     }
 done:
     free(tokens);free(prompt);free(request);free(text);free(language);
+    model_touch(MODEL_TRANSLATION);
     pthread_mutex_unlock(&translation_mutex);
     if(!result && !(*env)->ExceptionCheck(env)) result=java_string(env,"");
     return result;
+}
+JNIEXPORT jint JNICALL Java_org_lokey_app_Native_trimModels(JNIEnv *env,jobject self,jlong idle_millis) {
+    (void)env;(void)self;
+    unsigned freed=0;
+    uint64_t now=model_millis(),age=idle_millis>0?(uint64_t)idle_millis:0;
+    for(int kind=0;kind<MODEL_COUNT;kind++) {
+        // Never wait for or cancel inference to reclaim an unrelated idle model.
+        if(pthread_mutex_trylock(model_mutexes[kind])) continue;
+        uint64_t used=atomic_load(&model_used[kind]);
+        if(!model_users[kind] && (atomic_load(&resident_models)&(1u<<kind)) && now>=used && now-used>=age) {
+            if(kind==MODEL_TEXT) close_text();
+            else if(kind==MODEL_SPEECH) close_speech();
+            else free_translator();
+            freed|=1u<<kind;
+        }
+        pthread_mutex_unlock(model_mutexes[kind]);
+    }
+    if(freed) { purge_models();model_changed(env,self); }
+    return (jint)freed;
 }
 JNIEXPORT void JNICALL Java_org_lokey_app_Native_release(JNIEnv *env,jobject self) {
     (void)env;(void)self;
     atomic_store(&cancelled,true);atomic_store(&speech_cancelled,true);
     pthread_mutex_lock(&text_mutex);pthread_mutex_lock(&speech_mutex);
-    if(text_ctx) llama_free(text_ctx);
-    if(model) llama_model_free(model);
-    if(speech_ctx) parakeet_free(speech_ctx);
-    free_asr();
-    text_ctx=NULL;model=NULL;speech_ctx=NULL;text_accelerated=false;
-    clear_text_cache();
+    close_text();close_speech();
     pthread_mutex_unlock(&speech_mutex);pthread_mutex_unlock(&text_mutex);
     close_translator();
+    purge_models();
+    model_changed(env,self);
 }

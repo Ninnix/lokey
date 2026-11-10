@@ -3,20 +3,23 @@ package org.lokey.app
 import android.content.Context
 import android.os.Handler
 import android.os.Looper
-import java.util.concurrent.Executors
 import java.util.concurrent.atomic.AtomicInteger
+import java.util.concurrent.atomic.AtomicBoolean
 
 class Prediction(private val context: Context, private val prefs: Prefs) {
     data class Result(val before: String, val words: List<String>, val letters: FloatArray, val language: String, val neural: Boolean, val correction: String? = null, val appendWords: Set<String> = emptySet())
     private val main = Handler(Looper.getMainLooper())
-    private val worker = Executors.newSingleThreadExecutor { r -> Thread(r, "lokey-prediction").apply { priority = Thread.MIN_PRIORITY } }
+    private val worker=ModelMemory.Worker("lokey-prediction",ModelMemory.TEXT,Thread.MIN_PRIORITY)
     private val version = AtomicInteger()
     private val correctionVersion=AtomicInteger()
     private val session=AtomicInteger()
+    private val cleared=AtomicBoolean()
+    internal val workCount get()=worker.executions
     private lateinit var languages: Languages
     private lateinit var local:LocalPrediction
     private var language = "en"
     private var loaded = ""
+    @Volatile private var loadedGeneration=-1L
     private var failed = ""
     private var checkedBefore:String?=null
     private var checkedCorrection:Result?=null
@@ -25,6 +28,7 @@ class Prediction(private val context: Context, private val prefs: Prefs) {
     private fun wordContext(text:String)=text.trimEnd().takeLast(192)
     private fun key(word:String)=Languages.fold(word).replace("'","")
     private fun cached(boundary:String,prefix:String,language:String?=null):Pair<WordCache,List<String>>? {
+        if(loadedGeneration!=Native.modelGeneration(ModelMemory.TEXT)) return null
         val typed=key(prefix)
         val model=Models.selectedText(context,prefs)
         val file=Models.file(context,model)
@@ -46,9 +50,10 @@ class Prediction(private val context: Context, private val prefs: Prefs) {
     private var pending: Runnable? = null
     @Volatile var latest: Result? = null
         private set
-    init { worker.execute { languages = Languages.shared(context);local=LocalPrediction(context,languages) } }
+    init { worker.execute(false) { languages = Languages.shared(context);local=LocalPrediction(context,languages) } }
     // Finishing a word must not cancel its correction while next-word suggestions refresh.
     fun correct(before:String,callback:(Result?)->Unit) {
+        cleared.set(false)
         val ticket=correctionVersion.incrementAndGet()
         worker.execute {
             if(ticket!=correctionVersion.get()) return@execute
@@ -70,9 +75,14 @@ class Prediction(private val context: Context, private val prefs: Prefs) {
         if(!Models.ready(context,model)) return false
         val file=Models.file(context,model)
         val identity="${model.id}:${file.lastModified()}:${file.length()}"
+        val generation=Native.modelGeneration(ModelMemory.TEXT)
+        if(loadedGeneration!=generation) failed=""
         if(failed==identity) return false
-        if(loaded!=identity) {
-            if(!Native.loadText(file.path)) { failed=identity;return false }
+        if(loaded!=identity || loadedGeneration!=generation) {
+            loaded="";wordCaches=emptyList()
+            val ready=Native.loadText(file.path)
+            loadedGeneration=Native.modelGeneration(ModelMemory.TEXT)
+            if(!ready) { failed=identity;return false }
             Acceleration.observed(Native.textBackend())
             loaded=identity;checkedBefore=null;checkedCorrection=null;wordCaches=emptyList()
         }
@@ -140,6 +150,8 @@ class Prediction(private val context: Context, private val prefs: Prefs) {
         pending=task;main.postDelayed(task,150)
     }
     fun request(before: String, neuralAllowed:Boolean=true, script:String?=null,callback: (Result) -> Unit) {
+        cleared.set(false)
+        if(neuralAllowed) Native.touchModel(ModelMemory.TEXT)
         val detected=KeyboardLayouts.predictionLanguage(before,script)
         if(detected!=null) { requestScript(before,detected,neuralAllowed,callback);return }
         val localOnly=neuralAllowed && Models.text.none { Models.ready(context,it) }
@@ -162,7 +174,7 @@ class Prediction(private val context: Context, private val prefs: Prefs) {
             latest=result;callback(result)
         }
         val task = Runnable {
-            worker.execute {
+            worker.execute(neuralAllowed) {
                 if (ticket != version.get()) return@execute
                 val prefix = Languages.prefix(before)
                 val stem = wordContext(before.dropLast(prefix.length))
@@ -248,6 +260,7 @@ class Prediction(private val context: Context, private val prefs: Prefs) {
         main.postDelayed(task, if(localOnly || prefs.adaptive && instant?.second.isNullOrEmpty()) 0 else 35)
     }
     fun glide(before: String, points: List<Glide.Point>, centers: Map<Char, Glide.Point>, callback: (List<String>) -> Unit) {
+        cleared.set(false)
         val ticket = version.incrementAndGet()
         pending?.let { main.removeCallbacks(it) }
         worker.execute {
@@ -261,13 +274,7 @@ class Prediction(private val context: Context, private val prefs: Prefs) {
             try {
                 val model = Models.selectedText(context,prefs)
                 if (Models.ready(context, model)) {
-                    val file = Models.file(context, model)
-                    val identity = "${model.id}:${file.lastModified()}:${file.length()}"
-                    if (loaded != identity && Native.loadText(file.path)) {
-                        loaded = identity
-                        Acceleration.observed(Native.textBackend())
-                    }
-                    if (loaded == identity && ticket == version.get()) {
+                    if (loadModel(model) && ticket == version.get()) {
                         val scores = Native.rank(wordContext(before), detected.name, matches.map { it.word }.toTypedArray())
                         if (scores.size == matches.size) ranked = matches.mapIndexed { i, match -> match.copy(score = match.score + scores[i] * 0.16) }.sortedByDescending { it.score }
                     }
@@ -280,7 +287,8 @@ class Prediction(private val context: Context, private val prefs: Prefs) {
     fun clear() {
         session.incrementAndGet();version.incrementAndGet();correctionVersion.incrementAndGet();latest=null;language="en";wordCaches=emptyList()
         pending?.let { main.removeCallbacks(it) }
-        if(!worker.isShutdown) worker.execute { wordCaches=emptyList();checkedBefore=null;checkedCorrection=null;Native.resetText() }
+        // Editor cleanup must not keep otherwise idle weights resident.
+        if(!cleared.getAndSet(true) && !worker.isShutdown) worker.execute(false) { wordCaches=emptyList();checkedBefore=null;checkedCorrection=null;Native.resetText() }
     }
     fun close() { clear(); worker.shutdown() }
 }

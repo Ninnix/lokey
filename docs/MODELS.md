@@ -55,6 +55,37 @@ their optional neural models.
 
 Audio is recorded as 16 kHz mono PCM in memory, with a 60-second limit, then transcribed locally. The microphone is released on stop, cancellation, editor changes, and keyboard dismissal. Transcripts are inserted only into the original editor session. Recording and inference never run on the UI thread. Internet access is used only for explicit model downloads; there are no analytics or remote inference endpoints.
 
+Prediction, dictation and translation each retain their loaded model for two
+minutes after their last use. A background task scheduled for the next idle
+deadline releases idle weights, contexts, checkpoints and model-owned
+CPU/Hexagon buffers.
+It then asks Android's allocator to return unused heap pages to the OS, rather
+than retaining large freed allocations in its caches.
+Short pauses and repeated requests reuse the loaded model. Cached prediction
+requests also count as use; an unused speech or translation model can expire
+while prediction remains active. Speech starts warming when recording starts,
+rather than every time the keyboard opens.
+Loading and release run on background workers without a loading screen or
+blocking typing. Dictionary suggestions remain available while text weights load.
+Vocabulary initialization, editor cleanup and dictionary-only requests do not
+renew the neural model's idle timestamp.
+Repeated cleanup clears native state once until prediction work resumes, and
+hidden keyboard callbacks do not refresh prediction. The memory task stops
+entirely when no models are resident and is rearmed by a load or model-use job.
+Busy inference can briefly postpone reclamation. These changes retain the same
+models, scoring/search budgets, prediction delays and CPU/NPU power settings.
+
+Whole worker jobs reserve their model across load/inference calls. Reclamation
+skips busy workers and locked native contexts, and never cancels inference to
+free memory. Native generations invalidate Kotlin load identities and candidate
+caches after eviction, so the next request reloads normally. Android memory
+pressure callbacks can request earlier reclamation of models without active
+jobs. The deadline task remains necessary on Android versions that no longer
+deliver older memory-pressure levels. Timers do not wake a sleeping phone;
+expired models can be reclaimed when execution resumes. Shared runtime/device
+initialization stays available for subsequent loads; model files and user
+settings remain on disk.
+
 Models → Speak offers both Parakeet v3 and Qwen3-ASR-0.6B Q8_0. Qwen requires both `Qwen3-ASR-0.6B-Q8_0.gguf` (805 MB) and `mmproj-Qwen3-ASR-0.6B-Q8_0.gguf` (214 MB); Download fetches both from the official ggml-org repository. The C11 bridge uses llama.cpp and its mtmd public C APIs for the Qwen decoder and audio encoder. Speech jobs share one lock, can be cancelled, and preserve the active editor guard. The runtime revisions are pinned in `runtimes.json`; Parakeet carries a cropped relative-position view compatible with the newer shared GGML bounds checks.
 
 On the OnePlus 15, the clean JFK fixture took about 1.85 seconds with Parakeet and 3.25–3.28 seconds with Qwen Q8. Qwen also transcribed its official 4.20-second Chinese sample in 1.44 seconds and its 15.05-second English sample in 4.43 seconds. Both silence checks passed. These are limited timing and transcription fixtures, not a broad quality comparison; see `artifacts/oneplus-speech.json`.

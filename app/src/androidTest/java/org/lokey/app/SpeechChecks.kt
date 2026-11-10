@@ -10,7 +10,7 @@ import java.nio.ByteBuffer
 import java.nio.ByteOrder
 
 object SpeechChecks {
-    private fun audio(file:File):FloatArray {
+    fun audio(file:File):FloatArray {
         val data=file.readBytes();val bytes=ByteBuffer.wrap(data).order(ByteOrder.LITTLE_ENDIAN)
         check(String(data,0,4)=="RIFF" && String(data,8,4)=="WAVE")
         var position=12;var valid=false
