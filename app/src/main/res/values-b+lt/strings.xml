@@ -251,7 +251,7 @@
     <string name="ui_light">"Šviesos režimas"</string>
     <string name="ui_light_feedback">"Silpnas"</string>
     <string name="ui_light_switch_recording">"Šviesos jungiklio įrašymas"</string>
-    <string name="ui_likely_next_letters_get_a_little_more_room">"Tikėtina, kad kitose raidėse bus šiek tiek daugiau vietos."</string>
+    <string name="ui_likely_next_letters_get_a_little_more_room">"Tikėtini klavišai didėja, raidės lieka vietoje. Rašymo duomenys nesaugomi."</string>
     <string name="ui_linear">"Linijiniai klaviatūros klavišų jungikliai"</string>
     <string name="ui_listening">"Klausymas"</string>
     <string name="ui_load_a_voice_model_first">"Pirmiausia įkelkite balso modelį"</string>

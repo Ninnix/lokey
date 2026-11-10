@@ -251,7 +251,7 @@
     <string name="ui_light">"Světelný režim"</string>
     <string name="ui_light_feedback">"Slabé"</string>
     <string name="ui_light_switch_recording">"Nahrávání pomocí světelného spínače"</string>
-    <string name="ui_likely_next_letters_get_a_little_more_room">"Pravděpodobně dostanou další písmena trochu více místa."</string>
+    <string name="ui_likely_next_letters_get_a_little_more_room">"Pravděpodobné klávesy se zvětší; písmena zůstanou na místě. Údaje o psaní se neukládají."</string>
     <string name="ui_linear">"Lineární klíčové spínače"</string>
     <string name="ui_listening">"Poslech"</string>
     <string name="ui_load_a_voice_model_first">"Nejprve načtěte hlasový model"</string>

@@ -251,7 +251,7 @@
     <string name="ui_light">"Light"</string>
     <string name="ui_light_feedback">"Light feedback"</string>
     <string name="ui_light_switch_recording">"Light-switch recording"</string>
-    <string name="ui_likely_next_letters_get_a_little_more_room">"Likely next letters get a little more room."</string>
+    <string name="ui_likely_next_letters_get_a_little_more_room">"Likely keys grow; letter positions stay fixed. No typing data is saved."</string>
     <string name="ui_linear">"Linear"</string>
     <string name="ui_listening">"Listening"</string>
     <string name="ui_load_a_voice_model_first">"Load a voice model first"</string>

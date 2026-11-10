@@ -257,7 +257,7 @@ class MainActivity : Activity() {
             addView(setting(tr("Autocorrect"),prefs.autocorrect) { prefs.autocorrect=it })
             addView(text(tr("Correct words on space or punctuation. Backspace restores the original."),13f,muted))
             addView(setting(tr("Adaptive letter sizes"),prefs.adaptive) { prefs.adaptive=it })
-            addView(text(tr("Likely next letters get a little more room."),13f,muted))
+            addView(text(tr("Likely keys grow; letter positions stay fixed. No typing data is saved."),13f,muted))
         }
         section(tr("Keyboard size"))
         card().apply {
@@ -328,6 +328,7 @@ class MainActivity : Activity() {
         content.addView(button(tr("Allow microphone")) { permission() }, LinearLayout.LayoutParams(-1, -2))
         gap(10)
         content.addView(button(tr("Models & inference credits")) { startActivity(Intent(this,CreditsActivity::class.java)) },LinearLayout.LayoutParams(-1,-2))
+        gap(10)
         content.addView(button(tr("Privacy policy")) { startActivity(Intent(this,PrivacyActivity::class.java)) },LinearLayout.LayoutParams(-1,-2))
     }
     private fun modelActionStyle(action:TextView,selected:Boolean,cancel:Boolean=false) {

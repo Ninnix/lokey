@@ -41,6 +41,7 @@ class CreditsActivity:AppScreen() {
             heading(tr("Keyboard & language data"))
             card().apply {
                 note(tr("Keyboard icons, alphabets, dictionaries, and conversion data."))
+                notice("Swipe dictionary · FrequencyWords","swipe-words/CREDITS.txt")
                 val covered=setOf("lfm-model.txt","qwen-model.txt","qwen3-asr.txt","parakeet-model.txt","loina-core.txt","llama.cpp.txt","whisper.cpp.txt","hexagon-toolchain.txt","android-ndk.txt","rotate-bits.txt","sha256.txt","xxhash.txt")
                 for(file in assets.list("licenses").orEmpty().filter { it !in covered }.sorted()) notice(file.removeSuffix(".txt"),"licenses/$file")
                 for(file in listOf("input-method-sources.json","pinyin-sources.json","japanese-sources.json")) notice(file.removeSuffix(".json"),file)

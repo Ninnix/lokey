@@ -251,7 +251,7 @@
     <string name="ui_light">"Işık modu"</string>
     <string name="ui_light_feedback">"Hafif"</string>
     <string name="ui_light_switch_recording">"Işık anahtarıyla kayıt"</string>
-    <string name="ui_likely_next_letters_get_a_little_more_room">"Muhtemelen sonraki mektuplara biraz daha yer açılır."</string>
+    <string name="ui_likely_next_letters_get_a_little_more_room">"Olası tuşlar büyür; harfler sabit kalır. Yazma verileri kaydedilmez."</string>
     <string name="ui_linear">"Doğrusal klavye tuş anahtarları"</string>
     <string name="ui_listening">"Dinleme"</string>
     <string name="ui_load_a_voice_model_first">"Önce bir ses modeli yükleyin"</string>

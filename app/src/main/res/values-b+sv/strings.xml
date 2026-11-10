@@ -251,7 +251,7 @@
     <string name="ui_light">"Ljusläge"</string>
     <string name="ui_light_feedback">"Lätt"</string>
     <string name="ui_light_switch_recording">"Ljusomkopplarinspelning"</string>
-    <string name="ui_likely_next_letters_get_a_little_more_room">"Nästa bokstäver får troligen lite mer utrymme."</string>
+    <string name="ui_likely_next_letters_get_a_little_more_room">"Troliga tangenter blir större; bokstäverna ligger stilla. Inga skrivdata sparas."</string>
     <string name="ui_linear">"Linjära tangentbordsknappar"</string>
     <string name="ui_listening">"Lyssna"</string>
     <string name="ui_load_a_voice_model_first">"Ladda först en röstmodell"</string>

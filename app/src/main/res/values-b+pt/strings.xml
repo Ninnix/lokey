@@ -251,7 +251,7 @@
     <string name="ui_light">"Claro"</string>
     <string name="ui_light_feedback">"Leve"</string>
     <string name="ui_light_switch_recording">"Gravação de interruptor de luz"</string>
-    <string name="ui_likely_next_letters_get_a_little_more_room">"Provavelmente as próximas letras terão um pouco mais de espaço."</string>
+    <string name="ui_likely_next_letters_get_a_little_more_room">"As teclas prováveis crescem; as letras ficam fixas. Nenhum dado de digitação é guardado."</string>
     <string name="ui_linear">"Chaves de teclado lineares"</string>
     <string name="ui_listening">"Ouvir"</string>
     <string name="ui_load_a_voice_model_first">"Carregue primeiro um modelo de voz"</string>

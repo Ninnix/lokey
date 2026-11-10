@@ -251,7 +251,7 @@
     <string name="ui_light">"Valgusrežiim"</string>
     <string name="ui_light_feedback">"Nõrk"</string>
     <string name="ui_light_switch_recording">"Valguslülitiga salvestamine"</string>
-    <string name="ui_likely_next_letters_get_a_little_more_room">"Tõenäoliselt saavad järgmised kirjad veidi rohkem ruumi."</string>
+    <string name="ui_likely_next_letters_get_a_little_more_room">"Tõenäolised klahvid suurenevad, tähed püsivad paigal. Tippimisandmeid ei salvestata."</string>
     <string name="ui_linear">"Lineaarsed võtmega lülitid"</string>
     <string name="ui_listening">"Kuulamine"</string>
     <string name="ui_load_a_voice_model_first">"Laadige esmalt kõnemudel"</string>

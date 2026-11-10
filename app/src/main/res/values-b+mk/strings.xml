@@ -251,7 +251,7 @@
     <string name="ui_light">"Светлосен режим"</string>
     <string name="ui_light_feedback">"Слабо"</string>
     <string name="ui_light_switch_recording">"Снимање со прекинувач на светлина"</string>
-    <string name="ui_likely_next_letters_get_a_little_more_room">"Веројатно следните букви ќе добијат малку повеќе простор."</string>
+    <string name="ui_likely_next_letters_get_a_little_more_room">"Веројатните копчиња се зголемуваат, буквите остануваат на место. Податоци за пишување не се зачувуваат."</string>
     <string name="ui_linear">"Линеарни прекинувачи на тастатурата"</string>
     <string name="ui_listening">"Слушање"</string>
     <string name="ui_load_a_voice_model_first">"Прво вчитајте гласовен модел"</string>

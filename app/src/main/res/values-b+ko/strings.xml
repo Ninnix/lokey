@@ -251,7 +251,7 @@
     <string name="ui_light">"라이트 모드"</string>
     <string name="ui_light_feedback">"약하게"</string>
     <string name="ui_light_switch_recording">"전등 스위치 녹음"</string>
-    <string name="ui_likely_next_letters_get_a_little_more_room">"아마도 다음 편지에는 조금 더 많은 공간이 생길 것입니다."</string>
+    <string name="ui_likely_next_letters_get_a_little_more_room">"다음에 누를 가능성이 높은 키가 커지고 글자 위치는 고정됩니다. 입력 데이터는 저장되지 않습니다."</string>
     <string name="ui_linear">"선형 키보드 키 스위치"</string>
     <string name="ui_listening">"청취"</string>
     <string name="ui_load_a_voice_model_first">"먼저 음성 모델을 로드하세요."</string>

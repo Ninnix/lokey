@@ -251,7 +251,7 @@
     <string name="ui_light">"Modul de lumină"</string>
     <string name="ui_light_feedback">"Ușoară"</string>
     <string name="ui_light_switch_recording">"Înregistrare cu comutator de lumină"</string>
-    <string name="ui_likely_next_letters_get_a_little_more_room">"Este posibil ca literele următoare să primească puțin mai mult spațiu."</string>
+    <string name="ui_likely_next_letters_get_a_little_more_room">"Tastele probabile cresc, literele rămân fixe. Nu se salvează date de tastare."</string>
     <string name="ui_linear">"Comutatoare liniare de la tastatură"</string>
     <string name="ui_listening">"Ascultare"</string>
     <string name="ui_load_a_voice_model_first">"Încărcați mai întâi un model de voce"</string>

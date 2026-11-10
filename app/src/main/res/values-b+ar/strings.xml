@@ -251,7 +251,7 @@
     <string name="ui_light">"وضع الضوء"</string>
     <string name="ui_light_feedback">"خفيف"</string>
     <string name="ui_light_switch_recording">"التسجيل بمفتاح الضوء"</string>
-    <string name="ui_likely_next_letters_get_a_little_more_room">"من المحتمل أن تحصل الحروف التالية على مساحة أكبر قليلاً."</string>
+    <string name="ui_likely_next_letters_get_a_little_more_room">"تكبر المفاتيح المحتملة وتبقى الحروف ثابتة. لا تُحفظ بيانات الكتابة."</string>
     <string name="ui_linear">"مفاتيح المفاتيح الخطية"</string>
     <string name="ui_listening">"الاستماع"</string>
     <string name="ui_load_a_voice_model_first">"قم بتحميل النموذج الصوتي أولاً"</string>

@@ -251,7 +251,7 @@
     <string name="ui_light">"Gaismas režīms"</string>
     <string name="ui_light_feedback">"Viegla"</string>
     <string name="ui_light_switch_recording">"Gaismas slēdža ierakstīšana"</string>
-    <string name="ui_likely_next_letters_get_a_little_more_room">"Iespējams, nākamajiem burtiem būs nedaudz vairāk vietas."</string>
+    <string name="ui_likely_next_letters_get_a_little_more_room">"Iespējamie taustiņi palielinās, burti paliek vietā. Rakstīšanas dati netiek saglabāti."</string>
     <string name="ui_linear">"Lineārie tastatūras taustiņu slēdži"</string>
     <string name="ui_listening">"Klausīšanās"</string>
     <string name="ui_load_a_voice_model_first">"Vispirms ielādējiet balss modeli"</string>

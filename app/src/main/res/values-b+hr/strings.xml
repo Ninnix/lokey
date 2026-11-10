@@ -251,7 +251,7 @@
     <string name="ui_light">"Svjetlosni način rada"</string>
     <string name="ui_light_feedback">"Slabo"</string>
     <string name="ui_light_switch_recording">"Snimanje prekidača za svjetlo"</string>
-    <string name="ui_likely_next_letters_get_a_little_more_room">"Vjerojatno će sljedeća slova dobiti malo više prostora."</string>
+    <string name="ui_likely_next_letters_get_a_little_more_room">"Vjerojatne tipke rastu, slova ostaju na mjestu. Podaci o tipkanju ne spremaju se."</string>
     <string name="ui_linear">"Linearni prekidači s ključem"</string>
     <string name="ui_listening">"Slušanje"</string>
     <string name="ui_load_a_voice_model_first">"Prvo učitajte glasovni model"</string>

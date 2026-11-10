@@ -305,6 +305,7 @@ class LokeyService : InputMethodService(), KeyboardView.Listener {
             InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD, InputType.TYPE_TEXT_VARIATION_WEB_PASSWORD)) ||
             (type == InputType.TYPE_CLASS_NUMBER && variation == InputType.TYPE_NUMBER_VARIATION_PASSWORD) ||
             info.imeOptions and EditorInfo.IME_FLAG_NO_PERSONALIZED_LEARNING != 0
+        keyboard?.adaptiveInput=false
     }
     override fun onStartInputView(info: EditorInfo, restarting: Boolean) {
         super.onStartInputView(info, restarting)
@@ -499,7 +500,16 @@ class LokeyService : InputMethodService(), KeyboardView.Listener {
             type and InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS != 0 || variation in listOf(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS,
                 InputType.TYPE_TEXT_VARIATION_WEB_EMAIL_ADDRESS, InputType.TYPE_TEXT_VARIATION_URI, InputType.TYPE_TEXT_VARIATION_FILTER)
     }
+    private fun adaptiveField():Boolean {
+        if(privateField || recording || processing || toolMode in listOf("languages","layouts","clipboard")) return false
+        if(inputLayout().composer !in listOf("","dead")) return false
+        if(!connection()?.getSelectedText(0).isNullOrEmpty()) return false
+        if(sourceEditor!=null) return true
+        val info=currentInputEditorInfo ?: return false
+        return AdaptiveKeys.allowed(info.inputType,info.imeOptions)
+    }
     private fun refresh() {
+        keyboard?.adaptiveInput=adaptiveField()
         if(deadKeys.pending.isNotEmpty()) {
             if(!validDead()) clearDead()
             else {

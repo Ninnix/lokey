@@ -251,7 +251,7 @@
     <string name="ui_light">"Modalità tad-dawl"</string>
     <string name="ui_light_feedback">"Ħafifa"</string>
     <string name="ui_light_switch_recording">"Reġistrazzjoni ta\' swiċċ tad-dawl"</string>
-    <string name="ui_likely_next_letters_get_a_little_more_room">"X\'aktarx li l-ittri li jmiss ikollhom ftit aktar spazju."</string>
+    <string name="ui_likely_next_letters_get_a_little_more_room">"It-tasti probabbli jikbru; l-ittri jibqgħu fissi. Ma tiġi salvata ebda dejta tat-tajping."</string>
     <string name="ui_linear">"Swiċċijiet lineari tat-tastiera"</string>
     <string name="ui_listening">"Smigħ"</string>
     <string name="ui_load_a_voice_model_first">"L-ewwel tagħbija mudell tal-vuċi"</string>

@@ -255,7 +255,7 @@ object Strings {
         "Light" to R.string.ui_light,
         "Light feedback" to R.string.ui_light_feedback,
         "Light-switch recording" to R.string.ui_light_switch_recording,
-        "Likely next letters get a little more room." to R.string.ui_likely_next_letters_get_a_little_more_room,
+        "Likely keys grow; letter positions stay fixed. No typing data is saved." to R.string.ui_likely_next_letters_get_a_little_more_room,
         "Linear" to R.string.ui_linear,
         "Listening" to R.string.ui_listening,
         "Load a voice model first" to R.string.ui_load_a_voice_model_first,

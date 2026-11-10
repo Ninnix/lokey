@@ -1,6 +1,6 @@
 # Lokey privacy policy
 
-Effective date: November 6, 2026.
+Effective date: November 10, 2026.
 
 Lokey (`org.lokey.app`) is developed by Nicolo' D'Evangelista, also known as
 Ninnix. For privacy questions or requests, contact nicolo.deva@gmail.com.
@@ -21,6 +21,11 @@ developer, a model provider or an inference service. Prediction candidates,
 model checkpoints and translation working state are held in memory rather
 than saved as a typing history. Private/password fields identified through
 Android's editor flags disable prediction, dictation and clipboard capture.
+
+Adaptive letter sizes use only the current on-device model probabilities.
+Lokey does not learn from or store touch positions, touch trails, calibration,
+letter counts or typing history for this feature. Letter positions stay fixed
+while likely keys can become wider. No personalization profile is saved.
 
 Text you type, paste, dictate or translate is sent to the app in which you
 are writing. That app decides how to store or transmit it. Lokey cannot

@@ -17,8 +17,19 @@ replace models or clear app storage. Inference checks are serialized per phone.
 The original keyboard layout is restored after the run.
 
 See [CONTRIBUTING.md](../CONTRIBUTING.md) for choosing checks by failure mode.
+The `adaptive` mode checks bounded visible resizing, stationary letter anchors,
+frozen geometry during touches, private-field gates, absence of learning/storage,
+and all built-in layouts at two widths. It can also replay synthetic taps with
+saved research model probabilities; these are not human typing results.
+The `swipe` mode compares the original and expanded dictionaries and validates
+the endpoint index on recorded QWERTY traces and synthetic paths on other layouts.
+The `labels` mode records actual text drawing bounds across built-in layouts
+and their custom clones, portrait/landscape, keyboard heights, Shift, both symbol pages,
+numeric input, suggestions, and adaptive keys; it checks for overlap/overflow.
+`adaptiveenable` enables adaptive letters and swipe for hands-on testing.
+
 The runner saves JSON results and logs in `artifacts/`; screenshots are kept
-locally. Keep meaningful JSON fixtures and summaries, not private device dumps.
+locally and ignored by Git. Keep source fixtures with tests or in `research/`.
 
 ## Localization and privacy
 

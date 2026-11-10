@@ -251,7 +251,7 @@
     <string name="ui_light">"Hell"</string>
     <string name="ui_light_feedback">"Leicht"</string>
     <string name="ui_light_switch_recording">"Lichtschalteraufnahme"</string>
-    <string name="ui_likely_next_letters_get_a_little_more_room">"Wahrscheinlich bekommen die nächsten Buchstaben etwas mehr Platz."</string>
+    <string name="ui_likely_next_letters_get_a_little_more_room">"Wahrscheinliche Tasten werden größer; Buchstaben bleiben an Ort und Stelle. Keine Tippdaten werden gespeichert."</string>
     <string name="ui_linear">"Lineare Schlüsselschalter"</string>
     <string name="ui_listening">"Zuhören"</string>
     <string name="ui_load_a_voice_model_first">"Laden Sie zuerst ein Sprachmodell"</string>

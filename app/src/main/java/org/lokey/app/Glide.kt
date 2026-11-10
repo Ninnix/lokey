@@ -7,6 +7,26 @@ import kotlin.math.ln
 object Glide {
     data class Point(val x: Float, val y: Float)
     data class Match(val word: String, val score: Double)
+    fun fold(word:String)=Languages.fold(word).replace("'","").replace('ı','i').replace("ß","ss")
+    class Lexicon(source:List<Languages.Entry>) {
+        val entries=source.map { it.copy(folded=fold(it.word)) }.distinctBy { it.word }
+        private val buckets=Array(26*26) { ArrayList<Languages.Entry>() }
+        init {
+            for(entry in entries) {
+                val word=entry.folded
+                if(word.length in 2..24 && word.all { it in 'a'..'z' }) buckets[(word.first()-'a')*26+(word.last()-'a')].add(entry)
+            }
+        }
+        fun candidates(trace:List<Point>,centers:Map<Char,Point>):List<Languages.Entry> {
+            val starts=centers.filter { distance(trace.first(),it.value)<=1.05f }.keys.mapNotNull { fold(it.toString()).firstOrNull() }.toSet()
+            val ends=centers.filter { distance(trace.last(),it.value)<=1.05f }.keys.mapNotNull { fold(it.toString()).lastOrNull() }.toSet()
+            val result=ArrayList<Languages.Entry>()
+            for(a in starts) for(b in ends) if(a in 'a'..'z' && b in 'a'..'z') result.addAll(buckets[(a-'a')*26+(b-'a')])
+            return result
+        }
+    }
+    fun decode(trace:List<Point>,centers:Map<Char,Point>,lexicon:Lexicon):List<Match> =
+        if(trace.size<2 || centers.isEmpty()) emptyList() else decode(trace,centers,lexicon.candidates(trace,centers))
     fun distance(a: Point, b: Point) = hypot(a.x - b.x, a.y - b.y)
     private fun length(points: List<Point>) = points.zipWithNext().sumOf { (a, b) -> distance(a, b).toDouble() }.toFloat()
     private fun sample(points: List<Point>): List<Point> {
@@ -34,14 +54,24 @@ object Glide {
         for (entry in entries) {
             val word = entry.folded
             if (word.length !in 2..24 || word.any { it !in 'a'..'z' }) continue
-            val first = centers[word.first()] ?: continue
-            val last = centers[word.last()] ?: continue
-            val startError = distance(trace.first(), first)
-            val endError = distance(trace.last(), last)
-            if (startError > 1.05f || endError > 1.05f) continue
-            val path = ArrayList<Point>()
-            word.forEachIndexed { i, c -> if (i == 0 || c != word[i - 1]) centers[c]?.let { path.add(it) } }
-            if (path.isEmpty()) continue
+            val raw=Languages.lower(entry.word)
+            val start=centers[raw.first()] ?: fold(raw.first().toString()).firstOrNull()?.let { centers[it] } ?: continue
+            val end=centers[raw.last()] ?: fold(raw.last().toString()).lastOrNull()?.let { centers[it] } ?: continue
+            val startError=distance(trace.first(),start);val endError=distance(trace.last(),end)
+            if(startError>1.05f || endError>1.05f) continue
+            val path=ArrayList<Point>()
+            var valid=true
+            for(c in raw) {
+                if(c in "'’") continue
+                val letters=if(c in centers) c.toString() else fold(c.toString())
+                for(letter in letters) {
+                    val point=centers[letter]
+                    if(point==null) { valid=false;break }
+                    if(path.lastOrNull()!=point) path.add(point)
+                }
+                if(!valid) break
+            }
+            if(!valid || path.isEmpty()) continue
             val shape = sample(path)
             var error = 0.0
             // Resampling removes timing differences; a small alignment window allows rounded turns.

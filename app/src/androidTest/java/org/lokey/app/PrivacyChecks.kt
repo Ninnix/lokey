@@ -39,6 +39,9 @@ object PrivacyChecks {
             test.runOnMainSync {
                 val labels=views(models.window.decorView)
                 check(labels.any { it.text.toString()==context.tr("Model downloads connect to Hugging Face, which receives your IP address. Typing and audio stay on your device.") })
+                val credits=labels.first { it.text.toString()==context.tr("Models & inference credits") }
+                val privacy=labels.first { it.text.toString()==context.tr("Privacy policy") }
+                check(privacy.top-credits.bottom>=8*context.resources.displayMetrics.density) { "Models footer buttons touch" }
                 labels.first { it.text.toString()==context.tr("Privacy policy") }.performClick()
             }
             val end=SystemClock.uptimeMillis()+8000

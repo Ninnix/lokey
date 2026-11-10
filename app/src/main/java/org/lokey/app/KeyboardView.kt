@@ -31,10 +31,12 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
         fun tool(name:String) { }
         fun moreCandidates() { }
     }
-    data class Key(val label: String, val alternate: String, val weight: Float = 1f, val code: String = label, val rect: RectF = RectF(), var row:Int=0,val native:Boolean=false,val custom:CustomLayouts.Key?=null)
+    data class Key(val label: String, val alternate: String, val weight: Float = 1f, val code: String = label, val rect: RectF = RectF(), var row:Int=0,val native:Boolean=false,val custom:CustomLayouts.Key?=null,val anchor:RectF=RectF())
     private data class Touch(val key: Key, val startX: Float, val startY: Float, var x: Float, var held: Boolean = false, var cursor: Boolean = false, var choice: Int = -1, var recording: Boolean = false, var stopping: Boolean = false, var flick: String? = null, var glide: Boolean = false, val trace: MutableList<Glide.Point> = ArrayList(), val centers: Map<Char, Glide.Point> = emptyMap())
     private val main = Handler(Looper.getMainLooper())
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG)
+    private val textBounds=Rect()
+    private val labelArea=RectF()
     private val regularFont = Typeface.create("sans-serif", Typeface.NORMAL)
     private val boldFont = Typeface.create("sans-serif", Typeface.BOLD)
     private val strokes = Paint(Paint.ANTI_ALIAS_FLAG).apply { style = Paint.Style.STROKE; strokeWidth = dp(1.8f); strokeCap = Paint.Cap.ROUND; strokeJoin = Paint.Join.ROUND }
@@ -54,6 +56,7 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
     private var numeric = false
     private var enterLabel = "↵"
     private var probabilities = FloatArray(26)
+    var adaptiveInput=true
     private var suggestions = emptyList<String>()
     private var accentLanguage:String?=null
     private var nextAccentLanguage:String?=null
@@ -75,9 +78,25 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
         return if(layout.latin && !layout.phonetic) code.singleOrNull()?.let { LatinAccents.options(it,accentLanguage ?: prefs.setupLanguage) }.orEmpty() else emptyList()
     }
     private fun secondaryLabel(key:Key)=key.custom?.secondary?.joinToString(" ") ?: if(layout.composer=="dead" && !numeric) layout.variants(key.code).joinToString(" ").ifEmpty { key.alternate } else key.alternate
+    private fun symbolHints(key:Key)=key.custom==null && layout.composer=="dead" && !numeric && key.code.length==1 && key.code!=","
     private fun fitSize(text:String,size:Float,available:Float):Float {
         paint.textSize=dp(size);paint.typeface=regularFont
         return min(size,size*available.coerceAtLeast(1f)/paint.measureText(text).coerceAtLeast(1f))
+    }
+    private fun fitKeyLabel(text:String,size:Float,area:RectF):Float {
+        paint.textSize=dp(size);paint.typeface=regularFont;paint.textAlign=Paint.Align.LEFT
+        paint.getTextBounds(text,0,text.length,textBounds)
+        val width=max(paint.measureText(text),textBounds.width().toFloat()).coerceAtLeast(1f)
+        return size*min(1f,min(area.width().coerceAtLeast(0f)/width,area.height().coerceAtLeast(0f)/textBounds.height().coerceAtLeast(1)))
+    }
+    private fun keyLabel(canvas:Canvas,text:String,area:RectF,size:Float,color:Int) {
+        val fitted=fitKeyLabel(text,size,area)
+        if(fitted<=0f) return
+        paint.textSize=dp(fitted);paint.getTextBounds(text,0,text.length,textBounds)
+        label(canvas,text,area.centerX()-textBounds.exactCenterX(),area.centerY()-textBounds.exactCenterY(),fitted,color,Paint.Align.LEFT)
+    }
+    private fun hintArea(key:Key,area:RectF) {
+        area.set(key.rect.left+dp(3f),key.rect.top+dp(3f),key.rect.right-dp(3f),key.rect.top+key.rect.height()*.36f-dp(2f))
     }
     private fun units()=293f+(if(numeric || symbols) 0 else if(layout.keyRows.isNotEmpty()) layout.keyRows.size-5 else layout.rows.size-3)*48
     private fun baseHeight()=(if(resources.configuration.screenWidthDp>resources.configuration.screenHeightDp) 260f else 325f)*units()/325f
@@ -166,6 +185,7 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
 
     fun editor(numeric: Boolean, action: String, capital: Boolean) {
         this.numeric = numeric; enterLabel = action; shift = capital; automaticCapital = capital; caps = false; symbols = false
+        probabilities=FloatArray(26);neural=false
         cancelTouches();accentLanguage=null;nextAccentLanguage=null;activity(); layoutKeys(); invalidate()
     }
     fun action(label:String) { if(enterLabel!=label) { enterLabel=label;layoutKeys();invalidate() } }
@@ -174,7 +194,7 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
         if(touches.isEmpty()) accentLanguage=nextAccentLanguage
         val next=words.take(3)
         val changed=suggestions!=next
-        suggestions = next; probabilities = letters; this.neural = neural
+        suggestions = next; probabilities = letters.copyOf(); this.neural = neural
         if(changed) sendAccessibilityEvent(AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED)
         if (touches.isEmpty()) layoutKeys()
         invalidate()
@@ -210,16 +230,16 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
                 val width = if(minimum>0f) minimum+flexible*key.weight/sum else (available + gap) * key.weight / sum - gap
                 val top=y-(if(suggestionsVisible) 0f else 48*u)
                 key.rect.set(x, top, x + width, top + h - 5 * u)
+                key.anchor.set(key.rect)
                 key.row=rowIndex
                 keys.add(key); x += width + gap
             }
             rowIndex++
         }
         fun letters(chars: String, alt: String = ""): List<Key> = chars.mapIndexed { i, c ->
-            val p = if (prefs.adaptive && c in 'a'..'z') probabilities.getOrElse(c - 'a') { 0f } else 0f
             var secondary = variants(c.toString()).firstOrNull() ?: alt.getOrNull(i)?.toString().orEmpty().trim()
             if (shift && c in 'a'..'z') secondary = uppercaseVariant(secondary)
-            Key(if (shift) c.uppercase() else c.toString(), secondary, 1f + min(0.32f, p * 0.9f), c.toString())
+            Key(if (shift) c.uppercase() else c.toString(), secondary, code=c.toString())
         }
         if (numeric) {
             row(letters("123", "!@#") + Key("⌫", "hold", code = "delete"), 48 * u, h = 60 * u)
@@ -247,10 +267,9 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
             return
         }
         fun nativeLetters(items:List<String>)=items.map { code ->
-            val p=if(prefs.adaptive && code.length==1 && code[0] in 'a'..'z') probabilities.getOrElse(code[0]-'a') { 0f } else 0f
             var secondary=if(layout.composer in listOf("cangjie","sucheng")) KeyboardLayouts.radical(code) else variants(code).firstOrNull().orEmpty()
             if(shift && layout.cased) secondary=uppercaseVariant(secondary)
-            Key(layout.label(code,shift || caps),secondary,1f+min(.32f,p*.9f),code,native=true)
+            Key(layout.label(code,shift || caps),secondary,code=code,native=true)
         }
         row(letters("1234567890", "!@#$%^&*()"), 48 * u)
         if (!symbols) {
@@ -270,6 +289,11 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
             Key(punctuation("."),listOf("!",",","?").joinToString(" ") { punctuation(it) },0.9f,"."), Key(enterLabel, context.tr("hold · voice"), 1.5f + idleAmount * 0.3f, "enter"))
         if(layout.id=="persian") bottom.add(3,Key("½","",.9f,"\u200c",native=true))
         row(bottom,(units()-53)*u,h=53*u)
+        if(adaptiveTouch() && neural) for(values in keys.groupBy { it.row }.values) for((a,b) in values.zipWithNext()) {
+            val pitch=b.anchor.centerX()-a.anchor.centerX()
+            val shift=AdaptiveKeys.boundary(a.code,b.code,probabilities,pitch)
+            a.rect.right+=shift;b.rect.left+=shift
+        }
     }
     override fun onDraw(canvas: Canvas) {
         val saved=previewDesign
@@ -335,6 +359,13 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
             canvas.drawRoundRect(width / 2f - dp(15f), dp(3f), width / 2f + dp(15f), dp(4.2f), dp(1f), dp(1f), paint)
             paint.alpha = 255
         }
+        var symbolSize=12f
+        for(key in keys) if(symbolHints(key)) {
+            val hints=secondaryLabel(key).split(' ').filter { it.isNotEmpty() }
+            hintArea(key,labelArea)
+            labelArea.right=labelArea.left+labelArea.width()/maxOf(1,hints.size)
+            for(hint in hints) symbolSize=min(symbolSize,fitKeyLabel(hint,12f,labelArea))
+        }
         for (key in keys) {
             val pressed = touches.values.any { it.key === key }
             val special = key.code == "shift" || key.code == "delete" || key.code == "symbols" || key.code == "page"
@@ -382,15 +413,26 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
                 }
             } else {
                 val baseSize=if(key.label.length>2) 13f else 22f
-                val size=fitSize(key.label,baseSize,key.rect.width()-dp(8f))
-                label(canvas,key.label,key.rect.centerX(),key.rect.centerY()+dp(if(key.label.length>2) 5f else 8f),size,color)
+                // Shared bands keep letter baselines steady when hints or priors change.
+                val half=min(key.anchor.centerX()-key.rect.left,key.rect.right-key.anchor.centerX())-dp(4f)
+                labelArea.set(key.anchor.centerX()-half,key.rect.top+key.rect.height()*.36f,key.anchor.centerX()+half,key.rect.bottom-dp(3f))
+                keyLabel(canvas,key.label,labelArea,baseSize,color)
                 val hint=if(key.code in listOf("shift","delete","symbols","page","enter")) context.tr(secondaryLabel(key)) else secondaryLabel(key)
                 if(hint.isNotEmpty()) {
-                    val symbols=key.custom==null && layout.composer=="dead" && !numeric && layout.variants(key.code).isNotEmpty()
-                    val text=if(symbols) hint.replace(" ","") else hint
-                    label(canvas,text,key.rect.right-dp(if(symbols) 3f else 5f),key.rect.top+dp(if(symbols) 13f else 11f),
-                        fitSize(text,if(symbols) 12f else if(hint.length>2) 7f else 9f,key.rect.width()-dp(if(symbols) 6f else 10f)),
-                        if(bitmap!=null) color else KeyboardTheme.blend(color,fill,if(symbols) .15f else .35f),Paint.Align.RIGHT)
+                    hintArea(key,labelArea)
+                    if(symbolHints(key)) {
+                        val hints=hint.split(' ').filter { it.isNotEmpty() }
+                        val cell=labelArea.width()/hints.size
+                        for((index,value) in hints.withIndex()) {
+                            labelArea.left=key.rect.left+dp(3f)+index*cell;labelArea.right=labelArea.left+cell
+                            keyLabel(canvas,value,labelArea,symbolSize,if(bitmap!=null) color else KeyboardTheme.blend(color,fill,.15f))
+                        }
+                    } else {
+                        val size=fitKeyLabel(hint,if(hint.length>2) 7f else 9f,labelArea)
+                        paint.textSize=dp(size);paint.getTextBounds(hint,0,hint.length,textBounds)
+                        labelArea.left=labelArea.right-max(paint.measureText(hint),textBounds.width().toFloat())
+                        keyLabel(canvas,hint,labelArea,size,if(bitmap!=null) color else KeyboardTheme.blend(color,fill,.35f))
+                    }
                 }
             }
         }
@@ -541,7 +583,7 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
             val point = point(x, y)
             if (Glide.distance(touch.trace.last(), point) > 0.08f) touch.trace.add(point)
             val destination = hit(x, y)?.code
-            val crossed = destination != null && destination.length == 1 && destination[0] in 'a'..'z' && destination != touch.key.code
+            val crossed = destination != null && destination.length == 1 && destination[0].isLetter() && destination != touch.key.code
             if (!touch.glide && crossed && Glide.distance(touch.trace.first(), point) > 0.8f && (abs(dx) > abs(dy) * 0.55f || Glide.distance(touch.trace.first(), point) > 1.2f)) {
                 callbacks.remove(id)?.let { main.removeCallbacks(it) }; touch.glide = true; touch.flick = null
                 listener.feedback("hold")
@@ -625,8 +667,8 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
                 }
                 val key = hit(x, y) ?: return true
                 val touch = Touch(key, x, y, x, stopping = key.code == "enter" && voiceState.isNotEmpty(),
-                    centers = if (flowEnabled) keys.filter { it.code.length == 1 && it.code[0] in 'a'..'z' }.associate { it.code[0] to point(it.rect.centerX(), it.rect.centerY()) } else emptyMap())
-                if (flowEnabled && key.code.length == 1 && key.code[0] in 'a'..'z') {
+                    centers = if (flowEnabled) keys.filter { it.code.length == 1 && it.code[0].isLetter() }.associate { it.code[0] to point(it.anchor.centerX(), it.anchor.centerY()) } else emptyMap())
+                if (flowEnabled && key.code.length == 1 && key.code[0].isLetter()) {
                     touch.trace.add(point(x, y))
                 }
                 touches[id] = touch
@@ -695,6 +737,8 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
             dx * dx + dy * dy
         }
     }
+    private fun adaptiveTouch()=prefs.adaptive && adaptiveInput && !numeric && !symbols && !forceLatin &&
+        previewLayout==null && previewTheme==null && previewDesign==null && layout.keyRows.isEmpty() && layout.composer in listOf("","dead")
     private fun emit(text: String) { listener.text(text); if (!caps && shift && !(layout.composer=="dead" && text in listOf("'","`","^","~","\""))) { shift = false; layoutKeys() } }
     private fun point(x: Float, y: Float) = Glide.Point(x * 10f / width, y * 10f / width)
     private fun resize(event: MotionEvent): Boolean {

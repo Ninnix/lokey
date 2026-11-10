@@ -251,7 +251,7 @@
     <string name="ui_light">"Chế độ ánh sáng"</string>
     <string name="ui_light_feedback">"Nhẹ"</string>
     <string name="ui_light_switch_recording">"Ghi lại công tắc đèn"</string>
-    <string name="ui_likely_next_letters_get_a_little_more_room">"Có lẽ các chữ cái tiếp theo sẽ có nhiều chỗ hơn một chút."</string>
+    <string name="ui_likely_next_letters_get_a_little_more_room">"Phím có khả năng dùng sẽ lớn hơn, chữ vẫn ở nguyên vị trí. Không lưu dữ liệu gõ."</string>
     <string name="ui_linear">"Công tắc phím bàn phím tuyến tính"</string>
     <string name="ui_listening">"Nghe"</string>
     <string name="ui_load_a_voice_model_first">"Tải mẫu giọng nói trước"</string>

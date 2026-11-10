@@ -251,7 +251,7 @@
     <string name="ui_light">"Mode cahaya"</string>
     <string name="ui_light_feedback">"Ringan"</string>
     <string name="ui_light_switch_recording">"Perekaman saklar lampu"</string>
-    <string name="ui_likely_next_letters_get_a_little_more_room">"Kemungkinan surat berikutnya mendapat lebih banyak ruang."</string>
+    <string name="ui_likely_next_letters_get_a_little_more_room">"Tombol yang mungkin dipakai membesar; posisi huruf tetap. Data ketikan tidak disimpan."</string>
     <string name="ui_linear">"Sakelar kunci linier"</string>
     <string name="ui_listening">"Mendengarkan"</string>
     <string name="ui_load_a_voice_model_first">"Muat model suara terlebih dahulu"</string>

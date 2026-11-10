@@ -251,7 +251,7 @@
     <string name="ui_light">"光模式"</string>
     <string name="ui_light_feedback">"轻"</string>
     <string name="ui_light_switch_recording">"灯开关记录"</string>
-    <string name="ui_likely_next_letters_get_a_little_more_room">"下一个字母可能会获得更多的空间。"</string>
+    <string name="ui_likely_next_letters_get_a_little_more_room">"可能使用的按键会变宽，字母位置保持不变。不保存输入数据。"</string>
     <string name="ui_linear">"线性按键开关"</string>
     <string name="ui_listening">"听力"</string>
     <string name="ui_load_a_voice_model_first">"先加载语音模型"</string>

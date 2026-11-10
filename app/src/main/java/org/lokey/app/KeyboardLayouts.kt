@@ -49,7 +49,7 @@ object KeyboardLayouts {
     val all=listOf(
         Layout("intl","QWERTY Intl",latinRows,family="qwerty",variant="Intl · dead keys",composer="dead",
             alternates=variants("l" to "'\"","k" to ":;","m" to "<>/","p" to "|\\","o" to "=+","9" to "[{","0" to "]}","q" to "`~")),
-        Layout("qwerty","QWERTY Accent",latinRows,family="qwerty",variant="Accent"),
+        Layout("qwerty","QWERTY Accent",latinRows,family="qwerty",variant="Accent",alternates=variants("p" to "'")),
         Layout("spanish","Español · Spanish",rows("qwertyuiop","asdfghjklñ","zxcvbnm"),family="qwerty",variant="Spanish",alternates=variants("a" to "áàäâã","e" to "éèêë","i" to "íìïî","o" to "óòôöõ","u" to "úüùû")),
         Layout("portuguese","Português · Portuguese",rows("qwertyuiop","asdfghjklç","zxcvbnm"),family="qwerty",variant="Portuguese",alternates=variants("a" to "áàâãä","e" to "éêèë","o" to "óôõòö")),
         Layout("turkish","Türkçe · Turkish",rows("qwertyuıopğü","asdfghjklşi","zxcvbnmöç"),family="qwerty",variant="Turkish"),

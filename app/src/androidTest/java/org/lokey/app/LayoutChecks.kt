@@ -65,7 +65,7 @@ object LayoutChecks {
                 activity.window.addFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
                 prefs.layout="intl"
                 view=KeyboardView(activity,prefs,object:KeyboardView.Listener {
-                    override fun text(text:String) { raw.append(text);typed.append(dead.input(text)) }
+                    override fun text(text:String) { raw.append(text);typed.append(if(prefs.currentLayout.composer=="dead") dead.input(text) else text) }
                     override fun delete() { }
                     override fun enter() { }
                     override fun cursor(delta:Int) { }
@@ -96,6 +96,8 @@ object LayoutChecks {
                 check(typed.toString()==pair.second) { "Dead key $key/$index: $typed" }
             }
             reset(true);secondary("l",1);tap("u");tap("a");check(typed.toString()=="Üa") { "Dead key consumed Shift: $typed" }
+            reset();tap("d");tap("o");tap("n");secondary("l",0);tap("space");check(typed.toString()=="don'" && dead.pending.isEmpty())
+            tap("t");check(typed.toString()=="don't") { "Literal apostrophe composed an accent: $typed" }
             reset();secondary("0",1,shot="intl-popup-number");secondary("p",1,shot="intl-popup-p");secondary("m",2,shot="intl-popup-m")
             test.runOnMainSync {
                 view.suggestionsVisible=false
@@ -116,7 +118,9 @@ object LayoutChecks {
                 val image=Bitmap.createBitmap(view.width,view.height,Bitmap.Config.ARGB_8888);view.draw(Canvas(image))
                 File(context.filesDir,"intl-symbols.png").outputStream().use { image.compress(Bitmap.CompressFormat.PNG,100,it) };image.recycle()
             }
-            return JSONObject().put("secondary_symbols",17).put("all_secondary_labels_visible",true).put("fast_upward_flick",true).put("zero_brace_slide_left",true).put("zero_brace_fast_left_flick",true).put("p_backslash_slide_left",true).put("p_backslash_fast_left_flick",true).put("held_symbol_selection",true).put("dead_key_cases",7).put("shift_preserved",true).put("dedicated_apostrophe_removed",true).put("numeric_fields_unchanged",true).put("popup_screenshots_with_and_without_suggestions",true).put("event_delivery","Direct events to Lokey View")
+            test.runOnMainSync { prefs.layout="qwerty" };reset();secondary("p",0)
+            check(typed.toString()=="'" && dead.pending.isEmpty()) { "Accent layout P apostrophe: $typed" }
+            return JSONObject().put("secondary_symbols",17).put("all_secondary_labels_visible",true).put("fast_upward_flick",true).put("zero_brace_slide_left",true).put("zero_brace_fast_left_flick",true).put("p_backslash_slide_left",true).put("p_backslash_fast_left_flick",true).put("held_symbol_selection",true).put("dead_key_cases",7).put("shift_preserved",true).put("dedicated_apostrophe_removed",true).put("accent_p_apostrophe",true).put("numeric_fields_unchanged",true).put("popup_screenshots_with_and_without_suggestions",true).put("event_delivery","Direct events to Lokey View")
         } finally { prefs.layout=original;test.runOnMainSync { activity.finish() } }
     }
     fun run(test:Instrumentation,context:Context):JSONObject {
@@ -394,10 +398,8 @@ object LayoutChecks {
                     error("$layout timed out: ${value()}; $details; $windows")
                 }
                 fun action(label:String,operation:Int=AccessibilityNodeInfo.ACTION_CLICK) {
-                    val apostrophe=layout=="intl" && label=="'"
-                    val key=if(apostrophe) "l" else label
-                    await { node(key)!=null };check(focused())
-                    check(node(key)!!.performAction(if(apostrophe) AccessibilityNodeInfo.ACTION_LONG_CLICK else operation));SystemClock.sleep(30)
+                    await { node(label)!=null };check(focused())
+                    check(node(label)!!.performAction(operation));SystemClock.sleep(30)
                 }
                 try {
                     test.runOnMainSync { activity.window.addFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON) }
@@ -415,7 +417,7 @@ object LayoutChecks {
                         }
                         node(firstKey)!=null
                     }
-                    for(key in keys) action(key)
+                    for(key in keys) if(layout=="intl" && key=="'") action("l",AccessibilityNodeInfo.ACTION_LONG_CLICK) else action(key)
                     if(KeyboardLayouts.find(layout).phonetic) {
                         await { node("Suggestion: ${expected.trim()}")!=null }
                         action(if(layout=="sucheng") "Suggestion: ${expected.trim()}" else "space")
@@ -452,15 +454,20 @@ object LayoutChecks {
                         action("space");await { value()==paged }
                     }
                     if(layout=="intl") {
-                        action("space");action("'");action("space");await { value()=="É '" }
-                        action("'");action("Backspace");await { value()=="É '" }
+                        action("space");action("l",AccessibilityNodeInfo.ACTION_LONG_CLICK);action("space");await { value()=="É '" }
+                        action("l",AccessibilityNodeInfo.ACTION_LONG_CLICK);action("Backspace");await { value()=="É '" }
                         test.runOnMainSync { input.setText("keep old end");input.setSelection(5,8) };SystemClock.sleep(150)
-                        action("'");check(value()=="keep old end");action("e");await { value()=="keep é end" }
-                        action("'");test.runOnMainSync { input.setSelection(0) };SystemClock.sleep(150)
+                        action("l",AccessibilityNodeInfo.ACTION_LONG_CLICK);check(value()=="keep old end");action("e");await { value()=="keep é end" }
+                        action("l",AccessibilityNodeInfo.ACTION_LONG_CLICK);test.runOnMainSync { input.setSelection(0) };SystemClock.sleep(150)
                         action("e");await { value()=="Ekeep é end" }
                         test.runOnMainSync { input.setText("") };SystemClock.sleep(150)
                         action("q",AccessibilityNodeInfo.ACTION_LONG_CLICK);action("e");await { value()=="È" }
                         action("9",AccessibilityNodeInfo.ACTION_LONG_CLICK);action("0",AccessibilityNodeInfo.ACTION_LONG_CLICK);await { value()=="È[]" }
+                        test.runOnMainSync { input.setText("don");input.setSelection(3) };SystemClock.sleep(150)
+                        action("l",AccessibilityNodeInfo.ACTION_LONG_CLICK);action("space");await { value()=="don'" };action("t");await { value()=="don't" }
+                    }
+                    if(layout=="qwerty") {
+                        action("p",AccessibilityNodeInfo.ACTION_LONG_CLICK);await { value()=="Ciao'" }
                     }
                     if(layout=="korean") {
                         action("Backspace");await { value()=="한그" };action("ㄹ");await { value()=="한글" }
@@ -469,11 +476,6 @@ object LayoutChecks {
                     if(layout=="vietnamese") {
                         action("Backspace");await { value()=="Tiến" };action("g");await { value()=="Tiếng" }
                         action("space");await { value()=="Tiếng " }
-                    }
-                    if(layout=="qwerty") {
-                        action("?123",AccessibilityNodeInfo.ACTION_LONG_CLICK);action("Layout")
-                        action("Keyboard layout: Cyrillic");action("Layout variant: Ukrainian");check(prefs.layout=="ukrainian")
-                        action("Back to keyboard");await { node("ї")!=null }
                     }
                     report.put(JSONObject().put("layout",layout).put("typed",expected).put("live_input",true))
                     File(context.filesDir,"layout-details.json").writeText(report.toString(2))

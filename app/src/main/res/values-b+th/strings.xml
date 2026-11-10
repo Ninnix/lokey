@@ -251,7 +251,7 @@
     <string name="ui_light">"โหมดสว่าง"</string>
     <string name="ui_light_feedback">"เบา"</string>
     <string name="ui_light_switch_recording">"การบันทึกด้วยสวิตช์ไฟ"</string>
-    <string name="ui_likely_next_letters_get_a_little_more_room">"ตัวอักษรถัดไปน่าจะมีพื้นที่เพิ่มขึ้นเล็กน้อย"</string>
+    <string name="ui_likely_next_letters_get_a_little_more_room">"ปุ่มที่มีแนวโน้มจะใช้จะกว้างขึ้น ตำแหน่งตัวอักษรคงเดิม ไม่บันทึกข้อมูลการพิมพ์"</string>
     <string name="ui_linear">"สวิตช์แป้นคีย์บอร์ดเชิงเส้น"</string>
     <string name="ui_listening">"การฟัง"</string>
     <string name="ui_load_a_voice_model_first">"โหลดโมเดลเสียงก่อน"</string>

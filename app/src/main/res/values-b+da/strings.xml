@@ -251,7 +251,7 @@
     <string name="ui_light">"Lys tilstand"</string>
     <string name="ui_light_feedback">"Let"</string>
     <string name="ui_light_switch_recording">"Lyskontakt optagelse"</string>
-    <string name="ui_likely_next_letters_get_a_little_more_room">"De næste bogstaver får sandsynligvis lidt mere plads."</string>
+    <string name="ui_likely_next_letters_get_a_little_more_room">"Sandsynlige taster bliver større; bogstaverne står stille. Ingen skrivedata gemmes."</string>
     <string name="ui_linear">"Lineære nøgleafbrydere"</string>
     <string name="ui_listening">"At lytte"</string>
     <string name="ui_load_a_voice_model_first">"Indlæs først en stemmemodel"</string>

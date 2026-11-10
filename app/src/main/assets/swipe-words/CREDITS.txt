@@ -1,0 +1,12 @@
+Swipe-only vocabulary: FrequencyWords, Hermit Dave and contributors.
+Source repository: https://github.com/hermitdave/FrequencyWords
+Pinned revision and source checksums: swipe-words/sources.json
+Underlying data: OpenSubtitles 2018, https://opus.nlpl.eu/OpenSubtitles.php
+License: Creative Commons Attribution-ShareAlike 4.0 International
+https://creativecommons.org/licenses/by-sa/4.0/
+
+Changes: retain up to 50,000 distinct lowercase alphabetic/apostrophe words
+per language, 2–24 characters, keeping source frequency and adding an
+accent-folded lookup column. The expanded lists are used only for swipe
+decoding. They contain public vocabulary, not user typing or learned usage.
+Prepared from the pinned public source by tools/prepare-swipe.py.

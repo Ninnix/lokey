@@ -251,7 +251,7 @@
     <string name="ui_light">"Fény mód"</string>
     <string name="ui_light_feedback">"Gyenge"</string>
     <string name="ui_light_switch_recording">"Fénykapcsolós felvétel"</string>
-    <string name="ui_likely_next_letters_get_a_little_more_room">"Valószínűleg a következő levelek egy kicsit több helyet kapnak."</string>
+    <string name="ui_likely_next_letters_get_a_little_more_room">"A valószínű billentyűk nőnek, a betűk helyben maradnak. Gépelési adatok nem tárolódnak."</string>
     <string name="ui_linear">"Lineáris billentyűzet kapcsolók"</string>
     <string name="ui_listening">"Hallgatás"</string>
     <string name="ui_load_a_voice_model_first">"Először töltsön be egy hangmodellt"</string>

@@ -251,7 +251,7 @@
     <string name="ui_light">"Световой режим"</string>
     <string name="ui_light_feedback">"Слабая"</string>
     <string name="ui_light_switch_recording">"Запись при включении света"</string>
-    <string name="ui_likely_next_letters_get_a_little_more_room">"Вероятно, следующим буквам будет немного больше места."</string>
+    <string name="ui_likely_next_letters_get_a_little_more_room">"Вероятные клавиши увеличиваются; буквы остаются на месте. Данные ввода не сохраняются."</string>
     <string name="ui_linear">"Переключатели клавиш линейной клавиатуры"</string>
     <string name="ui_listening">"Прослушивание"</string>
     <string name="ui_load_a_voice_model_first">"Сначала загрузите модель голоса"</string>

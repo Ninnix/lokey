@@ -5,13 +5,23 @@ import java.text.Normalizer
 import java.util.Locale
 import kotlin.math.ln
 
-class Languages(context: Context) {
+class Languages(private val context: Context) {
     data class Entry(val word: String, val count: Long, val folded: String)
     data class Language(val code: String, val name: String, val entries: List<Entry>) {
         val words = entries.associateBy { it.word }
         val total = entries.sumOf { it.count }.toDouble()
     }
     data class Choice(val word: String, val prior: Double, val distance: Int = 0)
+    private val swipeLexicons=HashMap<String,Glide.Lexicon>()
+    @Synchronized fun swipe(language:Language):Glide.Lexicon=swipeLexicons.getOrPut(language.code) {
+        val extra=try { context.assets.open("swipe-words/${language.code}.txt").bufferedReader().useLines { lines ->
+            lines.map { line ->
+                val first=line.indexOf(' ');val last=line.lastIndexOf(' ')
+                Entry(line.substring(0,first),line.substring(first+1,last).toLong(),line.substring(last+1))
+            }.toList()
+        } } catch(_:java.io.FileNotFoundException) { emptyList() }
+        Glide.Lexicon((language.entries+extra).distinctBy { it.word })
+    }
     val all = names.map { (code, name) ->
         val common = context.assets.open("languages/$code.txt").bufferedReader().useLines { lines ->
             lines.map { line ->

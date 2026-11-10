@@ -251,7 +251,7 @@
     <string name="ui_light">"Lichtmodus"</string>
     <string name="ui_light_feedback">"Licht"</string>
     <string name="ui_light_switch_recording">"Opname met lichtschakelaar"</string>
-    <string name="ui_likely_next_letters_get_a_little_more_room">"Waarschijnlijk krijgen de volgende letters iets meer ruimte."</string>
+    <string name="ui_likely_next_letters_get_a_little_more_room">"Waarschijnlijke toetsen worden groter; letters blijven staan. Er worden geen typgegevens opgeslagen."</string>
     <string name="ui_linear">"Lineaire sleutelschakelaars"</string>
     <string name="ui_listening">"Luisteren"</string>
     <string name="ui_load_a_voice_model_first">"Laad eerst een stemmodel"</string>

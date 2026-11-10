@@ -5,7 +5,6 @@ import android.os.Handler
 import android.os.Looper
 import java.util.concurrent.Executors
 import java.util.concurrent.atomic.AtomicInteger
-import kotlin.math.exp
 
 class Prediction(private val context: Context, private val prefs: Prefs) {
     data class Result(val before: String, val words: List<String>, val letters: FloatArray, val language: String, val neural: Boolean, val correction: String? = null, val appendWords: Set<String> = emptySet())
@@ -20,7 +19,7 @@ class Prediction(private val context: Context, private val prefs: Prefs) {
     private var failed = ""
     private var checkedBefore:String?=null
     private var checkedCorrection:Result?=null
-    private data class WordCache(val boundary:String,val language:String,val prefix:String,val words:List<String>,val model:String,val session:Int)
+    private data class WordCache(val boundary:String,val language:String,val prefix:String,val words:Map<String,List<String>>,val model:String,val session:Int,val scores:Map<String,Double>,val letters:Map<String,FloatArray>)
     @Volatile private var wordCaches=emptyList<WordCache>()
     private fun wordContext(text:String)=text.trimEnd().takeLast(192)
     private fun key(word:String)=Languages.fold(word).replace("'","")
@@ -30,10 +29,17 @@ class Prediction(private val context: Context, private val prefs: Prefs) {
         val file=Models.file(context,model)
         val identity="${model.id}:${file.lastModified()}:${file.length()}"
         return wordCaches.filter { it.session==session.get() && it.boundary==wordContext(boundary) && (language==null || it.language==language) && it.model==identity && typed.startsWith(it.prefix) }
-            .map { cache -> cache to cache.words.filter { key(it).startsWith(typed) } }.maxByOrNull { it.second.size }
+            .map { cache -> cache to cache.words[typed].orEmpty() }.maxByOrNull { it.second.size }
     }
-    private fun remember(boundary:String,prefix:String,language:String,words:List<String>,epoch:Int) {
-        val cache=WordCache(wordContext(boundary),language,key(prefix),words,loaded,epoch)
+    private fun remember(boundary:String,prefix:String,language:String,words:List<String>,epoch:Int,scores:Map<String,Double> = emptyMap()) {
+        // Build all prefix states on the worker so a tap never scans or scores words.
+        val index=HashMap<String,MutableList<String>>()
+        for(word in words) {
+            val folded=key(word)
+            for(end in 0..folded.length) index.getOrPut(folded.take(end)) { ArrayList() }.add(word)
+        }
+        val letters=index.mapValues { (prefix,matches) -> AdaptiveKeys.probabilities(prefix,matches.mapNotNull { word -> scores[word]?.let { word to it } }) }
+        val cache=WordCache(wordContext(boundary),language,key(prefix),index,loaded,epoch,scores,letters)
         wordCaches=(listOf(cache)+wordCaches.filter { it.boundary!=cache.boundary || it.language!=language || it.prefix!=cache.prefix }).take(4)
     }
     private var pending: Runnable? = null
@@ -137,14 +143,7 @@ class Prediction(private val context: Context, private val prefs: Prefs) {
         val instant=if(neuralAllowed) cached(before.dropLast(typed.length).trimEnd(),typed) else null
         if(instant!=null && instant.second.isNotEmpty()) {
             val words=instant.second.take(3).map { Languages.casing(it,typed,instant.first.language) }
-            val letters=FloatArray(26)
-            val offset=key(typed).length
-            instant.second.forEachIndexed { i,word ->
-                val next=key(word).getOrNull(offset)
-                if(next!=null && next in 'a'..'z') letters[next-'a']+=1f/(i+1)
-            }
-            val total=letters.sum()
-            if(total>0) for(i in letters.indices) letters[i]/=total
+            val letters=instant.first.letters[key(typed)]?.copyOf() ?: FloatArray(26)
             val result=Result(before,words,letters,instant.first.language,true)
             latest=result;callback(result)
         }
@@ -163,7 +162,7 @@ class Prediction(private val context: Context, private val prefs: Prefs) {
                 if ((complete || prefix.isEmpty()) && Languages.tokens(sentence).isNotEmpty() && sentence.lastOrNull() !in listOf('.', '?', '!'))
                     listOf("?", ".", "!").forEach { pool.add(Languages.Choice(it, 3.4)) }
                 val fixes = if(prefs.autocorrect) contraction?.let { listOf(it) } ?: if(pool.isEmpty()) languages.corrections(detected,prefix) else emptyList() else emptyList()
-                fun render(scores: FloatArray?, neural: Boolean, generated:List<String> = emptyList()): Result {
+                fun render(scores: FloatArray?, neural: Boolean, generated:List<String> = emptyList(),cachedScores:Map<String,Double> = emptyMap()): Result {
                     fun score(choice: Languages.Choice, index: Int) = choice.prior + (scores?.getOrNull(index)?.toDouble() ?: 0.0)
                     val ranked = pool.mapIndexed { index, choice -> choice to score(choice, index) }
                         .filter { neural || it.first.word.firstOrNull()?.isLetter() == true }.sortedByDescending { it.second }
@@ -179,18 +178,9 @@ class Prediction(private val context: Context, private val prefs: Prefs) {
                         val word = Languages.casing(completion.word,prefix,detected.code)
                         words.add(word)
                     }
-                    val letters = FloatArray(26)
-                    ranked.take(24).forEach { (choice, score) ->
-                        val next = Languages.fold(choice.word).getOrNull(Languages.fold(prefix).length)
-                        if (next != null && next in 'a'..'z') letters[next - 'a'] += exp((score - (ranked.firstOrNull()?.second ?: score)).coerceAtLeast(-18.0)).toFloat()
-                    }
-                    generated.forEachIndexed { i,word ->
-                        val key=Languages.fold(word).replace("'","")
-                        val next=key.getOrNull(Languages.fold(prefix).replace("'","").length)
-                        if(next!=null && next in 'a'..'z') letters[next-'a']+=2f/(i+1)
-                    }
-                    val total = letters.sum()
-                    if (total > 0) for (i in letters.indices) letters[i] /= total
+                    val letterScores=pool.mapIndexedNotNull { i,choice -> scores?.getOrNull(i)?.let { choice.word to it.toDouble() } }+
+                        generated.mapIndexedNotNull { i,word -> (scores?.getOrNull(pool.size+fixes.size+i)?.toDouble() ?: cachedScores[word])?.let { word to it } }
+                    val letters=AdaptiveKeys.probabilities(if(complete) "" else prefix,letterScores)
                     return Result(before, words, letters, detected.code, neural, correction?.let { casing(it) }, append)
                 }
                 fun deliver(result: Result) { main.post { if (ticket == version.get()) { latest = result; callback(result) } } }
@@ -200,8 +190,9 @@ class Prediction(private val context: Context, private val prefs: Prefs) {
                 try {
                     if(!load() || ticket!=version.get()) return@execute
                     val start=if(complete) "" else prefix
-                    val cached=cached(sentence,start,detected.code)?.second.orEmpty()
-                    if(cached.isNotEmpty()) deliver(render(null,true,cached))
+                    val cache=cached(sentence,start,detected.code)
+                    val cached=cache?.second.orEmpty()
+                    if(cached.isNotEmpty()) deliver(render(null,true,cached,cache?.first?.scores.orEmpty()))
                     if(cached.size>=3) return@execute
                     val generated=Native.complete(sentence.takeLast(240),detected.name,start,if(fixes.isNotEmpty() && contraction==null) 1 else 0).lines()
                         .filter { word ->
@@ -209,21 +200,28 @@ class Prediction(private val context: Context, private val prefs: Prefs) {
                                 (prefix.isEmpty() || complete) && word in listOf("?",".","!")
                         }.distinctBy { Languages.lower(it) }.take(24).ifEmpty { cached }
                     if(ticket!=version.get()) return@execute
-                    remember(sentence,start,detected.code,generated,epoch)
-                    val scores=Native.rank(sentence.takeLast(240),detected.name,(pool+fixes).map { Languages.casing(it.word,"",detected.code) }.toTypedArray())
-                    if(scores.size==pool.size+fixes.size && scores.all { it.isFinite() }) {
+                    val choices=(pool+fixes).map { Languages.casing(it.word,"",detected.code) }+generated.map { Languages.casing(it,"",detected.code) }
+                    val unique=choices.distinct();val raw=Native.rank(sentence.takeLast(240),detected.name,unique.toTypedArray())
+                    val scores=if(raw.size==unique.size) unique.zip(raw.toList()).toMap().let { values -> FloatArray(choices.size) { values.getValue(choices[it]) } } else raw
+                    if(scores.size==choices.size && scores.all { it.isFinite() }) {
+                        val fallback=pool.mapIndexed { i,choice -> choice.word to (choice.prior+scores[i]) }.sortedByDescending { it.second }
+                            .map { it.first }.filter { word -> word.none(Char::isWhitespace) }
+                        val retained=(generated+fallback).distinctBy { Languages.lower(it) }
+                        val retainedScores=pool.mapIndexed { i,choice -> choice.word to scores[i].toDouble() }.toMap()+
+                            generated.mapIndexed { i,word -> word to scores[pool.size+fixes.size+i].toDouble() }.toMap()
+                        remember(sentence,start,detected.code,retained,epoch,retainedScores)
                         val value=render(scores,true,generated)
                         deliver(value)
                         if(prefs.autocorrect && fixes.isNotEmpty() && ticket==version.get()) {
                             val checked=evaluateCorrection(before,detected,generated)
                             if(checked?.correction!=value.correction) deliver(value.copy(correction=checked?.correction))
                         }
-                    } else android.util.Log.w("Lokey","Prediction scores: ${scores.size}/${pool.size+fixes.size}; finite=${scores.all { it.isFinite() }}")
+                    } else android.util.Log.w("Lokey","Prediction scores: ${scores.size}/${choices.size}; finite=${scores.all { it.isFinite() }}")
                 } catch(error:Exception) { android.util.Log.w("Lokey","Prediction inference failed",error) }
             }
         }
         pending = task
-        main.postDelayed(task, 35)
+        main.postDelayed(task, if(prefs.adaptive && instant?.second.isNullOrEmpty()) 0 else 35)
     }
     fun glide(before: String, points: List<Glide.Point>, centers: Map<Char, Glide.Point>, callback: (List<String>) -> Unit) {
         val ticket = version.incrementAndGet()
@@ -233,7 +231,7 @@ class Prediction(private val context: Context, private val prefs: Prefs) {
             val detected = languages.detect(before, language)
             language = detected.code
             val candidates = if (Languages.tokens(before).size < 2) languages.all.filter { it.code in listOf(detected.code, "en", "it", "es", "fr") } else listOf(detected)
-            val matches = candidates.flatMap { Glide.decode(points, centers, it.entries) }.sortedByDescending { it.score }.distinctBy { it.word }.take(16)
+            val matches = candidates.flatMap { Glide.decode(points,centers,languages.swipe(it)) }.sortedByDescending { it.score }.distinctBy { it.word }.take(16)
             if (matches.isEmpty()) { main.post { if (ticket == version.get()) callback(emptyList()) }; return@execute }
             var ranked = matches
             try {

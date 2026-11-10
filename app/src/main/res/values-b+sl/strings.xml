@@ -251,7 +251,7 @@
     <string name="ui_light">"Svetlobni način"</string>
     <string name="ui_light_feedback">"Šibko"</string>
     <string name="ui_light_switch_recording">"Snemanje s stikalom za luči"</string>
-    <string name="ui_likely_next_letters_get_a_little_more_room">"Verjetno bodo naslednje črke dobile malo več prostora."</string>
+    <string name="ui_likely_next_letters_get_a_little_more_room">"Verjetne tipke se povečajo, črke ostanejo na mestu. Podatki o tipkanju se ne shranjujejo."</string>
     <string name="ui_linear">"Linearna tipkovna stikala"</string>
     <string name="ui_listening">"Poslušanje"</string>
     <string name="ui_load_a_voice_model_first">"Najprej naložite glasovni model"</string>

@@ -251,7 +251,7 @@
     <string name="ui_light">"Clair"</string>
     <string name="ui_light_feedback">"Léger"</string>
     <string name="ui_light_switch_recording">"Enregistrement par interrupteur"</string>
-    <string name="ui_likely_next_letters_get_a_little_more_room">"Il est probable que les prochaines lettres auront un peu plus de place."</string>
+    <string name="ui_likely_next_letters_get_a_little_more_room">"Les touches probables grandissent ; les lettres restent fixes. Aucune donnée de frappe enregistrée."</string>
     <string name="ui_linear">"Interrupteurs à clé linéaires"</string>
     <string name="ui_listening">"Écoute"</string>
     <string name="ui_load_a_voice_model_first">"Charger d\'abord un modèle vocal"</string>

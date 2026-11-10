@@ -70,6 +70,7 @@ class KeyboardTest : Instrumentation() {
             if(mode=="speedui") report.put("speedui",speedUiTest())
             if(mode=="layouts") report.put("layouts",LayoutChecks.run(this,targetContext))
             if(mode=="intl") report.put("intl",LayoutChecks.intl(this,targetContext))
+            if(mode=="labels") report.put("labels",LabelChecks.run(this,targetContext))
             if(mode=="popups") report.put("popups",PopupChecks.run(this,targetContext))
             if(mode=="downloads") report.put("downloads",DownloadChecks.run(this,targetContext))
             if(mode=="layoutui") report.put("layoutui",LayoutChecks.live(this,targetContext))
@@ -97,6 +98,9 @@ class KeyboardTest : Instrumentation() {
             if(mode=="modelui") report.put("modelui",CustomizationUiChecks.models(this,targetContext))
             if(mode=="homespeed") report.put("homespeed",HomeSpeedChecks.run(this,targetContext))
             if(mode=="automatic") report.put("automatic",AutomaticChecks.run(this,targetContext))
+            if(mode=="adaptive") report.put("adaptive",TouchChecks.run(this,targetContext))
+            if(mode=="swipe") report.put("swipe",SwipeChecks.run(this,targetContext))
+            if(mode=="adaptiveenable") { Prefs(targetContext).apply { adaptive=true;flow=true };report.put("adaptiveenable",true) }
             report.put("passed", true)
             targetContext.getSharedPreferences("lokey",android.content.Context.MODE_PRIVATE).edit().commit()
             File(targetContext.filesDir, "test-results.json").writeText(report.toString(2))
@@ -1202,7 +1206,7 @@ class KeyboardTest : Instrumentation() {
         try {
             runOnMainSync {
                 activity.window.addFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-                prefs.height = 100; prefs.flow = false; prefs.adaptive = false
+                prefs.height = 100; prefs.flow = false; prefs.adaptive = true
                 view = KeyboardView(activity, prefs, object : KeyboardView.Listener {
                     override fun text(text: String) { typed.append(text) }
                     override fun delete() { }
@@ -1218,6 +1222,7 @@ class KeyboardTest : Instrumentation() {
                 val root = android.widget.FrameLayout(activity).apply { setBackgroundColor(android.graphics.Color.rgb(23,24,25)) }
                 root.addView(view, android.widget.FrameLayout.LayoutParams(-1, -2, android.view.Gravity.BOTTOM))
                 activity.setContentView(root); view.editor(false, "Done", false)
+                view.prediction(emptyList(),FloatArray(26).apply { this[4]=1f },true,"en")
             }
             SystemClock.sleep(150); waitForIdleSync()
             fun localLetter():android.graphics.Rect {

@@ -251,7 +251,7 @@
     <string name="ui_light">"Светлинен режим"</string>
     <string name="ui_light_feedback">"Слаба"</string>
     <string name="ui_light_switch_recording">"Запис с превключвател на светлината"</string>
-    <string name="ui_likely_next_letters_get_a_little_more_room">"Вероятно следващите букви ще получат малко повече място."</string>
+    <string name="ui_likely_next_letters_get_a_little_more_room">"Вероятните клавиши се уголемяват, буквите остават на място. Данни за писането не се запазват."</string>
     <string name="ui_linear">"Линейни ключови превключватели"</string>
     <string name="ui_listening">"Слушане"</string>
     <string name="ui_load_a_voice_model_first">"Първо заредете гласов модел"</string>

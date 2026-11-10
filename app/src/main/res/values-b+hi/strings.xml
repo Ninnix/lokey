@@ -251,7 +251,7 @@
     <string name="ui_light">"लाइट मोड"</string>
     <string name="ui_light_feedback">"हल्का"</string>
     <string name="ui_light_switch_recording">"लाइट-स्विच रिकॉर्डिंग"</string>
-    <string name="ui_likely_next_letters_get_a_little_more_room">"संभवतः अगले पत्रों को थोड़ी अधिक जगह मिलेगी।"</string>
+    <string name="ui_likely_next_letters_get_a_little_more_room">"संभावित कुंजियाँ बड़ी होती हैं; अक्षर स्थिर रहते हैं। टाइपिंग डेटा सहेजा नहीं जाता।"</string>
     <string name="ui_linear">"रैखिक कुंजी स्विच"</string>
     <string name="ui_listening">"सुनना"</string>
     <string name="ui_load_a_voice_model_first">"पहले एक वॉयस मॉडल लोड करें"</string>

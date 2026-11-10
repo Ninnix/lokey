@@ -251,7 +251,7 @@
     <string name="ui_light">"燈光模式"</string>
     <string name="ui_light_feedback">"輕"</string>
     <string name="ui_light_switch_recording">"燈開關錄音"</string>
-    <string name="ui_likely_next_letters_get_a_little_more_room">"可能接下來的字母會獲得更多的空間。"</string>
+    <string name="ui_likely_next_letters_get_a_little_more_room">"可能使用的按鍵會變寬，字母位置保持不變。不儲存輸入資料。"</string>
     <string name="ui_linear">"線性鍵盤按鍵開關"</string>
     <string name="ui_listening">"聽力"</string>
     <string name="ui_load_a_voice_model_first">"先載入語音模型"</string>

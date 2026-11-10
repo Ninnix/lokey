@@ -251,7 +251,7 @@
     <string name="ui_light">"Light mode"</string>
     <string name="ui_light_feedback">"Mahina"</string>
     <string name="ui_light_switch_recording">"Pagre-record ng light-switch"</string>
-    <string name="ui_likely_next_letters_get_a_little_more_room">"Malamang na ang mga susunod na titik ay magkakaroon ng kaunting espasyo."</string>
+    <string name="ui_likely_next_letters_get_a_little_more_room">"Lumalaki ang malamang na key; hindi gumagalaw ang mga titik. Walang datos ng pag-type na sine-save."</string>
     <string name="ui_linear">"Linear key switch"</string>
     <string name="ui_listening">"Nakikinig"</string>
     <string name="ui_load_a_voice_model_first">"Mag-load muna ng voice model"</string>

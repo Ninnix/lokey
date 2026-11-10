@@ -251,7 +251,7 @@
     <string name="ui_light">"Valotila"</string>
     <string name="ui_light_feedback">"Heikko"</string>
     <string name="ui_light_switch_recording">"Valokytkimen tallennus"</string>
-    <string name="ui_likely_next_letters_get_a_little_more_room">"Todennäköisesti seuraavat kirjeet saavat hieman enemmän tilaa."</string>
+    <string name="ui_likely_next_letters_get_a_little_more_room">"Todennäköiset näppäimet kasvavat; kirjaimet pysyvät paikoillaan. Kirjoitustietoja ei tallenneta."</string>
     <string name="ui_linear">"Lineaariset avainkytkimet"</string>
     <string name="ui_listening">"Kuuntelee"</string>
     <string name="ui_load_a_voice_model_first">"Lataa ensin puhemalli"</string>

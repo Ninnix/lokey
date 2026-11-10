@@ -1,0 +1,134 @@
+{
+  "repository": "https://github.com/hermitdave/FrequencyWords",
+  "revision": "525f9b560de45753a5ea01069454e72e9aa541c6",
+  "license": "CC-BY-SA-4.0",
+  "max_words": 50000,
+  "files": [
+    {
+      "code": "en",
+      "url": "https://raw.githubusercontent.com/hermitdave/FrequencyWords/525f9b560de45753a5ea01069454e72e9aa541c6/content/2018/en/en_50k.txt",
+      "sha256": "5351ff405b1126ef555791dd4d9798a48e3e9a501a9fc481a9da957752cfb458",
+      "bytes": 622749
+    },
+    {
+      "code": "it",
+      "url": "https://raw.githubusercontent.com/hermitdave/FrequencyWords/525f9b560de45753a5ea01069454e72e9aa541c6/content/2018/it/it_50k.txt",
+      "sha256": "bb96cdcb56d28342c1e909db6b2525448b7767136b7e86a2ccc649a1be66fc19",
+      "bytes": 653205
+    },
+    {
+      "code": "es",
+      "url": "https://raw.githubusercontent.com/hermitdave/FrequencyWords/525f9b560de45753a5ea01069454e72e9aa541c6/content/2018/es/es_50k.txt",
+      "sha256": "dcff3ad4316192f4dc4ff7d26e637c6ff314ef1ca0f3f720c5649018a71056c0",
+      "bytes": 658626
+    },
+    {
+      "code": "fr",
+      "url": "https://raw.githubusercontent.com/hermitdave/FrequencyWords/525f9b560de45753a5ea01069454e72e9aa541c6/content/2018/fr/fr_50k.txt",
+      "sha256": "f81f7c570b6433764da99aa30f4dfb08d81c5926301377b709af23a13b1f9596",
+      "bytes": 653452
+    },
+    {
+      "code": "pt",
+      "url": "https://raw.githubusercontent.com/hermitdave/FrequencyWords/525f9b560de45753a5ea01069454e72e9aa541c6/content/2018/pt/pt_50k.txt",
+      "sha256": "f97704382f97273ff59488b1885e7ac90d20f81fd92e5fbad3e3ce43633f495c",
+      "bytes": 652361
+    },
+    {
+      "code": "de",
+      "url": "https://raw.githubusercontent.com/hermitdave/FrequencyWords/525f9b560de45753a5ea01069454e72e9aa541c6/content/2018/de/de_50k.txt",
+      "sha256": "d9e50546fd7e8b6fe6542a2b33c51d1331092b2a3916ec09f80d97856068705b",
+      "bytes": 662497
+    },
+    {
+      "code": "nl",
+      "url": "https://raw.githubusercontent.com/hermitdave/FrequencyWords/525f9b560de45753a5ea01069454e72e9aa541c6/content/2018/nl/nl_50k.txt",
+      "sha256": "099bd0c27b514d54284360ad9ce2b4ef7b6903b22e848b67ab10f6aa2adb4baa",
+      "bytes": 650762
+    },
+    {
+      "code": "sv",
+      "url": "https://raw.githubusercontent.com/hermitdave/FrequencyWords/525f9b560de45753a5ea01069454e72e9aa541c6/content/2018/sv/sv_50k.txt",
+      "sha256": "566d0614a54f3c243bca4097c9bb824d46275abff31582157e73c166b7089500",
+      "bytes": 623913
+    },
+    {
+      "code": "da",
+      "url": "https://raw.githubusercontent.com/hermitdave/FrequencyWords/525f9b560de45753a5ea01069454e72e9aa541c6/content/2018/da/da_50k.txt",
+      "sha256": "6a83e4deb5e38d873b1ccfb4be4fb25903878c07c8522af708027ac8b540c6b1",
+      "bytes": 616396
+    },
+    {
+      "code": "fi",
+      "url": "https://raw.githubusercontent.com/hermitdave/FrequencyWords/525f9b560de45753a5ea01069454e72e9aa541c6/content/2018/fi/fi_50k.txt",
+      "sha256": "8bc1d43dd54ea0c4432b1f6ae497759a332e984224819cf8a4f2337681c803b4",
+      "bytes": 691168
+    },
+    {
+      "code": "pl",
+      "url": "https://raw.githubusercontent.com/hermitdave/FrequencyWords/525f9b560de45753a5ea01069454e72e9aa541c6/content/2018/pl/pl_50k.txt",
+      "sha256": "50bf8d30d1ed4f5cedceb3e40e74d793ec6bec0f16d9f3dd0a2c9e313402e10f",
+      "bytes": 676499
+    },
+    {
+      "code": "cs",
+      "url": "https://raw.githubusercontent.com/hermitdave/FrequencyWords/525f9b560de45753a5ea01069454e72e9aa541c6/content/2018/cs/cs_50k.txt",
+      "sha256": "1fb0576ef07cf5a543789d394cde1168573fc9e7adf427fd143249fd5547458d",
+      "bytes": 656472
+    },
+    {
+      "code": "sk",
+      "url": "https://raw.githubusercontent.com/hermitdave/FrequencyWords/525f9b560de45753a5ea01069454e72e9aa541c6/content/2018/sk/sk_50k.txt",
+      "sha256": "10eddbcd086ff26a814a140e1d5b20a1ba0ee8b0870be1a9a09268ba7aeaa094",
+      "bytes": 619553
+    },
+    {
+      "code": "ro",
+      "url": "https://raw.githubusercontent.com/hermitdave/FrequencyWords/525f9b560de45753a5ea01069454e72e9aa541c6/content/2018/ro/ro_50k.txt",
+      "sha256": "af4d7d1fc980ee7f988a5114dd34478dd5c7abd1e66a45c25a5da330f06faba5",
+      "bytes": 654282
+    },
+    {
+      "code": "hu",
+      "url": "https://raw.githubusercontent.com/hermitdave/FrequencyWords/525f9b560de45753a5ea01069454e72e9aa541c6/content/2018/hu/hu_50k.txt",
+      "sha256": "b765780a1277c3b1e326205c972b1ea1631732ec54ab489d13d21618ceab4fec",
+      "bytes": 698652
+    },
+    {
+      "code": "tr",
+      "url": "https://raw.githubusercontent.com/hermitdave/FrequencyWords/525f9b560de45753a5ea01069454e72e9aa541c6/content/2018/tr/tr_50k.txt",
+      "sha256": "480192844e7fdfe9591bbf0b9cfbb96ed5751cfbba7024fd45d8cb7508e07d5c",
+      "bytes": 711935
+    },
+    {
+      "code": "hr",
+      "url": "https://raw.githubusercontent.com/hermitdave/FrequencyWords/525f9b560de45753a5ea01069454e72e9aa541c6/content/2018/hr/hr_50k.txt",
+      "sha256": "725f57e0bd122f46d8e358c3542a4e1d126e468075c5e4d6644fd0d21c47bbc3",
+      "bytes": 630560
+    },
+    {
+      "code": "sl",
+      "url": "https://raw.githubusercontent.com/hermitdave/FrequencyWords/525f9b560de45753a5ea01069454e72e9aa541c6/content/2018/sl/sl_50k.txt",
+      "sha256": "00d9dc7a50726e99ab4d5bb50ce8087ce709a1416afad65a9dec0821c03ba442",
+      "bytes": 619289
+    },
+    {
+      "code": "et",
+      "url": "https://raw.githubusercontent.com/hermitdave/FrequencyWords/525f9b560de45753a5ea01069454e72e9aa541c6/content/2018/et/et_50k.txt",
+      "sha256": "ede602b6d0569606692e91bdf8fd5fe66cf281547d21640d92b2ed2ef73c4270",
+      "bytes": 622378
+    },
+    {
+      "code": "lt",
+      "url": "https://raw.githubusercontent.com/hermitdave/FrequencyWords/525f9b560de45753a5ea01069454e72e9aa541c6/content/2018/lt/lt_50k.txt",
+      "sha256": "e953d15442ceb0a2eefd2910ca1e01e1bbf5cb261dc8ac905c918c8ae3edfe31",
+      "bytes": 610944
+    },
+    {
+      "code": "lv",
+      "url": "https://raw.githubusercontent.com/hermitdave/FrequencyWords/525f9b560de45753a5ea01069454e72e9aa541c6/content/2018/lv/lv_50k.txt",
+      "sha256": "22ed7023c0d49d1a79a1ff81ccaec8aeca224cb75f49b43bfb8f89b162f93ad0",
+      "bytes": 584732
+    }
+  ]
+}

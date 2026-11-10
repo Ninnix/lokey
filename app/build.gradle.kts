@@ -10,6 +10,12 @@ val checkReleaseSigning=tasks.register("checkReleaseSigning") {
 }
 tasks.matching { it.name=="preReleaseBuild" }.configureEach { dependsOn(checkReleaseSigning) }
 val hexagonSdk=providers.gradleProperty("lokeyHexagonSdk").orNull
+val swipeAssets=layout.buildDirectory.dir("generated/swipeAssets")
+val prepareSwipe=tasks.register<Exec>("prepareSwipe") {
+    inputs.files(rootProject.file("tools/prepare-swipe.py"),file("src/main/assets/swipe-words/sources.json"))
+    outputs.dir(swipeAssets)
+    commandLine("python3",rootProject.file("tools/prepare-swipe.py"),"--output",swipeAssets.get().asFile)
+}
 val hexagonOutput=layout.buildDirectory.dir("generated/hexagon/jniLibs")
 val runtimeCredits=tasks.register<Copy>("prepareRuntimeCredits") {
     from(rootProject.file("runtimes.json"))
@@ -27,11 +33,12 @@ val privacyPolicy=tasks.register("prepareAppNotices") {
         license.copyTo(licenses.resolve("lokey.txt"),overwrite=true)
     }
 }
-tasks.matching { it.name=="preBuild" }.configureEach { dependsOn(runtimeCredits,privacyPolicy) }
+tasks.matching { it.name=="preBuild" }.configureEach { dependsOn(runtimeCredits,privacyPolicy,prepareSwipe) }
 android {
     namespace = "org.lokey.app"
     sourceSets["main"].assets.srcDir(layout.buildDirectory.dir("generated/runtimeCredits").get().asFile)
     sourceSets["main"].assets.srcDir(privacyAssets.get().asFile)
+    sourceSets["main"].assets.srcDir(swipeAssets.get().asFile)
     compileSdk = 37
     ndkVersion = "28.2.13676358"
     providers.gradleProperty("lokeyNdkPath").orNull?.let { ndkPath = it }

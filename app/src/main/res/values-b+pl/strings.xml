@@ -251,7 +251,7 @@
     <string name="ui_light">"Tryb oświetlenia"</string>
     <string name="ui_light_feedback">"Lekkie"</string>
     <string name="ui_light_switch_recording">"Nagrywanie włącznika światła"</string>
-    <string name="ui_likely_next_letters_get_a_little_more_room">"Prawdopodobnie kolejne litery dostaną trochę więcej miejsca."</string>
+    <string name="ui_likely_next_letters_get_a_little_more_room">"Prawdopodobne klawisze rosną; litery pozostają na miejscu. Dane pisania nie są zapisywane."</string>
     <string name="ui_linear">"Liniowe przełączniki klawiszowe klawiatury"</string>
     <string name="ui_listening">"Słuchanie"</string>
     <string name="ui_load_a_voice_model_first">"Najpierw załaduj model głosu"</string>

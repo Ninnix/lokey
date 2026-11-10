@@ -88,7 +88,7 @@ class SetupActivity:AppScreen() {
             content.addView(text(tr("Suggested for your language and device. Downloads stay on your device. Qwen ASR includes its audio encoder."),12f,muted).apply { setPadding(0,dp(8),0,dp(8)) })
             content.addView(button(tr("See all supported languages")) { startActivity(Intent(this,LanguageActivity::class.java)) })
         }
-        content.addView(button(tr("Privacy policy")) { startActivity(Intent(this,PrivacyActivity::class.java)) })
+        content.addView(button(tr("Privacy policy")) { startActivity(Intent(this,PrivacyActivity::class.java)) },LinearLayout.LayoutParams(-1,-2).apply { topMargin=dp(10) })
         if(step==0) {
             val preview=vertical().apply { setPadding(dp(24),dp(8),dp(24),0) }
             layoutTitle=text(layoutName(prefs.currentLayout),12f,muted).apply { setPadding(0,0,0,dp(6));contentDescription=tr("Setup preview layout") }
@@ -101,7 +101,7 @@ class SetupActivity:AppScreen() {
             if(step==0) { syncModels();step=1;render() } else downloadOrFinish()
         }.apply { contentDescription=tr("Setup continue") }
         bottom.addView(next,LinearLayout.LayoutParams(-1,-2))
-        if(step==1 && chosen().any { !Models.ready(this,it) }) bottom.addView(button(tr("Use keyboard without downloading")) { finishSetup() }.apply { contentDescription=tr("Skip model downloads") })
+        if(step==1 && chosen().any { !Models.ready(this,it) }) bottom.addView(button(tr("Use keyboard without downloading")) { finishSetup() }.apply { contentDescription=tr("Skip model downloads") },LinearLayout.LayoutParams(-1,-2).apply { topMargin=dp(10) })
         root.addView(bottom);updateDownloads()
     }
     private fun modelChoice(parent:LinearLayout,voice:Boolean) {

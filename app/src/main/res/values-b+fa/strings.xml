@@ -251,7 +251,7 @@
     <string name="ui_light">"حالت نور"</string>
     <string name="ui_light_feedback">"ملایم"</string>
     <string name="ui_light_switch_recording">"ضبط سوئیچ نور"</string>
-    <string name="ui_likely_next_letters_get_a_little_more_room">"احتمالاً حروف بعدی کمی فضای بیشتری دارند."</string>
+    <string name="ui_likely_next_letters_get_a_little_more_room">"کلیدهای محتمل بزرگ‌تر می‌شوند؛ حروف ثابت می‌مانند. داده‌های تایپ ذخیره نمی‌شوند."</string>
     <string name="ui_linear">"کلیدهای صفحه کلید خطی"</string>
     <string name="ui_listening">"گوش دادن"</string>
     <string name="ui_load_a_voice_model_first">"ابتدا یک مدل صوتی را بارگیری کنید"</string>

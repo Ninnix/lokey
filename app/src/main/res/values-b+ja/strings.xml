@@ -251,7 +251,7 @@
     <string name="ui_light">"ライトモード"</string>
     <string name="ui_light_feedback">"弱"</string>
     <string name="ui_light_switch_recording">"ライトスイッチ録画"</string>
-    <string name="ui_likely_next_letters_get_a_little_more_room">"おそらく次の手紙にはもう少しスペースが入るでしょう。"</string>
+    <string name="ui_likely_next_letters_get_a_little_more_room">"次に使う可能性の高いキーが広がり、文字の位置は固定されます。入力データは保存しません。"</string>
     <string name="ui_linear">"リニアキーボードキースイッチ"</string>
     <string name="ui_listening">"リスニング"</string>
     <string name="ui_load_a_voice_model_first">"最初に音声モデルをロードする"</string>

@@ -251,7 +251,7 @@
     <string name="ui_light">"Λειτουργία φωτός"</string>
     <string name="ui_light_feedback">"Ήπια"</string>
     <string name="ui_light_switch_recording">"Εγγραφή με διακόπτη φωτός"</string>
-    <string name="ui_likely_next_letters_get_a_little_more_room">"Πιθανώς τα επόμενα γράμματα να έχουν λίγο περισσότερο χώρο."</string>
+    <string name="ui_likely_next_letters_get_a_little_more_room">"Τα πιθανά πλήκτρα μεγαλώνουν, τα γράμματα μένουν σταθερά. Δεν αποθηκεύονται δεδομένα πληκτρολόγησης."</string>
     <string name="ui_linear">"Γραμμικοί διακόπτες με κλειδί"</string>
     <string name="ui_listening">"Ακούγοντας"</string>
     <string name="ui_load_a_voice_model_first">"Φορτώστε πρώτα ένα φωνητικό μοντέλο"</string>
