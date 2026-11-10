@@ -22,7 +22,10 @@ model checkpoints and translation working state are held in memory rather
 than saved as a typing history. Private/password fields identified through
 Android's editor flags disable prediction, dictation and clipboard capture.
 
-Adaptive letter sizes use only the current on-device model probabilities.
+Adaptive letter sizes use current on-device probability estimates from the
+installed text model or bundled public dictionary/context tables. The offline
+word-context tables contain fixed public corpus counts and never learn from
+user typing.
 Lokey does not learn from or store touch positions, touch trails, calibration,
 letter counts or typing history for this feature. Letter positions stay fixed
 while likely keys can become wider. No personalization profile is saved.

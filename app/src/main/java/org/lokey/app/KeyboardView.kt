@@ -105,7 +105,7 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
             if(field==value) return
             field=value;cancelTouches();requestLayout();layoutKeys();invalidate()
         }
-    private var neural = false
+    private var probabilistic = false
     private var status = ""
     private var idleAmount = 0f
     private var idleAnimation: ValueAnimator? = null
@@ -185,16 +185,16 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
 
     fun editor(numeric: Boolean, action: String, capital: Boolean) {
         this.numeric = numeric; enterLabel = action; shift = capital; automaticCapital = capital; caps = false; symbols = false
-        probabilities=FloatArray(26);neural=false
+        probabilities=FloatArray(26);probabilistic=false
         cancelTouches();accentLanguage=null;nextAccentLanguage=null;activity(); layoutKeys(); invalidate()
     }
     fun action(label:String) { if(enterLabel!=label) { enterLabel=label;layoutKeys();invalidate() } }
-    fun prediction(words: List<String>, letters: FloatArray, neural: Boolean,language:String?=null) {
+    fun prediction(words: List<String>, letters: FloatArray, probabilistic: Boolean,language:String?=null) {
         if(language!=null) nextAccentLanguage=language
         if(touches.isEmpty()) accentLanguage=nextAccentLanguage
         val next=words.take(3)
         val changed=suggestions!=next
-        suggestions = next; probabilities = letters.copyOf(); this.neural = neural
+        suggestions = next; probabilities = letters.copyOf(); this.probabilistic = probabilistic
         if(changed) sendAccessibilityEvent(AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED)
         if (touches.isEmpty()) layoutKeys()
         invalidate()
@@ -289,7 +289,7 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
             Key(punctuation("."),listOf("!",",","?").joinToString(" ") { punctuation(it) },0.9f,"."), Key(enterLabel, context.tr("hold · voice"), 1.5f + idleAmount * 0.3f, "enter"))
         if(layout.id=="persian") bottom.add(3,Key("½","",.9f,"\u200c",native=true))
         row(bottom,(units()-53)*u,h=53*u)
-        if(adaptiveTouch() && neural) for(values in keys.groupBy { it.row }.values) for((a,b) in values.zipWithNext()) {
+        if(adaptiveTouch() && probabilistic) for(values in keys.groupBy { it.row }.values) for((a,b) in values.zipWithNext()) {
             val pitch=b.anchor.centerX()-a.anchor.centerX()
             val shift=AdaptiveKeys.boundary(a.code,b.code,probabilities,pitch)
             a.rect.right+=shift;b.rect.left+=shift

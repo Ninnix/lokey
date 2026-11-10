@@ -16,6 +16,14 @@ val prepareSwipe=tasks.register<Exec>("prepareSwipe") {
     outputs.dir(swipeAssets)
     commandLine("python3",rootProject.file("tools/prepare-swipe.py"),"--output",swipeAssets.get().asFile)
 }
+val contextAssets=layout.buildDirectory.dir("generated/contextAssets")
+val prepareContext=tasks.register<Exec>("prepareContext") {
+    dependsOn(prepareSwipe)
+    inputs.files(rootProject.file("tools/prepare-context.py"),file("src/main/assets/context/sources.json"))
+    inputs.dir(file("src/main/assets/languages"));inputs.dir(swipeAssets)
+    outputs.dir(contextAssets)
+    commandLine("python3",rootProject.file("tools/prepare-context.py"),"--output",contextAssets.get().asFile,"--vocabulary",swipeAssets.get().asFile)
+}
 val hexagonOutput=layout.buildDirectory.dir("generated/hexagon/jniLibs")
 val runtimeCredits=tasks.register<Copy>("prepareRuntimeCredits") {
     from(rootProject.file("runtimes.json"))
@@ -33,12 +41,13 @@ val privacyPolicy=tasks.register("prepareAppNotices") {
         license.copyTo(licenses.resolve("lokey.txt"),overwrite=true)
     }
 }
-tasks.matching { it.name=="preBuild" }.configureEach { dependsOn(runtimeCredits,privacyPolicy,prepareSwipe) }
+tasks.matching { it.name=="preBuild" }.configureEach { dependsOn(runtimeCredits,privacyPolicy,prepareSwipe,prepareContext) }
 android {
     namespace = "org.lokey.app"
     sourceSets["main"].assets.srcDir(layout.buildDirectory.dir("generated/runtimeCredits").get().asFile)
     sourceSets["main"].assets.srcDir(privacyAssets.get().asFile)
     sourceSets["main"].assets.srcDir(swipeAssets.get().asFile)
+    sourceSets["main"].assets.srcDir(contextAssets.get().asFile)
     compileSdk = 37
     ndkVersion = "28.2.13676358"
     providers.gradleProperty("lokeyNdkPath").orNull?.let { ndkPath = it }
@@ -46,8 +55,8 @@ android {
         applicationId = "org.lokey.app"
         minSdk = 28
         targetSdk = 37
-        versionCode = 2
-        versionName = "0.1.1"
+        versionCode = 3
+        versionName = "0.1.2"
         testInstrumentationRunner = "org.lokey.app.KeyboardTest"
         ndk { abiFilters += "arm64-v8a" }
         externalNativeBuild { cmake {

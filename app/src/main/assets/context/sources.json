@@ -1,0 +1,182 @@
+{
+  "release": "Universal Dependencies 2.18",
+  "max_ngrams": 6000,
+  "min_count": 2,
+  "sources": [
+    {
+      "code": "en",
+      "treebank": "English-EWT",
+      "license": "CC BY-SA 4.0",
+      "files": [
+        {
+          "name": "en-train.conllu",
+          "url": "https://raw.githubusercontent.com/UniversalDependencies/UD_English-EWT/r2.18/en_ewt-ud-train.conllu",
+          "sha256": "d68e06122a702464c613076523d56740f047e5bbe89dd90ec32737e04d952143",
+          "bytes": 15034493
+        },
+        {
+          "name": "en-README.txt",
+          "url": "https://raw.githubusercontent.com/UniversalDependencies/UD_English-EWT/r2.18/README.md",
+          "sha256": "c2dc7edaf5937d18cb3ff142410fde7460e32faa69b2bd0a041abc3f957da281",
+          "bytes": 24522
+        },
+        {
+          "name": "en-LICENSE.txt",
+          "url": "https://raw.githubusercontent.com/UniversalDependencies/UD_English-EWT/r2.18/LICENSE.txt",
+          "sha256": "b3d1b0f4c6ae151f7eb78738f46ebd5ee140f8a7f76501ba26af123140d35ae7",
+          "bytes": 20014
+        }
+      ]
+    },
+    {
+      "code": "it",
+      "treebank": "Italian-TWITTIRO",
+      "license": "CC BY-SA 4.0",
+      "files": [
+        {
+          "name": "it-train.conllu",
+          "url": "https://raw.githubusercontent.com/UniversalDependencies/UD_Italian-TWITTIRO/r2.18/it_twittiro-ud-train.conllu",
+          "sha256": "a470b66a73d2d489113de4f0591b1c61cf3848c6a94cedf33a8379d7e39a24f2",
+          "bytes": 1513697
+        },
+        {
+          "name": "it-README.txt",
+          "url": "https://raw.githubusercontent.com/UniversalDependencies/UD_Italian-TWITTIRO/r2.18/README.md",
+          "sha256": "a701c4a8bdd3ac4fb9a6c9e7e4938f370e9c9184fcd045d4acf16ff44cf69d21",
+          "bytes": 3698
+        },
+        {
+          "name": "it-LICENSE.txt",
+          "url": "https://raw.githubusercontent.com/UniversalDependencies/UD_Italian-TWITTIRO/r2.18/LICENSE.txt",
+          "sha256": "899b1804a12ebc090b96339614eede1b64b686721b650a71430b55b5235f7f79",
+          "bytes": 202
+        }
+      ]
+    },
+    {
+      "code": "es",
+      "treebank": "Spanish-GSD",
+      "license": "CC BY-SA 4.0",
+      "files": [
+        {
+          "name": "es-train.conllu",
+          "url": "https://raw.githubusercontent.com/UniversalDependencies/UD_Spanish-GSD/r2.18/es_gsd-ud-train.conllu",
+          "sha256": "9e527de0e45dca4a8ef00105a3ebd102da941964b35f01916a6baa6288130f7b",
+          "bytes": 23947367
+        },
+        {
+          "name": "es-README.txt",
+          "url": "https://raw.githubusercontent.com/UniversalDependencies/UD_Spanish-GSD/r2.18/README.md",
+          "sha256": "7de53a583d1f72ffb14b8b78aa5db07428c7ef6f8da7948e54c07d5101bbca38",
+          "bytes": 6690
+        },
+        {
+          "name": "es-LICENSE.txt",
+          "url": "https://raw.githubusercontent.com/UniversalDependencies/UD_Spanish-GSD/r2.18/LICENSE.txt",
+          "sha256": "899b1804a12ebc090b96339614eede1b64b686721b650a71430b55b5235f7f79",
+          "bytes": 202
+        }
+      ]
+    },
+    {
+      "code": "fr",
+      "treebank": "French-GSD",
+      "license": "CC BY-SA 4.0",
+      "files": [
+        {
+          "name": "fr-train.conllu",
+          "url": "https://raw.githubusercontent.com/UniversalDependencies/UD_French-GSD/r2.18/fr_gsd-ud-train.conllu",
+          "sha256": "4b9a87b1b7e6e7003219df1d3ccca87ffaca0f00a6055b12b1857df5373589d2",
+          "bytes": 25555018
+        },
+        {
+          "name": "fr-README.txt",
+          "url": "https://raw.githubusercontent.com/UniversalDependencies/UD_French-GSD/r2.18/README.md",
+          "sha256": "d1a541bb6790fc3d02ed70a281bd4320593b98b8b06ed71371004c98bd74e37d",
+          "bytes": 8040
+        },
+        {
+          "name": "fr-LICENSE.txt",
+          "url": "https://raw.githubusercontent.com/UniversalDependencies/UD_French-GSD/r2.18/LICENSE.txt",
+          "sha256": "899b1804a12ebc090b96339614eede1b64b686721b650a71430b55b5235f7f79",
+          "bytes": 202
+        }
+      ]
+    },
+    {
+      "code": "de",
+      "treebank": "German-GSD",
+      "license": "CC BY-SA 4.0",
+      "files": [
+        {
+          "name": "de-train.conllu",
+          "url": "https://raw.githubusercontent.com/UniversalDependencies/UD_German-GSD/r2.18/de_gsd-ud-train.conllu",
+          "sha256": "6cb1b600029292fb7bf60531a1d6d7824544791d732c0f7abae8102a2ac337bf",
+          "bytes": 19637803
+        },
+        {
+          "name": "de-README.txt",
+          "url": "https://raw.githubusercontent.com/UniversalDependencies/UD_German-GSD/r2.18/README.md",
+          "sha256": "5d1af1a1fb974e83ccb9ad9446d19a13d4608faf1f57ee2bf85d4e8351cf5fa2",
+          "bytes": 10099
+        },
+        {
+          "name": "de-LICENSE.txt",
+          "url": "https://raw.githubusercontent.com/UniversalDependencies/UD_German-GSD/r2.18/LICENSE.txt",
+          "sha256": "899b1804a12ebc090b96339614eede1b64b686721b650a71430b55b5235f7f79",
+          "bytes": 202
+        }
+      ]
+    },
+    {
+      "code": "pt",
+      "treebank": "Portuguese-Bosque",
+      "license": "CC BY-SA 4.0",
+      "files": [
+        {
+          "name": "pt-train.conllu",
+          "url": "https://raw.githubusercontent.com/UniversalDependencies/UD_Portuguese-Bosque/r2.18/pt_bosque-ud-train.conllu",
+          "sha256": "b56d7124af821e2968302c38298904ec67af342304a33ae8a9dc4fa57df89648",
+          "bytes": 11291250
+        },
+        {
+          "name": "pt-README.txt",
+          "url": "https://raw.githubusercontent.com/UniversalDependencies/UD_Portuguese-Bosque/r2.18/README.md",
+          "sha256": "6b603f73859f6648bf9bf3d4e582cfb9507995972d2d948b11b61ab9f19614ab",
+          "bytes": 7861
+        },
+        {
+          "name": "pt-LICENSE.txt",
+          "url": "https://raw.githubusercontent.com/UniversalDependencies/UD_Portuguese-Bosque/r2.18/LICENSE.txt",
+          "sha256": "ab3a36080055dd29ad2b59162e43d1368c7f15643666bea982d4e103f546e025",
+          "bytes": 269
+        }
+      ]
+    },
+    {
+      "code": "tr",
+      "treebank": "Turkish-BOUN",
+      "license": "CC BY-SA 4.0",
+      "files": [
+        {
+          "name": "tr-train.conllu",
+          "url": "https://raw.githubusercontent.com/UniversalDependencies/UD_Turkish-BOUN/r2.18/tr_boun-ud-train.conllu",
+          "sha256": "ae54aef82e69cb7ccc54703a07e2ebcde66c2e4453a5debfac1eb78dfed60e9f",
+          "bytes": 7975961
+        },
+        {
+          "name": "tr-README.txt",
+          "url": "https://raw.githubusercontent.com/UniversalDependencies/UD_Turkish-BOUN/r2.18/README.md",
+          "sha256": "b3dfa89603a5cc303eeef758f9384596b30d321a632f95a14fef843791a9292e",
+          "bytes": 4462
+        },
+        {
+          "name": "tr-LICENSE.txt",
+          "url": "https://raw.githubusercontent.com/UniversalDependencies/UD_Turkish-BOUN/r2.18/LICENSE.txt",
+          "sha256": "899b1804a12ebc090b96339614eede1b64b686721b650a71430b55b5235f7f79",
+          "bytes": 202
+        }
+      ]
+    }
+  ]
+}

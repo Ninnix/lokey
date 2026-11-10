@@ -14,6 +14,7 @@ class Prediction(private val context: Context, private val prefs: Prefs) {
     private val correctionVersion=AtomicInteger()
     private val session=AtomicInteger()
     private lateinit var languages: Languages
+    private lateinit var local:LocalPrediction
     private var language = "en"
     private var loaded = ""
     private var failed = ""
@@ -45,14 +46,19 @@ class Prediction(private val context: Context, private val prefs: Prefs) {
     private var pending: Runnable? = null
     @Volatile var latest: Result? = null
         private set
-    init { worker.execute { languages = Languages.shared(context) } }
+    init { worker.execute { languages = Languages.shared(context);local=LocalPrediction(context,languages) } }
     // Finishing a word must not cancel its correction while next-word suggestions refresh.
     fun correct(before:String,callback:(Result?)->Unit) {
         val ticket=correctionVersion.incrementAndGet()
         worker.execute {
             if(ticket!=correctionVersion.get()) return@execute
             var result:Result?=null
-            try { result=evaluateCorrection(before,languages.detect(before,language)) }
+            try {
+                val detected=languages.detect(before,language)
+                result=if(Models.text.none { Models.ready(context,it) }) local.correction(before,detected)?.let {
+                    Result(before,listOf(it),FloatArray(26),detected.code,false,it)
+                } else evaluateCorrection(before,detected)
+            }
             catch (_:Exception) { /* Keep the typed word when inference is unavailable. */ }
             main.post { if(ticket==correctionVersion.get()) callback(result) }
         }
@@ -136,6 +142,7 @@ class Prediction(private val context: Context, private val prefs: Prefs) {
     fun request(before: String, neuralAllowed:Boolean=true, script:String?=null,callback: (Result) -> Unit) {
         val detected=KeyboardLayouts.predictionLanguage(before,script)
         if(detected!=null) { requestScript(before,detected,neuralAllowed,callback);return }
+        val localOnly=neuralAllowed && Models.text.none { Models.ready(context,it) }
         val ticket = version.incrementAndGet()
         val epoch=session.get()
         pending?.let { main.removeCallbacks(it) }
@@ -147,13 +154,30 @@ class Prediction(private val context: Context, private val prefs: Prefs) {
             val result=Result(before,words,letters,instant.first.language,true)
             latest=result;callback(result)
         }
+        val immediate=localOnly && ::languages.isInitialized
+        if(immediate) {
+            val previous=latest?.language ?: ModelLanguages.selected(context,prefs).base.takeIf { it in Languages.names } ?: "en"
+            val detected=languages.detect(before,previous)
+            val result=LocalPrediction.basic(languages,before,detected,prefs.autocorrect)
+            latest=result;callback(result)
+        }
         val task = Runnable {
             worker.execute {
                 if (ticket != version.get()) return@execute
                 val prefix = Languages.prefix(before)
                 val stem = wordContext(before.dropLast(prefix.length))
-                val detected = languages.detect(before, language)
+                val preferred=if(localOnly) latest?.language ?: ModelLanguages.selected(context,prefs).base.takeIf { it in Languages.names } ?: language else language
+                val detected = languages.detect(before, preferred)
                 language = detected.code
+                if(localOnly) {
+                    if(!immediate) {
+                        val result=LocalPrediction.basic(languages,before,detected,prefs.autocorrect)
+                        main.post { if(ticket==version.get()) { latest=result;callback(result) } }
+                    }
+                    val result=local.request(before,detected,prefs.autocorrect)
+                    main.post { if(ticket==version.get()) { latest=result;callback(result) } }
+                    return@execute
+                }
                 val completions = languages.choices(detected, stem, prefix)
                 val contraction=languages.contraction(detected,prefix)
                 val complete = prefix.length >= 2 && contraction==null && detected.words.containsKey(Languages.lower(prefix))
@@ -221,7 +245,7 @@ class Prediction(private val context: Context, private val prefs: Prefs) {
             }
         }
         pending = task
-        main.postDelayed(task, if(prefs.adaptive && instant?.second.isNullOrEmpty()) 0 else 35)
+        main.postDelayed(task, if(localOnly || prefs.adaptive && instant?.second.isNullOrEmpty()) 0 else 35)
     }
     fun glide(before: String, points: List<Glide.Point>, centers: Map<Char, Glide.Point>, callback: (List<String>) -> Unit) {
         val ticket = version.incrementAndGet()

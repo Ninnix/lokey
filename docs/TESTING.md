@@ -26,6 +26,12 @@ the endpoint index on recorded QWERTY traces and synthetic paths on other layout
 The `labels` mode records actual text drawing bounds across built-in layouts
 and their custom clones, portrait/landscape, keyboard heights, Shift, both symbol pages,
 numeric input, suggestions, and adaptive keys; it checks for overlap/overflow.
+The `local` mode evaluates prediction, correction, dictionary coverage and
+public-corpus next-word cases with isolated empty model storage. Its public
+fixture is prepared/staged by `research/tools/research-local-fixtures.py` and
+`research-local-phone.py`; full results are pulled with the latter
+`--results` option to avoid Android's instrumentation message limit. Installed
+model files/preferences remain in place.
 `adaptiveenable` enables adaptive letters and swipe for hands-on testing.
 
 The runner saves JSON results and logs in `artifacts/`; screenshots are kept

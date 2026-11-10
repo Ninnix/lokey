@@ -71,6 +71,7 @@ class KeyboardTest : Instrumentation() {
             if(mode=="layouts") report.put("layouts",LayoutChecks.run(this,targetContext))
             if(mode=="intl") report.put("intl",LayoutChecks.intl(this,targetContext))
             if(mode=="labels") report.put("labels",LabelChecks.run(this,targetContext))
+            if(mode=="local") report.put("local",LocalChecks.run(this,targetContext))
             if(mode=="popups") report.put("popups",PopupChecks.run(this,targetContext))
             if(mode=="downloads") report.put("downloads",DownloadChecks.run(this,targetContext))
             if(mode=="layoutui") report.put("layoutui",LayoutChecks.live(this,targetContext))

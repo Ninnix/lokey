@@ -25,11 +25,14 @@ commands run from the app repository root.
 
 Use JDK 17+, Android SDK 37, NDK 28.2.13676358, and CMake 3.31.6. Gradle downloads the Android build tooling and Kotlin standard library. Runtime model files are optional and are not bundled into the APK. Application native sources are in `app/src/main/c/lokey.c`; the external inference libraries retain their own implementation languages and are accessed through C APIs.
 
-Python 3 and curl prepare pinned public swipe dictionaries during `preBuild`.
-Sources and checksums are in `app/src/main/assets/swipe-words/sources.json`;
-the download cache is `.local/swipe-words`. No extra inference runtime is used.
-The larger dictionaries are swipe-only; prediction/correction vocabularies and
-text/dictation model downloads are unchanged.
+Python 3 and curl prepare pinned public dictionaries and small word-context
+tables during `preBuild`. Sources and checksums are in
+`app/src/main/assets/swipe-words/sources.json` and `context/sources.json`; caches
+are `.local/swipe-words` and `.local/context`. No extra inference runtime is used.
+The larger dictionaries support swipe and typing without a downloaded text model.
+The context tables are pruned public bigram/trigram counts, bundled in the APK;
+they do not download or learn from user typing at runtime. Text/dictation neural
+model downloads are unchanged.
 
 Inference dependencies:
 

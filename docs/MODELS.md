@@ -18,10 +18,12 @@ A RAM candidate pool retains up to 24 generated words plus the bounded, model-sc
 
 Autocorrection proposes nearby spellings from both the model and the fallback lexicon. It scores every token of a candidate and the probability that the word ends there, comparing the result against the original spelling in the same sentence. Candidates must beat the original by a confidence margin; unfamiliar terms can remain unchanged rather than being forced into a familiar word. Damerau edit distance limits automatic replacements to small spelling changes. Space and punctuation trigger correction; when inference is still running, the boundary is inserted immediately and a late correction is applied only if the editor text, cursor, and session still match. Other input is preserved. Existing words, capitalized unknown names, selected text, mid-word edits, addresses, numeric fields, no-suggestions fields, and private fields are protected. Known contraction forms are the exception to the short-word/name guards. Backspace immediately restores the original spelling, without immediately correcting it again. Enable autocorrection in Feel. Swipe typing, adaptive letters and autocorrection default to off; keyboard height defaults to 100%. Saved preferences take precedence.
 
-Adaptive letter sizes use the current model-derived letter probabilities to
+Adaptive letter sizes use current on-device letter probabilities to
 move shared keycap boundaries by at most 0.12 key pitch. Letter labels and their
 original center targets stay fixed; active touches freeze geometry. Letter probabilities aggregate the current model-scored word likelihoods,
-including generated and dictionary candidates. Validated candidates/scores are
+including generated and dictionary candidates when a text model is installed.
+Without a text model, estimates come from the public dictionary/context counts.
+Validated neural candidates/scores are
 reused only in the active inference context in memory. Prefix candidates and
 letter distributions are prepared on the worker, so a cached tap selects its
 next state synchronously. Cache misses start immediately while adaptive letters
@@ -32,8 +34,24 @@ Unsupported native alphabets keep fixed keys rather than reuse ASCII priors.
 Swipe uses the original geometry decoder and selected text-model context scorer.
 Public FrequencyWords dictionaries contain up to 50,000 swipe words for each of
 21 Latin-script languages. They load lazily and are indexed by first/last letter
-to avoid scanning every word. They do not change known-word autocorrection guards
-or the prediction model's vocabulary.
+to avoid scanning every word. They do not change the installed text model's
+vocabulary or its known-word autocorrection guards.
+
+Without downloaded neural models, a small Kotlin engine reuses those bundled
+vocabularies for completion, conservative correction and adaptive-letter priors
+in the 21 Latin-script languages. A bounded pass from the resident small
+dictionary returns first suggestions while the worker prepares the larger index.
+Both passes start without the neural debounce.
+A compact public word-pair/triple table adds short context for English, Italian,
+Spanish, French, German, Portuguese and Turkish. These are fixed statistics from
+Universal Dependencies 2.18, with source pins in `assets/context/sources.json`
+and offline attribution in `context/CREDITS.txt`; they are not trained on user
+input. Public vocabulary caches are bounded. Correction still needs the user
+setting enabled, protects known words/names and uncertain candidates, and keeps
+unfamiliar word endpoints unchanged. This helps common spelling errors but does
+not provide LLM-level semantics. Native-script prediction coverage is unchanged;
+bundled input-method conversion still works. Dictation and translation require
+their optional neural models.
 
 Audio is recorded as 16 kHz mono PCM in memory, with a 60-second limit, then transcribed locally. The microphone is released on stop, cancellation, editor changes, and keyboard dismissal. Transcripts are inserted only into the original editor session. Recording and inference never run on the UI thread. Internet access is used only for explicit model downloads; there are no analytics or remote inference endpoints.
 

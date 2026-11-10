@@ -542,7 +542,7 @@ class LokeyService : InputMethodService(), KeyboardView.Listener {
         val before = connection()?.getTextBeforeCursor(240, 0)?.toString() ?: ""
         if(displayedPrediction?.before!=before) { displayedPrediction=null;keyboard?.prediction(emptyList(),FloatArray(26),false) }
         prediction.request(before,toolMode!="translate" && toolMode!="languages",inputHint()) { result ->
-            displayedPrediction=result;keyboard?.prediction(result.words,result.letters,result.neural,result.language)
+            displayedPrediction=result;keyboard?.prediction(result.words,result.letters,result.letters.any { it>0f },result.language)
         }
         keyboard?.status("")
     }

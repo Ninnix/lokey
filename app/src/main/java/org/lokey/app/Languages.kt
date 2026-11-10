@@ -12,16 +12,23 @@ class Languages(private val context: Context) {
         val total = entries.sumOf { it.count }.toDouble()
     }
     data class Choice(val word: String, val prior: Double, val distance: Int = 0)
-    private val swipeLexicons=HashMap<String,Glide.Lexicon>()
-    @Synchronized fun swipe(language:Language):Glide.Lexicon=swipeLexicons.getOrPut(language.code) {
+    private class Vocabulary(val entries:List<Entry>) {
+        val swipe by lazy { Glide.Lexicon(entries) }
+    }
+    private val vocabularies=object:LinkedHashMap<String,Vocabulary>(8,.75f,true) {
+        override fun removeEldestEntry(eldest:MutableMap.MutableEntry<String,Vocabulary>)=size>5
+    }
+    @Synchronized private fun vocabulary(language:Language):Vocabulary=vocabularies.getOrPut(language.code) {
         val extra=try { context.assets.open("swipe-words/${language.code}.txt").bufferedReader().useLines { lines ->
             lines.map { line ->
                 val first=line.indexOf(' ');val last=line.lastIndexOf(' ')
                 Entry(line.substring(0,first),line.substring(first+1,last).toLong(),line.substring(last+1))
             }.toList()
         } } catch(_:java.io.FileNotFoundException) { emptyList() }
-        Glide.Lexicon((language.entries+extra).distinctBy { it.word })
+        Vocabulary((language.entries+extra).distinctBy { it.word })
     }
+    fun words(language:Language)=vocabulary(language).entries
+    fun swipe(language:Language)=vocabulary(language).swipe
     val all = names.map { (code, name) ->
         val common = context.assets.open("languages/$code.txt").bufferedReader().useLines { lines ->
             lines.map { line ->
@@ -66,11 +73,14 @@ class Languages(private val context: Context) {
         }.sortedByDescending { it.second }
         return scores.first().first
     }
-    fun choices(language: Language, context: String, prefix: String): List<Choice> {
+    fun choices(language: Language, context: String, prefix: String,limit:Int=0): List<Choice> {
         val key = fold(prefix)
         val entries = language.entries.asSequence().filter { key.isEmpty() || it.folded.startsWith(key) }
-            .filter { !it.word.equals(prefix, true) }.take(if (key.isEmpty()) 512 else 96)
-        val result = entries.map { Choice(it.word, ln(it.count.toDouble()) * 0.24) }.toMutableList()
+            .filter { !it.word.equals(prefix, true) }.take(if(limit>0) limit else if (key.isEmpty()) 512 else 96)
+        return (phraseChoices(language,context,prefix)+entries.map { Choice(it.word, ln(it.count.toDouble()) * 0.24) }).distinctBy { lower(it.word) }
+    }
+    fun phraseChoices(language:Language,context:String,prefix:String):List<Choice> {
+        val key=fold(prefix);val result=ArrayList<Choice>()
         val tail = lower(context.trimEnd())
         for (phrase in phrases[language.code].orEmpty().split('|')) {
             val words = phrase.split(' ')
