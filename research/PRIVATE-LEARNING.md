@@ -50,12 +50,23 @@ evidence here of a universally best personalized keyboard.
   half-life, discard entries unseen for over 90 days when accessed, and evict
   low-weight entries at capacity. Keep day buckets, without event timestamps
   or ordered observations.
-* Reserve at most one displayed slot for a personal word/correction. Keep two
-  slots for context. Add personal candidates to the LLM pool before scoring
-  when installed; do not concatenate a profile into its prompt. Blend personal
-  next-letter probabilities at 25% when a base prior exists, otherwise use the
-  personal prior. Resizing and automatic replacement still require their own
-  separate switches.
+* Restrict frequency boosts to the current word prefix. Leave next-word
+  prediction to the existing contextual engine. Build a conservative set by
+  placing a missing personal completion in the third slot, keeping two context
+  choices. For a partial word, permit that completion to move first only when
+  its existing model score plus `min(3, 1.5 * ln(decayed_count))` reaches the
+  current first score. Missing/invalid scores, append-mode results, near-typo
+  alternatives and active automatic corrections keep the conservative order.
+  The cap prevents arbitrarily frequent words from overriding strong model
+  evidence. These rank scores approximate first-token support, not calibrated
+  full-word likelihood. The model-free path may rank personal completions
+  first. Explicitly confirmed typo pairs retain priority. A completion
+  extending a complete word replaces it rather than appending another word.
+* Add personal prefix candidates to the LLM pool before scoring when installed;
+  do not concatenate a profile into its prompt or score a word extension as a
+  next word. Blend prefix-specific next-letter probabilities at 25% when a base
+  prior exists, otherwise use the personal prior. Resizing and automatic
+  replacement still require their own separate switches.
 
 Immediate and worker results from the public dictionary both use this cache,
 so the model-free path benefits directly. The LLM continues to process the
@@ -96,6 +107,38 @@ storage cannot be promised immediate physical erasure. Key deletion removes
 access to the persisted encrypted profile.
 
 ## Evaluation
+
+The local replay compares model-free, LFM 350M and Qwen 0.8B prediction, with
+learning off/on. The final build completes 2,160 trials: three fictional English
+sets, three paths, two learning conditions and 120 probes per configuration.
+Each set has 48 completions, 24 next words, 24 typos and 24 clean-word controls.
+Profiles are frozen during evaluation and training/evaluation sentences differ.
+
+First-choice completion hits out of 48, conservative order → bounded promotion:
+
+| Path | Original set | Second set | Fresh holdout |
+| --- | --- | --- | --- |
+| Model-free | 17 → 17 | 21 → 21 | 17 → 17 |
+| LFM 350M | 24 → 26 | 19 → 24 | 18 → 22 |
+| Qwen 0.8B | 28 → 29 | 21 → 24 | 22 → 27 |
+
+The original and second sets are development data. A 3×3 grid tests frequency
+scales 0.5/1/1.5 and caps 1/2/3. Selection recovers each model/set's previous best
+first-choice total, then minimizes paired losses. The selected 1.5/3 point has
+one fewer aggregate development hit and more individual losses than 1/2, but
+recovers both old second-set totals of 24. It is not a universal optimum.
+The third set is frozen before tuning and scored after fixing the rule.
+
+Top-three hit counts, next-word hit counts and every boundary-correction string
+remain unchanged across all nine set/path comparisons. The two development
+sets gain 16 and lose five first-choice hits; the holdout gains nine and loses
+none across the neural paths. Some useful personal names remain blocked by
+strong approximate model scores. Existing false corrections remain. These
+small self-authored English pilots do not establish population accuracy,
+multilingual quality, human typing speed, touch accuracy or energy savings.
+Weights are warm and prediction/KV caches are cleared between probes. The
+normal installed app and its real learned data are untouched. Detailed replay
+fixtures, instrumentation and raw measurements remain local research artifacts.
 
 Run instrumentation mode `typingfeatures`. `TypingFeatureChecks` uses synthetic
 words, isolated preferences/files and a separate Keystore alias. It checks the

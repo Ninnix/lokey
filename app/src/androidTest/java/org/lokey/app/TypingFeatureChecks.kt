@@ -42,9 +42,10 @@ object TypingFeatureChecks {
                 check(done.await(45,TimeUnit.SECONDS)) { "No neural result after adding a personal candidate" }
                 return result!!
             }
-            val learned=request();check(learned.words.first()=="quokkalokey" && learned.letters.all { it.isFinite() })
+            val learned=request();check("quokkalokey" in learned.words && learned.letters.all { it.isFinite() })
+            val cached=request();check("quokkalokey" in cached.words && "quokkalokey" in cached.wordScores)
             learning.erase();test.runOnMainSync { engine.clear() }
-            val erased=request();check("quokkalokey" !in erased.words) { "Erased profile remained in the neural candidate cache" }
+            val erased=request();check("quokkalokey" !in erased.words && "quokkalokey" !in erased.wordScores) { "Erased profile remained in the neural candidate cache" }
             return JSONObject().put("model","LFM2.5-350M-Q4_K_M.gguf").put("backend",Native.textBackend())
                 .put("learned",org.json.JSONArray(learned.words)).put("after_erase",org.json.JSONArray(erased.words))
                 .put("personal_candidate_scored",true).put("erase_clears_neural_cache",true)
@@ -269,6 +270,44 @@ object TypingFeatureChecks {
             report.put("model_free",JSONObject().put("baseline",org.json.JSONArray(baseline.words)).put("learned",org.json.JSONArray(personal.words))
                 .put("next_a_before",baseline.letters[0]).put("next_a_after",personal.letters[0]).put("correction",fixed!!.correction))
             report.put("encrypted_round_trip",true)
+            val letters=FloatArray(26) { 1f/26 }
+            fun neural(before:String,words:List<String>,append:Set<String> = emptySet())=
+                Prediction.Result(before,words,letters,"en",true,appendWords=append)
+            val boundary=neural("Please inspect the ",listOf("logs","metrics","trace"))
+            check(learning.personalize(boundary,scope)===boundary) { "Unigrams replaced next-word context" }
+            val ranked=neural("Please inspect quokk",listOf("quokka","quokkas","quokkalokey"))
+            check(learning.personalize(ranked,scope).words==ranked.words) { "Frequency displaced neural ordering" }
+            val missing=learning.personalize(ranked.copy(words=listOf("quokka","quokkas","quokk")),scope)
+            check(missing.words==listOf("quokka","quokkas","quokkalokey"))
+            val supported=ranked.copy(wordScores=mapOf("quokka" to -2.0,"quokkas" to -2.5,"quokkalokey" to -3.5))
+            val promoted=learning.personalize(supported,scope)
+            check(promoted.words.first()=="quokkalokey" && promoted.words.toSet()==ranked.words.toSet() && promoted.letters.contentEquals(learning.personalize(ranked,scope).letters))
+            val confident=supported.copy(wordScores=supported.wordScores+("quokkalokey" to -10.0))
+            check(learning.personalize(confident,scope).words==ranked.words) { "Frequency overrode strong model evidence" }
+            val invalid=supported.copy(wordScores=supported.wordScores+("quokkalokey" to Double.NaN))
+            check(learning.personalize(invalid,scope).words==ranked.words)
+            val incomplete=supported.copy(wordScores=mapOf("quokkalokey" to -1.0))
+            check(learning.personalize(incomplete,scope).words==ranked.words)
+            check(learning.personalize(supported.copy(correction="quokka"),scope).words==ranked.words)
+            repeat(100) { learning.learn(scope,"quokkalokey") }
+            val frequent=supported.copy(wordScores=supported.wordScores+("quokkalokey" to -6.0))
+            check(learning.personalize(frequent,scope).words==ranked.words) { "Unbounded frequency overrode context" }
+            repeat(3) { learning.learn(scope,"noteworthy") }
+            val complete=neural("Please write a note",listOf("about","on","notes"),setOf("about","on"))
+            val extended=learning.personalize(complete,scope)
+            check(extended.words==listOf("about","on","noteworthy") && extended.appendWords==setOf("about","on")) {
+                "A personal completion changed append semantics: $extended"
+            }
+            check(learning.personalize(complete.copy(wordScores=mapOf("about" to -10.0,"noteworthy" to -1.0)),scope).words==extended.words)
+            val capitals=learning.personalize(neural("Please write a NOTE",listOf("about","noteworthy","notes"),setOf("about","noteworthy")),scope)
+            check(capitals.words==listOf("about","NOTEWORTHY","notes") && capitals.appendWords==setOf("about")) {
+                "An uppercase completion retained an append flag: $capitals"
+            }
+            val typo=learning.personalize(neural("I like quokkaloksy",listOf("quokka","quokkas")),scope)
+            check(typo.correction=="quokkalokey" && typo.words.first()=="quokkalokey")
+            check(learning.correction(scope,"quokkalokxy")==null) { "A new typo gained automatic replacement permission" }
+            report.put("context_preserved",true).put("completion_append_semantics",true).put("unconfirmed_typo_stays_manual",true)
+                .put("bounded_context_promotion",true).put("promotion_preserves_top_three",true)
             test.runOnMainSync { engine!!.close();engine=null }
             learning.close()
             val corrupt=encrypted.readBytes();corrupt[corrupt.lastIndex]=(corrupt.last().toInt() xor 1).toByte();encrypted.writeBytes(corrupt)

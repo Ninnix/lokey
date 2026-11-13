@@ -128,25 +128,40 @@ class UsageLearning internal constructor(context:Context,private val alias:Strin
         if(prefs.learning && !ready) prepare()
         if(prefs.learning && ready) model.candidates(scope,prefix).ifEmpty { model.nearby(scope,prefix) } else emptyList()
     }
+    private fun promote(result:Prediction.Result,word:String,weight:Double):Boolean {
+        if(!result.neural || result.appendWords.isNotEmpty() || result.correction!=null) return false
+        val score=result.wordScores[Languages.lower(word)] ?: return false
+        val best=result.words.firstOrNull()?.let { result.wordScores[Languages.lower(it)] } ?: return false
+        val boost=(1.5*weight).coerceIn(0.0,3.0)
+        return score.isFinite() && best.isFinite() && boost>0 && score+boost>=best
+    }
     fun personalize(result:Prediction.Result,scope:String):Prediction.Result=synchronized(lock) {
         if(prefs.learning && !ready) prepare()
         if(!prefs.learning || !ready) return result
         val prefix=Languages.prefix(result.before)
+        if(prefix.isEmpty()) return result
         val append=result.appendWords.isNotEmpty()
-        val typed=if(append) "" else prefix
-        val learned=model.candidates(scope,typed)
-        val nearby=if(learned.isEmpty()) model.nearby(scope,typed) else emptyList()
+        val learned=model.candidates(scope,prefix)
+        val nearby=if(learned.isEmpty() && !append) model.nearby(scope,prefix) else emptyList()
         val fixed=model.correction(scope,prefix)?.let { Languages.casing(it,prefix,result.language) }
         if(learned.isEmpty() && nearby.isEmpty() && fixed==null) return result
-        // Reserve at most one slot for personal frequency; context still gets two slots.
-        val personal=(learned.firstOrNull() ?: nearby.firstOrNull())?.first?.let { Languages.casing(it,prefix,result.language,append) }
-        val words=(listOfNotNull(fixed ?: personal)+result.words).distinctBy { Languages.lower(it) }.take(3)
-        val prior=AdaptiveKeys.probabilities(typed,learned)
+        val personal=(learned.firstOrNull() ?: nearby.firstOrNull())?.first?.let { Languages.casing(it,prefix,result.language) }
+        // Keep the candidate set; only bounded, context-supported frequency can change neural order.
+        var words=when {
+            fixed!=null -> (listOf(fixed)+result.words).distinctBy { Languages.lower(it) }.take(3)
+            personal==null -> result.words
+            result.neural || append -> if(result.words.any { it.equals(personal,true) })
+                result.words.map { if(it.equals(personal,true)) personal else it } else result.words.take(2)+personal
+            else -> (listOf(personal)+result.words).distinctBy { Languages.lower(it) }.take(3)
+        }
+        if(fixed==null && personal!=null && learned.isNotEmpty() && promote(result,personal,learned.first().second))
+            words=(listOf(personal)+words.filterNot { it.equals(personal,true) }).take(3)
+        val prior=AdaptiveKeys.probabilities(prefix,learned)
         val hasPrior=prior.any { it>0 }
         val hasBase=result.letters.any { it>0 }
         val letters=if(!hasPrior) result.letters else if(!hasBase) prior else FloatArray(26) { .75f*result.letters[it]+.25f*prior[it] }
         result.copy(words=words,letters=letters,correction=if(prefs.autocorrect) fixed ?: result.correction else null,
-            appendWords=if(append) (result.appendWords+listOfNotNull(personal)).intersect(words.toSet())-listOfNotNull(fixed).toSet() else result.appendWords.intersect(words.toSet()))
+            appendWords=result.appendWords.intersect(words.toSet())-listOfNotNull(fixed ?: personal).toSet())
     }
     fun erase() {
         synchronized(lock) { epoch++;scheduled=false;model.clear() }

@@ -7,7 +7,7 @@ import java.util.concurrent.atomic.AtomicInteger
 import java.util.concurrent.atomic.AtomicBoolean
 
 class Prediction(private val context: Context, private val prefs: Prefs,private val learning:UsageLearning=UsageLearning.shared(context)) {
-    data class Result(val before: String, val words: List<String>, val letters: FloatArray, val language: String, val neural: Boolean, val correction: String? = null, val appendWords: Set<String> = emptySet())
+    data class Result(val before: String, val words: List<String>, val letters: FloatArray, val language: String, val neural: Boolean, val correction: String? = null, val appendWords: Set<String> = emptySet(),val wordScores:Map<String,Double> = emptyMap())
     private val main = Handler(Looper.getMainLooper())
     private val worker=ModelMemory.Worker("lokey-prediction",ModelMemory.TEXT,Thread.MIN_PRIORITY)
     private val version = AtomicInteger()
@@ -173,7 +173,7 @@ class Prediction(private val context: Context, private val prefs: Prefs,private 
         if(instant!=null && instant.second.isNotEmpty()) {
             val words=instant.second.take(3).map { Languages.casing(it,typed,instant.first.language) }
             val letters=instant.first.letters[key(typed)]?.copyOf() ?: FloatArray(26)
-            val result=Result(before,words,letters,instant.first.language,true)
+            val result=Result(before,words,letters,instant.first.language,true,wordScores=instant.first.scores.mapKeys { Languages.lower(it.key) })
             latest=result;callback(result)
         }
         val immediate=localOnly && ::languages.isInitialized
@@ -205,7 +205,7 @@ class Prediction(private val context: Context, private val prefs: Prefs,private 
                 val complete = prefix.length >= 2 && contraction==null && detected.words.containsKey(Languages.lower(prefix))
                 val sentence = if (complete) wordContext(before) else stem
                 val pool = languages.choices(detected, sentence, if (complete) "" else prefix).toMutableList()
-                if(learningAllowed) for((word,score) in learning.candidates(scope(detected.code),if(complete) "" else prefix)) {
+                if(learningAllowed && !complete && prefix.isNotEmpty()) for((word,score) in learning.candidates(scope(detected.code),prefix)) {
                     if(pool.none { it.word.equals(word,true) }) pool.add(Languages.Choice(word,score.coerceAtMost(3.0)))
                 }
                 if ((complete || prefix.isEmpty()) && Languages.tokens(sentence).isNotEmpty() && sentence.lastOrNull() !in listOf('.', '?', '!'))
@@ -230,7 +230,8 @@ class Prediction(private val context: Context, private val prefs: Prefs,private 
                     val letterScores=pool.mapIndexedNotNull { i,choice -> scores?.getOrNull(i)?.let { choice.word to it.toDouble() } }+
                         generated.mapIndexedNotNull { i,word -> (scores?.getOrNull(pool.size+fixes.size+i)?.toDouble() ?: cachedScores[word])?.let { word to it } }
                     val letters=AdaptiveKeys.probabilities(if(complete) "" else prefix,letterScores)
-                    return Result(before, words, letters, detected.code, neural, correction?.let { casing(it) }, append)
+                    val wordScores=(cachedScores.toList()+letterScores).associate { Languages.lower(it.first) to it.second }
+                    return Result(before, words, letters, detected.code, neural, correction?.let { casing(it) }, append,wordScores)
                 }
                 fun deliver(result: Result) { main.post { if (ticket == version.get()) { latest = result; callback(result) } } }
                 if(instant?.second.isNullOrEmpty()) deliver(render(null, false))
