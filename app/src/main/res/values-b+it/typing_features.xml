@@ -1,0 +1,13 @@
+<resources>
+    <string name="ui_one_tap_speech">Dettatura con un tocco</string>
+    <string name="ui_one_tap_speech_description">Tocca il microfono flottante per registrare a mani libere. Metti in pausa, riprendi o termina quando vuoi.</string>
+    <string name="ui_learn_from_typing">Impara dalla digitazione</string>
+    <string name="ui_learning_description">Impara parole frequenti e correzioni su questo dispositivo. Dati cifrati, mai caricati online. I campi privati sono esclusi. Disattivando questa opzione cancelli i dati appresi.</string>
+    <string name="ui_erase_learned_data">Cancella i dati appresi</string>
+    <string name="ui_learned_data_erased">Dati appresi cancellati</string>
+    <string name="ui_adaptive_sizes_description">I tasti più probabili si allargano; le lettere restano nella stessa posizione.</string>
+    <string name="ui_start_recording">Avvia registrazione</string>
+    <string name="ui_pause_recording">Metti in pausa la registrazione</string>
+    <string name="ui_resume_recording">Riprendi registrazione</string>
+    <string name="ui_recording_paused">REGISTRAZIONE IN PAUSA</string>
+</resources>

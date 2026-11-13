@@ -1,0 +1,13 @@
+<resources>
+    <string name="ui_one_tap_speech">Dicteren met één tik</string>
+    <string name="ui_one_tap_speech_description">Tik op de zwevende microfoon om handsfree op te nemen. Pauzeer, hervat of stop wanneer je wilt.</string>
+    <string name="ui_learn_from_typing">Leren van typen</string>
+    <string name="ui_learning_description">Leert veelgebruikte woorden en correcties op dit apparaat. Versleuteld, nooit geüpload. Privévelden zijn uitgesloten. Uitschakelen wist de geleerde gegevens.</string>
+    <string name="ui_erase_learned_data">Geleerde gegevens wissen</string>
+    <string name="ui_learned_data_erased">Geleerde gegevens gewist</string>
+    <string name="ui_adaptive_sizes_description">Waarschijnlijke toetsen worden groter; letters blijven op hun plek.</string>
+    <string name="ui_start_recording">Opname starten</string>
+    <string name="ui_pause_recording">Opname pauzeren</string>
+    <string name="ui_resume_recording">Opname hervatten</string>
+    <string name="ui_recording_paused">OPNAME GEPAUZEERD</string>
+</resources>

@@ -23,6 +23,7 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
         fun enter()
         fun cursor(delta: Int)
         fun voice(start: Boolean): Boolean
+        fun pauseVoice(paused:Boolean):Boolean = false
         fun cancelVoice()
         fun glide(points: List<Glide.Point>, centers: Map<Char, Glide.Point>, caseMode: Int) { }
         fun nextKeyboard()
@@ -129,12 +130,45 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
     }
     var recordingLocked = false
         private set
+    var speechAllowed=true
+    var floatingSpeech=false
+        set(value) { if(field!=value) { field=value;invalidate();sendAccessibilityEvent(AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED) } }
+    var recordingPaused=false
+        private set
+    private val speechBounds=Array(2) { RectF() }
+    private var speechPointer=-1
+    private var speechAction=-1
+    private val speechButton get()=prefs.oneTapSpeech && speechAllowed && !floatingSpeech && suggestionsVisible && !moreCandidates &&
+        previewTheme==null && previewDesign==null && previewLayout==null && selectPreview==null && chooseKey==null
+    private fun speechRects() {
+        speechBounds.forEach { it.setEmpty() }
+        if(!speechButton || voiceState.isNotEmpty() && !listening) return
+        val right=width-dp(6f);val cell=dp(44f)
+        val top=(48*unit()-cell)/2
+        speechBounds[0].set(right-cell,top,right,top+cell)
+        if(listening) speechBounds[1].set(right-2*cell,top,right-cell,top+cell)
+    }
+    private fun speechAction(index:Int):Boolean {
+        if(!speechButton) return false
+        if(!listening) {
+            if(index!=0 || !startRecording()) return false
+            recordingLocked=true
+        } else if(index==0) stopRecording()
+        else {
+            val next=!recordingPaused
+            if(!listener.pauseVoice(next)) return false
+            recordingPaused=next
+        }
+        activity();invalidate();sendAccessibilityEvent(AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED)
+        return true
+    }
     var voiceState = ""
         set(value) {
             if (field != value) {
                 if (value == "Listening") { levels.fill(0f); levelHead = 0; levelCount = 0; elapsedMillis = 0; lastBucket = -1 }
-                if (value != "Listening") recordingLocked = false
+                if (value != "Listening") { recordingLocked = false;recordingPaused=false }
                 field = value; keepScreenOn = value == "Listening"; activity(); invalidate()
+                sendAccessibilityEvent(AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED)
             }
         }
     private val levels = FloatArray(64)
@@ -143,8 +177,10 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
     private var lastBucket = -1L
     private var elapsedMillis = 0L
     private val listening get() = voiceState == "Listening"
+    fun lockRecording() { if(listening) { recordingLocked=true;invalidate() } }
+    fun pauseRecording(value:Boolean) { if(listening) { recordingPaused=value;invalidate() } }
     fun audioLevel(level: Float, millis: Long) {
-        if (!listening) return
+        if (!listening || recordingPaused) return
         elapsedMillis = millis
         val amplitude = (kotlin.math.sqrt(level.coerceIn(0f, 1f)) * 2f).coerceAtMost(1f)
         val bucket = millis / 125
@@ -321,6 +357,7 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
         }
         canvas.drawColor(bg)
         val u = unit()
+        speechRects()
         if(suggestionsVisible) {
             if (resize?.held == true) {
                 label(canvas, context.tr("Drag to resize · %1\$s%%",resizeHeight ?: prefs.height), width / 2f, 29 * u, 14f, ink)
@@ -329,7 +366,7 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
                     paint.color = accent; canvas.drawCircle(dp(10f), 24 * u, dp(2.5f), paint)
                     val seconds = elapsedMillis / 1000
                     label(canvas, "${seconds / 60}:${(seconds % 60).toString().padStart(2, '0')}", dp(20f), 29 * u, 12f, ink, Paint.Align.LEFT)
-                    val left = dp(65f); val right = width - dp(if (recordingLocked) 93f else 72f)
+                    val left = dp(65f); val right = width - dp(if(speechButton) 164f else if (recordingLocked) 93f else 72f)
                     val step = dp(5f); val bars = ((right - left) / step).toInt().coerceAtLeast(1)
                     val phase = (elapsedMillis % 125) / 125f
                     for (i in 0 until min(bars, levelCount)) {
@@ -340,12 +377,12 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
                         paint.color = accent; paint.alpha = (64 + 191 * (1f - i.toFloat() / bars)).toInt()
                         canvas.drawRoundRect(x - dp(1.3f), 24 * u - h / 2, x + dp(1.3f), 24 * u + h / 2, dp(2f), dp(2f), paint)
                     }
-                    if (recordingLocked) drawLock(canvas, width - dp(80f), 24 * u, accent)
+                    if (recordingLocked && !speechButton) drawLock(canvas, width - dp(80f), 24 * u, accent)
                 } else label(canvas, context.tr(voiceState), (width - dp(60f)) / 2, 29 * u, 12f, ink)
                 val cancel=context.tr("Cancel")
-                label(canvas, cancel, width - dp(33f), 29 * u, fitSize(cancel,12f,dp(60f)), muted)
+                label(canvas, cancel, width - dp(if(speechButton && listening) 125f else 33f), 29 * u, fitSize(cancel,12f,dp(60f)), muted)
             } else {
-                val cell = (width - dp(if(moreCandidates) 56f else 24f)) / 3
+                val cell = (width - dp(if(moreCandidates) 56f else if(speechButton) 74f else 24f)) / 3
                 suggestions.forEachIndexed { index, word ->
                     val rect = candidateBounds[index]
                     rect.set(dp(12f) + index * cell, 0f, dp(12f) + (index + 1) * cell, 46 * u)
@@ -358,6 +395,24 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
             paint.alpha = if (resize?.held == true) 255 else 100
             canvas.drawRoundRect(width / 2f - dp(15f), dp(3f), width / 2f + dp(15f), dp(4.2f), dp(1f), dp(1f), paint)
             paint.alpha = 255
+            if(!speechBounds[0].isEmpty) {
+                val area=RectF(speechBounds[if(listening) 1 else 0]);area.right=speechBounds[0].right
+                paint.color=accent;canvas.drawRoundRect(area,dp(22f),dp(22f),paint)
+                val color=KeyboardTheme.ink(accent)
+                val stop=speechBounds[0];val x=stop.centerX();val y=stop.centerY()
+                if(!listening) drawMic(canvas,x,y,color)
+                else {
+                    paint.color=color;canvas.drawRoundRect(x-dp(6f),y-dp(6f),x+dp(6f),y+dp(6f),dp(2f),dp(2f),paint)
+                    val pause=speechBounds[1];val px=pause.centerX()
+                    if(recordingPaused) {
+                        val path=Path().apply { moveTo(px-dp(4f),y-dp(7f));lineTo(px+dp(7f),y);lineTo(px-dp(4f),y+dp(7f));close() }
+                        canvas.drawPath(path,paint)
+                    } else {
+                        canvas.drawRect(px-dp(5f),y-dp(7f),px-dp(1f),y+dp(7f),paint)
+                        canvas.drawRect(px+dp(1f),y-dp(7f),px+dp(5f),y+dp(7f),paint)
+                    }
+                }
+            }
         }
         var symbolSize=12f
         for(key in keys) if(symbolHints(key)) {
@@ -437,11 +492,13 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
             }
         }
         imageLabels=false
-        val footer = if (listening) {
+        val footer = if (recordingPaused) context.tr("RECORDING PAUSED") else if (listening) {
             if (recordingLocked) context.tr("RECORDING LOCKED · TAP STOP TO FINISH") else context.tr("SLIDE UP TO LOCK · RELEASE TO FINISH")
         } else status
-        if(suggestionsVisible && footer.isNotEmpty() && resize?.held!=true)
-            label(canvas,footer,width/2f,45*u,fitSize(footer,8f,width-dp(16f)),muted)
+        if(suggestionsVisible && footer.isNotEmpty() && resize?.held!=true) {
+            val available=width-dp(if(speechButton && listening) 104f else 0f)
+            label(canvas,footer,available/2f,45*u,fitSize(footer,8f,available-dp(16f)),muted)
+        }
         touches.values.firstOrNull { it.glide }?.let { touch ->
             strokes.color = accent; strokes.strokeWidth = dp(2f); strokes.alpha = 180
             val path = Path()
@@ -639,6 +696,23 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
             if(event.actionMasked==MotionEvent.ACTION_UP) hit(event.x,event.y)?.let { choose(it.custom?.id ?: it.code) }
             return true
         }
+        speechRects()
+        if(speechPointer>=0) {
+            val pointer=event.findPointerIndex(speechPointer)
+            if(event.actionMasked==MotionEvent.ACTION_CANCEL || event.actionMasked==MotionEvent.ACTION_POINTER_DOWN) { speechPointer=-1;speechAction=-1;return true }
+            if(event.actionMasked==MotionEvent.ACTION_UP || event.actionMasked==MotionEvent.ACTION_POINTER_UP && event.getPointerId(event.actionIndex)==speechPointer) {
+                val action=speechAction
+                speechPointer=-1;speechAction=-1
+                if(pointer>=0 && action>=0 && speechBounds[action].contains(event.getX(pointer),event.getY(pointer))) { speechAction(action);performClick() }
+            } else if(event.actionMasked==MotionEvent.ACTION_MOVE && (pointer<0 || speechAction<0 || !speechBounds[speechAction].contains(event.getX(pointer),event.getY(pointer)))) {
+                speechAction=-1
+            }
+            return true
+        }
+        if(event.actionMasked==MotionEvent.ACTION_DOWN) {
+            val selected=speechBounds.indexOfFirst { it.contains(event.x,event.y) }
+            if(selected>=0) { speechPointer=event.getPointerId(0);speechAction=selected;activity();return true }
+        }
         if(toolsOpen && event.actionMasked==MotionEvent.ACTION_DOWN) {
             val selected=toolBounds.indexOfFirst { it.contains(event.x,event.y) }
             toolsOpen=false;invalidate()
@@ -661,7 +735,7 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
             MotionEvent.ACTION_DOWN, MotionEvent.ACTION_POINTER_DOWN -> {
                 if (suggestionsVisible && event.actionMasked == MotionEvent.ACTION_DOWN && y < 46 * unit()) {
                     if(moreCandidates && x>width-dp(32f)) listener.moreCandidates()
-                    else if (voiceState.isNotEmpty() && x > width - dp(70f)) cancelRecording()
+                    else if (voiceState.isNotEmpty() && x > width - dp(if(speechButton && listening) 158f else 70f)) cancelRecording()
                     else if (voiceState.isEmpty()) suggestions.indices.firstOrNull { candidateBounds[it].contains(x, y) }?.let { listener.feedback(); listener.candidate(suggestions[it]) }
                     return true
                 }
@@ -765,17 +839,27 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
     private fun endResize() { main.removeCallbacks(resizeHold); resize = null; resizeHeight = null; requestLayout(); invalidate() }
     override fun onAttachedToWindow() { super.onAttachedToWindow();layoutKeys();invalidate();activity() }
     override fun onWindowVisibilityChanged(visibility: Int) { super.onWindowVisibilityChanged(visibility); if (visibility == VISIBLE) activity() else { main.removeCallbacks(idle); idleAnimation?.cancel() } }
-    fun cancelTouches() { toolsOpen=false;endResize(); callbacks.values.forEach { main.removeCallbacks(it) }; callbacks.clear(); touches.clear();accentLanguage=nextAccentLanguage;invalidate() }
+    fun cancelTouches() { speechPointer=-1;speechAction=-1;toolsOpen=false;endResize(); callbacks.values.forEach { main.removeCallbacks(it) }; callbacks.clear(); touches.clear();accentLanguage=nextAccentLanguage;invalidate() }
     override fun onDetachedFromWindow() { main.removeCallbacks(idle); idleAnimation?.cancel(); if (voiceState.isNotEmpty()) cancelRecording(); cancelTouches(); super.onDetachedFromWindow() }
     override fun performClick(): Boolean { super.performClick(); return true }
     override fun getAccessibilityNodeProvider(): AccessibilityNodeProvider = object : AccessibilityNodeProvider() {
         override fun createAccessibilityNodeInfo(id: Int): AccessibilityNodeInfo? {
+            speechRects()
             if (id == View.NO_ID) return AccessibilityNodeInfo.obtain(this@KeyboardView).apply {
                 className = "android.inputmethodservice.KeyboardView"
                 keys.indices.forEach { addChild(this@KeyboardView, it) }
                 if (suggestionsVisible && voiceState.isEmpty() && resize?.held != true) suggestions.indices.forEach { addChild(this@KeyboardView, 1000 + it) }
                 if(toolsOpen) repeat(2) { addChild(this@KeyboardView,2000+it) }
                 if(moreCandidates && suggestionsVisible) addChild(this@KeyboardView,1003)
+                speechBounds.indices.filter { !speechBounds[it].isEmpty }.forEach { addChild(this@KeyboardView,3000+it) }
+            }
+            if(id in 3000..3001 && !speechBounds[id-3000].isEmpty) return AccessibilityNodeInfo.obtain().apply {
+                setSource(this@KeyboardView,id);setParent(this@KeyboardView);packageName=context.packageName
+                className="android.widget.Button";contentDescription=context.tr(if(!listening) "Start recording" else if(id==3000) "Stop recording" else if(recordingPaused) "Resume recording" else "Pause recording")
+                isEnabled=true;isClickable=true;isFocusable=true;isVisibleToUser=true
+                val rect=Rect();speechBounds[id-3000].roundOut(rect);setBoundsInParent(rect)
+                val position=IntArray(2);getLocationOnScreen(position);rect.offset(position[0],position[1]);setBoundsInScreen(rect)
+                addAction(AccessibilityNodeInfo.AccessibilityAction.ACTION_CLICK)
             }
             if(id in 2000..2001 && toolsOpen) return AccessibilityNodeInfo.obtain().apply {
                 setSource(this@KeyboardView,id);setParent(this@KeyboardView);packageName=context.packageName
@@ -827,6 +911,7 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
             }
         }
         override fun performAction(id: Int, action: Int, args: Bundle?): Boolean {
+            if(action==AccessibilityNodeInfo.ACTION_CLICK && id in 3000..3001) { speechRects();return !speechBounds[id-3000].isEmpty && speechAction(id-3000) }
             if (action == AccessibilityNodeInfo.ACTION_ACCESSIBILITY_FOCUS) {
                 val event = AccessibilityEvent.obtain(AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED)
                 event.setSource(this@KeyboardView, id); parent?.requestSendAccessibilityEvent(this@KeyboardView, event); return true

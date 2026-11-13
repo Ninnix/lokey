@@ -1,0 +1,13 @@
+<resources>
+    <string name="ui_one_tap_speech">Диктовка с едно докосване</string>
+    <string name="ui_one_tap_speech_description">Докоснете плаващия микрофон за запис без задържане. Поставете на пауза, продължете или спрете, когато пожелаете.</string>
+    <string name="ui_learn_from_typing">Учене от писането</string>
+    <string name="ui_learning_description">Научава чести думи и поправки на това устройство. Данните са шифровани и никога не се качват. Частните полета са изключени. Изключването изтрива научените данни.</string>
+    <string name="ui_erase_learned_data">Изтриване на научените данни</string>
+    <string name="ui_learned_data_erased">Научените данни са изтрити</string>
+    <string name="ui_adaptive_sizes_description">Вероятните клавиши се уголемяват; буквите остават на място.</string>
+    <string name="ui_start_recording">Начало на запис</string>
+    <string name="ui_pause_recording">Пауза на записа</string>
+    <string name="ui_resume_recording">Продължаване на записа</string>
+    <string name="ui_recording_paused">ЗАПИСЪТ Е НА ПАУЗА</string>
+</resources>

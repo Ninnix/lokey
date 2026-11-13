@@ -1,0 +1,13 @@
+<resources>
+    <string name="ui_one_tap_speech">ワンタップ音声入力</string>
+    <string name="ui_one_tap_speech_description">フローティングマイクをタップすると、押し続けずに録音できます。いつでも一時停止、再開、停止できます。</string>
+    <string name="ui_learn_from_typing">入力から学習</string>
+    <string name="ui_learning_description">よく使う単語や修正をこの端末で学習します。データは暗号化され、アップロードされません。プライベートな入力欄は対象外です。オフにすると学習データが削除されます。</string>
+    <string name="ui_erase_learned_data">学習データを削除</string>
+    <string name="ui_learned_data_erased">学習データを削除しました</string>
+    <string name="ui_adaptive_sizes_description">入力される可能性の高いキーが大きくなり、文字の位置は変わりません。</string>
+    <string name="ui_start_recording">録音を開始</string>
+    <string name="ui_pause_recording">録音を一時停止</string>
+    <string name="ui_resume_recording">録音を再開</string>
+    <string name="ui_recording_paused">録音を一時停止中</string>
+</resources>

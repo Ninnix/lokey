@@ -55,8 +55,8 @@ android {
         applicationId = "org.lokey.app"
         minSdk = 28
         targetSdk = 37
-        versionCode = 4
-        versionName = "0.1.3"
+        versionCode = 5
+        versionName = "0.1.4"
         testInstrumentationRunner = "org.lokey.app.KeyboardTest"
         ndk { abiFilters += "arm64-v8a" }
         externalNativeBuild { cmake {

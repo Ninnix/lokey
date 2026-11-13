@@ -1,0 +1,13 @@
+<resources>
+    <string name="ui_one_tap_speech">Diktiranje jednim dodirom</string>
+    <string name="ui_one_tap_speech_description">Dodirnite plutajući mikrofon za snimanje bez držanja. Pauzirajte, nastavite ili zaustavite kad želite.</string>
+    <string name="ui_learn_from_typing">Uči iz tipkanja</string>
+    <string name="ui_learning_description">Uči česte riječi i ispravke na ovom uređaju. Podaci su šifrirani i nikad se ne prenose. Privatna polja su isključena. Isključivanje briše naučene podatke.</string>
+    <string name="ui_erase_learned_data">Izbriši naučene podatke</string>
+    <string name="ui_learned_data_erased">Naučeni podaci izbrisani</string>
+    <string name="ui_adaptive_sizes_description">Vjerojatne tipke rastu; slova ostaju na mjestu.</string>
+    <string name="ui_start_recording">Pokreni snimanje</string>
+    <string name="ui_pause_recording">Pauziraj snimanje</string>
+    <string name="ui_resume_recording">Nastavi snimanje</string>
+    <string name="ui_recording_paused">SNIMANJE PAUZIRANO</string>
+</resources>

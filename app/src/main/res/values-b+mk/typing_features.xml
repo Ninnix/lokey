@@ -1,0 +1,13 @@
+<resources>
+    <string name="ui_one_tap_speech">Диктирање со еден допир</string>
+    <string name="ui_one_tap_speech_description">Допрете го лебдечкиот микрофон за снимање без држење. Паузирајте, продолжете или запрете кога сакате.</string>
+    <string name="ui_learn_from_typing">Учење од пишувањето</string>
+    <string name="ui_learning_description">Учи чести зборови и исправки на овој уред. Податоците се шифрирани и никогаш не се испраќаат. Приватните полиња се исклучени. Исклучувањето ги брише научените податоци.</string>
+    <string name="ui_erase_learned_data">Избриши научени податоци</string>
+    <string name="ui_learned_data_erased">Научените податоци се избришани</string>
+    <string name="ui_adaptive_sizes_description">Веројатните копчиња се зголемуваат; буквите остануваат на место.</string>
+    <string name="ui_start_recording">Започни снимање</string>
+    <string name="ui_pause_recording">Паузирај снимање</string>
+    <string name="ui_resume_recording">Продолжи снимање</string>
+    <string name="ui_recording_paused">СНИМАЊЕТО Е ПАУЗИРАНО</string>
+</resources>

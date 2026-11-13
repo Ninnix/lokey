@@ -1,0 +1,13 @@
+<resources>
+    <string name="ui_one_tap_speech">Dettatura b’mess wieħed</string>
+    <string name="ui_one_tap_speech_description">Mess il-mikrofonu li jżomm f’wiċċ l-ilma biex tirrekordja mingħajr ma żżommu. Waqqaf għal ftit, kompli jew temm meta trid.</string>
+    <string name="ui_learn_from_typing">Tgħallem mill-kitba</string>
+    <string name="ui_learning_description">Jitgħallem kliem frekwenti u korrezzjonijiet fuq dan l-apparat. Id-data hi kriptata u qatt ma tittella’. L-oqsma privati huma esklużi. Meta titfiha, id-data mitgħallma titħassar.</string>
+    <string name="ui_erase_learned_data">Ħassar id-data mitgħallma</string>
+    <string name="ui_learned_data_erased">Id-data mitgħallma tħassret</string>
+    <string name="ui_adaptive_sizes_description">It-tasti probabbli jikbru; l-ittri jibqgħu f’posthom.</string>
+    <string name="ui_start_recording">Ibda r-reġistrazzjoni</string>
+    <string name="ui_pause_recording">Waqqaf ir-reġistrazzjoni għal ftit</string>
+    <string name="ui_resume_recording">Kompli r-reġistrazzjoni</string>
+    <string name="ui_recording_paused">REĠISTRAZZJONI MWAQQFA</string>
+</resources>

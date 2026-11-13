@@ -50,7 +50,7 @@ class Prefs(context: Context) {
         get() = store.getString("switch", "cherry_red")!!
         set(value) { store.edit().putString("switch", value).apply() }
     var soundEnabled: Boolean
-        get() = store.getBoolean("sound_enabled", store.getInt("sound", 0) > 0)
+        get() = store.getBoolean("sound_enabled", store.getInt("sound", 1) > 0)
         set(value) { store.edit().putBoolean("sound_enabled", value).apply() }
     var returnVolume: Int
         get() = store.getInt("return_volume", 45)
@@ -122,6 +122,19 @@ class Prefs(context: Context) {
     var adaptive: Boolean
         get() = store.getBoolean("adaptive", false)
         set(value) { store.edit().putBoolean("adaptive", value).apply() }
+    var oneTapSpeech:Boolean
+        get()=store.getBoolean("one_tap_speech",false)
+        set(value) { store.edit().putBoolean("one_tap_speech",value).apply() }
+    val speechX:Float get()=store.getFloat("speech_x",.9f).takeIf { it.isFinite() }?.coerceIn(0f,1f) ?: .9f
+    val speechY:Float get()=store.getFloat("speech_y",.35f).takeIf { it.isFinite() }?.coerceIn(0f,1f) ?: .35f
+    fun speechPosition(x:Float,y:Float) { store.edit().putFloat("speech_x",x.coerceIn(0f,1f)).putFloat("speech_y",y.coerceIn(0f,1f)).apply() }
+    var learning:Boolean
+        get()=store.getBoolean("learning",false)
+        set(value) {
+            store.edit().putBoolean("learning",value).apply()
+            if(!value) UsageLearning.shared(context).erase()
+        }
+    internal fun learningErased() { store.edit().putLong("learning_revision",System.nanoTime()).apply() }
     var height: Int
         get() = store.getInt("height", 100)
         set(value) { store.edit().putInt("height", value).apply() }

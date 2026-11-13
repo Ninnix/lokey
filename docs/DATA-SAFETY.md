@@ -1,6 +1,6 @@
 # Google Play Data Safety
 
-Prepared November 6, 2026 for Lokey (`org.lokey.app`), version 0.1.0.
+Prepared November 13, 2026 for Lokey (`org.lokey.app`), version 0.1.4.
 Developer: Nicolo' D'Evangelista (Ninnix), nicolo.deva@gmail.com.
 
 These are the answers prepared for the Play Console form. They have not been
@@ -55,6 +55,7 @@ Download proves all later host processing is exempt from disclosure.
 | Clipboard text | Local recent/pinned history and user-directed paste | No server upload. |
 | Images and custom designs | Local theme editing and saved designs | No upload. |
 | Settings, language choices and custom layouts | Local app behavior | No upload. |
+| Optional learned words and confirmed typo pairs | Encrypted, bounded local counts for suggestions and correction, including without downloaded models; off by default | No upload, synchronization or remote training. |
 | Speed-test records | Local score history | No automatic upload. A score image can be shared through Android's user-directed share sheet. |
 | App search text | Filtering languages and layouts | No upload. |
 | Crash logs and performance telemetry | No embedded reporting service | No automatic developer upload. Android or the app store may have separate diagnostics. |
@@ -72,6 +73,12 @@ up to 40 are retained. Up to 100 pinned entries remain until deleted. Settings,
 models, custom layouts/designs and score records persist in private app
 storage. Clear app storage or uninstall to remove these files. Shared copies
 in other apps are outside Lokey's control.
+
+The optional learning profile is capped at 1,024 aggregate entries and encrypted
+with an Android Keystore key in storage excluded from backup. Entries unseen
+for over 90 days are pruned on access. Turning learning off or choosing Erase
+learned data deletes the profile and its key. Private and no-learning editor
+flags are honored; ordinary words entered in normal fields can still be learned.
 
 The developer does not run the model file host and cannot inspect or erase
 its logs directly. Use the host's privacy request channel for those logs;

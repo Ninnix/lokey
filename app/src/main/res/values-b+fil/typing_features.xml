@@ -1,0 +1,13 @@
+<resources>
+    <string name="ui_one_tap_speech">Dikta sa isang tap</string>
+    <string name="ui_one_tap_speech_description">I-tap ang lumulutang na mikropono para magrekord nang hindi hinahawakan. I-pause, ituloy o ihinto kapag handa ka na.</string>
+    <string name="ui_learn_from_typing">Matuto sa pagta-type</string>
+    <string name="ui_learning_description">Natututo ng madalas na salita at pagwawasto sa device na ito. Naka-encrypt, hindi kailanman ina-upload. Hindi kasama ang mga pribadong field. Binubura ng pag-off ang natutunang data.</string>
+    <string name="ui_erase_learned_data">Burahin ang natutunang data</string>
+    <string name="ui_learned_data_erased">Nabura ang natutunang data</string>
+    <string name="ui_adaptive_sizes_description">Lumalaki ang malamang na key; nananatili sa puwesto ang mga titik.</string>
+    <string name="ui_start_recording">Simulan ang pagrekord</string>
+    <string name="ui_pause_recording">I-pause ang pagrekord</string>
+    <string name="ui_resume_recording">Ituloy ang pagrekord</string>
+    <string name="ui_recording_paused">NAKA-PAUSE ANG PAGREKORD</string>
+</resources>

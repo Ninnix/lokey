@@ -1,0 +1,13 @@
+<resources>
+    <string name="ui_one_tap_speech">Imlak satu ketikan</string>
+    <string name="ui_one_tap_speech_description">Ketik mikrofon terapung untuk merakam tanpa menahan. Jeda, sambung atau hentikan apabila sedia.</string>
+    <string name="ui_learn_from_typing">Belajar daripada penaipan</string>
+    <string name="ui_learning_description">Mempelajari perkataan kerap dan pembetulan pada peranti ini. Disulitkan, tidak pernah dimuat naik. Medan peribadi dikecualikan. Mematikannya memadam data yang dipelajari.</string>
+    <string name="ui_erase_learned_data">Padam data yang dipelajari</string>
+    <string name="ui_learned_data_erased">Data yang dipelajari dipadam</string>
+    <string name="ui_adaptive_sizes_description">Kekunci yang mungkin digunakan membesar; kedudukan huruf kekal.</string>
+    <string name="ui_start_recording">Mula merakam</string>
+    <string name="ui_pause_recording">Jeda rakaman</string>
+    <string name="ui_resume_recording">Sambung rakaman</string>
+    <string name="ui_recording_paused">RAKAMAN DIJEDA</string>
+</resources>

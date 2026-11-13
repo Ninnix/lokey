@@ -1,0 +1,13 @@
+<resources>
+    <string name="ui_one_tap_speech">एक टैप में बोलकर लिखें</string>
+    <string name="ui_one_tap_speech_description">बिना दबाए रखे रिकॉर्ड करने के लिए फ़्लोटिंग माइक्रोफ़ोन पर टैप करें। जब चाहें रोकें, जारी रखें या समाप्त करें।</string>
+    <string name="ui_learn_from_typing">टाइपिंग से सीखें</string>
+    <string name="ui_learning_description">इस डिवाइस पर अक्सर इस्तेमाल होने वाले शब्द और सुधार सीखता है। डेटा एन्क्रिप्ट रहता है, कभी अपलोड नहीं होता। निजी फ़ील्ड शामिल नहीं हैं। बंद करने पर सीखा हुआ डेटा मिट जाता है।</string>
+    <string name="ui_erase_learned_data">सीखा हुआ डेटा मिटाएँ</string>
+    <string name="ui_learned_data_erased">सीखा हुआ डेटा मिटा दिया गया</string>
+    <string name="ui_adaptive_sizes_description">संभावित कुंजियाँ बड़ी होती हैं; अक्षर अपनी जगह पर रहते हैं।</string>
+    <string name="ui_start_recording">रिकॉर्डिंग शुरू करें</string>
+    <string name="ui_pause_recording">रिकॉर्डिंग रोकें</string>
+    <string name="ui_resume_recording">रिकॉर्डिंग फिर शुरू करें</string>
+    <string name="ui_recording_paused">रिकॉर्डिंग रुकी हुई है</string>
+</resources>

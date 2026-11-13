@@ -1,0 +1,13 @@
+<resources>
+    <string name="ui_one_tap_speech">Narekovanje z enim dotikom</string>
+    <string name="ui_one_tap_speech_description">Dotaknite se plavajočega mikrofona za prostoročno snemanje. Po želji začasno ustavite, nadaljujte ali ustavite.</string>
+    <string name="ui_learn_from_typing">Učenje iz tipkanja</string>
+    <string name="ui_learning_description">Uči se pogostih besed in popravkov v tej napravi. Podatki so šifrirani in se nikoli ne nalagajo. Zasebna polja so izključena. Izklop izbriše naučene podatke.</string>
+    <string name="ui_erase_learned_data">Izbriši naučene podatke</string>
+    <string name="ui_learned_data_erased">Naučeni podatki izbrisani</string>
+    <string name="ui_adaptive_sizes_description">Verjetne tipke se povečajo; črke ostanejo na mestu.</string>
+    <string name="ui_start_recording">Začni snemanje</string>
+    <string name="ui_pause_recording">Začasno ustavi snemanje</string>
+    <string name="ui_resume_recording">Nadaljuj snemanje</string>
+    <string name="ui_recording_paused">SNEMANJE ZAČASNO USTAVLJENO</string>
+</resources>

@@ -1,0 +1,13 @@
+<resources>
+    <string name="ui_one_tap_speech">Diktavimas vienu bakstelėjimu</string>
+    <string name="ui_one_tap_speech_description">Bakstelėkite slankųjį mikrofoną ir įrašykite laisvomis rankomis. Pristabdykite, tęskite arba sustabdykite, kai norite.</string>
+    <string name="ui_learn_from_typing">Mokytis iš rašymo</string>
+    <string name="ui_learning_description">Išmoksta dažnus žodžius ir taisymus šiame įrenginyje. Duomenys šifruojami ir niekada nesiunčiami. Privatūs laukai neįtraukiami. Išjungus ištrinami išmokti duomenys.</string>
+    <string name="ui_erase_learned_data">Ištrinti išmoktus duomenis</string>
+    <string name="ui_learned_data_erased">Išmokti duomenys ištrinti</string>
+    <string name="ui_adaptive_sizes_description">Tikėtini klavišai didėja; raidės lieka savo vietose.</string>
+    <string name="ui_start_recording">Pradėti įrašymą</string>
+    <string name="ui_pause_recording">Pristabdyti įrašymą</string>
+    <string name="ui_resume_recording">Tęsti įrašymą</string>
+    <string name="ui_recording_paused">ĮRAŠYMAS PRISTABDYTAS</string>
+</resources>

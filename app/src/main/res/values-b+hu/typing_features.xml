@@ -1,0 +1,13 @@
+<resources>
+    <string name="ui_one_tap_speech">Diktálás egy érintéssel</string>
+    <string name="ui_one_tap_speech_description">Érintsd meg a lebegő mikrofont a kéz nélküli felvételhez. Szüneteltesd, folytasd vagy állítsd le, amikor szeretnéd.</string>
+    <string name="ui_learn_from_typing">Tanulás a gépelésből</string>
+    <string name="ui_learning_description">Gyakori szavakat és javításokat tanul ezen az eszközön. Titkosított, soha nem töltődik fel. A privát mezők kimaradnak. Kikapcsoláskor a tanult adatok törlődnek.</string>
+    <string name="ui_erase_learned_data">Tanult adatok törlése</string>
+    <string name="ui_learned_data_erased">Tanult adatok törölve</string>
+    <string name="ui_adaptive_sizes_description">A valószínű billentyűk nőnek; a betűk a helyükön maradnak.</string>
+    <string name="ui_start_recording">Felvétel indítása</string>
+    <string name="ui_pause_recording">Felvétel szüneteltetése</string>
+    <string name="ui_resume_recording">Felvétel folytatása</string>
+    <string name="ui_recording_paused">FELVÉTEL SZÜNETEL</string>
+</resources>

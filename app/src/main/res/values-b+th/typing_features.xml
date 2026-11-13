@@ -1,0 +1,13 @@
+<resources>
+    <string name="ui_one_tap_speech">พิมพ์ด้วยเสียงในครั้งเดียว</string>
+    <string name="ui_one_tap_speech_description">แตะไมโครโฟนลอยเพื่อบันทึกโดยไม่ต้องกดค้าง หยุดชั่วคราว บันทึกต่อ หรือหยุดได้เมื่อต้องการ</string>
+    <string name="ui_learn_from_typing">เรียนรู้จากการพิมพ์</string>
+    <string name="ui_learning_description">เรียนรู้คำที่ใช้บ่อยและการแก้ไขในอุปกรณ์นี้ ข้อมูลเข้ารหัสและไม่อัปโหลด ยกเว้นช่องส่วนตัว การปิดจะลบข้อมูลที่เรียนรู้</string>
+    <string name="ui_erase_learned_data">ลบข้อมูลที่เรียนรู้</string>
+    <string name="ui_learned_data_erased">ลบข้อมูลที่เรียนรู้แล้ว</string>
+    <string name="ui_adaptive_sizes_description">ปุ่มที่น่าจะใช้จะใหญ่ขึ้น ตำแหน่งตัวอักษรยังคงเดิม</string>
+    <string name="ui_start_recording">เริ่มบันทึก</string>
+    <string name="ui_pause_recording">หยุดบันทึกชั่วคราว</string>
+    <string name="ui_resume_recording">บันทึกต่อ</string>
+    <string name="ui_recording_paused">หยุดบันทึกชั่วคราวแล้ว</string>
+</resources>

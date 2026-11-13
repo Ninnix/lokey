@@ -1,0 +1,13 @@
+<resources>
+    <string name="ui_one_tap_speech">One-tap speech</string>
+    <string name="ui_one_tap_speech_description">Tap the floating microphone to record hands-free. Pause, resume or stop when ready.</string>
+    <string name="ui_learn_from_typing">Learn from typing</string>
+    <string name="ui_learning_description">Learn frequent words and corrections on this device. Encrypted, never uploaded. Private fields are excluded. Turning this off erases learning.</string>
+    <string name="ui_erase_learned_data">Erase learned data</string>
+    <string name="ui_learned_data_erased">Learned data erased</string>
+    <string name="ui_adaptive_sizes_description">Likely keys grow; letter positions stay fixed.</string>
+    <string name="ui_start_recording">Start recording</string>
+    <string name="ui_pause_recording">Pause recording</string>
+    <string name="ui_resume_recording">Resume recording</string>
+    <string name="ui_recording_paused">RECORDING PAUSED</string>
+</resources>

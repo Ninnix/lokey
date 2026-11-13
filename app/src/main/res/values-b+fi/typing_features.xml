@@ -1,0 +1,13 @@
+<resources>
+    <string name="ui_one_tap_speech">Sanelu yhdellä napautuksella</string>
+    <string name="ui_one_tap_speech_description">Aloita tallennus napauttamalla kelluvaa mikrofonia. Keskeytä, jatka tai lopeta halutessasi.</string>
+    <string name="ui_learn_from_typing">Opi kirjoittamisesta</string>
+    <string name="ui_learning_description">Oppii usein käytetyt sanat ja korjaukset tällä laitteella. Tiedot salataan eikä niitä lähetetä. Yksityiset kentät ohitetaan. Pois kytkeminen poistaa opitut tiedot.</string>
+    <string name="ui_erase_learned_data">Poista opitut tiedot</string>
+    <string name="ui_learned_data_erased">Opitut tiedot poistettu</string>
+    <string name="ui_adaptive_sizes_description">Todennäköiset näppäimet kasvavat; kirjaimet pysyvät paikoillaan.</string>
+    <string name="ui_start_recording">Aloita tallennus</string>
+    <string name="ui_pause_recording">Keskeytä tallennus</string>
+    <string name="ui_resume_recording">Jatka tallennusta</string>
+    <string name="ui_recording_paused">TALLENNUS KESKEYTETTY</string>
+</resources>

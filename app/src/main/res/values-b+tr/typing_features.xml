@@ -1,0 +1,13 @@
+<resources>
+    <string name="ui_one_tap_speech">Tek dokunuşla dikte</string>
+    <string name="ui_one_tap_speech_description">Eller serbest kayıt için kayan mikrofona dokunun. İstediğinizde duraklatın, sürdürün veya durdurun.</string>
+    <string name="ui_learn_from_typing">Yazarken öğren</string>
+    <string name="ui_learning_description">Bu cihazda sık kullanılan sözcükleri ve düzeltmeleri öğrenir. Veriler şifrelenir, asla yüklenmez. Özel alanlar hariç tutulur. Kapatmak öğrenilen verileri siler.</string>
+    <string name="ui_erase_learned_data">Öğrenilen verileri sil</string>
+    <string name="ui_learned_data_erased">Öğrenilen veriler silindi</string>
+    <string name="ui_adaptive_sizes_description">Olası tuşlar büyür; harflerin konumları sabit kalır.</string>
+    <string name="ui_start_recording">Kaydı başlat</string>
+    <string name="ui_pause_recording">Kaydı duraklat</string>
+    <string name="ui_resume_recording">Kaydı sürdür</string>
+    <string name="ui_recording_paused">KAYIT DURAKLATILDI</string>
+</resources>

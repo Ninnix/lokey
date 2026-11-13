@@ -1,0 +1,13 @@
+<resources>
+    <string name="ui_one_tap_speech">Diktering med ett tryck</string>
+    <string name="ui_one_tap_speech_description">Tryck på den flytande mikrofonen för att spela in handsfree. Pausa, återuppta eller stoppa när du vill.</string>
+    <string name="ui_learn_from_typing">Lär av ditt skrivande</string>
+    <string name="ui_learning_description">Lär sig vanliga ord och rättelser på den här enheten. Krypterat, laddas aldrig upp. Privata fält undantas. Avstängning raderar inlärda data.</string>
+    <string name="ui_erase_learned_data">Radera inlärda data</string>
+    <string name="ui_learned_data_erased">Inlärda data raderade</string>
+    <string name="ui_adaptive_sizes_description">Sannolika tangenter växer; bokstävernas positioner är fasta.</string>
+    <string name="ui_start_recording">Starta inspelning</string>
+    <string name="ui_pause_recording">Pausa inspelning</string>
+    <string name="ui_resume_recording">Återuppta inspelning</string>
+    <string name="ui_recording_paused">INSPELNING PAUSAD</string>
+</resources>

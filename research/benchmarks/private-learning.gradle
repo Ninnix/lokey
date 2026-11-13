@@ -1,0 +1,11 @@
+// Install beside the regular app so synthetic learning cannot touch its profile.
+gradle.beforeProject { project ->
+    project.pluginManager.withPlugin('com.android.application') {
+        project.androidComponents.finalizeDsl { android ->
+            android.defaultConfig.applicationId = 'org.lokey.app.features'
+            android.defaultConfig.testApplicationId = 'org.lokey.app.features.test'
+            android.buildTypes.release.signingConfig = android.signingConfigs.debug
+        }
+        project.tasks.matching { it.name == 'checkReleaseSigning' }.configureEach { enabled = false }
+    }
+}

@@ -1,0 +1,13 @@
+<resources>
+    <string name="ui_one_tap_speech">Diktering med ét tryk</string>
+    <string name="ui_one_tap_speech_description">Tryk på den flydende mikrofon for at optage håndfrit. Sæt på pause, fortsæt eller stop, når du vil.</string>
+    <string name="ui_learn_from_typing">Lær af din indtastning</string>
+    <string name="ui_learning_description">Lærer hyppige ord og rettelser på denne enhed. Krypteret, aldrig uploadet. Private felter er udelukket. Deaktivering sletter lærte data.</string>
+    <string name="ui_erase_learned_data">Slet lærte data</string>
+    <string name="ui_learned_data_erased">Lærte data slettet</string>
+    <string name="ui_adaptive_sizes_description">Sandsynlige taster vokser; bogstaverne bliver på deres plads.</string>
+    <string name="ui_start_recording">Start optagelse</string>
+    <string name="ui_pause_recording">Sæt optagelse på pause</string>
+    <string name="ui_resume_recording">Fortsæt optagelse</string>
+    <string name="ui_recording_paused">OPTAGELSE PÅ PAUSE</string>
+</resources>

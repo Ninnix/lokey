@@ -18,6 +18,18 @@ object ToolIcons {
         canvas.save();canvas.translate(x-12*u,y-12*u);canvas.scale(u,u)
         pen.strokeWidth=1.35f
         when(name) {
+            "microphone" -> {
+                canvas.drawRoundRect(9f,3f,15f,14f,3f,3f,pen)
+                canvas.drawArc(6f,9f,18f,18f,0f,180f,false,pen)
+                canvas.drawLine(12f,18f,12f,22f,pen);canvas.drawLine(8f,22f,16f,22f,pen)
+            }
+            "pause" -> { pen.style=Paint.Style.FILL;canvas.drawRect(6f,5f,10f,19f,pen);canvas.drawRect(14f,5f,18f,19f,pen) }
+            "resume" -> {
+                pen.style=Paint.Style.FILL
+                canvas.drawPath(Path().apply { moveTo(7f,4f);lineTo(20f,12f);lineTo(7f,20f);close() },pen)
+            }
+            "stop" -> { pen.style=Paint.Style.FILL;canvas.drawRoundRect(5f,5f,19f,19f,2f,2f,pen) }
+            "busy" -> canvas.drawArc(4f,4f,20f,20f,-60f,270f,false,pen)
             "clipboard","copy" -> {
                 canvas.drawRoundRect(5f,5f,19f,22f,2f,2f,pen)
                 canvas.drawRoundRect(9f,2f,15f,7f,1f,1f,pen)

@@ -1,0 +1,13 @@
+<resources>
+    <string name="ui_one_tap_speech">Diktēšana ar vienu pieskārienu</string>
+    <string name="ui_one_tap_speech_description">Pieskarieties peldošajam mikrofonam, lai ierakstītu brīvroku režīmā. Pauzējiet, atsāciet vai apturiet, kad vēlaties.</string>
+    <string name="ui_learn_from_typing">Mācīties no rakstīšanas</string>
+    <string name="ui_learning_description">Apgūst biežus vārdus un labojumus šajā ierīcē. Dati ir šifrēti un netiek augšupielādēti. Privātie lauki ir izslēgti. Izslēdzot tiek dzēsti apgūtie dati.</string>
+    <string name="ui_erase_learned_data">Dzēst apgūtos datus</string>
+    <string name="ui_learned_data_erased">Apgūtie dati izdzēsti</string>
+    <string name="ui_adaptive_sizes_description">Iespējamie taustiņi palielinās; burti paliek savās vietās.</string>
+    <string name="ui_start_recording">Sākt ierakstīšanu</string>
+    <string name="ui_pause_recording">Pauzēt ierakstīšanu</string>
+    <string name="ui_resume_recording">Atsākt ierakstīšanu</string>
+    <string name="ui_recording_paused">IERAKSTĪŠANA PAUZĒTA</string>
+</resources>

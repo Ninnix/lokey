@@ -45,6 +45,11 @@ Useful groups:
 * `setup`, `automatic`, `modelui`: setup, model selection and model screens.
 * `localization`, `privacy`: locale resources, user-text preservation and the
   bundled privacy policy.
+* `typingfeatures`: model-free personal learning, encrypted storage and erasure,
+  sensitive-field exclusions, one-tap recording controls and pause/resume.
+* `typingfeatureslive`, `learningneural`, `speechoverlay`: real editor and
+  microphone checks, personal neural candidates and draggable overlay controls
+  in the isolated application described in [the learning note](research/PRIVATE-LEARNING.md).
 
 The runner saves JSON reports in `artifacts/` and serializes inference runs on
 the same phone. It restores the original keyboard layout. Keep test input

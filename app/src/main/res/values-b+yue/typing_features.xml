@@ -1,0 +1,13 @@
+<resources>
+    <string name="ui_one_tap_speech">一撳語音輸入</string>
+    <string name="ui_one_tap_speech_description">撳浮動咪高峰就可以唔使按住錄音。隨時暫停、繼續或者停止。</string>
+    <string name="ui_learn_from_typing">從輸入中學習</string>
+    <string name="ui_learning_description">喺呢部裝置學習常用詞同更正。資料加密，絕不上傳。私人輸入欄位唔會包括在內。關閉就會清除學習資料。</string>
+    <string name="ui_erase_learned_data">清除學習資料</string>
+    <string name="ui_learned_data_erased">已清除學習資料</string>
+    <string name="ui_adaptive_sizes_description">較可能使用嘅按鍵會變大，字母位置保持不變。</string>
+    <string name="ui_start_recording">開始錄音</string>
+    <string name="ui_pause_recording">暫停錄音</string>
+    <string name="ui_resume_recording">繼續錄音</string>
+    <string name="ui_recording_paused">錄音已暫停</string>
+</resources>

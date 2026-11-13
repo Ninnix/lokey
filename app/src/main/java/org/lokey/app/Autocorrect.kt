@@ -58,7 +58,7 @@ class Autocorrect {
         undo = Undo(expected, after, caret - length + inserted.length, inserted, word)
         return true
     }
-    fun revert(connection: InputConnection): Boolean {
+    fun revert(connection: InputConnection,reject:(String)->Unit={}): Boolean {
         val item = undo ?: return false
         clear()
         if (Cursor.position(connection) != item.position || connection.getTextBeforeCursor(320, 0)?.toString() != item.before ||
@@ -68,6 +68,7 @@ class Autocorrect {
         connection.deleteSurroundingText(item.inserted.length, 0)
         connection.commitText(item.original, 1)
         rejected = item.original
+        reject(item.original)
         connection.endBatchEdit()
         return true
     }

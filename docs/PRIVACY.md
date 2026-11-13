@@ -1,6 +1,6 @@
 # Lokey privacy policy
 
-Effective date: November 10, 2026.
+Effective date: November 13, 2026.
 
 Lokey (`org.lokey.app`) is developed by Nicolo' D'Evangelista, also known as
 Ninnix. For privacy questions or requests, contact nicolo.deva@gmail.com.
@@ -28,7 +28,39 @@ word-context tables contain fixed public corpus counts and never learn from
 user typing.
 Lokey does not learn from or store touch positions, touch trails, calibration,
 letter counts or typing history for this feature. Letter positions stay fixed
-while likely keys can become wider. No personalization profile is saved.
+while likely keys can become wider. No personalization profile is saved unless
+you enable the separate Learn from typing option described below.
+
+## Optional learning
+
+Learn from typing is disabled by default. When enabled in Feel, Lokey learns
+frequent words typed through its keys, words you explicitly select from its
+suggestions, and repeated one-edit corrections you explicitly choose. This
+works with the bundled dictionary even without downloaded models, and can
+also augment suggestions from an installed model. Adaptive letter sizes and
+autocorrect still require their own separate switches.
+
+The profile holds at most 1,024 aggregate word/correction entries with counts,
+day buckets, language and layout. It does not store sentences, ordered typing
+history, touch positions or trails. Words containing digits, URLs and email
+syntax are rejected. Pasting, dictation, translation output, swipe output and
+the practice test do not train the profile. Learning is excluded from private,
+password, email, URL, numeric, phone, person-name and postal-address fields,
+fields disabling suggestions, and fields requesting no personalized learning.
+These exclusions depend on the receiving app supplying correct Android flags.
+An ordinary word or name entered into a normal text field can still be learned
+and shown in suggestions; Lokey cannot reliably identify every secret.
+
+Learned data stays on this device and is never uploaded or used to train a
+remote model. The profile is encrypted with AES-256-GCM in storage excluded
+from backup, using an Android Keystore key restricted to an unlocked device.
+It ages with use; entries last observed more than 90 days ago are discarded
+when accessed. Turning learning off or choosing Erase learned data in Feel
+clears the profile and deletes its encryption key. Erasing while learning
+remains enabled allows a fresh profile to form from subsequent typing.
+Encryption does not protect against a compromised app/OS, use of the unlocked
+keyboard or someone seeing your suggestions. Key and file deletion do not
+promise physical overwriting of flash storage or all in-memory strings.
 
 Text you type, paste, dictate or translate is sent to the app in which you
 are writing. That app decides how to store or transmit it. Lokey cannot
@@ -39,7 +71,19 @@ control the receiving app's data handling.
 Dictation requires Android's microphone permission. Lokey records while you
 use the recording controls, including a recording you explicitly lock on,
 and processes the audio locally with the installed speech model. A recording
-is limited to approximately one minute. You can stop or cancel it.
+is limited to approximately one minute of captured audio. You can stop or cancel
+it. The optional One-tap speech switch in Feel adds a floating microphone:
+one tap starts locked recording, with stop and pause/resume controls. Pausing
+stops microphone capture until you resume. The audio stays in memory, and
+hiding the keyboard or changing editors cancels recording.
+
+Enabling One-tap speech asks for Android's Display over other apps permission
+if it has not been granted. With permission, its microphone is a movable
+overlay outside the keyboard; Lokey remembers its position. Without permission,
+the control remains at the right of the keyboard's prediction bar. The overlay
+is shown only while Lokey's keyboard is visible in a supported non-private
+field, and is removed when the keyboard hides or the feature is disabled.
+The permission is used for this control and does not read other apps' screens.
 
 Audio is held in working memory. Lokey does not save microphone recordings
 as audio files or upload them. The resulting text is inserted into the

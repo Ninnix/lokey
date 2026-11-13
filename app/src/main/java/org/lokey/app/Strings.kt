@@ -5,6 +5,17 @@ import java.util.Locale
 
 object Strings {
     internal val ids=mapOf(
+        "One-tap speech" to R.string.ui_one_tap_speech,
+        "Tap the floating microphone to record hands-free. Pause, resume or stop when ready." to R.string.ui_one_tap_speech_description,
+        "Learn from typing" to R.string.ui_learn_from_typing,
+        "Learn frequent words and corrections on this device. Encrypted, never uploaded. Private fields are excluded. Turning this off erases learning." to R.string.ui_learning_description,
+        "Erase learned data" to R.string.ui_erase_learned_data,
+        "Learned data erased" to R.string.ui_learned_data_erased,
+        "Likely keys grow; letter positions stay fixed." to R.string.ui_adaptive_sizes_description,
+        "Start recording" to R.string.ui_start_recording,
+        "Pause recording" to R.string.ui_pause_recording,
+        "Resume recording" to R.string.ui_resume_recording,
+        "RECORDING PAUSED" to R.string.ui_recording_paused,
         "\nMIT License" to R.string.ui_mit_license,
         " · Not downloaded" to R.string.ui_not_downloaded,
         "%1\$.0f WPM · %2\$.0f%% accuracy · %3\$d/%4\$d" to R.string.ui_1_0f_wpm_2_0f_accuracy_3_d_4_d,

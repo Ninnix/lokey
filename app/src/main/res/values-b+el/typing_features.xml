@@ -1,0 +1,13 @@
+<resources>
+    <string name="ui_one_tap_speech">Υπαγόρευση με ένα πάτημα</string>
+    <string name="ui_one_tap_speech_description">Πατήστε το αιωρούμενο μικρόφωνο για εγγραφή χωρίς κράτημα. Κάντε παύση, συνεχίστε ή σταματήστε όποτε θέλετε.</string>
+    <string name="ui_learn_from_typing">Μάθηση από την πληκτρολόγηση</string>
+    <string name="ui_learning_description">Μαθαίνει συχνές λέξεις και διορθώσεις σε αυτή τη συσκευή. Κρυπτογραφημένα δεδομένα, ποτέ μεταφόρτωση. Τα ιδιωτικά πεδία εξαιρούνται. Η απενεργοποίηση διαγράφει τα δεδομένα μάθησης.</string>
+    <string name="ui_erase_learned_data">Διαγραφή δεδομένων μάθησης</string>
+    <string name="ui_learned_data_erased">Τα δεδομένα μάθησης διαγράφηκαν</string>
+    <string name="ui_adaptive_sizes_description">Τα πιθανά πλήκτρα μεγαλώνουν· τα γράμματα μένουν στη θέση τους.</string>
+    <string name="ui_start_recording">Έναρξη εγγραφής</string>
+    <string name="ui_pause_recording">Παύση εγγραφής</string>
+    <string name="ui_resume_recording">Συνέχιση εγγραφής</string>
+    <string name="ui_recording_paused">ΕΓΓΡΑΦΗ ΣΕ ΠΑΥΣΗ</string>
+</resources>

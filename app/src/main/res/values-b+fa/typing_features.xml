@@ -1,0 +1,13 @@
+<resources>
+    <string name="ui_one_tap_speech">گفتار با یک لمس</string>
+    <string name="ui_one_tap_speech_description">برای ضبط بدون نگه داشتن، میکروفون شناور را لمس کنید. هر زمان خواستید مکث کنید، ادامه دهید یا ضبط را پایان دهید.</string>
+    <string name="ui_learn_from_typing">یادگیری از تایپ</string>
+    <string name="ui_learning_description">واژه‌های پرتکرار و اصلاحات را روی این دستگاه یاد می‌گیرد. داده‌ها رمزگذاری می‌شوند و هرگز بارگذاری نمی‌شوند. فیلدهای خصوصی مستثنا هستند. خاموش کردن، داده‌های آموخته‌شده را پاک می‌کند.</string>
+    <string name="ui_erase_learned_data">پاک کردن داده‌های آموخته‌شده</string>
+    <string name="ui_learned_data_erased">داده‌های آموخته‌شده پاک شدند</string>
+    <string name="ui_adaptive_sizes_description">کلیدهای محتمل بزرگ‌تر می‌شوند؛ حروف در جای خود می‌مانند.</string>
+    <string name="ui_start_recording">شروع ضبط</string>
+    <string name="ui_pause_recording">مکث ضبط</string>
+    <string name="ui_resume_recording">ادامه ضبط</string>
+    <string name="ui_recording_paused">ضبط مکث شده است</string>
+</resources>

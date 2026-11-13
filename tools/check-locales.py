@@ -17,7 +17,7 @@ assert len(codes)==len(set(codes))
 format=re.compile(r'%%|%\d+\$(?:\.\d+)?[sdf]')
 
 def strings(path):
-    rows=ET.parse(path).getroot().findall('string')
+    rows=[row for source in sorted(path.parent.glob('*.xml')) for row in ET.parse(source).getroot().findall('string')]
     assert len(rows)==len({row.attrib['name'] for row in rows}),f'Duplicate resource in {path}'
     def decode(value):
         if value.startswith('"') and value.endswith('"'):value=value[1:-1]

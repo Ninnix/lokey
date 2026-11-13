@@ -1,0 +1,13 @@
+<resources>
+    <string name="ui_one_tap_speech">Dictée en un appui</string>
+    <string name="ui_one_tap_speech_description">Touchez le microphone flottant pour enregistrer sans les mains. Mettez en pause, reprenez ou arrêtez quand vous voulez.</string>
+    <string name="ui_learn_from_typing">Apprendre de la saisie</string>
+    <string name="ui_learning_description">Apprend les mots fréquents et les corrections sur cet appareil. Données chiffrées, jamais envoyées. Les champs privés sont exclus. Désactiver efface les données apprises.</string>
+    <string name="ui_erase_learned_data">Effacer les données apprises</string>
+    <string name="ui_learned_data_erased">Données apprises effacées</string>
+    <string name="ui_adaptive_sizes_description">Les touches probables s’agrandissent ; les lettres restent en place.</string>
+    <string name="ui_start_recording">Démarrer l’enregistrement</string>
+    <string name="ui_pause_recording">Mettre l’enregistrement en pause</string>
+    <string name="ui_resume_recording">Reprendre l’enregistrement</string>
+    <string name="ui_recording_paused">ENREGISTREMENT EN PAUSE</string>
+</resources>

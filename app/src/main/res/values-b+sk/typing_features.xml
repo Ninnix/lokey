@@ -1,0 +1,13 @@
+<resources>
+    <string name="ui_one_tap_speech">Diktovanie jedným klepnutím</string>
+    <string name="ui_one_tap_speech_description">Klepnutím na plávajúci mikrofón spustíte nahrávanie bez držania. Kedykoľvek ho pozastavte, obnovte alebo zastavte.</string>
+    <string name="ui_learn_from_typing">Učiť sa z písania</string>
+    <string name="ui_learning_description">Učí sa časté slová a opravy v tomto zariadení. Údaje sú šifrované a nikdy sa neodosielajú. Súkromné polia sú vylúčené. Vypnutie vymaže naučené údaje.</string>
+    <string name="ui_erase_learned_data">Vymazať naučené údaje</string>
+    <string name="ui_learned_data_erased">Naučené údaje vymazané</string>
+    <string name="ui_adaptive_sizes_description">Pravdepodobné klávesy sa zväčšujú; písmená zostávajú na mieste.</string>
+    <string name="ui_start_recording">Spustiť nahrávanie</string>
+    <string name="ui_pause_recording">Pozastaviť nahrávanie</string>
+    <string name="ui_resume_recording">Obnoviť nahrávanie</string>
+    <string name="ui_recording_paused">NAHRÁVANIE POZASTAVENÉ</string>
+</resources>

@@ -1,0 +1,13 @@
+<resources>
+    <string name="ui_one_tap_speech">إملاء بلمسة واحدة</string>
+    <string name="ui_one_tap_speech_description">المس الميكروفون العائم للتسجيل دون الاستمرار بالضغط. أوقف مؤقتًا أو استأنف أو أنهِ التسجيل متى شئت.</string>
+    <string name="ui_learn_from_typing">التعلم من الكتابة</string>
+    <string name="ui_learning_description">يتعلم الكلمات المتكررة والتصحيحات على هذا الجهاز. البيانات مشفرة ولا تُرفع أبدًا. تُستثنى الحقول الخاصة. يؤدي إيقاف الخيار إلى حذف البيانات المتعلمة.</string>
+    <string name="ui_erase_learned_data">مسح البيانات المتعلمة</string>
+    <string name="ui_learned_data_erased">تم مسح البيانات المتعلمة</string>
+    <string name="ui_adaptive_sizes_description">تكبر المفاتيح المحتملة؛ وتبقى الحروف في مواضعها.</string>
+    <string name="ui_start_recording">بدء التسجيل</string>
+    <string name="ui_pause_recording">إيقاف التسجيل مؤقتًا</string>
+    <string name="ui_resume_recording">استئناف التسجيل</string>
+    <string name="ui_recording_paused">التسجيل متوقف مؤقتًا</string>
+</resources>

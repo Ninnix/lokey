@@ -6,7 +6,7 @@ import android.os.Looper
 import java.util.concurrent.atomic.AtomicInteger
 import java.util.concurrent.atomic.AtomicBoolean
 
-class Prediction(private val context: Context, private val prefs: Prefs) {
+class Prediction(private val context: Context, private val prefs: Prefs,private val learning:UsageLearning=UsageLearning.shared(context)) {
     data class Result(val before: String, val words: List<String>, val letters: FloatArray, val language: String, val neural: Boolean, val correction: String? = null, val appendWords: Set<String> = emptySet())
     private val main = Handler(Looper.getMainLooper())
     private val worker=ModelMemory.Worker("lokey-prediction",ModelMemory.TEXT,Thread.MIN_PRIORITY)
@@ -17,6 +17,7 @@ class Prediction(private val context: Context, private val prefs: Prefs) {
     internal val workCount get()=worker.executions
     private lateinit var languages: Languages
     private lateinit var local:LocalPrediction
+    private fun scope(code:String)=UsageLearning.scope(prefs.layout,code)
     private var language = "en"
     private var loaded = ""
     @Volatile private var loadedGeneration=-1L
@@ -52,7 +53,7 @@ class Prediction(private val context: Context, private val prefs: Prefs) {
         private set
     init { worker.execute(false) { languages = Languages.shared(context);local=LocalPrediction(context,languages) } }
     // Finishing a word must not cancel its correction while next-word suggestions refresh.
-    fun correct(before:String,callback:(Result?)->Unit) {
+    fun correct(before:String,learningAllowed:Boolean=false,callback:(Result?)->Unit) {
         cleared.set(false)
         val ticket=correctionVersion.incrementAndGet()
         worker.execute {
@@ -60,7 +61,10 @@ class Prediction(private val context: Context, private val prefs: Prefs) {
             var result:Result?=null
             try {
                 val detected=languages.detect(before,language)
-                result=if(Models.text.none { Models.ready(context,it) }) local.correction(before,detected)?.let {
+                val personal=if(learningAllowed) learning.correction(scope(detected.code),Languages.prefix(before)) else null
+                result=if(personal!=null) Languages.casing(personal,Languages.prefix(before),detected.code).let {
+                    Result(before,listOf(it),FloatArray(26),detected.code,false,it)
+                } else if(Models.text.none { Models.ready(context,it) }) local.correction(before,detected)?.let {
                     Result(before,listOf(it),FloatArray(26),detected.code,false,it)
                 } else evaluateCorrection(before,detected)
             }
@@ -149,7 +153,13 @@ class Prediction(private val context: Context, private val prefs: Prefs) {
         } }
         pending=task;main.postDelayed(task,150)
     }
-    fun request(before: String, neuralAllowed:Boolean=true, script:String?=null,callback: (Result) -> Unit) {
+    fun request(before:String,neuralAllowed:Boolean=true,script:String?=null,learningAllowed:Boolean=false,callback:(Result)->Unit) {
+        requestBase(before,neuralAllowed,script,learningAllowed) { result ->
+            val value=if(learningAllowed) learning.personalize(result,scope(result.language)) else result
+            latest=value;callback(value)
+        }
+    }
+    private fun requestBase(before: String, neuralAllowed:Boolean, script:String?,learningAllowed:Boolean,callback: (Result) -> Unit) {
         cleared.set(false)
         if(neuralAllowed) Native.touchModel(ModelMemory.TEXT)
         val detected=KeyboardLayouts.predictionLanguage(before,script)
@@ -195,6 +205,9 @@ class Prediction(private val context: Context, private val prefs: Prefs) {
                 val complete = prefix.length >= 2 && contraction==null && detected.words.containsKey(Languages.lower(prefix))
                 val sentence = if (complete) wordContext(before) else stem
                 val pool = languages.choices(detected, sentence, if (complete) "" else prefix).toMutableList()
+                if(learningAllowed) for((word,score) in learning.candidates(scope(detected.code),if(complete) "" else prefix)) {
+                    if(pool.none { it.word.equals(word,true) }) pool.add(Languages.Choice(word,score.coerceAtMost(3.0)))
+                }
                 if ((complete || prefix.isEmpty()) && Languages.tokens(sentence).isNotEmpty() && sentence.lastOrNull() !in listOf('.', '?', '!'))
                     listOf("?", ".", "!").forEach { pool.add(Languages.Choice(it, 3.4)) }
                 val fixes = if(prefs.autocorrect) contraction?.let { listOf(it) } ?: if(pool.isEmpty()) languages.corrections(detected,prefix) else emptyList() else emptyList()

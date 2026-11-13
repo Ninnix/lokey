@@ -1,0 +1,13 @@
+<resources>
+    <string name="ui_one_tap_speech">Dyktowanie jednym dotknięciem</string>
+    <string name="ui_one_tap_speech_description">Dotknij pływającego mikrofonu, aby nagrywać bez trzymania. Wstrzymaj, wznów lub zatrzymaj, kiedy chcesz.</string>
+    <string name="ui_learn_from_typing">Ucz się podczas pisania</string>
+    <string name="ui_learning_description">Uczy się częstych słów i poprawek na tym urządzeniu. Dane są szyfrowane i nigdy nie są wysyłane. Pola prywatne są wykluczone. Wyłączenie usuwa wyuczone dane.</string>
+    <string name="ui_erase_learned_data">Usuń wyuczone dane</string>
+    <string name="ui_learned_data_erased">Wyuczone dane usunięte</string>
+    <string name="ui_adaptive_sizes_description">Prawdopodobne klawisze rosną; litery pozostają na miejscu.</string>
+    <string name="ui_start_recording">Rozpocznij nagrywanie</string>
+    <string name="ui_pause_recording">Wstrzymaj nagrywanie</string>
+    <string name="ui_resume_recording">Wznów nagrywanie</string>
+    <string name="ui_recording_paused">NAGRYWANIE WSTRZYMANE</string>
+</resources>

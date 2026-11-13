@@ -15,6 +15,8 @@ class Voice(private val context: Context) {
     @Volatile private var active = false
     @Volatile private var processing = false
     @Volatile private var generation = 0
+    @Volatile private var paused = false
+    private val pauseLock=Object()
     private fun selected()=Models.selectedVoice(context,Prefs(context))
     private fun load(model:Models.Model) {
         check(Models.ready(context,model)) { context.tr("Add %1\$s in Lokey → Models",model.title) }
@@ -38,6 +40,7 @@ class Voice(private val context: Context) {
     fun start(level: (Float, Long) -> Unit, complete: (String?, String?) -> Unit) {
         if (active) return
         active = true
+        paused = false
         val ticket = ++generation
         val model=selected()
         Thread({
@@ -52,11 +55,19 @@ class Voice(private val context: Context) {
                 val samples = FloatArray(16000 * 60)
                 val buffer = ShortArray(800)
                 var count = 0
-                if (active && ticket == generation) { recorder.startRecording();prepare() }
+                var running=false
+                if (active && ticket == generation) { recorder.startRecording();running=true;prepare() }
                 while (active && ticket == generation && count < samples.size - buffer.size) {
+                    if(paused) {
+                        if(running) { recorder.stop();running=false }
+                        synchronized(pauseLock) { while(active && ticket==generation && paused) pauseLock.wait() }
+                        continue
+                    }
+                    if(!running) { recorder.startRecording();running=true }
                     val n = recorder.read(buffer, 0, buffer.size)
                     check(n >= 0 || !active) { context.tr("Microphone interrupted") }
                     if (n <= 0) break
+                    if(paused) continue
                     var energy = 0f
                     for (i in 0 until n) { val sample = buffer[i] / 32768f; samples[count++] = sample; energy += sample * sample }
                     val amplitude = sqrt(energy / n).coerceIn(0f, 1f)
@@ -87,7 +98,15 @@ class Voice(private val context: Context) {
             }
         }, "lokey-microphone").start()
     }
-    fun stop() { active = false; try { audio?.stop() } catch (_: IllegalStateException) { } }
+    fun pause(value:Boolean):Boolean {
+        if(!active) return false
+        synchronized(pauseLock) { paused=value;pauseLock.notifyAll() }
+        return true
+    }
+    fun stop() {
+        synchronized(pauseLock) { active=false;paused=false;pauseLock.notifyAll() }
+        try { audio?.stop() } catch (_: IllegalStateException) { }
+    }
     fun cancel() { generation++; stop(); if(processing) Native.cancelSpeech() }
     fun close() { cancel(); worker.shutdown() }
     companion object {

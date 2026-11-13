@@ -1,0 +1,13 @@
+<resources>
+    <string name="ui_one_tap_speech">Spracheingabe mit einem Tippen</string>
+    <string name="ui_one_tap_speech_description">Tippe auf das schwebende Mikrofon, um freihändig aufzunehmen. Pausiere, setze fort oder beende die Aufnahme.</string>
+    <string name="ui_learn_from_typing">Aus dem Tippen lernen</string>
+    <string name="ui_learning_description">Lernt häufige Wörter und Korrekturen auf diesem Gerät. Verschlüsselt, nie hochgeladen. Private Felder sind ausgeschlossen. Ausschalten löscht die Lerndaten.</string>
+    <string name="ui_erase_learned_data">Gelernte Daten löschen</string>
+    <string name="ui_learned_data_erased">Gelernte Daten gelöscht</string>
+    <string name="ui_adaptive_sizes_description">Wahrscheinliche Tasten werden größer; Buchstaben bleiben an ihrer Position.</string>
+    <string name="ui_start_recording">Aufnahme starten</string>
+    <string name="ui_pause_recording">Aufnahme pausieren</string>
+    <string name="ui_resume_recording">Aufnahme fortsetzen</string>
+    <string name="ui_recording_paused">AUFNAHME PAUSIERT</string>
+</resources>

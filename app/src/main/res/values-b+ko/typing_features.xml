@@ -1,0 +1,13 @@
+<resources>
+    <string name="ui_one_tap_speech">한 번 눌러 음성 입력</string>
+    <string name="ui_one_tap_speech_description">떠 있는 마이크를 누르면 누르고 있지 않아도 녹음됩니다. 원할 때 일시 중지, 재개하거나 종료하세요.</string>
+    <string name="ui_learn_from_typing">입력 내용에서 학습</string>
+    <string name="ui_learning_description">이 기기에서 자주 쓰는 단어와 수정 사항을 학습합니다. 데이터는 암호화되며 업로드되지 않습니다. 비공개 입력란은 제외됩니다. 끄면 학습 데이터가 삭제됩니다.</string>
+    <string name="ui_erase_learned_data">학습 데이터 삭제</string>
+    <string name="ui_learned_data_erased">학습 데이터가 삭제되었습니다</string>
+    <string name="ui_adaptive_sizes_description">가능성이 높은 키가 커지고 글자 위치는 고정됩니다.</string>
+    <string name="ui_start_recording">녹음 시작</string>
+    <string name="ui_pause_recording">녹음 일시 중지</string>
+    <string name="ui_resume_recording">녹음 재개</string>
+    <string name="ui_recording_paused">녹음 일시 중지됨</string>
+</resources>

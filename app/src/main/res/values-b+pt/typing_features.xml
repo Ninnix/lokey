@@ -1,0 +1,13 @@
+<resources>
+    <string name="ui_one_tap_speech">Ditado com um toque</string>
+    <string name="ui_one_tap_speech_description">Toque no microfone flutuante para gravar sem usar as mãos. Pause, retome ou pare quando quiser.</string>
+    <string name="ui_learn_from_typing">Aprender com a digitação</string>
+    <string name="ui_learning_description">Aprende palavras frequentes e correções neste dispositivo. Dados criptografados, nunca enviados. Campos privados são excluídos. Desativar apaga os dados aprendidos.</string>
+    <string name="ui_erase_learned_data">Apagar dados aprendidos</string>
+    <string name="ui_learned_data_erased">Dados aprendidos apagados</string>
+    <string name="ui_adaptive_sizes_description">As teclas prováveis crescem; as letras ficam na mesma posição.</string>
+    <string name="ui_start_recording">Iniciar gravação</string>
+    <string name="ui_pause_recording">Pausar gravação</string>
+    <string name="ui_resume_recording">Retomar gravação</string>
+    <string name="ui_recording_paused">GRAVAÇÃO PAUSADA</string>
+</resources>

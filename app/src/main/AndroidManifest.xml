@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
     <uses-permission android:name="android.permission.VIBRATE"/>
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
@@ -16,7 +17,7 @@
         <activity android:name=".CreditsActivity" android:exported="false"/>
         <activity android:name=".PrivacyActivity" android:exported="false"/>
         <service android:name=".DownloadService" android:exported="true" android:permission="android.permission.BIND_JOB_SERVICE"/>
-        <provider android:name=".ScoreProvider" android:authorities="org.lokey.app.scores"
+        <provider android:name=".ScoreProvider" android:authorities="${applicationId}.scores"
             android:exported="false" android:grantUriPermissions="true"/>
         <service android:name=".LokeyService" android:label="Lokey" android:permission="android.permission.BIND_INPUT_METHOD" android:exported="true">
             <intent-filter><action android:name="android.view.InputMethod"/></intent-filter>

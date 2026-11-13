@@ -1,0 +1,13 @@
+<resources>
+    <string name="ui_one_tap_speech">Đọc chính tả bằng một lần chạm</string>
+    <string name="ui_one_tap_speech_description">Chạm vào micrô nổi để ghi âm mà không cần giữ. Tạm dừng, tiếp tục hoặc dừng khi bạn muốn.</string>
+    <string name="ui_learn_from_typing">Học từ cách gõ</string>
+    <string name="ui_learning_description">Học các từ thường dùng và cách sửa trên thiết bị này. Dữ liệu được mã hóa, không bao giờ tải lên. Bỏ qua các trường riêng tư. Tắt tùy chọn sẽ xóa dữ liệu đã học.</string>
+    <string name="ui_erase_learned_data">Xóa dữ liệu đã học</string>
+    <string name="ui_learned_data_erased">Đã xóa dữ liệu đã học</string>
+    <string name="ui_adaptive_sizes_description">Các phím có khả năng dùng sẽ lớn hơn; vị trí chữ cái giữ nguyên.</string>
+    <string name="ui_start_recording">Bắt đầu ghi âm</string>
+    <string name="ui_pause_recording">Tạm dừng ghi âm</string>
+    <string name="ui_resume_recording">Tiếp tục ghi âm</string>
+    <string name="ui_recording_paused">ĐÃ TẠM DỪNG GHI ÂM</string>
+</resources>

@@ -1,0 +1,52 @@
+{
+  "date": "2026-11-13",
+  "device": "OnePlus 15 / CPH2747",
+  "application": "org.lokey.app.features",
+  "build": "Pre-release feature validation for 0.1.4 using the isolated test application",
+  "passed": true,
+  "model_free_and_storage": {
+    "bounded_aging_counts": true,
+    "language_layout_separation": true,
+    "confirmed_typos_only": true,
+    "no_paste_or_partial_words": true,
+    "sensitive_field_exclusions": true,
+    "locked_device_defers_decryption": true,
+    "model_free": {
+      "baseline": [
+        "quokk"
+      ],
+      "learned": [
+        "quokkalokey",
+        "quokk"
+      ],
+      "next_a_before": 0,
+      "next_a_after": 1,
+      "correction": "quokkalokey"
+    },
+    "encrypted_round_trip": true,
+    "tamper_rejected": true,
+    "erase_pending_write_and_key": true
+  },
+  "neural": {
+    "model": "LFM2.5-350M-Q4_K_M.gguf",
+    "backend": "HTP0",
+    "learned": [
+      "quokkalokey",
+      "quokka",
+      "quokkas"
+    ],
+    "after_erase": [
+      "quokka",
+      "quokkas"
+    ],
+    "personal_candidate_scored": true,
+    "erase_clears_neural_cache": true
+  },
+  "live_editor": {
+    "own_keys_learned_without_models": true,
+    "personal_word_visible": true,
+    "no_learning_flag_honored_live": true,
+    "email_field_excluded_live": true
+  },
+  "limits": "Synthetic functional fixtures; no claim of measured human typing-speed improvement."
+}

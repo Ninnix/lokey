@@ -250,6 +250,11 @@ class MainActivity : Activity() {
         content.addView(button(tr("Input & design credits")) {
             startActivity(Intent(this,CreditsActivity::class.java).putExtra("section","input"))
         },LinearLayout.LayoutParams(-1,-2))
+        section(tr("Keyboard size"))
+        card().apply {
+            slider(this,tr("Keyboard height"),prefs.height,85,120) { prefs.height=it }
+            addView(text(tr("Hold the top edge of the keyboard and drag to resize while typing."),13f,muted))
+        }
         section(tr("Typing features"))
         card().apply {
             addView(setting(tr("Swipe to type"),prefs.flow && prefs.currentLayout.flow) { prefs.flow=it }.apply { isEnabled=prefs.currentLayout.flow })
@@ -257,12 +262,21 @@ class MainActivity : Activity() {
             addView(setting(tr("Autocorrect"),prefs.autocorrect) { prefs.autocorrect=it })
             addView(text(tr("Correct words on space or punctuation. Backspace restores the original."),13f,muted))
             addView(setting(tr("Adaptive letter sizes"),prefs.adaptive) { prefs.adaptive=it })
-            addView(text(tr("Likely keys grow; letter positions stay fixed. No typing data is saved."),13f,muted))
-        }
-        section(tr("Keyboard size"))
-        card().apply {
-            slider(this,tr("Keyboard height"),prefs.height,85,120) { prefs.height=it }
-            addView(text(tr("Hold the top edge of the keyboard and drag to resize while typing."),13f,muted))
+            addView(text(tr("Likely keys grow; letter positions stay fixed."),13f,muted))
+            addView(setting(tr("One-tap speech"),prefs.oneTapSpeech) {
+                prefs.oneTapSpeech=it
+                if(it && !Settings.canDrawOverlays(this@MainActivity)) {
+                    val permission=Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,android.net.Uri.parse("package:$packageName"))
+                    if(permission.resolveActivity(packageManager)!=null) startActivityForResult(permission,13)
+                }
+            })
+            addView(text(tr("Tap the floating microphone to record hands-free. Pause, resume or stop when ready."),13f,muted))
+            addView(setting(tr("Learn from typing"),prefs.learning) { prefs.learning=it })
+            addView(text(tr("Learn frequent words and corrections on this device. Encrypted, never uploaded. Private fields are excluded. Turning this off erases learning."),13f,muted))
+            addView(button(tr("Erase learned data")) {
+                UsageLearning.shared(this@MainActivity).erase()
+                Toast.makeText(this@MainActivity,tr("Learned data erased"),Toast.LENGTH_SHORT).show()
+            },LinearLayout.LayoutParams(-1,-2).apply { topMargin=dp(16) })
         }
     }
     private fun section(title:String) {
@@ -402,6 +416,7 @@ class MainActivity : Activity() {
     }
     override fun onActivityResult(request: Int, result: Int, data: Intent?) {
         super.onActivityResult(request, result, data)
+        if(request==13) { show("feel");return }
         if(request==12 && result==RESULT_OK) {
             data?.getStringExtra("language")?.takeIf { it in LanguageLayouts.all }?.let { prefs.setupLanguage=it;refresh() }
             return

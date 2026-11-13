@@ -1,0 +1,13 @@
+<resources>
+    <string name="ui_one_tap_speech">Диктовка одним нажатием</string>
+    <string name="ui_one_tap_speech_description">Нажмите на плавающий микрофон для записи без удержания. Приостановите, продолжите или остановите запись, когда захотите.</string>
+    <string name="ui_learn_from_typing">Учиться при вводе</string>
+    <string name="ui_learning_description">Запоминает частые слова и исправления на этом устройстве. Данные зашифрованы и никогда не отправляются. Приватные поля исключены. Отключение удаляет изученные данные.</string>
+    <string name="ui_erase_learned_data">Удалить изученные данные</string>
+    <string name="ui_learned_data_erased">Изученные данные удалены</string>
+    <string name="ui_adaptive_sizes_description">Вероятные клавиши увеличиваются; буквы остаются на месте.</string>
+    <string name="ui_start_recording">Начать запись</string>
+    <string name="ui_pause_recording">Приостановить запись</string>
+    <string name="ui_resume_recording">Продолжить запись</string>
+    <string name="ui_recording_paused">ЗАПИСЬ ПРИОСТАНОВЛЕНА</string>
+</resources>

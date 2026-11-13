@@ -1,0 +1,13 @@
+<resources>
+    <string name="ui_one_tap_speech">Dictare cu o atingere</string>
+    <string name="ui_one_tap_speech_description">Atinge microfonul flotant pentru a înregistra fără a-l ține apăsat. Pune pe pauză, reia sau oprește când dorești.</string>
+    <string name="ui_learn_from_typing">Învață din tastare</string>
+    <string name="ui_learning_description">Învață cuvinte frecvente și corecturi pe acest dispozitiv. Date criptate, niciodată încărcate. Câmpurile private sunt excluse. Dezactivarea șterge datele învățate.</string>
+    <string name="ui_erase_learned_data">Șterge datele învățate</string>
+    <string name="ui_learned_data_erased">Datele învățate au fost șterse</string>
+    <string name="ui_adaptive_sizes_description">Tastele probabile se măresc; literele rămân pe loc.</string>
+    <string name="ui_start_recording">Pornește înregistrarea</string>
+    <string name="ui_pause_recording">Pune înregistrarea pe pauză</string>
+    <string name="ui_resume_recording">Reia înregistrarea</string>
+    <string name="ui_recording_paused">ÎNREGISTRARE ÎN PAUZĂ</string>
+</resources>

@@ -1,0 +1,13 @@
+<resources>
+    <string name="ui_one_tap_speech">Dikteerimine ühe puudutusega</string>
+    <string name="ui_one_tap_speech_description">Puuduta hõljuvat mikrofoni, et salvestada käed-vabalt. Peata ajutiselt, jätka või lõpeta, kui soovid.</string>
+    <string name="ui_learn_from_typing">Õpi sisestamisest</string>
+    <string name="ui_learning_description">Õpib sagedasi sõnu ja parandusi selles seadmes. Krüpteeritud, ei laadita kunagi üles. Privaatsed väljad jäetakse välja. Väljalülitamine kustutab õpitud andmed.</string>
+    <string name="ui_erase_learned_data">Kustuta õpitud andmed</string>
+    <string name="ui_learned_data_erased">Õpitud andmed kustutatud</string>
+    <string name="ui_adaptive_sizes_description">Tõenäolised klahvid kasvavad; tähed jäävad paigale.</string>
+    <string name="ui_start_recording">Alusta salvestamist</string>
+    <string name="ui_pause_recording">Peata salvestamine ajutiselt</string>
+    <string name="ui_resume_recording">Jätka salvestamist</string>
+    <string name="ui_recording_paused">SALVESTAMINE PEATATUD</string>
+</resources>

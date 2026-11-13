@@ -1,0 +1,13 @@
+<resources>
+    <string name="ui_one_tap_speech">一鍵語音輸入</string>
+    <string name="ui_one_tap_speech_description">輕點懸浮麥克風即可免按住錄音。隨時暫停、繼續或停止。</string>
+    <string name="ui_learn_from_typing">從輸入中學習</string>
+    <string name="ui_learning_description">在此裝置上學習常用詞和更正。資料加密，絕不上傳。排除私人輸入欄位。關閉此選項會清除學習資料。</string>
+    <string name="ui_erase_learned_data">清除學習資料</string>
+    <string name="ui_learned_data_erased">學習資料已清除</string>
+    <string name="ui_adaptive_sizes_description">可能使用的按鍵會變大，字母位置保持不變。</string>
+    <string name="ui_start_recording">開始錄音</string>
+    <string name="ui_pause_recording">暫停錄音</string>
+    <string name="ui_resume_recording">繼續錄音</string>
+    <string name="ui_recording_paused">錄音已暫停</string>
+</resources>

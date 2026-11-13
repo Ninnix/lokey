@@ -1,0 +1,13 @@
+<resources>
+    <string name="ui_one_tap_speech">一键语音输入</string>
+    <string name="ui_one_tap_speech_description">轻点悬浮麦克风即可免按住录音。随时暂停、继续或停止。</string>
+    <string name="ui_learn_from_typing">从输入中学习</string>
+    <string name="ui_learning_description">在此设备上学习常用词和纠错。数据加密，绝不上传。排除隐私输入框。关闭此选项会清除学习数据。</string>
+    <string name="ui_erase_learned_data">清除学习数据</string>
+    <string name="ui_learned_data_erased">学习数据已清除</string>
+    <string name="ui_adaptive_sizes_description">可能使用的按键会变大，字母位置保持不变。</string>
+    <string name="ui_start_recording">开始录音</string>
+    <string name="ui_pause_recording">暂停录音</string>
+    <string name="ui_resume_recording">继续录音</string>
+    <string name="ui_recording_paused">录音已暂停</string>
+</resources>

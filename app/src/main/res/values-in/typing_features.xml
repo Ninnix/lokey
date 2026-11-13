@@ -1,0 +1,13 @@
+<resources>
+    <string name="ui_one_tap_speech">Dikte sekali ketuk</string>
+    <string name="ui_one_tap_speech_description">Ketuk mikrofon mengambang untuk merekam tanpa menahan. Jeda, lanjutkan, atau hentikan kapan saja.</string>
+    <string name="ui_learn_from_typing">Belajar dari pengetikan</string>
+    <string name="ui_learning_description">Mempelajari kata yang sering digunakan dan koreksi di perangkat ini. Dienkripsi, tidak pernah diunggah. Kolom pribadi dikecualikan. Menonaktifkan akan menghapus data yang dipelajari.</string>
+    <string name="ui_erase_learned_data">Hapus data yang dipelajari</string>
+    <string name="ui_learned_data_erased">Data yang dipelajari dihapus</string>
+    <string name="ui_adaptive_sizes_description">Tombol yang mungkin digunakan membesar; posisi huruf tetap.</string>
+    <string name="ui_start_recording">Mulai merekam</string>
+    <string name="ui_pause_recording">Jeda perekaman</string>
+    <string name="ui_resume_recording">Lanjutkan perekaman</string>
+    <string name="ui_recording_paused">PEREKAMAN DIJEDA</string>
+</resources>

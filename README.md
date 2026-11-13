@@ -26,6 +26,9 @@ and a few small models chosen for work that belongs on a phone.
 
 * Get up to three complete-word suggestions, ranked from model probabilities.
 * Hold Enter to dictate; slide up to keep recording or left to cancel.
+  Or enable One-tap speech in Feel for a floating microphone with stop and
+  pause/resume controls. Grant overlay permission to drag it outside the
+  keyboard, or keep it beside predictions without that permission.
 * Translate into another app's text field with LFM or Qwen, using the same
   text model that supplies prediction and autocorrection.
 * Use native script layouts, accent menus and bundled input converters.
@@ -33,8 +36,12 @@ and a few small models chosen for work that belongs on a phone.
   sounds and haptic feedback.
 * Keep copied text in a local clipboard, with pinning and deletion controls.
 
-Swipe typing, adaptive letters and autocorrection are optional and start off.
+Swipe typing, adaptive letters, autocorrection, one-tap speech and personal
+learning are optional and start off. Learn from typing in Feel improves the
+bundled offline suggestions as well as installed models, with encrypted local
+word counts and confirmed corrections. Turning it off erases the profile.
 Keyboard height starts at 100%. Settings you have already chosen are preserved.
+Recorded switch sounds start on; you can turn them off in Feel.
 
 ## Start here
 
