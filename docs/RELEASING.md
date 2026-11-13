@@ -1,11 +1,11 @@
 # Releasing Lokey
 
 Commands below run from the repository root. The package is `org.lokey.app`.
-The current release is version 0.1.7, version code 8. Increase the version code
+The current release is version 0.1.8, version code 9. Increase the version code
 before uploading a later release to Play.
 
-For the 0.1.7 Play update, upload the signed AAB to the existing Lokey listing.
-It retains `org.lokey.app`, raises version code 7 to 8, and uses the existing
+For the 0.1.8 Play update, upload the signed AAB to the existing Lokey listing.
+It retains `org.lokey.app`, raises version code 8 to 9, and uses the existing
 upload certificate. Play App Signing continues to sign delivered updates with
 the app-signing key registered for that listing.
 
