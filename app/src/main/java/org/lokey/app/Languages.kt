@@ -151,6 +151,7 @@ class Languages(private val context: Context) {
                 val first=lower(previous.value);val last=lower(current.value)
                 val fixed=when {
                     language.code=="en" && first=="its" && !capitals(previous.value) && last in englishPredicates -> "it's"
+                    language.code=="en" && first=="it's" && !capitals(previous.value) && last in englishPossessions -> "its"
                     language.code=="it" && first=="ce" && !capitals(previous.value) && last in italianExistentials -> "c'è"
                     else -> null
                 }
@@ -158,7 +159,7 @@ class Languages(private val context: Context) {
                 if(language.code=="it" && first=="un" && last=="po") return Spelling(prefix,casing("po'",prefix,language.code),true)
             }
         }
-        if(capitals(prefix)) return if(language.code=="en" && lower(prefix) in englishAliases) Spelling(prefix,prefix,false) else null
+        if(capitals(prefix)) return if(language.code=="en" && (lower(prefix) in englishAliases || lower(prefix) in englishAlternatives)) Spelling(prefix,prefix,false) else null
         return alternative(language,prefix)
     }
     fun alternative(language:Language,word:String):Spelling? {
@@ -188,9 +189,9 @@ class Languages(private val context: Context) {
             put("dov'e","dov'è");put("dové","dov'è");put("dovè","dov'è");put("qual'è","qual è")
         }
         private val italianAlternatives=mapOf("ce" to "c'è","e" to "è","si" to "sì","ne" to "né","se" to "sé","la" to "là","li" to "lì","da" to "dà","te" to "tè","po" to "po'","pero" to "però")
-        private val englishPredicates="a an the not been raining snowing drizzling thundering".split(' ').toSet()
+        private val englishPredicates="a an the not been raining snowing drizzling thundering wrong right true false fine okay ok good bad great nice important possible impossible necessary clear obvious easy hard ready safe working running happening getting going".split(' ').toSet()
         private val italianExistentials="un uno una il bisogno qualcuno qualcosa nessuno niente nulla".split(' ').toSet()
-        private val englishPossessions="tail paws fur battery screen owner name color colour weight size shape price cost engine wheels doors cover handle purpose contents surface design performance behaviour behavior results".split(' ').toSet()
+        private val englishPossessions="own tail paws fur battery screen owner name color colour weight size shape price cost engine wheels doors cover handle purpose contents surface design performance behaviour behavior results job head body eyes legs roof location history title address".split(' ').toSet()
         private val englishPossessionVerbs="is was has does needs works looks seems will can".split(' ').toSet()
         private val italianPluralVerbs="sono siamo siete erano eravamo eravate".split(' ').toSet()
         private val italianCliticVerbs="so sai sa sappiamo sapete sanno porto porti porta dico dici dice faccio fai fa fanno metto metti mette prendo prendi prende".split(' ').toSet()

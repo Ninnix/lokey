@@ -52,10 +52,17 @@ class LocalPrediction(private val context:Context,private val languages:Language
         if(language.code !in listOf("en","it") || Languages.prefix(before).isEmpty()) return null
         val form=languages.spelling(language,before)
         if(form?.automatic==true) return form
-        val dictionary=if(cached) ready[language.code] ?: return form else vocabulary(language)
+        // Prefer the common contraction, but retain possessive frames and corpus evidence.
+        val preferred=if(language.code=="en" && form!=null && Languages.lower(form.source)=="its" && Languages.lower(form.word)=="it's") {
+            val stem=before.dropLast(form.source.length).takeLastWhile { it !in ",.!?;:\n\r" }
+            val previous=Languages.tokens(stem).lastOrNull()?.let { Languages.lower(it) }
+            if(previous !in possessiveFrames) form.copy(automatic=true) else form
+        } else form
+        val dictionary=if(cached) ready[language.code] ?: return preferred else vocabulary(language)
         val sentence=before.takeLastWhile { it !in ".!?;:\n" }
         val matches=Languages.wordMatches(sentence)
         val tokens=matches.map { it.value }
+        var possessive=false
         for(index in tokens.lastIndex downTo (tokens.size-3).coerceAtLeast(0)) {
             if(matches.drop(index).zipWithNext().any { (a,b) -> sentence.substring(a.range.last+1,b.range.first).any { it!=' ' && it!='\t' } }) break
             val token=tokens[index]
@@ -67,6 +74,7 @@ class LocalPrediction(private val context:Context,private val languages:Language
                 val row=dictionary.contexts[history.takeLast(size).joinToString(" ")] ?: continue
                 val yes=row.counts[fixed] ?: 0;val no=row.counts[original] ?: 0
                 if(yes+no==0) continue
+                if(index==tokens.lastIndex && original=="its" && no>=2 && no>=2*(yes+.2)) possessive=true
                 certain=yes>=(if(size==2) 2 else 4) && yes>=8*(no+.2)
                 break
             }
@@ -84,7 +92,7 @@ class LocalPrediction(private val context:Context,private val languages:Language
                 return Languages.Spelling(sentence.substring(at),alternative.word+sentence.substring(at+token.length),true)
             }
         }
-        return form
+        return if(possessive) form else preferred
     }
     fun spelling(result:Prediction.Result,language:Languages.Language,autocorrect:Boolean):Prediction.Result =
         languages.spelling(result.copy(spelling=spelling(result.before,language)),autocorrect)
@@ -157,6 +165,7 @@ class LocalPrediction(private val context:Context,private val languages:Language
     }
     companion object {
         private fun key(word:String)=Languages.fold(word).replace("'","")
+        private val possessiveFrames="about above across against along around at behind below beneath beside between beyond by despite down during for from in inside into near of off on onto outside over past through throughout to toward towards under underneath unlike up upon via with within without is was are were has have had lost loses lose losing use uses used using keep keeps kept love loves loved give gives gave hold holds held take takes took".split(' ').toSet()
         // The small vocabulary is already resident while a richer index loads on the worker.
         fun basic(languages:Languages,before:String,language:Languages.Language,autocorrect:Boolean):Prediction.Result {
             val prefix=Languages.prefix(before)
