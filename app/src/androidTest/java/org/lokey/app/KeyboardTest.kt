@@ -74,6 +74,10 @@ class KeyboardTest : Instrumentation() {
             if(mode=="local") report.put("local",LocalChecks.run(this,targetContext))
             if(mode=="typingfeatures") report.put("typingfeatures",TypingFeatureChecks.run(this,targetContext))
             if(mode=="spelling") report.put("spelling",TypingFeatureChecks.spelling(this,targetContext))
+            if(mode=="spellinglive") report.put("spellinglive",TypingFeatureChecks.spelling(this,targetContext,true))
+            if(mode=="boundaries") report.put("boundaries",TypingFeatureChecks.boundaries(this,targetContext))
+            if(mode=="boundarieslearning") report.put("boundaries",TypingFeatureChecks.boundaries(this,targetContext,true))
+            if(mode=="confidence") report.put("confidence",TypingFeatureChecks.confidence(this,targetContext))
             if(mode=="typingfeatureslive") report.put("typingfeatureslive",TypingFeatureChecks.live(this,targetContext))
             if(mode=="speechoverlay") report.put("speechoverlay",TypingFeatureChecks.overlay(this,targetContext))
             if(mode=="learningneural") report.put("learningneural",TypingFeatureChecks.neural(this,targetContext))
@@ -114,11 +118,13 @@ class KeyboardTest : Instrumentation() {
             report.put("passed", true)
             targetContext.getSharedPreferences("lokey",android.content.Context.MODE_PRIVATE).edit().commit()
             File(targetContext.filesDir, "test-results.json").writeText(report.toString(2))
+            if(targetContext.packageName=="org.lokey.app.features") File(targetContext.getExternalFilesDir(null),"test-results.json").writeText(report.toString(2))
             finish(RESULT_OK, Bundle().apply { putString("results", report.toString()) })
         } catch (error: Throwable) {
             targetContext.getSharedPreferences("lokey",android.content.Context.MODE_PRIVATE).edit().commit()
             report.put("passed", false).put("error", error.stackTraceToString())
             File(targetContext.filesDir, "test-results.json").writeText(report.toString(2))
+            if(targetContext.packageName=="org.lokey.app.features") File(targetContext.getExternalFilesDir(null),"test-results.json").writeText(report.toString(2))
             finish(RESULT_CANCELED, Bundle().apply { putString("results", report.toString()) })
         }
     }

@@ -31,7 +31,7 @@ class Autocorrect {
     fun commit(connection: InputConnection, text: String, result: Prediction.Result?, enabled: Boolean): Boolean {
         return apply(connection,text,result,enabled,false)
     }
-    private fun boundary(text:String)=text.isNotEmpty() && text.all { it in " \t.,!?;:\n…" }
+    fun boundary(text:String)=text.isNotEmpty() && text.all { it in " \t.,!?;:\n…" }
     private fun apply(connection:InputConnection,text:String,result:Prediction.Result?,enabled:Boolean,insertedBoundary:Boolean):Boolean {
         clear()
         if (!enabled || !boundary(text) || result?.correction == null) return false

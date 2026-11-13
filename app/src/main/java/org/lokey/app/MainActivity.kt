@@ -236,7 +236,7 @@ class MainActivity : Activity() {
                 if(enabled) feedback?.preview()
             })
             haptics.addView(text(tr("Haptic weight"),15f,bold=true))
-            listOf(tr("Light feedback"),tr("Balanced"),tr("Firm")).forEachIndexed { i,label ->
+            listOf(tr("Light"),tr("Balanced"),tr("Firm")).forEachIndexed { i,label ->
                 choices.addView(RadioButton(this).apply {
                     id=300+i;text=label;textSize=13f;setTextColor(ink)
                     buttonTintList=android.content.res.ColorStateList.valueOf(accent)

@@ -19,6 +19,14 @@ class Prediction(private val context: Context, private val prefs: Prefs,private 
     private lateinit var local:LocalPrediction
     private fun scope(code:String)=UsageLearning.scope(prefs.layout,code)
     private fun primaryLanguage()=ModelLanguages.selected(context,prefs).base.takeIf { it in Languages.names } ?: "en"
+    private fun correctionLanguage(before:String,cached:Boolean=false):Languages.Language {
+        val primary=primaryLanguage();val detected=languages.detect(before,primary)
+        if(detected.code!=primary && Languages.tokens(before).size==1) {
+            val selected=languages.all.first { it.code==primary }
+            if(local.correction(before,selected,cached)!=null) return selected
+        }
+        return detected
+    }
     private var language = primaryLanguage()
     private var loaded = ""
     @Volatile private var loadedGeneration=-1L
@@ -52,7 +60,24 @@ class Prediction(private val context: Context, private val prefs: Prefs,private 
     private var pending: Runnable? = null
     @Volatile var latest: Result? = null
         private set
-    init { worker.execute(false) { languages = Languages.shared(context);local=LocalPrediction(context,languages) } }
+    init { worker.execute(false) {
+        languages=Languages.shared(context);local=LocalPrediction(context,languages)
+        if(prefs.autocorrect) local.prepare(languages.all.first { it.code==primaryLanguage() })
+    } }
+    // Safe spelling rules must be available when Space arrives before prediction.
+    fun spelling(before:String,learningAllowed:Boolean=false):Result? {
+        if(!::languages.isInitialized || !::local.isInitialized) return null
+        val detected=correctionLanguage(before,true)
+        val form=latest?.takeIf { it.before==before && it.language==detected.code }?.spelling
+            ?: local.spelling(before,detected,true)
+        if(form!=null) return form.takeIf { it.automatic }?.let {
+            Result(before,listOf(it.word),FloatArray(26),detected.code,false,it.word,spelling=it)
+        }
+        val prefix=Languages.prefix(before)
+        val personal=if(learningAllowed) learning.correction(scope(detected.code),prefix) else null
+        val word=personal?.let { Languages.casing(it,prefix,detected.code) } ?: local.correction(before,detected,true) ?: return null
+        return Result(before,listOf(word),FloatArray(26),detected.code,false,word)
+    }
     // Finishing a word must not cancel its correction while next-word suggestions refresh.
     fun correct(before:String,learningAllowed:Boolean=false,callback:(Result?)->Unit) {
         cleared.set(false)
@@ -61,16 +86,16 @@ class Prediction(private val context: Context, private val prefs: Prefs,private 
             if(ticket!=correctionVersion.get()) return@execute
             var result:Result?=null
             try {
-                val detected=languages.detect(before,language)
+                val detected=correctionLanguage(before)
                 val spelling=local.spelling(before,detected)
                 val personal=if(learningAllowed) learning.correction(scope(detected.code),Languages.prefix(before)) else null
                 result=if(spelling!=null) spelling.takeIf { it.automatic }?.let {
                     Result(before,listOf(it.word),FloatArray(26),detected.code,false,it.word,spelling=it)
                 } else if(personal!=null) Languages.casing(personal,Languages.prefix(before),detected.code).let {
                     Result(before,listOf(it),FloatArray(26),detected.code,false,it)
-                } else if(Models.text.none { Models.ready(context,it) }) local.correction(before,detected)?.let {
+                } else local.correction(before,detected)?.let {
                     Result(before,listOf(it),FloatArray(26),detected.code,false,it)
-                } else evaluateCorrection(before,detected)
+                } ?: if(Models.text.any { Models.ready(context,it) }) evaluateCorrection(before,detected) else null
             }
             catch (_:Exception) { /* Keep the typed word when inference is unavailable. */ }
             main.post { if(ticket==correctionVersion.get()) callback(result) }
@@ -103,6 +128,7 @@ class Prediction(private val context: Context, private val prefs: Prefs,private 
             Result(before,listOf(fixed),FloatArray(26),detected.code,true,fixed)
         }
         if(alias!=null) return result(alias.word)
+        local.correction(before,detected)?.let { return result(it) }
         if(prefix.length !in 3..24 || prefix.first().isUpperCase() || languages.all.any { Languages.lower(prefix) in it.words } || !load()) return null
         if(checkedBefore==before) return checkedCorrection
         val stem=wordContext(before.dropLast(prefix.length))
@@ -119,7 +145,9 @@ class Prediction(private val context: Context, private val prefs: Prefs,private 
             if(scores.size==choices.size+1 && scores.all { it.isFinite() }) {
                 val ranked=choices.indices.sortedByDescending { scores[it+1] }
                 val best=ranked.first();val margin=if(ranked.size>1) scores[best+1]-scores[ranked[1]+1] else 10f
-                if(scores[best+1]-scores[0]>=2.5f && margin>=1f) answer=result(choices[best])
+                // LFM needs stronger evidence before replacing unfamiliar words.
+                val gain=if(loaded.startsWith("lfm:")) 7f else 2.5f
+                if(scores[best+1]-scores[0]>=gain && margin>=1f) answer=result(choices[best])
             }
         }
         checkedBefore=before;checkedCorrection=answer
@@ -196,6 +224,10 @@ class Prediction(private val context: Context, private val prefs: Prefs,private 
                 val preferred=if(localOnly) latest?.language ?: ModelLanguages.selected(context,prefs).base.takeIf { it in Languages.names } ?: language else language
                 val detected = languages.detect(before, preferred)
                 language = detected.code
+                if(prefs.autocorrect) {
+                    local.prepare(languages.all.first { it.code==primaryLanguage() })
+                    local.prepare(detected)
+                }
                 if(localOnly) {
                     if(!immediate) {
                         val result=LocalPrediction.basic(languages,before,detected,prefs.autocorrect)

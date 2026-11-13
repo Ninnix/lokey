@@ -121,7 +121,7 @@ class Languages(private val context: Context) {
     fun spelling(language:Language,before:String):Spelling? {
         val prefix=prefix(before)
         if(prefix.isEmpty() || language.code !in listOf("en","it")) return null
-        val matches=wordPattern.findAll(before).toList()
+        val matches=wordMatches(before)
         if(matches.lastOrNull()?.range?.last!=before.lastIndex) return null
         // A late result can repair a missed safe form, but never cross punctuation or a line break.
         for(index in matches.lastIndex downTo (matches.lastIndex-2).coerceAtLeast(0)) {
@@ -159,8 +159,12 @@ class Languages(private val context: Context) {
             }
         }
         if(capitals(prefix)) return if(language.code=="en" && lower(prefix) in englishAliases) Spelling(prefix,prefix,false) else null
-        val word=when(language.code) { "en" -> englishAlternatives[lower(prefix)];"it" -> italianAlternatives[lower(prefix)];else -> null } ?: return null
-        return Spelling(prefix,casing(word,prefix,language.code),false)
+        return alternative(language,prefix)
+    }
+    fun alternative(language:Language,word:String):Spelling? {
+        if(capitals(word)) return null
+        val fixed=when(language.code) { "en" -> englishAlternatives[lower(word)];"it" -> italianAlternatives[lower(word)];else -> null } ?: return null
+        return Spelling(word,casing(fixed,word,language.code),false)
     }
     fun spelling(result:Prediction.Result,autocorrect:Boolean):Prediction.Result {
         val language=all.firstOrNull { it.code==result.language } ?: return result
@@ -172,18 +176,18 @@ class Languages(private val context: Context) {
     }
     companion object {
         private val marks = Regex("\\p{M}+")
-        private val englishForms="i'm i've i'll i'd you're you've you'll you'd we're we've we'll we'd they're they've they'll they'd he's he'll he'd she's she'll she'd it's it'll that's there's here's what's who's how's isn't aren't wasn't weren't don't doesn't didn't can't couldn't shouldn't wouldn't won't hasn't haven't hadn't mustn't let's".split(' ')
-        private val englishAliases=englishForms.filter { it !in listOf("i'll","i'd","we're","we'll","he'll","she'll","it's","let's","can't","won't") }.associateBy { it.replace("'","") }
+        private val englishForms="i'm i've i'll i'd you're you've you'll you'd we're we've we'll we'd they're they've they'll they'd he's he'll he'd she's she'll she'd it's it'll that's that'll that'd there's there'll there'd here's what's what'll who's who'll who'd who've how's where's where'd when's why's isn't aren't wasn't weren't don't doesn't didn't can't couldn't shouldn't wouldn't won't hasn't haven't hadn't mustn't needn't oughtn't mightn't shan't ain't would've should've could've might've must've let's".split(' ')
+        private val englishAliases=englishForms.filter { it !in listOf("i'll","i'd","we're","we'll","we'd","he'll","she'll","she'd","it's","let's","can't","won't") }.associateBy { it.replace("'","") }
         private val englishAlternatives=englishForms.filter { it.replace("'","") !in englishAliases }.associateBy { it.replace("'","") }
         private val italianAliases=buildMap {
-            for(word in "perché poiché affinché benché finché purché nonché giacché sicché cosicché più già così cioè perciò lunedì martedì mercoledì giovedì venerdì laggiù quaggiù lassù quassù ventitré".split(' ')) {
+            for(word in "perché poiché affinché benché finché purché nonché giacché sicché cosicché può più già così cioè perciò lunedì martedì mercoledì giovedì venerdì laggiù quaggiù lassù quassù ventitré".split(' ')) {
                 put(fold(word),word)
                 if(word.endsWith('é')) put(word.dropLast(1)+"è",word)
             }
             put("c'e","c'è");put("c'é","c'è");put("com'e","com'è");put("comé","com'è");put("comè","com'è")
             put("dov'e","dov'è");put("dové","dov'è");put("dovè","dov'è");put("qual'è","qual è")
         }
-        private val italianAlternatives=mapOf("ce" to "c'è","e" to "è","si" to "sì","ne" to "né","se" to "sé","la" to "là","li" to "lì","da" to "dà","te" to "tè","po" to "po'")
+        private val italianAlternatives=mapOf("ce" to "c'è","e" to "è","si" to "sì","ne" to "né","se" to "sé","la" to "là","li" to "lì","da" to "dà","te" to "tè","po" to "po'","pero" to "però")
         private val englishPredicates="a an the not been raining snowing drizzling thundering".split(' ').toSet()
         private val italianExistentials="un uno una il bisogno qualcuno qualcosa nessuno niente nulla".split(' ').toSet()
         private val englishPossessions="tail paws fur battery screen owner name color colour weight size shape price cost engine wheels doors cover handle purpose contents surface design performance behaviour behavior results".split(' ').toSet()
@@ -210,6 +214,7 @@ class Languages(private val context: Context) {
                 else -> word
             }
         }
+        internal fun wordMatches(text:String)=wordPattern.findAll(text).toList()
         fun tokens(text: String) = wordPattern.findAll(text).map { it.value }.toList()
         fun distance(a: String, b: String): Int {
             val rows = Array(3) { IntArray(b.length + 1) }

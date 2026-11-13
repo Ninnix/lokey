@@ -413,7 +413,8 @@ class LokeyService : InputMethodService(), KeyboardView.Listener {
         var observed:String?=null
         val scope=if(learn) learningScope() else ""
         var deferred=false
-        val corrected=correction.commit(connection, text, prediction.latest, enabled)
+        val result=if(enabled && correction.boundary(text)) connection.getTextBeforeCursor(240,0)?.toString()?.let { prediction.spelling(it,learningField()) } else null
+        val corrected=correction.commit(connection,text,result ?: prediction.latest,enabled)
         var committed=corrected
         if (!corrected) {
             if(connection.commitText(text,1)) {

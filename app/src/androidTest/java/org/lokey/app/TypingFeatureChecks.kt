@@ -19,7 +19,246 @@ import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 
 object TypingFeatureChecks {
-    fun spelling(test:Instrumentation,context:Context):JSONObject {
+    fun boundaries(test:Instrumentation,context:Context,learningEnabled:Boolean=false):JSONObject {
+        check(context.packageName=="org.lokey.app.features")
+        val prefs=Prefs(context);val store=context.getSharedPreferences("lokey",0)
+        val original=store.all;val rows=org.json.JSONArray()
+        check(Models.text.none { Models.ready(context,it) }) { "Use an isolated app without installed main-profile models" }
+        val links=ArrayList<File>()
+        fun shell(command:String)=android.os.ParcelFileDescriptor.AutoCloseInputStream(test.uiAutomation.executeShellCommand(command)).bufferedReader().use { it.readText().trim() }
+        val originalIme=shell("settings get secure default_input_method")
+        prefs.setupComplete=true;prefs.layout="qwerty";prefs.autocorrect=true
+        store.edit().putBoolean("learning",learningEnabled).commit()
+        if(learningEnabled) UsageLearning.shared(context).let { it.awaitIdle();it.erase() }
+        val activity=test.startActivitySync(android.content.Intent().setClass(context,MainActivity::class.java).addFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK))
+        var editor:android.widget.EditText?=null
+        fun keyboard():KeyboardView? {
+            fun find(view:View):KeyboardView? {
+                if(view is KeyboardView && view.isShown && KeyboardView::class.java.getDeclaredField("listener").apply { isAccessible=true }.get(view) is LokeyService) return view
+                if(view is android.view.ViewGroup) for(i in 0 until view.childCount) find(view.getChildAt(i))?.let { return it }
+                return null
+            }
+            return android.view.inspector.WindowInspector.getGlobalWindowViews().firstNotNullOfOrNull { find(it) }
+        }
+        fun await(timeout:Long=8000,condition:()->Boolean):Boolean {
+            val until=SystemClock.uptimeMillis()+timeout
+            while(SystemClock.uptimeMillis()<until) { if(condition()) return true;SystemClock.sleep(30) }
+            return false
+        }
+        try {
+            shell("input keyevent KEYCODE_WAKEUP");shell("wm dismiss-keyguard")
+            shell("ime enable ${context.packageName}/org.lokey.app.LokeyService");shell("ime set ${context.packageName}/org.lokey.app.LokeyService")
+            data class Case(val language:String,val text:String,val expected:String)
+            val cases=listOf(Case("English","Im ","I'm "),Case("Italian","perche ","perché "),Case("English","wprk ","work "),
+                Case("English","I guess its ","I guess it's "),Case("English","its a ","it's a "),
+                Case("Italian","ce un ","c'è un "),Case("English","The dog lost its ","The dog lost its "),
+                Case("Italian","ce la faccio ","ce la faccio "),Case("English","Im going ","I'm going "),
+                Case("Italian","perche no ","perché no "),Case("English","wprk tomorrow ","work tomorrow "),
+                Case("English","Ive ","I've "),Case("English","dont ","don't "),Case("English","youre ","you're "),
+                Case("English","weve ","we've "),Case("English","couldnt ","couldn't "),Case("English","isnt ","isn't "),
+                Case("English","shouldve ","should've "),Case("English","wheres ","where's "),
+                Case("English","teh ","the "),Case("English","hte ","the "),Case("English","wrok ","work "),
+                Case("English","wokr ","work "),Case("English","adn ","and "),Case("English","recieve ","receive "),
+                Case("English","helllo ","hello "),Case("English","tomorow ","tomorrow "),Case("English","becuase ","because "),
+                Case("English","freind ","friend "),Case("English","thier ","their "),Case("English","qork ","work "),
+                Case("English","workk ","work "),Case("English","Wprk ","Work "),
+                Case("English","you wont ","you won't "),Case("English","ill be ","I'll be "),
+                Case("English","I felt ill ","I felt ill "),Case("English","we were ","we were "),
+                Case("English","very well ","very well "),Case("English","he lets ","he lets "),
+                Case("English","fir ","fir "),Case("English","form ","form "),Case("English","wrk ","work "),
+                Case("English","donalds ","donalds "),
+                Case("English","shed ","shed "),Case("English","wed ","wed "),
+                Case("Italian","cosi ","così "),Case("Italian","cioe ","cioè "),Case("Italian","martedi ","martedì "),
+                Case("Italian","affinche ","affinché "),Case("Italian","un po ","un po' "))
+            for(path in listOf("local","lfm","qwen")) {
+                Native.release();links.forEach { it.delete() };links.clear()
+                prefs.model=if(path=="local") "auto" else path
+                if(path!="local") {
+                    val model=Models.text.first { it.id==path }
+                    val source=File(context.getExternalFilesDir(null),"confidence-check/$path/models/${model.filename}")
+                    check(source.isFile) { "Stage ${model.filename} for boundary checks" }
+                    val destination=Models.file(context,model)
+                    android.system.Os.symlink(source.path,destination.path);links.add(destination)
+                }
+                for(slow in listOf(false,true)) for(case in cases) {
+                prefs.setupLanguage=case.language
+                val marker="org.lokey.app.boundaries.${rows.length()}"
+                test.runOnMainSync {
+                    if(editor==null) {
+                        editor=android.widget.EditText(activity).apply {
+                            inputType=InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_AUTO_CORRECT
+                            importantForAutofill=View.IMPORTANT_FOR_AUTOFILL_NO_EXCLUDE_DESCENDANTS
+                        }
+                        activity.setContentView(editor)
+                    }
+                    editor!!.setText("");editor!!.privateImeOptions=marker;editor!!.requestFocus()
+                    activity.getSystemService(android.view.inputmethod.InputMethodManager::class.java).restartInput(editor)
+                }
+                val started=SystemClock.uptimeMillis();var restarted=false;var state=""
+                check(await(20000) {
+                    test.runOnMainSync {
+                        val manager=activity.getSystemService(android.view.inputmethod.InputMethodManager::class.java)
+                        if(!restarted && SystemClock.uptimeMillis()-started>4000 && editor!!.hasWindowFocus()) {
+                            editor!!.requestFocus();manager.restartInput(editor);restarted=true
+                        }
+                        manager.showSoftInput(editor,0)
+                    }
+                    var ready=false
+                    test.runOnMainSync {
+                        val view=keyboard()
+                        val listener=view?.let { KeyboardView::class.java.getDeclaredField("listener").apply { isAccessible=true }.get(it) as? LokeyService }
+                        ready=editor!!.hasWindowFocus() && listener?.currentInputEditorInfo?.privateImeOptions==marker
+                        state="attached=${editor!!.isAttachedToWindow}, focus=${editor!!.hasFocus()}, windowFocus=${editor!!.hasWindowFocus()}, marker=${listener?.currentInputEditorInfo?.privateImeOptions}"
+                    }
+                    ready
+                }) { "No keyboard for boundary check $path slow=$slow '${case.text}': $state" }
+                lateinit var service:LokeyService
+                test.runOnMainSync {
+                    service=KeyboardView::class.java.getDeclaredField("listener").apply { isAccessible=true }.get(keyboard()) as LokeyService
+                }
+                if(slow) for(c in case.text) { test.runOnMainSync { service.text(c.toString()) };SystemClock.sleep(150) }
+                else test.runOnMainSync { for(c in case.text) service.text(c.toString()) }
+                val matched=await { var value="";test.runOnMainSync { value=editor!!.text.toString() };value==case.expected }
+                test.runOnMainSync {
+                    rows.put(JSONObject().put("source",case.text).put("expected",case.expected).put("slow",slow).put("path",path).put("learning",learningEnabled)
+                        .put("actual",editor!!.text.toString()).put("matched",matched).put("focused",editor!!.hasFocus() && editor!!.hasWindowFocus())
+                        .put("connected",service.currentInputEditorInfo?.privateImeOptions==marker))
+                }
+                File(context.getExternalFilesDir(null),"boundaries.json").writeText(rows.toString(2))
+                test.sendStatus(0,android.os.Bundle().apply { putString("progress","boundary ${rows.length()}/${cases.size*6}") })
+                check(matched) { "Space correction $path learning=$learningEnabled slow=$slow: ${rows.getJSONObject(rows.length()-1)}" }
+                }
+            }
+        } finally {
+            Native.release();links.forEach { it.delete() }
+            if(learningEnabled) UsageLearning.shared(context).erase()
+            if(originalIme.isNotBlank() && originalIme!="null") shell("ime set $originalIme")
+            test.runOnMainSync { activity.finish() }
+            val edit=store.edit().clear()
+            for((key,value) in original) when(value) {
+                is Boolean -> edit.putBoolean(key,value);is String -> edit.putString(key,value);is Int -> edit.putInt(key,value)
+                is Long -> edit.putLong(key,value);is Float -> edit.putFloat(key,value)
+            }
+            edit.commit()
+        }
+        return JSONObject().put("cases",rows)
+    }
+    fun confidence(test:Instrumentation,context:Context):JSONObject {
+        check(context.packageName=="org.lokey.app.features")
+        val root=File(context.getExternalFilesDir(null),"confidence-check")
+        val cases=JSONObject(File(root,"fixture.json").readText()).getJSONArray("cases")
+        val rows=org.json.JSONArray()
+        val activity=test.startActivitySync(android.content.Intent().setClass(context,MainActivity::class.java).addFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK))
+        lateinit var editor:android.widget.EditText
+        lateinit var connection:android.view.inputmethod.InputConnection
+        test.runOnMainSync {
+            editor=android.widget.EditText(activity).apply { showSoftInputOnFocus=false;importantForAutofill=View.IMPORTANT_FOR_AUTOFILL_NO_EXCLUDE_DESCENDANTS }
+            activity.setContentView(editor);editor.requestFocus();connection=editor.onCreateInputConnection(EditorInfo())!!
+        }
+        var guards=0
+        try {
+            for(path in listOf("local","lfm","qwen")) for(on in listOf(false,true)) {
+                val directory=File(context.cacheDir,"confidence-$path-$on").apply { mkdirs() }
+                val sandbox=object:ContextWrapper(context) {
+                    override fun getApplicationContext():Context=this
+                    override fun getFilesDir()=File(root,path).apply { mkdirs() }
+                    override fun getNoBackupFilesDir()=directory
+                    override fun getSharedPreferences(name:String,mode:Int)=context.getSharedPreferences("confidence-$path-$on-$name",mode)
+                }
+                val store=sandbox.getSharedPreferences("lokey",0)
+                store.edit().clear().putBoolean("learning",on).commit()
+                val prefs=Prefs(sandbox).apply { model=if(path=="local") "auto" else path;layout="qwerty";adaptive=true;autocorrect=true;setupLanguage="English" }
+                check(Models.text.filter { Models.ready(sandbox,it) }.map { it.id }==if(path=="local") emptyList<String>() else listOf(path))
+                // The synthetic profile must not depend on the phone's lock state.
+                val learning=UsageLearning(sandbox,"lokey-confidence-$path-$on") { true };learning.awaitIdle();learning.erase()
+                if(on) repeat(4) {
+                    learning.learn("qwerty:en","quokkalokey","quokkaloksy")
+                    learning.learn("qwerty:it","tastierina","tastiernia")
+                }
+                Native.release();lateinit var engine:Prediction
+                test.runOnMainSync { engine=Prediction(sandbox,prefs,learning) }
+                fun correct(before:String):Prediction.Result? {
+                    val done=CountDownLatch(1);var value:Prediction.Result?=null
+                    test.runOnMainSync { engine.correct(before,on) { value=it;done.countDown() } }
+                    check(done.await(60,TimeUnit.SECONDS)) { "Correction timeout: $path $before" }
+                    return value
+                }
+                try {
+                    for(index in 0 until cases.length()) {
+                        val case=cases.getJSONObject(index);val before=case.getString("before")
+                        prefs.setupLanguage=case.getString("language")
+                        test.runOnMainSync { engine.clear() }
+                        val start=SystemClock.elapsedRealtime();val result=correct(before)
+                        val row=JSONObject().put("id",case.getString("id")).put("path",path).put("learning",on)
+                            .put("language",result?.language ?: JSONObject.NULL).put("correction",result?.correction ?: JSONObject.NULL)
+                            .put("applied",JSONObject.NULL)
+                            .put("ms",SystemClock.elapsedRealtime()-start)
+                        if(case.optBoolean("pipeline")) {
+                            test.runOnMainSync { engine.clear() }
+                            val done=CountDownLatch(1);var prediction:Prediction.Result?=null;var callbacks=0
+                            test.runOnMainSync { engine.request(before,learningAllowed=on) {
+                                callbacks++
+                                if(path=="local" && callbacks>=2 || path!="local" && it.neural) { prediction=it;done.countDown() }
+                            } }
+                            check(done.await(60,TimeUnit.SECONDS)) { "Prediction timeout: $path $before" }
+                            val after=correct(before)
+                            row.put("prediction_words",org.json.JSONArray(prediction!!.words))
+                                .put("prediction_correction",prediction!!.correction ?: JSONObject.NULL)
+                                .put("after_prediction",after?.correction ?: JSONObject.NULL)
+                            val repeated=correct(before)
+                            check(repeated?.correction==after?.correction) { "Cached correction changed" }
+                            guards++
+                        }
+                        if(case.optBoolean("personal") && on) check(result?.correction==case.getString("target")) { "Confirmed personal correction was blocked: $path $before -> $result" }
+                        if(result?.correction!=null) test.runOnMainSync {
+                            val source=result.spelling?.source ?: Languages.prefix(before)
+                            val expected=before.dropLast(source.length)+result.correction
+                            if(before.length>source.length && !before[before.length-source.length-1].isWhitespace()) {
+                                val autocorrect=Autocorrect();editor.setText(before);editor.setSelection(editor.length())
+                                check(!autocorrect.commit(connection," ",result,true));guards++;return@runOnMainSync
+                            }
+                            row.put("applied",result.correction)
+                            for(boundary in listOf(" ","?")) {
+                                val autocorrect=Autocorrect()
+                                editor.setText(before);editor.setSelection(editor.length())
+                                check(!autocorrect.commit(connection,boundary,result,false))
+                                check(autocorrect.commit(connection,boundary,result,true) && editor.text.toString()==expected+boundary)
+                                check(autocorrect.revert(connection) && editor.text.toString()==before)
+                                check(!autocorrect.commit(connection,boundary,result,true))
+                                autocorrect.reset();editor.setText(before+boundary);editor.setSelection(editor.length())
+                                check(autocorrect.defer(connection,boundary,true)==before)
+                                check(autocorrect.finish(connection,result) && editor.text.toString()==expected+boundary)
+                                check(autocorrect.revert(connection) && editor.text.toString()==before)
+                                autocorrect.reset();editor.setText(before+boundary);editor.setSelection(editor.length())
+                                check(autocorrect.defer(connection,boundary,true)==before)
+                                editor.setSelection(0);check(!autocorrect.finish(connection,result))
+                                guards+=7
+                            }
+                        }
+                        rows.put(row)
+                        File(root,"results.json").writeText(rows.toString(2))
+                        if(index%12==0) test.sendStatus(0,android.os.Bundle().apply { putString("progress","$path learning=$on ${index+1}/${cases.length()}") })
+                    }
+                    prefs.model="auto"
+                    for(index in 0 until cases.length()) {
+                        val case=cases.getJSONObject(index);if(!case.optBoolean("automatic")) continue
+                        prefs.setupLanguage=case.getString("language")
+                        test.runOnMainSync { engine.clear() }
+                        val answer=correct(case.getString("before"))
+                        val explicit=(0 until rows.length()).map { rows.getJSONObject(it) }.last { it.getString("id")==case.getString("id") && it.getString("path")==path && it.getBoolean("learning")==on }
+                        check(answer?.correction==explicit.optString("correction").takeUnless { it=="null" }) { "Automatic model fallback changed the correction" }
+                        guards++
+                    }
+                    if(path=="local") check(Native.residentModels() and 1==0)
+                } finally {
+                    test.runOnMainSync { engine.close() };learning.erase();learning.close();store.edit().clear().commit();directory.deleteRecursively()
+                }
+            }
+        } finally { Native.release();test.runOnMainSync { activity.finish() } }
+        return JSONObject().put("paths",3).put("learning_conditions",2).put("cases",cases.length()).put("checks",rows.length())
+            .put("editor_and_cache_guards",guards).put("details",File(root,"results.json").path)
+    }
+    fun spelling(test:Instrumentation,context:Context,liveOnly:Boolean=false):JSONObject {
         check(context.packageName=="org.lokey.app.features")
         data class Case(val language:String,val before:String,val fixed:String?,val suggestion:String?=fixed)
         val cases=listOf(
@@ -36,6 +275,7 @@ object TypingFeatureChecks {
             Case("Italian","Perchè","Perché"),Case("Italian","PERCHE","PERCHÉ"),Case("Italian","perche\u0300","perché"),
             Case("Italian","c'e","c'è"),Case("Italian","c’é","c'è"),Case("Italian","gia","già"),
             Case("Italian","piu","più"),Case("Italian","lunedi","lunedì"),Case("Italian","qual'è","qual è"),
+            Case("Italian","puo","può"),Case("Italian","Puo","Può"),Case("Italian","pero",null,"però"),
             Case("Italian","ce",null,"c'è"),Case("Italian","ce un","c'è un"),Case("Italian","Ce qualcuno","C'è qualcuno"),
             Case("Italian","ce ne",null,"né"),Case("Italian","ce ne sono",null),Case("Italian","ce la faccio",null),
             Case("Italian","c'è la faccio","ce la faccio"),Case("Italian","ce la pizza","c'è la pizza"),
@@ -53,7 +293,7 @@ object TypingFeatureChecks {
         val root=File(context.getExternalFilesDir(null),"spelling-check")
         val reports=org.json.JSONArray()
         try {
-            for(path in listOf("local","lfm","qwen")) {
+            for(path in if(liveOnly) emptyList() else listOf("local","lfm","qwen")) {
                 val directory=File(context.cacheDir,"spelling-check-$path").apply { mkdirs() }
                 val sandbox=object:ContextWrapper(context) {
                     override fun getApplicationContext():Context=this
@@ -107,6 +347,7 @@ object TypingFeatureChecks {
                         }
                         reports.put(JSONObject().put("path",path).put("learning",on).put("before",case.before)
                             .put("language",value.language).put("correction",value.correction ?: JSONObject.NULL).put("words",org.json.JSONArray(value.words)))
+                        if(reports.length()%12==0) test.sendStatus(0,android.os.Bundle().apply { putString("progress","spelling ${reports.length()}/${cases.size*6}") })
                     }
                     for(on in listOf(false,true)) for(case in cases.filter { it.before in listOf("Im","its","I guess its","its a","perche","ce","ce un") }) {
                         val value=request(case,on,false)
@@ -132,22 +373,34 @@ object TypingFeatureChecks {
             fun await(condition:()->Boolean) {
                 val until=SystemClock.uptimeMillis()+12000
                 while(SystemClock.uptimeMillis()<until) { if(condition()) return;SystemClock.sleep(40) }
-                error("Live spelling check timed out")
+                var state=""
+                test.runOnMainSync { state="attached=${editor.isAttachedToWindow}, focus=${editor.hasFocus()}, windowFocus=${editor.hasWindowFocus()}, keyboard=${context.resources.configuration.keyboard}, hardHidden=${context.resources.configuration.hardKeyboardHidden}" }
+                error("Live spelling check timed out: $state")
             }
             try {
                 val service=test.uiAutomation.serviceInfo
                 service.flags=service.flags or android.accessibilityservice.AccessibilityServiceInfo.FLAG_RETRIEVE_INTERACTIVE_WINDOWS
                 test.uiAutomation.serviceInfo=service
+                // Direct InputConnection replay must not leave the live IME on a stale editor.
+                test.runOnMainSync {
+                    editor=android.widget.EditText(activity).apply { importantForAutofill=View.IMPORTANT_FOR_AUTOFILL_NO_EXCLUDE_DESCENDANTS }
+                    activity.setContentView(editor);editor.requestFocus()
+                }
                 mainPrefs.layout="qwerty";mainPrefs.setupLanguage="English";mainPrefs.autocorrect=false
                 shell("ime enable ${context.packageName}/org.lokey.app.LokeyService")
                 shell("ime set ${context.packageName}/org.lokey.app.LokeyService")
                 fun put(text:String) {
                     test.runOnMainSync {
                         activity.getSystemService(android.view.autofill.AutofillManager::class.java).cancel()
+                        editor.showSoftInputOnFocus=true
                         editor.setText(text);editor.setSelection(editor.length());editor.requestFocus()
-                        activity.getSystemService(android.view.inputmethod.InputMethodManager::class.java).showSoftInput(editor,0)
                     }
-                    await { nodes().any { it.contentDescription?.toString()==context.tr("Suggestion: %1\$s","it's a") } }
+                    await {
+                        test.runOnMainSync {
+                            if(editor.hasWindowFocus()) activity.getSystemService(android.view.inputmethod.InputMethodManager::class.java).showSoftInput(editor,0)
+                        }
+                        nodes().any { it.contentDescription?.toString()==context.tr("Suggestion: %1\$s","it's a") }
+                    }
                 }
                 put("its a")
                 check(nodes().first { it.contentDescription?.toString()==context.tr("Suggestion: %1\$s","it's a") }.performAction(AccessibilityNodeInfo.ACTION_CLICK))
@@ -190,11 +443,17 @@ object TypingFeatureChecks {
             }
             val learned=request();check("quokkalokey" in learned.words && learned.letters.all { it.isFinite() })
             val cached=request();check("quokkalokey" in cached.words && "quokkalokey" in cached.wordScores)
+            for((before,expected) in listOf("jay is it necessary to varnish" to null,"So I started a small mailing" to null,
+                "I was sold a phone by a freind" to "friend","I use quokkaloksy" to "quokkalokey")) {
+                val done=CountDownLatch(1);var value:Prediction.Result?=null
+                test.runOnMainSync { engine.clear();engine.correct(before,true) { value=it;done.countDown() } }
+                check(done.await(45,TimeUnit.SECONDS) && value?.correction==expected) { "LFM correction: $before -> ${value?.correction}, expected $expected" }
+            }
             learning.erase();test.runOnMainSync { engine.clear() }
             val erased=request();check("quokkalokey" !in erased.words && "quokkalokey" !in erased.wordScores) { "Erased profile remained in the neural candidate cache" }
             return JSONObject().put("model","LFM2.5-350M-Q4_K_M.gguf").put("backend",Native.textBackend())
                 .put("learned",org.json.JSONArray(learned.words)).put("after_erase",org.json.JSONArray(erased.words))
-                .put("personal_candidate_scored",true).put("erase_clears_neural_cache",true)
+                .put("personal_candidate_scored",true).put("erase_clears_neural_cache",true).put("lfm_confidence_guards",true)
         } finally {
             test.runOnMainSync { engine.close() };learning.erase();learning.close();store.edit().clear().commit();directory.deleteRecursively()
         }
