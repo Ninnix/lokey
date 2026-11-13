@@ -14,6 +14,53 @@ import org.json.JSONObject
 import java.io.File
 
 object CustomizationChecks {
+    fun images(context:Context):JSONObject {
+        fun load(width:Int,height:Int,builtin:Boolean=true,file:File=KeyboardTheme.imageFile(context),version:Long=0):Bitmap? {
+            val done=java.util.concurrent.CountDownLatch(1);var result:Bitmap?=null
+            KeyboardTheme.image(context,version,width,height,builtin,file) { result=it;done.countDown() }
+            check(done.await(10,java.util.concurrent.TimeUnit.SECONDS)) { "Image decoding timed out" }
+            return result
+        }
+        val small=checkNotNull(load(400,260))
+        check(small.width==400 && small.height==276)
+        check(load(400,260)===small)
+        check(load(390,250)===small)
+        val full=checkNotNull(load(1200,700))
+        check(full.width==1600 && full.height==1104 && full!==small)
+        val palette=checkNotNull(load(80,80))
+        check(palette.width>=80 && palette.height>=80 && palette.allocationByteCount<full.allocationByteCount/16)
+        val file=File(context.cacheDir,"image-sampling-check.png")
+        fun photo(width:Int,height:Int,color:Int) {
+            val source=Bitmap.createBitmap(width,height,Bitmap.Config.ARGB_8888)
+            source.eraseColor(color)
+            try { file.outputStream().use { check(source.compress(Bitmap.CompressFormat.PNG,100,it)) } } finally { source.recycle() }
+        }
+        try {
+            photo(3200,2400,0xffff0000.toInt())
+            val reduced=checkNotNull(load(600,400,false,file,1))
+            check(reduced.width==800 && reduced.height==600 && reduced.getPixel(0,0)==0xffff0000.toInt())
+            check(reduced.allocationByteCount<=3200*2400*4/16)
+            photo(3200,400,0xff0000ff.toInt())
+            val wide=checkNotNull(load(600,600,false,file,2))
+            check(wide.width==3200 && wide.height==400)
+            check(wide.getPixel(0,0)==0xff0000ff.toInt())
+            photo(8,8,0xff00ff00.toInt())
+            val tiny=checkNotNull(load(600,400,false,file,3))
+            check(tiny.width==8 && tiny.height==8 && tiny.getPixel(0,0)==0xff00ff00.toInt())
+            file.writeText("invalid image")
+            check(load(600,400,false,file,4)==null)
+            file.delete()
+            check(load(600,400,false,file,5)==null)
+            val score=JSONObject().put("wpm",61.5).put("accuracy",98.2).put("combo",42).put("score",1234).put("prediction_taps",2)
+            val card=ScoreCard.create(context,score,false)
+            val bounds=BitmapFactory.Options().apply { inJustDecodeBounds=true }
+            BitmapFactory.decodeFile(card.path,bounds)
+            check(bounds.outWidth==1080 && bounds.outHeight==1350 && card.length()>1000)
+            return JSONObject().put("builtin_full_bytes",full.allocationByteCount).put("builtin_preview_bytes",small.allocationByteCount)
+                .put("palette_bytes",palette.allocationByteCount).put("large_file_full_bytes",3200*2400*4).put("large_file_sampled_bytes",reduced.allocationByteCount)
+                .put("size_aware_cache",true).put("center_crop_coverage",true).put("no_upscaling",true).put("invalid_and_missing_images",true).put("score_card_export",true)
+        } finally { file.delete() }
+    }
     fun run(test:Instrumentation,context:Context):JSONObject {
         val prefs=Prefs(context);val report=JSONObject()
         val settings=prefs.designSettings();val designs=prefs.designs;val layouts=prefs.customLayouts

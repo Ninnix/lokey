@@ -50,6 +50,11 @@ a release key. The outputs are:
 * `app/build/outputs/apk/release/app-release.apk`
 * `app/build/outputs/bundle/release/app-release.aab`
 
+Release builds use R8 code and resource optimization. Native callback rules are
+in `app/src/main/keepRules/native.keep`. Archive
+`app/build/outputs/mapping/release/mapping.txt` with each release so optimized
+crash reports can be traced back to the source.
+
 Use the runtime and optional Hexagon settings described in [BUILD.md](BUILD.md).
 Do not distribute a phone-specific DSP kernel as support for all Hexagon
 versions. Unsupported devices must retain CPU fallback.

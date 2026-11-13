@@ -25,7 +25,11 @@ object ScoreCard {
             if(width>maxWidth) p.textSize*=maxWidth/width
             c.drawText(value, x, y, p)
         }
-        val logo = BitmapFactory.decodeResource(context.resources, R.drawable.lokey_logo)
+        val options=BitmapFactory.Options().apply { inJustDecodeBounds=true }
+        BitmapFactory.decodeResource(context.resources,R.drawable.lokey_logo,options)
+        options.inSampleSize=KeyboardTheme.sampleSize(options.outWidth,options.outHeight,86,86)
+        options.inJustDecodeBounds=false
+        val logo = BitmapFactory.decodeResource(context.resources,R.drawable.lokey_logo,options)
         c.drawBitmap(logo, null, RectF(76f, 68f, 162f, 154f), p); logo.recycle()
         text("lokey", 188f, 129f, 59f, bold = true)
         text(context.tr("INFERNO / SPEED TEST"), 76f, 235f, 27f, red, true)

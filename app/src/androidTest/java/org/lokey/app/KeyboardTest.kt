@@ -107,6 +107,7 @@ class KeyboardTest : Instrumentation() {
             if(mode=="translationui") report.put("translationui",translationUiTest())
             if(mode=="tools") report.put("tools",toolsTest())
             if (mode == "themes") report.put("themes", themeTest())
+            if(mode=="images") report.put("images",CustomizationChecks.images(targetContext))
             if(mode=="customization") report.put("customization",CustomizationChecks.run(this,targetContext))
             if(mode=="customizationui") report.put("customizationui",CustomizationUiChecks.run(this,targetContext))
             if(mode=="modelui") report.put("modelui",CustomizationUiChecks.models(this,targetContext))
@@ -758,7 +759,7 @@ class KeyboardTest : Instrumentation() {
                 while(SystemClock.uptimeMillis()<deadline) {
                     if(android.os.Build.VERSION.SDK_INT>=34) uiAutomation.clearCache()
                     val root=uiAutomation.rootInActiveWindow
-                    if(root!=null && root.packageName=="org.lokey.app" && find(root,predicate)!=null) return root
+                    if(root!=null && root.packageName==targetContext.packageName && find(root,predicate)!=null) return root
                     SystemClock.sleep(50)
                 }
                 error("Color picker did not become ready in Lokey")
@@ -858,7 +859,7 @@ class KeyboardTest : Instrumentation() {
             result.put("automatic_image_palette",true)
             prefs.themeImageVersion=oldVersion+100;prefs.keyboardTheme="image";prefs.keyColor("a",null)
             val latch=java.util.concurrent.CountDownLatch(1)
-            KeyboardTheme.image(targetContext,prefs.themeImageVersion) { check(it!=null);latch.countDown() }
+            KeyboardTheme.image(targetContext,prefs.themeImageVersion,1080,720) { check(it!=null);latch.countDown() }
             check(latch.await(10,java.util.concurrent.TimeUnit.SECONDS))
             draw("theme-image-loading.png").recycle();waitForIdleSync()
             val picture=draw("theme-image.png")
@@ -868,7 +869,7 @@ class KeyboardTest : Instrumentation() {
             check(prefs.themeAccent==android.graphics.Color.CYAN);result.put("automatic_palette_is_editable",true)
             prefs.keyboardTheme="wave"
             val waveLatch=java.util.concurrent.CountDownLatch(1)
-            KeyboardTheme.image(targetContext,-1,true) { check(it!=null);waveLatch.countDown() }
+            KeyboardTheme.image(targetContext,-1,1080,720,true) { check(it!=null);waveLatch.countDown() }
             check(waveLatch.await(10,java.util.concurrent.TimeUnit.SECONDS))
             draw("theme-wave-loading.png").recycle();waitForIdleSync()
             val wave=draw("theme-wave.png")

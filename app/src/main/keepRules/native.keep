@@ -1,0 +1,10 @@
+# lokey.c calls these methods by name through JNI.
+-keepclassmembers class org.lokey.app.Native {
+    private void modelChanged();
+}
+-keepclassmembers interface org.lokey.app.Translation$Sink {
+    public void text(java.lang.String);
+}
+-keepclassmembers class * implements org.lokey.app.Translation$Sink {
+    public void text(java.lang.String);
+}

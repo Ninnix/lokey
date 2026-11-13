@@ -91,7 +91,7 @@ class ThemeEditor(private val activity:Activity,private val prefs:Prefs):LinearL
             }
             if(prefs.keyboardTheme in listOf("image","wave")) addView(button(context.tr("Match colors to image")) {
                 val builtin=prefs.keyboardTheme=="wave" || prefs.themePicture=="wave"
-                KeyboardTheme.image(context,prefs.themeImageVersion,builtin) { bitmap ->
+                KeyboardTheme.image(context,prefs.themeImageVersion,80,80,builtin) { bitmap ->
                     if(bitmap!=null) { custom();KeyboardTheme.applyPalette(prefs,bitmap);post { render() } }
                 }
             })

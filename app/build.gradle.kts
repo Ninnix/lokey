@@ -83,7 +83,7 @@ android {
         }
     }
     buildTypes { release {
-        isMinifyEnabled = false
+        optimization { enable = true }
         if(signingFile.isFile) signingConfig=signingConfigs.getByName("release")
     } }
     if(hexagonSdk!=null) {

@@ -201,6 +201,7 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
     private val muted get()=palette.muted
     private val accent get()=palette.accent
     private var imageVersion=Long.MIN_VALUE
+    private var imageRequest=0
     private var keycapBitmap:Bitmap?=null
     private var keycapShader:BitmapShader?=null
     private val imageMatrix=Matrix()
@@ -246,7 +247,7 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
         val desired=(dp(baseHeight()*(resizeHeight ?: prefs.height)/100f)*(if(suggestionsVisible) 1f else (units()-48)/units())).toInt()
         setMeasuredDimension(MeasureSpec.getSize(widthMeasureSpec), resolveSize(desired, heightMeasureSpec))
     }
-    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) { layoutKeys() }
+    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) { imageVersion=Long.MIN_VALUE;imageRequest++;layoutKeys() }
     private fun unit()=height/(units()-(if(suggestionsVisible) 0 else 48))
     private fun layoutKeys() {
         if (width == 0 || height == 0 || touches.isNotEmpty()) return
@@ -337,16 +338,19 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
         palette=if(saved!=null) KeyboardTheme.colors(saved.settings) else KeyboardTheme.colors(prefs,theme)
         val builtin=theme=="wave" || theme=="image" && (saved?.settings?.optString("theme_picture") ?: prefs.themePicture)=="wave" && (previewTheme==null || saved!=null)
         val picture=theme=="image" || theme=="wave"
+        if(!picture && imageVersion!=Long.MIN_VALUE) {
+            imageVersion=Long.MIN_VALUE;imageRequest++;keycapBitmap=null;keycapShader=null
+        }
         val requested=if(builtin) -1L else prefs.themeImageVersion
         if(picture && imageVersion!=requested) {
-            val version=requested;imageVersion=version
+            val version=requested;imageVersion=version;val request=++imageRequest
             val file=when {
                 saved?.image?.isNotEmpty()==true -> saved.imageFile(prefs)
                 saved==null && previewTheme=="image" && KeyboardTheme.uploadFile(context).exists() -> KeyboardTheme.uploadFile(context)
                 else -> KeyboardTheme.imageFile(context)
             }
-            KeyboardTheme.image(context.applicationContext,version,builtin,file) { bitmap -> main.post {
-                if(imageVersion==version) { keycapBitmap=bitmap;keycapShader=bitmap?.let { BitmapShader(it,Shader.TileMode.CLAMP,Shader.TileMode.CLAMP) };invalidate() }
+            KeyboardTheme.image(context.applicationContext,version,width,kotlin.math.ceil((units()-48)*unit()).toInt(),builtin,file) { bitmap -> main.post {
+                if(imageRequest==request) { keycapBitmap=bitmap;keycapShader=bitmap?.let { BitmapShader(it,Shader.TileMode.CLAMP,Shader.TileMode.CLAMP) };invalidate() }
             } }
         }
         val bitmap=keycapBitmap.takeIf { picture }

@@ -59,8 +59,14 @@ object KeyboardTheme {
         prefs.themeBackground=palette.background;prefs.themeKeys=palette.keys;prefs.themeAccent=palette.accent
     }
     val io=Executors.newSingleThreadExecutor { r -> Thread(r,"lokey-theme") }
-    @Volatile private var cached:Bitmap?=null
-    @Volatile private var cachedVersion=""
+    private data class Image(val key:String,val width:Int,val height:Int,val sample:Int,val bitmap:Bitmap?)
+    @Volatile private var cached:Image?=null
+    internal fun sampleSize(width:Int,height:Int,w:Int,h:Int):Int {
+        var sample=1
+        // Both dimensions must cover the view because the keyboard center-crops the image.
+        while(width/2/sample>=w && height/2/sample>=h) sample*=2
+        return sample
+    }
     fun imageFile(context:Context)=File(context.filesDir,"keycap-image.png")
     fun uploadFile(context:Context)=File(context.filesDir,"keycap-upload.png")
     fun importImage(context:Context,uri:Uri):Bitmap {
@@ -75,13 +81,26 @@ object KeyboardTheme {
         file.copyTo(uploadFile(context),true)
         return bitmap
     }
-    fun image(context:Context,version:Long,builtin:Boolean=false,file:File=imageFile(context),callback:(Bitmap?)->Unit) {
+    fun image(context:Context,version:Long,width:Int,height:Int,builtin:Boolean=false,file:File=imageFile(context),callback:(Bitmap?)->Unit) {
+        val w=width.coerceAtLeast(1);val h=height.coerceAtLeast(1)
         val key=if(builtin) "wave" else "${file.path}:$version"
+        fun fits(image:Image)=image.key==key && image.sample==sampleSize(image.width,image.height,w,h)
         val ready=cached
-        if(ready!=null && cachedVersion==key) { callback(ready);return }
+        if(ready!=null && fits(ready)) { callback(ready.bitmap);return }
         io.execute {
-            val bitmap=if(builtin) context.assets.open("themes/great-wave.png").use { BitmapFactory.decodeStream(it) } else BitmapFactory.decodeFile(file.path)
-            cached=bitmap;cachedVersion=key;callback(bitmap)
+            val current=cached
+            if(current!=null && fits(current)) { callback(current.bitmap);return@execute }
+            val options=BitmapFactory.Options().apply { inJustDecodeBounds=true;inSampleSize=1 }
+            fun decode()=if(builtin) context.assets.open("themes/great-wave.png").use { BitmapFactory.decodeStream(it,null,options) } else BitmapFactory.decodeFile(file.path,options)
+            decode()
+            val sourceWidth=options.outWidth;val sourceHeight=options.outHeight
+            var bitmap:Bitmap?=null
+            if(options.outWidth>0 && options.outHeight>0) {
+                options.inSampleSize=sampleSize(sourceWidth,sourceHeight,w,h)
+                options.inJustDecodeBounds=false
+                bitmap=decode()
+            }
+            cached=Image(key,sourceWidth,sourceHeight,options.inSampleSize,bitmap);callback(bitmap)
         }
     }
 }
