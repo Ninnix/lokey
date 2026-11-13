@@ -2,6 +2,12 @@
   <img src="app/src/main/res/drawable-nodpi/lokey_logo.png" alt="Lokey" width="220">
 </p>
 
+<p align="center">
+  <a href="https://play.google.com/store/apps/details?id=org.lokey.app">
+    <img src="docs/google-play-badge.png" alt="Get it on Google Play" width="240">
+  </a>
+</p>
+
 **Lokey** is an Android keyboard with local word prediction, dictation and
 translation. The models run on your phone. Writing a message does not require
 an account, a subscription or a connection to an inference service.
@@ -32,7 +38,8 @@ Keyboard height starts at 100%. Settings you have already chosen are preserved.
 
 ## Start here
 
-Lokey requires **Android 9 or later and an ARM64 device**. Download the signed
+Lokey requires **Android 9 or later and an ARM64 device**. Install it from
+[Google Play](https://play.google.com/store/apps/details?id=org.lokey.app) or download the signed
 [APK from Releases](https://github.com/Ninnix/lokey/releases), open Lokey, and
 follow setup to enable and select the keyboard. Choose your language and download the models you want. Ordinary
 keyboard input works without downloading a model.
