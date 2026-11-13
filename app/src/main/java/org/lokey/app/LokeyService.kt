@@ -189,6 +189,7 @@ class LokeyService : InputMethodService(), KeyboardView.Listener {
     private var selectionStart = -1
     private var selectionEnd = -1
     override fun onCreate() {
+        setTheme(R.style.ImeTheme)
         super.onCreate()
         prefs = Prefs(this); feedback = Feedback(this, prefs); prediction = Prediction(this, prefs); voice = Voice(this)
         floatingSpeech=FloatingSpeech(this,prefs,{
@@ -355,10 +356,7 @@ class LokeyService : InputMethodService(), KeyboardView.Listener {
             inputLayout().automaticCaps && info.inputType and InputType.TYPE_TEXT_FLAG_CAP_SENTENCES != 0 && currentInputConnection?.getCursorCapsMode(info.inputType) != 0)
         keyboard?.requestLayout()
         val colors=KeyboardTheme.colors(prefs)
-        window?.window?.let { w ->
-            w.navigationBarColor=colors.background
-            w.decorView.systemUiVisibility=if(KeyboardTheme.light(colors.background)) View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR else 0
-        }
+        window?.window?.let { AppWindow.keyboard(it,colors.background) }
         if(!privateField) captureClipboard()
         if(phonetic()) dictionary().request("") { }
         refresh()

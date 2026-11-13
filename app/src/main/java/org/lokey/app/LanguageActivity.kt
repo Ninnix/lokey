@@ -21,9 +21,13 @@ class LanguageActivity:AppScreen() {
     }
     override fun render() {
         val root=frame(tr("Languages")) { finish() }
+        val compact=resources.configuration.orientation==android.content.res.Configuration.ORIENTATION_LANDSCAPE
         val note=vertical().apply { setPadding(dp(24),dp(8),dp(24),dp(8)) }
-        note.addView(text(tr("Find your language."),26f,bold=true))
-        note.addView(text(tr("39 languages covered by Parakeet v3 or Qwen3 ASR. Keyboard availability is shown separately."),12f,muted).apply { setPadding(0,dp(8),0,dp(10)) })
+        val intro=vertical().apply {
+            addView(text(tr("Find your language."),26f,bold=true))
+            addView(text(tr("39 languages covered by Parakeet v3 or Qwen3 ASR. Keyboard availability is shown separately."),12f,muted).apply { setPadding(0,dp(8),0,dp(10)) })
+        }
+        if(!compact) note.addView(intro)
         val search=EditText(this).apply {
             hint=tr("Search languages");contentDescription=tr("Search supported languages");textSize=16f;setTextColor(ink);setHintTextColor(muted)
             inputType=InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_FILTER or InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS
@@ -72,12 +76,14 @@ class LanguageActivity:AppScreen() {
                 setResult(RESULT_OK,Intent().putExtra("language",language.name));finish()
             }
         }
-        root.addView(list,LinearLayout.LayoutParams(-1,0,1f));update()
-        root.addView(text(tr("Lokey’s language list follows its voice models. Native character coverage and model quality differ."),11f,muted).apply { setPadding(dp(24),dp(8),dp(24),0) })
-        root.addView(button(tr("Coverage sources")) {
+        root.addView(list,LinearLayout.LayoutParams(-1,0,1f))
+        val footer=if(compact) vertical().also { list.addHeaderView(intro,null,false);list.addFooterView(it,null,false) } else root
+        footer.addView(text(tr("Lokey’s language list follows its voice models. Native character coverage and model quality differ."),11f,muted).apply { setPadding(if(compact) 0 else dp(24),dp(8),if(compact) 0 else dp(24),0) })
+        footer.addView(button(tr("Coverage sources")) {
             val sources=listOf("LFM 2.5" to "https://huggingface.co/LiquidAI/LFM2.5-350M","Qwen 3.5" to "https://huggingface.co/Qwen/Qwen3.5-0.8B","Parakeet v3" to "https://huggingface.co/nvidia/parakeet-tdt-0.6b-v3","Qwen3 ASR" to "https://huggingface.co/Qwen/Qwen3-ASR-0.6B")
             AlertDialog.Builder(this).setTitle(tr("Language coverage")).setItems(sources.map { it.first }.toTypedArray()) { _,index -> startActivity(Intent(Intent.ACTION_VIEW,Uri.parse(sources[index].second))) }.show()
-        },LinearLayout.LayoutParams(-1,-2).apply { setMargins(dp(24),dp(8),dp(24),dp(16)) })
+        },LinearLayout.LayoutParams(-1,-2).apply { setMargins(if(compact) 0 else dp(24),dp(8),if(compact) 0 else dp(24),dp(16)) })
+        update()
     }
     override fun onSaveInstanceState(state:Bundle) { state.putString("query",query);state.putString("filter",filter);super.onSaveInstanceState(state) }
 }

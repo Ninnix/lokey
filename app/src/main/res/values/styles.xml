@@ -1,19 +1,27 @@
 <resources>
-    <style name="AppTheme" parent="android:style/Theme.Material.NoActionBar">
+    <style name="AppThemeBase" parent="android:style/Theme.Material.NoActionBar">
         <item name="android:fontFamily">sans</item>
         <item name="android:colorAccent">#F05C5E</item>
         <item name="android:windowLightStatusBar">false</item>
         <item name="android:windowLightNavigationBar">false</item>
-        <item name="android:statusBarColor">#171819</item>
-        <item name="android:navigationBarColor">#171819</item>
         <item name="android:windowBackground">#171819</item>
     </style>
-    <style name="AppTheme.Light" parent="android:style/Theme.Material.Light.NoActionBar">
+    <style name="AppThemeLightBase" parent="android:style/Theme.Material.Light.NoActionBar">
         <item name="android:fontFamily">sans</item>
         <item name="android:colorAccent">#FF5A00</item>
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:windowLightNavigationBar">true</item>
-        <item name="android:statusBarColor">#F8F8F5</item>
-        <item name="android:navigationBarColor">#F8F8F5</item>
+        <item name="android:windowBackground">#F8F8F5</item>
+    </style>
+    <style name="AppTheme" parent="AppThemeBase">
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+    </style>
+    <style name="AppTheme.Light" parent="AppThemeLightBase">
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+    </style>
+    <style name="ImeTheme" parent="android:style/Theme.DeviceDefault.InputMethod">
+        <item name="android:navigationBarColor">@android:color/transparent</item>
     </style>
 </resources>

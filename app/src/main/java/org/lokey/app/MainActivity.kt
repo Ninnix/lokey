@@ -39,7 +39,6 @@ class MainActivity : Activity() {
         prefs=Prefs(this);applyAppTheme()
         super.onCreate(state); feedback = Feedback(this, prefs);themeSound=ThemeSound(this)
         if(!prefs.setupComplete) { startActivity(Intent(this,SetupActivity::class.java));finish();return }
-        window.statusBarColor = bg; window.navigationBarColor = bg
         if (intent.getBooleanExtra("microphone", false)) permission()
         val destination = intent.getStringExtra("page").takeIf { it in listOf("home", "feel", "models", "lab", "theme", "layout") } ?: "home"
         show(destination)
@@ -68,10 +67,9 @@ class MainActivity : Activity() {
         currentFocus?.let { getSystemService(InputMethodManager::class.java).hideSoftInputFromWindow(it.windowToken, 0) }
         page = destination
         updates.clear()
-        window.statusBarColor=bg;window.navigationBarColor=bg
-        window.decorView.systemUiVisibility=if(prefs.appLight) View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR or View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR else 0
-        body = vertical().apply { setBackgroundColor(bg); fitsSystemWindows = true }
+        body = vertical().apply { setBackgroundColor(bg) }
         setContentView(body)
+        AppWindow.frame(window,body,prefs.appLight)
         val header = LinearLayout(this).apply { gravity = Gravity.CENTER_VERTICAL; setPadding(dp(24), dp(14), dp(24), dp(14)) }
         if(destination=="theme" || destination=="layout") {
             header.addView(BackButton(this,ink) { show("feel") },LinearLayout.LayoutParams(dp(40),dp(40)))

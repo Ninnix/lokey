@@ -1,0 +1,5 @@
+<resources>
+    <style name="AppTheme" parent="AppThemeBase"/>
+    <style name="AppTheme.Light" parent="AppThemeLightBase"/>
+    <style name="ImeTheme" parent="android:style/Theme.DeviceDefault.InputMethod"/>
+</resources>

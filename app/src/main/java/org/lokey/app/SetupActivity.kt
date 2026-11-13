@@ -94,7 +94,8 @@ class SetupActivity:AppScreen() {
             layoutTitle=text(layoutName(prefs.currentLayout),12f,muted).apply { setPadding(0,0,0,dp(6));contentDescription=tr("Setup preview layout") }
             preview.addView(layoutTitle)
             layoutPreview=PresetPreview(this,prefs,prefs.keyboardTheme,(resources.configuration.screenHeightDp*.34f).toInt()) { }.apply { contentDescription=tr("Selected keyboard preview") }
-            preview.addView(layoutPreview);root.addView(preview)
+            preview.addView(layoutPreview)
+            if(resources.configuration.orientation==android.content.res.Configuration.ORIENTATION_LANDSCAPE) content.addView(preview) else root.addView(preview)
         }
         val bottom=vertical().apply { setPadding(dp(24),dp(10),dp(24),dp(16)) }
         next=button(if(step==0) tr("Choose models") else tr("Download models"),true) {

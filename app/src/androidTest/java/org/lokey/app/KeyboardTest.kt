@@ -89,6 +89,7 @@ class KeyboardTest : Instrumentation() {
             if(mode=="downloads") report.put("downloads",DownloadChecks.run(this,targetContext))
             if(mode=="layoutui") report.put("layoutui",LayoutChecks.live(this,targetContext))
             if(mode=="insets") report.put("insets",InsetsChecks.run(this,targetContext))
+            if(mode=="activityinsets") report.put("activityinsets",InsetsChecks.activities(this,targetContext))
             if(mode=="layoutpicker") report.put("layoutpicker",LayoutChecks.picker(this,targetContext))
             if(mode=="speech") report.put("speech",SpeechChecks.run(this,targetContext,speechModel,speechAccelerator))
             if(mode=="setup") report.put("setup",SetupChecks.run(this,targetContext))
