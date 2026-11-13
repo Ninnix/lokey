@@ -11,7 +11,7 @@ output=args.output/'context';output.mkdir(parents=True,exist_ok=True)
 pattern=re.compile(r"[^\W\d_]+(?:['’][^\W\d_]+)*",re.UNICODE)
 credits=['Offline word context: counts of public word pairs/triples, not neural weights.',
  'Sources: Universal Dependencies 2.18. Tables transformed by tools/prepare-context.py.',
- 'Retain repeated ngrams only, prune by count and use the bundled swipe vocabulary.',
+ 'Retain repeated prediction ngrams and spelling contrasts, using the bundled vocabulary.',
  'No user typing, names, offsets or usage statistics are collected.\n']
 for source in spec['sources']:
  for file in source['files']:
@@ -25,6 +25,8 @@ for source in spec['sources']:
  code=source['code'];words=set()
  for path in [ROOT/f'app/src/main/assets/languages/{code}.txt',args.vocabulary/'swipe-words'/(code+'.txt')]:
   words.update(line.split(' ',1)[0] for line in path.read_text().splitlines())
+ if code=='en':words.update("i'm i've i'll i'd you're you've you'll you'd we're we've we'll we'd they're they've they'll they'd he's he'll he'd she's she'll she'd it's it'll that's there's here's what's who's how's isn't aren't wasn't weren't don't doesn't didn't can't couldn't shouldn't wouldn't won't hasn't haven't hadn't mustn't let's".split())
+ if code=='it':words.update(["c'è","com'è","dov'è"])
  counts=collections.Counter()
  for line in (cache/(code+'-train.conllu')).read_text().splitlines():
   if not line.startswith('# text = '):continue
@@ -35,6 +37,10 @@ for source in spec['sources']:
     if i>=size:counts[(tuple(tokens[i-size:i]),tokens[i])]+=1
  rows=[(context,word,count) for (context,word),count in counts.items() if count>=spec['min_count']]
  rows.sort(key=lambda row:(-row[2],len(row[0]),row[0],row[1]));rows=rows[:spec['max_ngrams']]
+ contrasts={'en':{'its',"it's"},'it':{'ce',"c'è"}}.get(code,set())
+ selected={(context,word) for context,word,_ in rows}
+ for (context,word),count in counts.items():
+  if word in contrasts and (context,word) not in selected:rows.append((context,word,count))
  (output/(code+'.tsv')).write_text(''.join(' '.join(h)+'\t'+w+'\t'+str(n)+'\n' for h,w,n in rows))
  credits.extend(['\n'+source['treebank']+' · '+source['license']])
  credits.extend(file['url'] for file in source['files'])

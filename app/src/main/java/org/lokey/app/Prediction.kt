@@ -7,7 +7,7 @@ import java.util.concurrent.atomic.AtomicInteger
 import java.util.concurrent.atomic.AtomicBoolean
 
 class Prediction(private val context: Context, private val prefs: Prefs,private val learning:UsageLearning=UsageLearning.shared(context)) {
-    data class Result(val before: String, val words: List<String>, val letters: FloatArray, val language: String, val neural: Boolean, val correction: String? = null, val appendWords: Set<String> = emptySet(),val wordScores:Map<String,Double> = emptyMap())
+    data class Result(val before: String, val words: List<String>, val letters: FloatArray, val language: String, val neural: Boolean, val correction: String? = null, val appendWords: Set<String> = emptySet(),val wordScores:Map<String,Double> = emptyMap(),val spelling:Languages.Spelling?=null)
     private val main = Handler(Looper.getMainLooper())
     private val worker=ModelMemory.Worker("lokey-prediction",ModelMemory.TEXT,Thread.MIN_PRIORITY)
     private val version = AtomicInteger()
@@ -18,7 +18,8 @@ class Prediction(private val context: Context, private val prefs: Prefs,private 
     private lateinit var languages: Languages
     private lateinit var local:LocalPrediction
     private fun scope(code:String)=UsageLearning.scope(prefs.layout,code)
-    private var language = "en"
+    private fun primaryLanguage()=ModelLanguages.selected(context,prefs).base.takeIf { it in Languages.names } ?: "en"
+    private var language = primaryLanguage()
     private var loaded = ""
     @Volatile private var loadedGeneration=-1L
     private var failed = ""
@@ -61,8 +62,11 @@ class Prediction(private val context: Context, private val prefs: Prefs,private 
             var result:Result?=null
             try {
                 val detected=languages.detect(before,language)
+                val spelling=local.spelling(before,detected)
                 val personal=if(learningAllowed) learning.correction(scope(detected.code),Languages.prefix(before)) else null
-                result=if(personal!=null) Languages.casing(personal,Languages.prefix(before),detected.code).let {
+                result=if(spelling!=null) spelling.takeIf { it.automatic }?.let {
+                    Result(before,listOf(it.word),FloatArray(26),detected.code,false,it.word,spelling=it)
+                } else if(personal!=null) Languages.casing(personal,Languages.prefix(before),detected.code).let {
                     Result(before,listOf(it),FloatArray(26),detected.code,false,it)
                 } else if(Models.text.none { Models.ready(context,it) }) local.correction(before,detected)?.let {
                     Result(before,listOf(it),FloatArray(26),detected.code,false,it)
@@ -155,7 +159,8 @@ class Prediction(private val context: Context, private val prefs: Prefs,private 
     }
     fun request(before:String,neuralAllowed:Boolean=true,script:String?=null,learningAllowed:Boolean=false,callback:(Result)->Unit) {
         requestBase(before,neuralAllowed,script,learningAllowed) { result ->
-            val value=if(learningAllowed) learning.personalize(result,scope(result.language)) else result
+            val personal=if(learningAllowed) learning.personalize(result,scope(result.language)) else result
+            val value=if(::languages.isInitialized) languages.spelling(personal,prefs.autocorrect) else personal
             latest=value;callback(value)
         }
     }
@@ -231,7 +236,7 @@ class Prediction(private val context: Context, private val prefs: Prefs,private 
                         generated.mapIndexedNotNull { i,word -> (scores?.getOrNull(pool.size+fixes.size+i)?.toDouble() ?: cachedScores[word])?.let { word to it } }
                     val letters=AdaptiveKeys.probabilities(if(complete) "" else prefix,letterScores)
                     val wordScores=(cachedScores.toList()+letterScores).associate { Languages.lower(it.first) to it.second }
-                    return Result(before, words, letters, detected.code, neural, correction?.let { casing(it) }, append,wordScores)
+                    return local.spelling(Result(before, words, letters, detected.code, neural, correction?.let { casing(it) }, append,wordScores),detected,prefs.autocorrect)
                 }
                 fun deliver(result: Result) { main.post { if (ticket == version.get()) { latest = result; callback(result) } } }
                 if(instant?.second.isNullOrEmpty()) deliver(render(null, false))
@@ -299,7 +304,7 @@ class Prediction(private val context: Context, private val prefs: Prefs,private 
         }
     }
     fun clear() {
-        session.incrementAndGet();version.incrementAndGet();correctionVersion.incrementAndGet();latest=null;language="en";wordCaches=emptyList()
+        session.incrementAndGet();version.incrementAndGet();correctionVersion.incrementAndGet();latest=null;language=primaryLanguage();wordCaches=emptyList()
         pending?.let { main.removeCallbacks(it) }
         // Editor cleanup must not keep otherwise idle weights resident.
         if(!cleared.getAndSet(true) && !worker.isShutdown) worker.execute(false) { wordCaches=emptyList();checkedBefore=null;checkedCorrection=null;Native.resetText() }

@@ -19,6 +19,152 @@ import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 
 object TypingFeatureChecks {
+    fun spelling(test:Instrumentation,context:Context):JSONObject {
+        check(context.packageName=="org.lokey.app.features")
+        data class Case(val language:String,val before:String,val fixed:String?,val suggestion:String?=fixed)
+        val cases=listOf(
+            Case("English","Im","I'm"),Case("English","Hello Im","I'm"),Case("English","Ive","I've"),
+            Case("English","Please dont","don't"),Case("English","Theyre","They're"),Case("English","IM",null),
+            Case("English","its",null,"it's"),Case("English","I think its",null,"it's"),
+            Case("English","I guess its","it's"),Case("English","Yes its","it's"),
+            Case("English","I guess. its",null,"it's"),
+            Case("English","Look at its",null,"it's"),Case("English","The dog lost its",null,"it's"),
+            Case("English","its a","it's a"),Case("English","Its raining","It's raining"),Case("English","its been","it's been"),
+            Case("English","Its tail is",null),Case("English","I think it's tail is","its tail is"),
+            Case("German","im",null),Case("German","Im Garten",null),
+            Case("Italian","perche","perché"),Case("Italian","Non so perche","perché"),
+            Case("Italian","Perchè","Perché"),Case("Italian","PERCHE","PERCHÉ"),Case("Italian","perche\u0300","perché"),
+            Case("Italian","c'e","c'è"),Case("Italian","c’é","c'è"),Case("Italian","gia","già"),
+            Case("Italian","piu","più"),Case("Italian","lunedi","lunedì"),Case("Italian","qual'è","qual è"),
+            Case("Italian","ce",null,"c'è"),Case("Italian","ce un","c'è un"),Case("Italian","Ce qualcuno","C'è qualcuno"),
+            Case("Italian","ce ne",null,"né"),Case("Italian","ce ne sono",null),Case("Italian","ce la faccio",null),
+            Case("Italian","c'è la faccio","ce la faccio"),Case("Italian","ce la pizza","c'è la pizza"),
+            Case("Italian","un po","po'"),Case("Italian","Il Po",null,"Po'"),Case("Italian","perché",null)
+        )
+        val mainPrefs=Prefs(context);val oldSetup=mainPrefs.setupComplete;val oldAuto=mainPrefs.autocorrect;val oldLanguage=mainPrefs.setupLanguage;val oldLayout=mainPrefs.layout
+        mainPrefs.setupComplete=true
+        val activity=test.startActivitySync(android.content.Intent().setClass(context,MainActivity::class.java).addFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK))
+        lateinit var editor:android.widget.EditText
+        lateinit var connection:android.view.inputmethod.InputConnection
+        test.runOnMainSync {
+            editor=android.widget.EditText(activity).apply { showSoftInputOnFocus=false;importantForAutofill=View.IMPORTANT_FOR_AUTOFILL_NO_EXCLUDE_DESCENDANTS;setText("Spelling checks") }
+            activity.setContentView(editor);editor.requestFocus();connection=editor.onCreateInputConnection(EditorInfo())!!
+        }
+        val root=File(context.getExternalFilesDir(null),"spelling-check")
+        val reports=org.json.JSONArray()
+        try {
+            for(path in listOf("local","lfm","qwen")) {
+                val directory=File(context.cacheDir,"spelling-check-$path").apply { mkdirs() }
+                val sandbox=object:ContextWrapper(context) {
+                    override fun getApplicationContext():Context=this
+                    override fun getFilesDir()=File(root,path).apply { mkdirs() }
+                    override fun getNoBackupFilesDir()=directory
+                    override fun getSharedPreferences(name:String,mode:Int)=context.getSharedPreferences("spelling-check-$path-$name",mode)
+                }
+                val store=sandbox.getSharedPreferences("lokey",0);store.edit().clear().putBoolean("learning",true).commit()
+                val prefs=Prefs(sandbox);prefs.model=if(path=="local") "auto" else path;prefs.layout="qwerty";prefs.adaptive=true;prefs.setupLanguage="English"
+                check(Models.text.filter { Models.ready(sandbox,it) }.map { it.id }==if(path=="local") emptyList<String>() else listOf(path))
+                val learning=UsageLearning(sandbox,"lokey-spelling-$path-v1");learning.awaitIdle();learning.erase()
+                repeat(4) {
+                    learning.learn("qwerty:en","important");learning.learn("qwerty:en","in","im")
+                    learning.learn("qwerty:en","it's","its");learning.learn("qwerty:it","perchè","perche")
+                }
+                Native.release();lateinit var engine:Prediction
+                test.runOnMainSync { engine=Prediction(sandbox,prefs,learning) }
+                fun request(case:Case,on:Boolean,autocorrect:Boolean):Prediction.Result {
+                    prefs.setupLanguage=case.language;prefs.autocorrect=autocorrect
+                    store.edit().putBoolean("learning",on).commit()
+                    val done=CountDownLatch(1);var answer:Prediction.Result?=null;var callbacks=0
+                    test.runOnMainSync { engine.clear();engine.request(case.before,learningAllowed=on) {
+                        callbacks++
+                        if(path=="local" && callbacks>=2 || path!="local" && it.neural) { answer=it;done.countDown() }
+                    } }
+                    check(done.await(60,TimeUnit.SECONDS)) { "No prediction: $path ${case.before}" }
+                    return answer!!
+                }
+                try {
+                    for(on in listOf(false,true)) for(case in cases) {
+                        val value=request(case,on,true)
+                        check(value.correction==case.fixed) { "$path learning=$on '${case.before}' -> ${value.correction}; expected ${case.fixed}; language=${value.language}" }
+                        case.suggestion?.let { word -> check(word in value.words && word !in value.appendWords) { "Missing replacement $word: $value" } }
+                        val done=CountDownLatch(1);var fixed:Prediction.Result?=null
+                        test.runOnMainSync { engine.correct(case.before,on) { fixed=it;done.countDown() } }
+                        check(done.await(60,TimeUnit.SECONDS) && fixed?.correction==case.fixed) { "Boundary $path ${case.before}: $fixed" }
+                        if(case.fixed!=null) test.runOnMainSync {
+                            val source=value.spelling!!.source
+                            val expected=case.before.dropLast(source.length)+case.fixed
+                            for(boundary in listOf(" ","?")) {
+                                val correction=Autocorrect();editor.setText(case.before);editor.setSelection(editor.length())
+                                check(correction.commit(connection,boundary,value,true) && editor.text.toString()==expected+boundary)
+                                check(correction.revert(connection) && editor.text.toString()==case.before)
+                                check(!correction.commit(connection,boundary,value,true))
+                                correction.reset()
+                                editor.setText(case.before+boundary);editor.setSelection(editor.length())
+                                check(correction.defer(connection,boundary,true)==case.before)
+                                check(correction.finish(connection,value) && editor.text.toString()==expected+boundary)
+                                check(correction.revert(connection) && editor.text.toString()==case.before)
+                            }
+                        }
+                        reports.put(JSONObject().put("path",path).put("learning",on).put("before",case.before)
+                            .put("language",value.language).put("correction",value.correction ?: JSONObject.NULL).put("words",org.json.JSONArray(value.words)))
+                    }
+                    for(on in listOf(false,true)) for(case in cases.filter { it.before in listOf("Im","its","I guess its","its a","perche","ce","ce un") }) {
+                        val value=request(case,on,false)
+                        check(value.correction==null && case.suggestion in value.words && case.suggestion !in value.appendWords)
+                    }
+                    if(path=="local") check(Native.residentModels() and 1==0)
+                    File(root,"results-$path.json").writeText(reports.toString(2))
+                } finally {
+                    test.runOnMainSync { engine.close() };learning.erase();learning.close();store.edit().clear().commit();directory.deleteRecursively()
+                }
+            }
+            fun shell(command:String)=android.os.ParcelFileDescriptor.AutoCloseInputStream(test.uiAutomation.executeShellCommand(command)).bufferedReader().use { it.readText().trim() }
+            val originalIme=shell("settings get secure default_input_method")
+            fun nodes():List<AccessibilityNodeInfo> {
+                test.uiAutomation.clearCache();val out=ArrayList<AccessibilityNodeInfo>()
+                fun walk(node:AccessibilityNodeInfo) {
+                    if(node.packageName==context.packageName) out.add(node)
+                    for(i in 0 until node.childCount) node.getChild(i)?.let { walk(it) }
+                }
+                for(window in test.uiAutomation.windows) if(window.type==android.view.accessibility.AccessibilityWindowInfo.TYPE_INPUT_METHOD) window.root?.let { walk(it) }
+                return out
+            }
+            fun await(condition:()->Boolean) {
+                val until=SystemClock.uptimeMillis()+12000
+                while(SystemClock.uptimeMillis()<until) { if(condition()) return;SystemClock.sleep(40) }
+                error("Live spelling check timed out")
+            }
+            try {
+                val service=test.uiAutomation.serviceInfo
+                service.flags=service.flags or android.accessibilityservice.AccessibilityServiceInfo.FLAG_RETRIEVE_INTERACTIVE_WINDOWS
+                test.uiAutomation.serviceInfo=service
+                mainPrefs.layout="qwerty";mainPrefs.setupLanguage="English";mainPrefs.autocorrect=false
+                shell("ime enable ${context.packageName}/org.lokey.app.LokeyService")
+                shell("ime set ${context.packageName}/org.lokey.app.LokeyService")
+                fun put(text:String) {
+                    test.runOnMainSync {
+                        activity.getSystemService(android.view.autofill.AutofillManager::class.java).cancel()
+                        editor.setText(text);editor.setSelection(editor.length());editor.requestFocus()
+                        activity.getSystemService(android.view.inputmethod.InputMethodManager::class.java).showSoftInput(editor,0)
+                    }
+                    await { nodes().any { it.contentDescription?.toString()==context.tr("Suggestion: %1\$s","it's a") } }
+                }
+                put("its a")
+                check(nodes().first { it.contentDescription?.toString()==context.tr("Suggestion: %1\$s","it's a") }.performAction(AccessibilityNodeInfo.ACTION_CLICK))
+                await { editor.text.toString()=="it's a " }
+                mainPrefs.autocorrect=true;put("its a")
+                check(nodes().first { it.contentDescription?.toString()?.startsWith("Space,")==true }.performAction(AccessibilityNodeInfo.ACTION_CLICK))
+                await { editor.text.toString()=="it's a " }
+                check(nodes().first { it.contentDescription?.toString()?.startsWith("Backspace,")==true }.performAction(AccessibilityNodeInfo.ACTION_CLICK))
+                await { editor.text.toString()=="its a" }
+            } finally {
+                mainPrefs.autocorrect=oldAuto;mainPrefs.setupLanguage=oldLanguage;mainPrefs.layout=oldLayout
+                if(originalIme.isNotBlank() && originalIme!="null") shell("ime set $originalIme")
+            }
+        } finally { Native.release();test.runOnMainSync { activity.finish();mainPrefs.setupComplete=oldSetup } }
+        return JSONObject().put("paths",3).put("cases",cases.size).put("learning_conditions",2).put("checks",reports.length())
+            .put("space_punctuation_and_undo",true).put("suggestions_with_autocorrect_off",true).put("live_candidate_space_and_undo",true).put("details",File(root,"results-qwen.json").path)
+    }
     fun neural(test:Instrumentation,context:Context):JSONObject {
         check(context.packageName=="org.lokey.app.features")
         val directory=File(context.cacheDir,"learning-neural-check").apply { mkdirs() }

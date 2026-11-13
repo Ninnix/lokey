@@ -14,7 +14,7 @@ class Autocorrect {
         if(!enabled || !boundary(text)) return null
         val before=connection.getTextBeforeCursor(320,0)?.toString() ?: return null
         val suffix=before.takeLastWhile { boundary(it.toString()) }
-        if(!before.endsWith(text) || Languages.prefix(before.dropLast(suffix.length)).length !in 2..24) return null
+        if(!before.endsWith(text) || Languages.prefix(before.dropLast(suffix.length)).length !in 1..24) return null
         val after=connection.getTextAfterCursor(80,0)?.toString() ?: return null
         val position=Cursor.position(connection)
         if(position<0 || !connection.getSelectedText(0).isNullOrEmpty()) return null
@@ -39,7 +39,8 @@ class Autocorrect {
         if(insertedBoundary && !current.endsWith(text)) return false
         val before=if(insertedBoundary) current.dropLast(text.length) else current
         val after = connection.getTextAfterCursor(80, 0)?.toString() ?: return false
-        val word = Languages.prefix(before)
+        val word = result.spelling?.takeIf { it.word==result.correction }?.source ?: Languages.prefix(before)
+        if(!before.endsWith(word)) return false
         if (word == rejected) return false
         rejected = ""
         val start = before.length - word.length

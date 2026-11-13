@@ -73,6 +73,7 @@ class KeyboardTest : Instrumentation() {
             if(mode=="labels") report.put("labels",LabelChecks.run(this,targetContext))
             if(mode=="local") report.put("local",LocalChecks.run(this,targetContext))
             if(mode=="typingfeatures") report.put("typingfeatures",TypingFeatureChecks.run(this,targetContext))
+            if(mode=="spelling") report.put("spelling",TypingFeatureChecks.spelling(this,targetContext))
             if(mode=="typingfeatureslive") report.put("typingfeatureslive",TypingFeatureChecks.live(this,targetContext))
             if(mode=="speechoverlay") report.put("speechoverlay",TypingFeatureChecks.overlay(this,targetContext))
             if(mode=="learningneural") report.put("learningneural",TypingFeatureChecks.neural(this,targetContext))

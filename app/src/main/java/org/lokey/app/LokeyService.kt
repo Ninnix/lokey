@@ -539,7 +539,10 @@ class LokeyService : InputMethodService(), KeyboardView.Listener {
         val append=word in shown.appendWords
         val learned=if(learningField() && Cursor.position(connection)==learningCaret && learningDraft.value==Languages.prefix(before)) learningDraft.value else ""
         val punctuation = word.length == 1 && word[0] in "?!."
-        val prefix = if (append || punctuation) 0 else Languages.prefix(before).length
+        val replacement=shown.spelling?.takeIf { it.word==word }?.source
+        if(replacement!=null && (!before.endsWith(replacement) || !connection.getSelectedText(0).isNullOrEmpty() ||
+            connection.getTextAfterCursor(1,0)?.firstOrNull()?.let { Languages.isWord(it) || it.isDigit() }==true)) { refresh();return }
+        val prefix = if (append || punctuation) 0 else replacement?.length ?: Languages.prefix(before).length
         val separator = if (append && !unspaced() && !punctuation && before.isNotEmpty() && !before.last().isWhitespace()) " " else ""
         connection.beginBatchEdit()
         if (punctuation) connection.deleteSurroundingText(before.length - before.trimEnd(' ', '\t').length, 0)

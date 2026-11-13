@@ -45,9 +45,26 @@ class LocalPrediction(private val context:Context,private val languages:Language
         } } } catch(_:java.io.FileNotFoundException) { }
         Vocabulary(languages.words(language),rows.mapValues { Continuations(it.value) })
     }
+    fun spelling(before:String,language:Languages.Language):Languages.Spelling? {
+        val form=languages.spelling(language,before) ?: return null
+        if(form.automatic || Languages.lower(form.source) !in listOf("its","ce")) return form
+        val stem=before.dropLast(form.source.length).takeLastWhile { it !in ".!?;:\n" }
+        val history=Languages.tokens(stem).takeLast(2).map { Languages.lower(it) }
+        val dictionary=vocabulary(language)
+        for(size in minOf(2,history.size) downTo 1) {
+            val row=dictionary.contexts[history.takeLast(size).joinToString(" ")] ?: continue
+            val fixed=row.counts[Languages.lower(form.word)] ?: 0
+            val original=row.counts[Languages.lower(form.source)] ?: 0
+            if(fixed>=(if(size==2) 2 else 4) && fixed>=8*(original+.2)) return form.copy(automatic=true)
+            if(fixed+original>0) break
+        }
+        return form
+    }
+    fun spelling(result:Prediction.Result,language:Languages.Language,autocorrect:Boolean):Prediction.Result =
+        languages.spelling(result.copy(spelling=spelling(result.before,language)),autocorrect)
     fun correction(before:String,language:Languages.Language):String? {
         val prefix=Languages.prefix(before)
-        languages.contraction(language,prefix)?.let { return Languages.casing(it.word,prefix,language.code) }
+        spelling(before,language)?.let { return if(it.automatic) it.word else null }
         if(prefix.length !in 3..24 || prefix.first().isUpperCase() || languages.all.any { Languages.lower(prefix) in it.words }) return null
         val words=vocabulary(language)
         if(Languages.lower(prefix) in words.words || key(prefix).none { it in "aeiouyı" }) return null
@@ -89,7 +106,7 @@ class LocalPrediction(private val context:Context,private val languages:Language
             if(words.size==3) append.remove(words.removeAt(2))
             words.add(Languages.casing(it.word,prefix,language.code))
         }
-        return Prediction.Result(before,words,AdaptiveKeys.probabilities(typed,ranked.map { it.key to it.value }),language.code,false,fixed,append)
+        return spelling(Prediction.Result(before,words,AdaptiveKeys.probabilities(typed,ranked.map { it.key to it.value }),language.code,false,fixed,append),language,autocorrect)
     }
     companion object {
         private fun key(word:String)=Languages.fold(word).replace("'","")
@@ -110,7 +127,7 @@ class LocalPrediction(private val context:Context,private val languages:Language
                 words.add(Languages.casing(it.word,prefix,language.code))
             }
             val letters=AdaptiveKeys.probabilities(typed,choices.take(24).map { it.word to it.prior })
-            return Prediction.Result(before,words,letters,language.code,false,fixed,append)
+            return languages.spelling(Prediction.Result(before,words,letters,language.code,false,fixed,append),autocorrect)
         }
     }
 }
