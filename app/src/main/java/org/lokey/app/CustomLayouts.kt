@@ -6,7 +6,7 @@ import java.util.UUID
 
 object CustomLayouts {
     val actions=linkedMapOf("" to "Type text","shift" to "Caps","delete" to "Delete","space" to "Space / cursor","enter" to "Enter / microphone","symbols" to "Symbols / tools")
-    val emojis=listOf("😊","❤️","👍","😂","😅","😭")
+    val emojis=listOf("😊","❤️","👍","😂","😅","😭","🥺")
     data class Key(val id:String=UUID.randomUUID().toString(),val primary:String="",val secondary:List<String> = emptyList(),val action:String="",val width:Float=1f) {
         val label get()=if(action.isEmpty()) primary else actions[action].orEmpty().substringBefore(" /")
         fun json()=JSONObject().put("id",id).put("primary",primary).put("secondary",JSONArray(secondary)).put("action",action).put("width",width)
