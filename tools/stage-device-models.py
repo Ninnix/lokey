@@ -16,7 +16,7 @@ args=parser.parse_args()
 adb=str(Path.home()/'Android/Sdk/platform-tools/adb')
 models={'lfm':['LFM2.5-350M-Q4_K_M.gguf'],'qwen':['Qwen3.5-0.8B-Q4_K_M.gguf'],
         'parakeet':['parakeet-tdt-0.6b-v3-q4_k.gguf'],
-        'qwen_asr':['Qwen3-ASR-0.6B-Q8_0.gguf','mmproj-Qwen3-ASR-0.6B-Q8_0.gguf']}
+        'qwen_asr':['Qwen3-ASR-0.6B-Q4_K.gguf','mmproj-Qwen3-ASR-0.6B-cstr-Q8_0.gguf']}
 files=[]
 for model in args.models:
     for name in models[model]:

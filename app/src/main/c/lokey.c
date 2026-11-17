@@ -19,6 +19,7 @@
 #include "mtmd.h"
 #include "mtmd-helper.h"
 #include "loina.h"
+#include "qwen-repack.h"
 
 extern struct parakeet_context *loina_parakeet_load(const char *, unsigned, loina_job *);
 
@@ -856,6 +857,13 @@ JNIEXPORT jfloatArray JNICALL Java_org_lokey_app_Native_letters(JNIEnv *env,jobj
     if(result) (*env)->SetFloatArrayRegion(env,result,0,26,letter_probs);
     pthread_mutex_unlock(&text_mutex);
     return result;
+}
+JNIEXPORT jboolean JNICALL Java_org_lokey_app_Native_repackQwen(JNIEnv *env,jobject self,jstring source,jstring decoder,jstring encoder) {
+    (void)self;
+    char *src=utf(env,source),*dec=utf(env,decoder),*enc=utf(env,encoder);
+    bool ok=src && dec && enc && qwen_repack(src,dec,enc);
+    free(src);free(dec);free(enc);
+    return ok;
 }
 static void free_asr(void) {
     if(asr_audio) mtmd_free(asr_audio);

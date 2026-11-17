@@ -11,10 +11,10 @@ object Models {
         Model("qwen", "Qwen 3.5", "0.8B · text prediction and translation", "Qwen3.5-0.8B-Q4_K_M.gguf", "https://huggingface.co/unsloth/Qwen3.5-0.8B-GGUF/resolve/main/Qwen3.5-0.8B-Q4_K_M.gguf")
     )
     val speech = Model("parakeet", "Parakeet v3", "0.6B · on-device dictation", "parakeet-tdt-0.6b-v3-q4_k.gguf", "https://huggingface.co/cstr/parakeet-tdt-0.6b-v3-GGUF/resolve/dff69b0e675921ffd5a6133f5fbe2aac690d3ec3/parakeet-tdt-0.6b-v3-q4_k.gguf")
-    val qwenEncoder=Model("qwen_asr_encoder","Qwen audio encoder","required for Qwen ASR","mmproj-Qwen3-ASR-0.6B-Q8_0.gguf","https://huggingface.co/ggml-org/Qwen3-ASR-0.6B-GGUF/resolve/main/mmproj-Qwen3-ASR-0.6B-Q8_0.gguf")
-    val qwenAsr=Model("qwen_asr","Qwen3 ASR","0.6B · 30 languages, including Chinese and Arabic","Qwen3-ASR-0.6B-Q8_0.gguf","https://huggingface.co/ggml-org/Qwen3-ASR-0.6B-GGUF/resolve/main/Qwen3-ASR-0.6B-Q8_0.gguf",listOf(qwenEncoder))
+    val qwenEncoder=Model("qwen_asr_encoder","Qwen audio encoder","required for Qwen ASR","mmproj-Qwen3-ASR-0.6B-cstr-Q8_0.gguf","")
+    val qwenAsr=Model("qwen_asr","Qwen3 ASR","0.6B · 30 languages, including Chinese and Arabic","Qwen3-ASR-0.6B-Q4_K.gguf","https://huggingface.co/cstr/qwen3-asr-0.6b-GGUF/resolve/58bd3202f835f46b24b17142cb503b0860c737a5/qwen3-asr-0.6b-q4_k.gguf",listOf(qwenEncoder))
     val voices=listOf(speech,qwenAsr)
-    fun downloadSize(model:Model)=when(model.id) { "lfm" -> "~230 MB";"qwen" -> "~533 MB";"parakeet" -> "~418 MB";"qwen_asr" -> "~1.02 GB";else -> "" }
+    fun downloadSize(model:Model)=when(model.id) { "lfm" -> "~230 MB";"qwen" -> "~533 MB";"parakeet" -> "~418 MB";"qwen_asr" -> "~631 MB";else -> "" }
     fun voice(id:String)=voices.firstOrNull { it.id==id } ?: speech
     val io = Executors.newSingleThreadExecutor { r -> Thread(r, "lokey-models") }
     fun downloadState(context:Context,model:Model)=Downloads.state(context,"model:${model.id}")
@@ -57,5 +57,24 @@ object Models {
     fun validate(file: File) {
         val magic = ByteArray(4)
         file.inputStream().use { check(it.read(magic) == 4 && String(magic) == "GGUF") { "Choose a GGUF model file" } }
+    }
+    fun installQwen(context:Context,source:File) {
+        val digest=java.security.MessageDigest.getInstance("SHA-256")
+        source.inputStream().use { input ->
+            val buffer=ByteArray(262144)
+            while(true) { val count=input.read(buffer);if(count<0) break;digest.update(buffer,0,count) }
+        }
+        if(digest.digest().joinToString("") { "%02x".format(it) }!="f63771c02dfa486d9399d41ab6ab8cd2d8ca24e077cd32130ea1f67f4fd8dade") {
+            source.delete();error("Qwen model checksum mismatch")
+        }
+        val decoder=file(context,qwenAsr);val encoder=file(context,qwenEncoder)
+        val dec=File(decoder.path+".repack");val enc=File(encoder.path+".repack")
+        try {
+            check(Native.repackQwen(source.path,dec.path,enc.path)) { "Could not prepare Qwen model" }
+            check(enc.renameTo(encoder) && dec.renameTo(decoder)) { "Could not save Qwen model" }
+        } finally { dec.delete();enc.delete() }
+        source.delete()
+        for(name in listOf("Qwen3-ASR-0.6B-Q8_0.gguf","mmproj-Qwen3-ASR-0.6B-Q8_0.gguf"))
+            for(suffix in listOf("",".part",".part.validator")) File(directory(context),name+suffix).delete()
     }
 }

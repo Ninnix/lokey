@@ -107,7 +107,7 @@ class DownloadService:JobService() {
     override fun onDestroy() { transfers.values.forEach { it.stop() };transfers.clear();super.onDestroy() }
 
     private class Transfer(private val context:Context,private val network:Network?) {
-        private data class Part(val title:String,val url:String,val file:File,val model:Boolean)
+        private data class Part(val title:String,val url:String,val file:File,val model:Boolean,val qwen:Boolean=false)
         @Volatile var stopped=false
             private set
         @Volatile private var connection:HttpURLConnection?=null
@@ -116,6 +116,7 @@ class DownloadService:JobService() {
             val id=key.substringAfter(':')
             if(key.startsWith("model:")) {
                 val model=(Models.text+Models.voices+Models.qwenEncoder).first { it.id==id }
+                if(model.id=="qwen_asr" || model.id=="qwen_asr_encoder") return listOf(Part(Models.qwenAsr.title,Models.qwenAsr.url,Models.file(context,Models.qwenAsr),true,true))
                 return (listOf(model)+model.parts).map { Part(it.title,it.url,Models.file(context,it),true) }
             }
             // Old installations may still have a queued switch download.
@@ -124,7 +125,7 @@ class DownloadService:JobService() {
         fun download(key:String) {
             val parts=parts(key)
             for((index,part) in parts.withIndex()) {
-                if(part.file.length()>if(part.model) 1024 else 100) continue
+                if(if(part.qwen) Models.ready(context,Models.qwenAsr) else part.file.length()>if(part.model) 1024 else 100) continue
                 check(!stopped && key in Downloads.pending(context)) { "Cancelled" }
                 part.file.parentFile!!.mkdirs()
                 val partial=File(part.file.path+".part")
@@ -140,7 +141,7 @@ class DownloadService:JobService() {
                     val code=link.responseCode
                     if(code==416 && link.getHeaderField("Content-Range")=="bytes */$offset" && offset>0) {
                         Models.validate(partial)
-                        check(partial.renameTo(part.file)) { "Could not save download" };validator.delete();continue
+                        save(part,partial);validator.delete();continue
                     }
                     check(code==200 || code==206) { "HTTP $code" }
                     if(code==200) offset=0
@@ -169,10 +170,14 @@ class DownloadService:JobService() {
                     check(!stopped && key in Downloads.pending(context)) { "Cancelled" }
                     try { Models.validate(partial) }
                     catch(error:Exception) { partial.delete();validator.delete();throw error }
-                    check(partial.renameTo(part.file)) { "Could not save download" }
+                    save(part,partial)
                     validator.delete()
                 } finally { link.disconnect();connection=null }
             }
+        }
+        private fun save(part:Part,partial:File) {
+            if(part.qwen) Models.installQwen(context,partial)
+            else check(partial.renameTo(part.file)) { "Could not save download" }
         }
     }
 }

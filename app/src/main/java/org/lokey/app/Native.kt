@@ -22,6 +22,7 @@ object Native {
     external fun score(context:String,language:String,words:Array<String>):FloatArray
     external fun letters(): FloatArray
     external fun loadSpeech(path: String,projector:String="",accelerator:Int=0): Boolean
+    external fun repackQwen(source:String,decoder:String,encoder:String):Boolean
     external fun speechBackend():String
     external fun transcribe(samples: FloatArray): String
     external fun cancelSpeech()

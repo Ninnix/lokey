@@ -1,5 +1,7 @@
 Qwen3-ASR-0.6B · Qwen Team / Alibaba Cloud
-Model and Q8 GGUF: https://huggingface.co/ggml-org/Qwen3-ASR-0.6B-GGUF
+Original model: https://huggingface.co/Qwen/Qwen3-ASR-0.6B
+Q4_K decoder and Q8_0 audio encoder GGUF: https://huggingface.co/cstr/qwen3-asr-0.6b-GGUF
+Container repacked for llama.cpp by Lokey; quantized tensor payloads unchanged.
 
 
                                  Apache License

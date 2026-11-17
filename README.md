@@ -62,7 +62,7 @@ remain separate choices. See [supported languages](docs/LANGUAGES.md).
 | LFM 2.5 · 350M | Prediction, autocorrection and translation | 230 MB |
 | Qwen 3.5 · 0.8B | Prediction, autocorrection and translation | 533 MB |
 | Parakeet v3 · 0.6B | Dictation in 25 languages | 418 MB |
-| Qwen3 ASR · 0.6B | Dictation in 30 languages | 1.02 GB, including its encoder |
+| Qwen3 ASR · 0.6B | Dictation in 30 languages | 631 MB download, including its encoder |
 
 Lokey uses one active text model for prediction, autocorrection and translation,
 and one speech model for dictation. An LFM-only installation uses LFM for all

@@ -26,8 +26,15 @@ object SpeechChecks {
     fun run(test:Instrumentation,context:Context,selected:String?=null,accelerator:Int=0):JSONObject {
         val result=JSONArray()
         try {
+            val source=File(context.filesDir,"qwen-source.gguf")
+            if(source.exists()) Models.installQwen(context,source)
             val jfk=audio(File(context.filesDir,"jfk.wav"))
-            val models=if(selected==null) Models.voices else if(selected=="selected") listOf(Models.selectedVoice(context,Prefs(context))) else Models.voices.filter { it.id==selected }
+            val models=when(selected) {
+                null -> Models.voices
+                "selected" -> listOf(Models.selectedVoice(context,Prefs(context)))
+                "qwen_asr_q8" -> listOf(Models.qwenAsr.copy(filename="Qwen3-ASR-0.6B-Q8_0.gguf",parts=listOf(Models.qwenEncoder.copy(filename="mmproj-Qwen3-ASR-0.6B-Q8_0.gguf"))))
+                else -> Models.voices.filter { it.id==selected }
+            }
             check(models.isNotEmpty()) { "Unknown speech model: $selected" }
             for(model in models) {
                 check(Models.ready(context,model)) { "Missing ${model.title}" }
@@ -35,25 +42,27 @@ object SpeechChecks {
                 val start=SystemClock.elapsedRealtime()
                 check(Native.loadSpeech(Models.file(context,model).path,encoder,accelerator)) { "Load failed: ${model.title}" }
                 val row=JSONObject().put("model",model.id).put("load_ms",SystemClock.elapsedRealtime()-start).put("backend",Native.speechBackend())
+                    .put("filename",model.filename)
+                    .put("model_bytes",(listOf(model)+model.parts).sumOf { Models.file(context,it).length() })
                 val cases=JSONArray();row.put("cases",cases);result.put(row)
                 for(pass in 0..1) {
                     val now=SystemClock.elapsedRealtime();val text=Native.transcribe(jfk)
                     cases.put(JSONObject().put("fixture","jfk").put("pass",pass).put("ms",SystemClock.elapsedRealtime()-now).put("text",text))
                     File(context.filesDir,"speech-details.json").writeText(result.toString(2))
-                    check(text.contains("country",true) && text.contains("ask",true)) { "Unexpected ${model.id}: $text" }
+                    check(text.contains("country",true) && text.contains("ask",true) && !text.startsWith("language ") && !text.contains("<asr_text>")) { "Unexpected ${model.id}: $text" }
                 }
                 check(Native.transcribe(FloatArray(16000)).isEmpty())
+                row.put("pss_kb",android.os.Debug.getPss())
                 if(model.id=="qwen_asr") {
-                    for((name,expected) in listOf("asr-zh.wav" to "交易","asr-en.wav" to "")) {
+                    for((name,expected) in listOf("asr-zh.wav" to listOf("交易","停滞"),"asr-en.wav" to listOf("solo music","writing","people"))) {
                         val samples=audio(File(context.filesDir,name));val now=SystemClock.elapsedRealtime();val text=Native.transcribe(samples)
                         cases.put(JSONObject().put("fixture",name).put("ms",SystemClock.elapsedRealtime()-now).put("audio_seconds",samples.size/16000.0).put("text",text))
                         File(context.filesDir,"speech-details.json").writeText(result.toString(2))
-                        check(text.isNotBlank() && !text.contains("<asr_text>") && !text.startsWith("language "))
-                        if(expected.isNotEmpty()) check(expected in text && "停滞" in text) { "Unexpected Chinese: $text" }
+                        check(text.isNotBlank() && !text.contains("<asr_text>") && !text.startsWith("language ") && expected.all { text.contains(it,true) }) { "Unexpected $name: $text" }
                     }
                 }
             }
         } finally { Native.release() }
-        return JSONObject().put("models",result).put("silence",true).put("qwen_quantization","Q8_0")
+        return JSONObject().put("models",result).put("silence",true).put("qwen_quantization",if(selected=="qwen_asr_q8") "Q8_0" else "Q4_K")
     }
 }
