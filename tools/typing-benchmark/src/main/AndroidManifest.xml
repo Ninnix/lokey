@@ -1,0 +1,6 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <application android:theme="@android:style/Theme.Material.Light.NoActionBar" android:label="Typing benchmark">
+        <activity android:name=".TypingActivity" android:exported="true" android:windowSoftInputMode="adjustResize"/>
+    </application>
+    <instrumentation android:name=".TypingBenchmark" android:targetPackage="org.lokey.benchmark" android:label="Real keyboard touch benchmark"/>
+</manifest>

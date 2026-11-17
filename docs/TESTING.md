@@ -16,6 +16,84 @@ only its instrumentation APK when `--install-tests` is given; it does not
 replace models or clear app storage. Inference checks are serialized per phone.
 The original keyboard layout is restored after the run.
 
+## Fast typing across keyboards
+
+The standalone benchmark runs an editor in a separate process from the keyboard
+and injects touchscreen down/up events at the centers of accessibility keys.
+It never uses `input text`, which bypasses keyboard processing. Install the
+benchmark and leave the phone unlocked:
+
+```sh
+./gradlew :typing-benchmark:assembleDebug
+adb install -r tools/typing-benchmark/build/outputs/apk/debug/typing-benchmark-debug.apk
+python3 tools/bench-typing.py --serial SERIAL --label typing --intervals 80 40 24
+python3 tools/bench-typing.py --serial SERIAL --label typing-terminal --terminal
+python3 tools/bench-typing.py --serial SERIAL --label typing-slow --read-delay-ms 4
+```
+
+The intervals offer 150, 300 and 500 WPM using five characters per word. Each
+round types the same pangram and presses Backspace eight times. One warmup round
+precedes three measured rounds. The runner waits three seconds after each replay
+for queued edits to finish. Results include the actual and expected text,
+matched edit states, latency percentiles, editor-read counts and injection
+lateness. Latency runs from the scheduled finger release to the editor's text
+change, with changes received before release counted as zero. It measures text
+delivery rather than display scanout or prediction quality. A late injector can
+inflate the results; inspect its lateness alongside latency. Compare correctness
+as well as latency. The report's `passed` flag means the harness completed;
+per-round `correct` records the text and deletion result, ignoring case.
+
+`--terminal` implements Termux's raw input contract: committed text is forwarded,
+the local editable buffer stays empty, and deletion uses character deletion or
+key events. `--read-delay-ms` adds a fixed delay to each editor read to expose
+blocking work; this is a controlled stress test rather than a measurement of a
+specific host app. Neither test opens an SSH session.
+
+The runner recognizes LoKey, Gboard and SwiftKey Beta, reports their installed
+versions, and restores the selected input method after each test. For another
+package, use `--keyboards swiftkey --ime PACKAGE/SERVICE`. The benchmark stops
+if its editor loses focus. JSON reports and raw logs go in `artifacts/`.
+Use the same device, settings, model availability and workloads for before/after
+comparisons; the runner does not normalize keyboard preferences.
+
+The `fasttyping` instrumentation mode checks shared editor reads, clipping,
+selection and mutation invalidation, local prediction scheduling/cancellation,
+and 300 overlapping thumb pairs with reverse
+release order, including spaces and punctuation. It also checks that disabling
+adaptation restores the original geometry. `fasttypingprofile` enables typing
+features only in isolated `org.lokey.app.fasttyping*` test packages, leaving the
+installed app's profile alone.
+The terminal check uses the actual IME with a raw editor to verify zero ordinary
+typing reads, Unicode backspace, Enter/arrows, Hangul and dead-key composition,
+and cancellation of pending composition without deleting committed terminal text.
+
+The 2026-11-17 OnePlus 15 comparison is recorded in
+`artifacts/fast-typing-summary.json`. It uses optimized isolated before/after
+builds with identical native libraries and bundled assets, QWERTY/English,
+all four typing features enabled, and no downloaded neural model. Gboard and
+SwiftKey Beta retain their installed settings. Results describe this workload
+on one phone; they do not establish a universally fastest keyboard.
+
+| Keyboard | 300 WPM p95 | 500 WPM p95 |
+| --- | ---: | ---: |
+| LoKey before | 18 ms | 341 ms |
+| LoKey after | 16 ms | 20 ms |
+| Gboard Beta | 19 ms | 33 ms |
+| SwiftKey Beta | 21 ms | 21 ms |
+
+Each cell is the median of three per-round p95 values. Small differences can be
+run-to-run noise. Every normal round delivered the expected final text and
+deletions. With 4 ms delayed editor reads at 300 WPM, LoKey's median p95 fell
+from 976 to 23 ms and reads fell from 581 to 112 per round. The raw terminal
+case changed from three deletion failures to three correct rounds, with zero
+ordinary editor reads and a median p95 of 16 ms.
+
+The real Termux smoke check types `lokeyxyz`, deletes three characters to leave
+`lokey`, then clears the line without executing a shell command. SSH network
+latency is outside these measurements. The existing `imeflow` suggestion check
+for `?` after `Ciao come stai` fails in both isolated builds without a text model;
+its earlier real-swipe assertions and the five targeted regression modes pass.
+
 See [CONTRIBUTING.md](../CONTRIBUTING.md) for choosing checks by failure mode.
 The `adaptive` mode checks bounded visible resizing, stationary letter anchors,
 frozen geometry during touches, private-field gates, absence of learning/storage,

@@ -84,6 +84,12 @@ class KeyboardTest : Instrumentation() {
             if(mode=="memory") report.put("memory",MemoryChecks.run(this,targetContext,accelerator))
             if(mode=="battery") report.put("battery",BatteryChecks.run(this,targetContext))
             if(mode=="responsiveness") report.put("responsiveness",ResponsivenessChecks.run(this,targetContext))
+            if(mode=="fasttyping") report.put("fasttyping",FastTypingChecks.run(this,targetContext))
+            if(mode=="fasttypingprofile") {
+                check(targetContext.packageName.startsWith("org.lokey.app.fasttyping"))
+                Prefs(targetContext).apply { setupComplete=true;setupLanguage="English";layout="qwerty";flow=true;adaptive=true;autocorrect=true;learning=true }
+                report.put("fasttypingprofile",true)
+            }
             if(mode=="memoryidle") report.put("memoryidle",MemoryChecks.idle(this,targetContext,accelerator))
             if(mode=="popups") report.put("popups",PopupChecks.run(this,targetContext))
             if(mode=="downloads") report.put("downloads",DownloadChecks.run(this,targetContext))
@@ -554,7 +560,7 @@ class KeyboardTest : Instrumentation() {
             val out=HashMap<String,android.graphics.Rect>()
             fun walk(node: android.view.accessibility.AccessibilityNodeInfo) {
                 val name=node.contentDescription?.toString()?.substringBefore(',')?.lowercase().orEmpty()
-                if(name.isNotEmpty() && node.packageName=="org.lokey.app") {
+                if(name.isNotEmpty() && node.packageName==targetContext.packageName) {
                     val r=android.graphics.Rect(); node.getBoundsInScreen(r); out[name]=r
                 }
                 for(i in 0 until node.childCount) node.getChild(i)?.let { walk(it) }

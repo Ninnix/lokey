@@ -5,3 +5,5 @@ dependencyResolutionManagement {
 }
 rootProject.name = "Lokey"
 include(":app")
+include(":typing-benchmark")
+project(":typing-benchmark").projectDir=file("tools/typing-benchmark")

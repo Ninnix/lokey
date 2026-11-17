@@ -48,8 +48,21 @@ class LokeyService : InputMethodService(), KeyboardView.Listener {
     private var outputPaused=false
     private val main=android.os.Handler(android.os.Looper.getMainLooper())
     private val localRefresh=Runnable { refresh() }
+    private val inputRefresh=Runnable { refresh() }
+    private var editorConnection:EditorConnection?=null
+    private fun scheduleRefresh() {
+        val view=keyboard ?: return
+        view.removeCallbacks(inputRefresh);view.postOnAnimation(inputRefresh)
+    }
     private fun editor():LocalEditor?=if(toolMode=="languages") languagePicker?.search else sourceEditor
-    private fun connection():InputConnection?=editor()?.connection ?: currentInputConnection
+    private fun connection():InputConnection? {
+        editor()?.let { return it.connection }
+        val input=currentInputConnection ?: return null
+        if(android.os.Build.VERSION.SDK_INT<31) return input
+        if(editorConnection?.target!==input) { editorConnection?.invalidate();editorConnection=EditorConnection(input,main) }
+        return editorConnection
+    }
+    private fun rawEditor()=editor()==null && currentInputEditorInfo?.inputType?.and(InputType.TYPE_MASK_CLASS)==InputType.TYPE_NULL
     private var translationResult:Translation.Result?=null
     private var translationSource:String?=null
     private var translationLanguage=""
@@ -79,7 +92,7 @@ class LokeyService : InputMethodService(), KeyboardView.Listener {
             currentInputEditorInfo?.let { info ->
                 val type=info.inputType and InputType.TYPE_MASK_CLASS
                 keyboard?.editor(type==InputType.TYPE_CLASS_NUMBER || type==InputType.TYPE_CLASS_PHONE,editorAction,
-                    inputLayout().automaticCaps && (connection()?.getCursorCapsMode(info.inputType) ?: 0)!=0)
+                    !rawEditor() && inputLayout().automaticCaps && (connection()?.getCursorCapsMode(info.inputType) ?: 0)!=0)
             }
             keyboard?.requestLayout();refresh()
         }
@@ -327,6 +340,7 @@ class LokeyService : InputMethodService(), KeyboardView.Listener {
     override fun onStartInput(info: EditorInfo, restarting: Boolean) {
         super.onStartInput(info, restarting)
         inputVisible=false;floatingSpeech.hide();keyboard?.floatingSpeech=false
+        keyboard?.removeCallbacks(inputRefresh);editorConnection?.invalidate();editorConnection=null
         endTool(false)
         session++; displayedPrediction=null;clearGlide(); cancelVoice(); prediction.clear(); correction.reset()
         selectionStart = info.initialSelStart; selectionEnd = info.initialSelEnd
@@ -390,6 +404,7 @@ class LokeyService : InputMethodService(), KeyboardView.Listener {
             } else resetComposition()
         }
         val connection = connection() ?: return
+        if(rawEditor()) { connection.commitText(text,1);if(inputLayout().composer.isNotEmpty()) refresh();return }
         val learn=learningField() && connection.getSelectedText(0).isNullOrEmpty() &&
             connection.getTextAfterCursor(1,0)?.firstOrNull()?.let { Languages.isWord(it) || it.isDigit() }!=true
         val caret=if(learn) Cursor.position(connection) else -1
@@ -432,9 +447,9 @@ class LokeyService : InputMethodService(), KeyboardView.Listener {
         if(learn && committed && !corrected) {
             observed=learningDraft.input(text)
             if(!deferred) observed?.let { learning.learn(scope,it) }
-            learningCaret=Cursor.position(connection)
+            learningCaret=caret+text.length
         } else resetLearning()
-        refresh()
+        scheduleRefresh()
     }
     override fun delete() {
         if(deadKeys.pending.isNotEmpty()) { clearDead();refresh();return }
@@ -449,13 +464,23 @@ class LokeyService : InputMethodService(), KeyboardView.Listener {
             return
         }
         resetComposition();clearGlide()
+        if(rawEditor()) { sendDownUpKeyEvents(KeyEvent.KEYCODE_DEL);return }
         val connection = connection() ?: return
         if (correction.revert(connection) { if(learningField()) learning.reject(learningScope(),it) }) { resetLearning();refresh(); return }
         val learn=learningField() && Cursor.position(connection)==learningCaret && connection.getSelectedText(0).isNullOrEmpty()
         if (!connection.getSelectedText(0).isNullOrEmpty()) { connection.commitText("", 1);resetLearning() }
-        else if(connection.deleteSurroundingTextInCodePoints(1, 0) && learn) { learningDraft.delete();learningCaret=Cursor.position(connection) }
-        else resetLearning()
-        refresh()
+        else {
+            val before=if(learn) connection.getTextBeforeCursor(2,0)?.toString().orEmpty() else ""
+            val deleted=connection.deleteSurroundingTextInCodePoints(1,0)
+            if(!deleted) {
+                val tail=connection.getTextBeforeCursor(2,0)?.toString().orEmpty()
+                val length=if(tail.isNotEmpty()) Character.charCount(Character.codePointBefore(tail,tail.length)) else 1
+                connection.deleteSurroundingText(length,0)
+            }
+            if(deleted && learn && before.isNotEmpty()) { learningDraft.delete();learningCaret-=Character.charCount(Character.codePointBefore(before,before.length)) }
+            else resetLearning()
+        }
+        scheduleRefresh()
     }
     override fun enter() {
         resetLearning()
@@ -466,6 +491,7 @@ class LokeyService : InputMethodService(), KeyboardView.Listener {
         }
         resetComposition()
         clearGlide()
+        if(rawEditor()) { sendDownUpKeyEvents(KeyEvent.KEYCODE_ENTER);return }
         if(toolMode=="languages") { languagePicker?.chooseFirst();return }
         if(sourceEditor!=null) { text("\n");return }
         val info = currentInputEditorInfo ?: return
@@ -478,6 +504,7 @@ class LokeyService : InputMethodService(), KeyboardView.Listener {
         resetLearning()
         clearDead(true)
         resetComposition();clearGlide(); correction.clear()
+        if(rawEditor()) { repeat(kotlin.math.abs(delta).coerceAtMost(80)) { sendDownUpKeyEvents(if(delta<0) KeyEvent.KEYCODE_DPAD_LEFT else KeyEvent.KEYCODE_DPAD_RIGHT) };return }
         val connection = connection() ?: return
         val position = Cursor.move(connection, delta, editor()?.selectionStart ?: selectionStart, editor()?.selectionEnd ?: selectionEnd) ?: return
         if(editor()==null) { selectionStart = position; selectionEnd = position }
@@ -486,7 +513,7 @@ class LokeyService : InputMethodService(), KeyboardView.Listener {
         resetLearning()
         clearDead(true)
         val connection = connection() ?: return
-        if (privateField || !prefs.flow || recording || processing || !connection.getSelectedText(0).isNullOrEmpty()) return
+        if (rawEditor() || privateField || !prefs.flow || recording || processing || !connection.getSelectedText(0).isNullOrEmpty()) return
         if (pendingGlide != null) { glideQueue.addLast(QueuedGlide(points, centers, caseMode)); return }
         correction.clear(); glideWords = emptyList(); autoSpace = null
         val pending = PendingGlide(connection, connection.getTextBeforeCursor(240, 0)?.toString().orEmpty(),
@@ -567,7 +594,7 @@ class LokeyService : InputMethodService(), KeyboardView.Listener {
                 InputType.TYPE_TEXT_VARIATION_WEB_EMAIL_ADDRESS, InputType.TYPE_TEXT_VARIATION_URI, InputType.TYPE_TEXT_VARIATION_FILTER)
     }
     private fun adaptiveField():Boolean {
-        if(privateField || recording || processing || toolMode in listOf("languages","layouts","clipboard")) return false
+        if(!prefs.adaptive || rawEditor() || privateField || recording || processing || toolMode in listOf("languages","layouts","clipboard")) return false
         if(inputLayout().composer !in listOf("","dead")) return false
         if(!connection()?.getSelectedText(0).isNullOrEmpty()) return false
         if(sourceEditor!=null) return true
@@ -575,7 +602,9 @@ class LokeyService : InputMethodService(), KeyboardView.Listener {
         return AdaptiveKeys.allowed(info.inputType,info.imeOptions)
     }
     private fun refresh() {
+        keyboard?.removeCallbacks(inputRefresh)
         if(!inputVisible) return
+        keyboard?.rawInput=rawEditor()
         keyboard?.adaptiveInput=adaptiveField()
         keyboard?.speechAllowed=!privateField && toolMode !in listOf("languages","layouts","clipboard")
         updateFloatingSpeech()
@@ -587,7 +616,7 @@ class LokeyService : InputMethodService(), KeyboardView.Listener {
             }
         }
         keyboard?.action(if(toolMode=="languages") "⌕" else if(sourceEditor!=null) "↵" else editorAction)
-        currentInputEditorInfo?.let { info ->
+        if(!rawEditor()) currentInputEditorInfo?.let { info ->
             val connection=connection()
             val previous=connection?.getTextBeforeCursor(1,0)?.lastOrNull()
             val insideWord=previous?.let { Languages.isWord(it) || it.isDigit() }==true
@@ -599,6 +628,10 @@ class LokeyService : InputMethodService(), KeyboardView.Listener {
             else if(phonetic()) { showComposition();return }
         }
         if (pendingGlide != null) return
+        if(rawEditor()) {
+            displayedPrediction=null;prediction.clear();keyboard?.prediction(emptyList(),FloatArray(26),false)
+            keyboard?.capitalization(false);keyboard?.status("");return
+        }
         updateTranslation()
         if (glideWords.isNotEmpty()) {
             if (connection()?.getTextBeforeCursor(240, 0)?.toString() == glideBefore && connection()?.getTextAfterCursor(80, 0)?.toString() == glideAfter) {
@@ -609,6 +642,7 @@ class LokeyService : InputMethodService(), KeyboardView.Listener {
         if (privateField) { keyboard?.prediction(emptyList(), FloatArray(26), false); keyboard?.status(tr("PRIVATE FIELD · PREDICTION PAUSED")); return }
         if(toolMode in listOf("languages","layouts","clipboard")) { prediction.clear();displayedPrediction=null;keyboard?.prediction(emptyList(),FloatArray(26),false);return }
         val before = connection()?.getTextBeforeCursor(240, 0)?.toString() ?: ""
+        if(displayedPrediction?.before==before) { keyboard?.status("");return }
         if(displayedPrediction?.before!=before) { displayedPrediction=null;keyboard?.prediction(emptyList(),FloatArray(26),false) }
         prediction.request(before,toolMode!="translate" && toolMode!="languages",inputHint(),learningField()) { result ->
             displayedPrediction=result;keyboard?.prediction(result.words,result.letters,result.letters.any { it>0f },result.language)
@@ -618,9 +652,13 @@ class LokeyService : InputMethodService(), KeyboardView.Listener {
     override fun onUpdateSelection(oldSelStart: Int, oldSelEnd: Int, newSelStart: Int, newSelEnd: Int, candidatesStart: Int, candidatesEnd: Int) {
         super.onUpdateSelection(oldSelStart, oldSelEnd, newSelStart, newSelEnd, candidatesStart, candidatesEnd)
         selectionStart = newSelStart; selectionEnd = newSelEnd
+        val moved=newSelStart!=oldSelStart || newSelEnd!=oldSelEnd
+        val read=moved && candidatesStart<0 && candidatesEnd<0 && editorConnection?.selectionMatches(newSelStart,newSelEnd)==true
+        editorConnection?.invalidate()
         if(inputVisible) {
-            if (newSelStart != oldSelStart || newSelEnd != oldSelEnd) keyboard?.activity()
-            refresh()
+            if(moved) keyboard?.activity()
+            // A frame may have read the new position before this notification arrived.
+            if(!rawEditor() && !read) scheduleRefresh()
         }
     }
     override fun voice(start: Boolean): Boolean {
@@ -685,7 +723,7 @@ class LokeyService : InputMethodService(), KeyboardView.Listener {
         }
         return super.onKeyDown(keyCode,event)
     }
-    override fun onWindowHidden() { inputVisible=false;resetLearning();cancelVoice();floatingSpeech.hide();super.onWindowHidden() }
+    override fun onWindowHidden() { inputVisible=false;keyboard?.removeCallbacks(inputRefresh);editorConnection?.invalidate();resetLearning();cancelVoice();floatingSpeech.hide();super.onWindowHidden() }
     override fun onFinishInputView(finishingInput: Boolean) { inputVisible=false;session++; displayedPrediction=null;clearGlide(); cancelVoice(); prediction.clear(); correction.reset(); keyboard?.cancelTouches();endTool(false); super.onFinishInputView(finishingInput) }
     override fun onDestroy() { floatingSpeech.hide();getSharedPreferences("lokey",MODE_PRIVATE).unregisterOnSharedPreferenceChangeListener(layoutListener);getSystemService(ClipboardManager::class.java).removePrimaryClipChangedListener(clipboardListener);translation.close();voice.close(); prediction.close(); feedback.close(); super.onDestroy() }
 }

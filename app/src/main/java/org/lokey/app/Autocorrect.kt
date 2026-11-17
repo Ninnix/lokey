@@ -24,6 +24,8 @@ class Autocorrect {
     fun finish(connection:InputConnection,result:Prediction.Result?):Boolean {
         val item=pending ?: return false
         pending=null
+        if(result?.correction==null) return false
+        if(android.os.Build.VERSION.SDK_INT>=31) (connection as? EditorConnection)?.invalidate()
         if(Cursor.position(connection)!=item.position || connection.getTextBeforeCursor(320,0)?.toString()!=item.before ||
             connection.getTextAfterCursor(80,0)?.toString()!=item.after) return false
         return apply(connection,item.boundary,result,true,true)
@@ -35,6 +37,8 @@ class Autocorrect {
     private fun apply(connection:InputConnection,text:String,result:Prediction.Result?,enabled:Boolean,insertedBoundary:Boolean):Boolean {
         clear()
         if (!enabled || !boundary(text) || result?.correction == null) return false
+        // The app may have edited its text while the correction was being computed.
+        if(android.os.Build.VERSION.SDK_INT>=31) (connection as? EditorConnection)?.invalidate()
         val current = connection.getTextBeforeCursor(320, 0)?.toString() ?: return false
         if(insertedBoundary && !current.endsWith(text)) return false
         val before=if(insertedBoundary) current.dropLast(text.length) else current
@@ -62,6 +66,7 @@ class Autocorrect {
     fun revert(connection: InputConnection,reject:(String)->Unit={}): Boolean {
         val item = undo ?: return false
         clear()
+        if(android.os.Build.VERSION.SDK_INT>=31) (connection as? EditorConnection)?.invalidate()
         if (Cursor.position(connection) != item.position || connection.getTextBeforeCursor(320, 0)?.toString() != item.before ||
             connection.getTextAfterCursor(80, 0)?.toString() != item.after) return false
         connection.beginBatchEdit()

@@ -209,13 +209,6 @@ class Prediction(private val context: Context, private val prefs: Prefs,private 
             val result=Result(before,words,letters,instant.first.language,true,wordScores=instant.first.scores.mapKeys { Languages.lower(it.key) })
             latest=result;callback(result)
         }
-        val immediate=localOnly && ::languages.isInitialized
-        if(immediate) {
-            val previous=latest?.language ?: ModelLanguages.selected(context,prefs).base.takeIf { it in Languages.names } ?: "en"
-            val detected=languages.detect(before,previous)
-            val result=LocalPrediction.basic(languages,before,detected,prefs.autocorrect)
-            latest=result;callback(result)
-        }
         val task = Runnable {
             worker.execute(neuralAllowed) {
                 if (ticket != version.get()) return@execute
@@ -229,10 +222,10 @@ class Prediction(private val context: Context, private val prefs: Prefs,private 
                     local.prepare(detected)
                 }
                 if(localOnly) {
-                    if(!immediate) {
-                        val result=LocalPrediction.basic(languages,before,detected,prefs.autocorrect)
-                        main.post { if(ticket==version.get()) { latest=result;callback(result) } }
-                    }
+                    // Dictionary scans must yield to the next touch even without a neural model.
+                    val basic=LocalPrediction.basic(languages,before,detected,prefs.autocorrect)
+                    main.post { if(ticket==version.get()) { latest=basic;callback(basic) } }
+                    if(ticket!=version.get()) return@execute
                     val result=local.request(before,detected,prefs.autocorrect)
                     main.post { if(ticket==version.get()) { latest=result;callback(result) } }
                     return@execute

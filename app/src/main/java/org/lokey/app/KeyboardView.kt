@@ -33,7 +33,7 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
         fun moreCandidates() { }
     }
     data class Key(val label: String, val alternate: String, val weight: Float = 1f, val code: String = label, val rect: RectF = RectF(), var row:Int=0,val native:Boolean=false,val custom:CustomLayouts.Key?=null,val anchor:RectF=RectF())
-    private data class Touch(val key: Key, val startX: Float, val startY: Float, var x: Float, var held: Boolean = false, var cursor: Boolean = false, var choice: Int = -1, var recording: Boolean = false, var stopping: Boolean = false, var flick: String? = null, var glide: Boolean = false, val trace: MutableList<Glide.Point> = ArrayList(), val centers: Map<Char, Glide.Point> = emptyMap())
+    private data class Touch(val key: Key, val startX: Float, val startY: Float, var x: Float, var held: Boolean = false, var cursor: Boolean = false, var choice: Int = -1, var recording: Boolean = false, var stopping: Boolean = false, var flick: String? = null, var glide: Boolean = false, var committed:Boolean=false, val trace: MutableList<Glide.Point> = ArrayList(), val centers: Map<Char, Glide.Point> = emptyMap())
     private val main = Handler(Looper.getMainLooper())
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG)
     private val textBounds=Rect()
@@ -45,6 +45,8 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
     private val capsIcon = context.getDrawable(R.drawable.ic_caps_lock)!!.mutate()
     private val deleteIcon = context.getDrawable(R.drawable.ic_backspace)!!.mutate()
     private val keys = ArrayList<Key>()
+    private var keysDirty=false
+    private var glideCenters:Map<Char,Glide.Point>?=null
     private val touches = HashMap<Int, Touch>()
     private val callbacks = HashMap<Int, Runnable>()
     private var shift = false
@@ -58,6 +60,8 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
     private var enterLabel = "↵"
     private var probabilities = FloatArray(26)
     var adaptiveInput=true
+        set(value) { if(field!=value) { field=value;layoutKeys();invalidate() } }
+    var rawInput=false
     private var suggestions = emptyList<String>()
     private var accentLanguage:String?=null
     private var nextAccentLanguage:String?=null
@@ -66,7 +70,7 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
         set(value) { if(field!=value) { field=value;cancelTouches();requestLayout();layoutKeys();invalidate() } }
     var previewLayout:KeyboardLayouts.Layout?=null
     private val layout get()=previewLayout ?: if(forceLatin) KeyboardLayouts.find("qwerty") else prefs.currentLayout
-    private val flowEnabled get()=prefs.flow && layout.flow
+    private val flowEnabled get()=!rawInput && prefs.flow && layout.flow
     private fun punctuation(value:String)=if(numeric) value else layout.punctuation(value)
     private fun customOutput(key:CustomLayouts.Key):String {
         if(!shift && !caps) return key.primary
@@ -227,13 +231,14 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
     }
     fun action(label:String) { if(enterLabel!=label) { enterLabel=label;layoutKeys();invalidate() } }
     fun prediction(words: List<String>, letters: FloatArray, probabilistic: Boolean,language:String?=null) {
+        val geometry=accentLanguage!=(language ?: nextAccentLanguage) || this.probabilistic!=probabilistic || adaptiveTouch() && !probabilities.contentEquals(letters)
         if(language!=null) nextAccentLanguage=language
         if(touches.isEmpty()) accentLanguage=nextAccentLanguage
         val next=words.take(3)
         val changed=suggestions!=next
         suggestions = next; probabilities = letters.copyOf(); this.probabilistic = probabilistic
         if(changed) sendAccessibilityEvent(AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED)
-        if (touches.isEmpty()) layoutKeys()
+        if (geometry) layoutKeys()
         invalidate()
     }
     fun capitalization(capital: Boolean) {
@@ -250,7 +255,9 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) { imageVersion=Long.MIN_VALUE;imageRequest++;layoutKeys() }
     private fun unit()=height/(units()-(if(suggestionsVisible) 0 else 48))
     private fun layoutKeys() {
+        keysDirty=true
         if (width == 0 || height == 0 || touches.isNotEmpty()) return
+        keysDirty=false;glideCenters=null
         keys.clear()
         val u = unit()
         val margin = dp(5f)
@@ -638,6 +645,7 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
     }
     private fun moveTouch(id: Int, x: Float, y: Float) {
         val touch = touches[id] ?: return
+        if(touch.committed) return
         val dx = x - touch.startX; val dy = y - touch.startY
         if (touch.stopping) return
         if (touch.trace.isNotEmpty() && !touch.held) {
@@ -744,8 +752,15 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
                     return true
                 }
                 val key = hit(x, y) ?: return true
+                // A second thumb can land and lift before the first one lifts.
+                for((otherId,other) in touches) if(!other.committed && !other.held && !other.glide && other.flick==null &&
+                    (other.key.code.length==1 || other.key.code=="space" || other.key.custom?.action=="")) {
+                    callbacks.remove(otherId)?.let { main.removeCallbacks(it) }
+                    other.committed=true;activate(other.key)
+                }
                 val touch = Touch(key, x, y, x, stopping = key.code == "enter" && voiceState.isNotEmpty(),
-                    centers = if (flowEnabled) keys.filter { it.code.length == 1 && it.code[0].isLetter() }.associate { it.code[0] to point(it.anchor.centerX(), it.anchor.centerY()) } else emptyMap())
+                    centers = if (flowEnabled) glideCenters ?: keys.filter { it.code.length == 1 && it.code[0].isLetter() }
+                        .associate { it.code[0] to point(it.anchor.centerX(), it.anchor.centerY()) }.also { glideCenters=it } else emptyMap())
                 if (flowEnabled && key.code.length == 1 && key.code[0].isLetter()) {
                     touch.trace.add(point(x, y))
                 }
@@ -772,6 +787,7 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
                 if (touch != null) {
                     listener.feedback(touch.key.code, false)
                     when {
+                        touch.committed -> Unit
                         touch.stopping -> stopRecording()
                         touch.recording -> if (!recordingLocked) stopRecording()
                         touch.cursor -> Unit
@@ -784,7 +800,11 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
                         touch.key.code != "delete" -> activate(touch.key)
                     }
                 }
-                if (touches.isEmpty()) { accentLanguage=nextAccentLanguage;layoutKeys(); activity() }
+                if (touches.isEmpty()) {
+                    val changed=accentLanguage!=nextAccentLanguage;accentLanguage=nextAccentLanguage
+                    if(keysDirty || changed) layoutKeys()
+                    activity()
+                }
                 invalidate(); performClick()
             }
             MotionEvent.ACTION_CANCEL -> {
