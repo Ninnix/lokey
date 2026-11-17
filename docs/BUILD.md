@@ -10,11 +10,11 @@ each other:
 ```sh
 git clone https://github.com/Ninnix/lokey.git
 git clone --filter=blob:none https://github.com/Loina-AI/loina-core.git
-git -C loina-core checkout f11990801c78f6736ed9f8d672a8a7af7e4fc6c9
+git -C loina-core checkout b1c33435ccf9c04eca35a16d6c1920e398d8bf5d
 git clone --filter=blob:none https://github.com/Loina-AI/llama.cpp.git
-git -C llama.cpp checkout fc75d063f0ac136f443eebe882c1a971a286673a
+git -C llama.cpp checkout a59247d746f5519a73e9d7c9de81c9c7aba488f4
 git clone --filter=blob:none https://github.com/Loina-AI/whisper.cpp.git
-git -C whisper.cpp checkout 66c475eab12593a40770c06dccb50c7817ce0a6f
+git -C whisper.cpp checkout 42e358ab1258f46530b5b8494a930a9927bf9ed2
 cd lokey
 ```
 

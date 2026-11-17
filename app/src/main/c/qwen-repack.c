@@ -1,5 +1,6 @@
 #include "qwen-repack.h"
 #include "gguf.h"
+#include "llama.h"
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -21,6 +22,7 @@ static bool decoder_metadata(struct gguf_context *dst,struct gguf_context *src) 
         if(!strncmp(key,"qwen3asr.",9)) gguf_remove_key(dst,key);
     }
     gguf_set_val_str(dst,"general.architecture","qwen3vl");
+    gguf_set_val_u32(dst,"general.file_type",LLAMA_FTYPE_MOSTLY_Q4_K_S);
     gguf_set_val_u32(dst,"qwen3vl.block_count",28);
     gguf_set_val_u32(dst,"qwen3vl.context_length",65536);
     gguf_set_val_u32(dst,"qwen3vl.embedding_length",1024);
