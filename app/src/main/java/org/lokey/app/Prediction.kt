@@ -3,6 +3,7 @@ package org.lokey.app
 import android.content.Context
 import android.os.Handler
 import android.os.Looper
+import android.os.SystemClock
 import java.util.concurrent.atomic.AtomicInteger
 import java.util.concurrent.atomic.AtomicBoolean
 
@@ -10,13 +11,16 @@ class Prediction(private val context: Context, private val prefs: Prefs,private 
     data class Result(val before: String, val words: List<String>, val letters: FloatArray, val language: String, val neural: Boolean, val correction: String? = null, val appendWords: Set<String> = emptySet(),val wordScores:Map<String,Double> = emptyMap(),val spelling:Languages.Spelling?=null)
     private val main = Handler(Looper.getMainLooper())
     private val worker=ModelMemory.Worker("lokey-prediction",ModelMemory.TEXT,Thread.MIN_PRIORITY)
+    private val dictionary=ModelMemory.Worker("lokey-dictionary",ModelMemory.TEXT,Thread.MIN_PRIORITY)
     private val version = AtomicInteger()
     private val correctionVersion=AtomicInteger()
     private val session=AtomicInteger()
     private val cleared=AtomicBoolean()
-    internal val workCount get()=worker.executions
-    private lateinit var languages: Languages
-    private lateinit var local:LocalPrediction
+    internal val workCount get()=worker.executions+dictionary.executions
+    private val languageData=lazy { Languages.shared(context) }
+    private val languages by languageData
+    private val localData=lazy { LocalPrediction(context,languages) }
+    private val local by localData
     private fun scope(code:String)=UsageLearning.scope(prefs.layout,code)
     private fun primaryLanguage()=ModelLanguages.selected(context,prefs).base.takeIf { it in Languages.names } ?: "en"
     private fun correctionLanguage(before:String,cached:Boolean=false):Languages.Language {
@@ -27,7 +31,7 @@ class Prediction(private val context: Context, private val prefs: Prefs,private 
         }
         return detected
     }
-    private var language = primaryLanguage()
+    @Volatile private var language = primaryLanguage()
     private var loaded = ""
     @Volatile private var loadedGeneration=-1L
     private var failed = ""
@@ -60,13 +64,13 @@ class Prediction(private val context: Context, private val prefs: Prefs,private 
     private var pending: Runnable? = null
     @Volatile var latest: Result? = null
         private set
-    init { worker.execute(false) {
-        languages=Languages.shared(context);local=LocalPrediction(context,languages)
+    init { dictionary.execute(false) {
+        languages.all
         if(prefs.autocorrect) local.prepare(languages.all.first { it.code==primaryLanguage() })
     } }
     // Safe spelling rules must be available when Space arrives before prediction.
     fun spelling(before:String,learningAllowed:Boolean=false):Result? {
-        if(!::languages.isInitialized || !::local.isInitialized) return null
+        if(!languageData.isInitialized() || !localData.isInitialized()) return null
         val detected=correctionLanguage(before,true)
         val form=latest?.takeIf { it.before==before && it.language==detected.code }?.spelling
             ?: local.spelling(before,detected,true)
@@ -153,8 +157,7 @@ class Prediction(private val context: Context, private val prefs: Prefs,private 
         checkedBefore=before;checkedCorrection=answer
         return answer
     }
-    private fun requestScript(before:String,name:String,allowed:Boolean,callback:(Result)->Unit) {
-        val ticket=version.incrementAndGet();pending?.let { main.removeCallbacks(it) }
+    private fun requestScript(before:String,name:String,allowed:Boolean,ticket:Int,callback:(Result,Boolean)->Unit) {
         val code=when(name) {
             "Russian" -> "ru";"Ukrainian" -> "uk";"Bulgarian" -> "bg";"Macedonian" -> "mk";"Arabic" -> "ar";"Persian" -> "fa";"Greek" -> "el"
             "Hindi" -> "hi";"Korean" -> "ko";"Japanese" -> "ja";"Vietnamese" -> "vi";"Thai" -> "th";"Chinese" -> "zh";else -> ModelLanguages.code(name)
@@ -168,7 +171,7 @@ class Prediction(private val context: Context, private val prefs: Prefs,private 
         }
         val cached=if(allowed) cached(stem,prefix,code)?.second.orEmpty() else emptyList()
         val immediate=if(cached.isNotEmpty()) result(cached) else Result(before,emptyList(),FloatArray(26),code,false)
-        latest=immediate;callback(immediate)
+        callback(immediate,!allowed || before.isBlank())
         if(!allowed || before.isBlank() || cached.size>=3) return
         val task=Runnable { worker.execute {
             if(ticket!=version.get()) return@execute
@@ -180,54 +183,69 @@ class Prediction(private val context: Context, private val prefs: Prefs,private 
                 if(ticket!=version.get()) return@execute
                 remember(stem,prefix,code,words,epoch)
                 val value=result(words)
-                main.post { if(ticket==version.get()) { latest=value;callback(value) } }
+                main.post { if(ticket==version.get()) callback(value,true) }
             } catch(_:Exception) { }
         } }
         pending=task;main.postDelayed(task,150)
     }
-    fun request(before:String,neuralAllowed:Boolean=true,script:String?=null,learningAllowed:Boolean=false,callback:(Result)->Unit) {
-        requestBase(before,neuralAllowed,script,learningAllowed) { result ->
+    fun request(before:String,neuralAllowed:Boolean=true,script:String?=null,learningAllowed:Boolean=false,stable:Boolean=false,callback:(Result)->Unit) {
+        val ticket=version.incrementAndGet()
+        pending?.let { main.removeCallbacks(it) }
+        val deadline=SystemClock.uptimeMillis()+85
+        var fallback:Result?=null
+        var published=false
+        fun publish(value:Result) {
+            published=true
+            fallback=null
+            callback(value)
+        }
+        // Give warm inference a short window. A late result can still seed the next prefix.
+        val timeout=Runnable { if(ticket==version.get()) fallback?.let(::publish) }
+        if(stable) main.postAtTime(timeout,deadline)
+        requestBase(before,neuralAllowed,script,learningAllowed,ticket,stable) { result,finished ->
             val personal=if(learningAllowed) learning.personalize(result,scope(result.language)) else result
-            val value=if(::languages.isInitialized) languages.spelling(personal,prefs.autocorrect) else personal
-            latest=value;callback(value)
+            val value=if(languageData.isInitialized()) languages.spelling(personal,prefs.autocorrect) else personal
+            latest=value
+            if(!stable) callback(value)
+            else if(!published && (value.words.isNotEmpty() || finished)) {
+                if(value.neural || finished || SystemClock.uptimeMillis()>=deadline) {
+                    main.removeCallbacks(timeout)
+                    publish(value)
+                } else fallback=value
+            }
         }
     }
-    private fun requestBase(before: String, neuralAllowed:Boolean, script:String?,learningAllowed:Boolean,callback: (Result) -> Unit) {
+    private fun requestBase(before:String,neuralAllowed:Boolean,script:String?,learningAllowed:Boolean,ticket:Int,stable:Boolean,callback:(Result,Boolean)->Unit) {
         cleared.set(false)
         if(neuralAllowed) Native.touchModel(ModelMemory.TEXT)
         val detected=KeyboardLayouts.predictionLanguage(before,script)
-        if(detected!=null) { requestScript(before,detected,neuralAllowed,callback);return }
+        if(detected!=null) { requestScript(before,detected,neuralAllowed,ticket,callback);return }
         val localOnly=neuralAllowed && Models.text.none { Models.ready(context,it) }
-        val ticket = version.incrementAndGet()
         val epoch=session.get()
-        pending?.let { main.removeCallbacks(it) }
         val typed=Languages.prefix(before)
         val instant=if(neuralAllowed) cached(before.dropLast(typed.length).trimEnd(),typed) else null
         if(instant!=null && instant.second.isNotEmpty()) {
             val words=instant.second.take(3).map { Languages.casing(it,typed,instant.first.language) }
             val letters=instant.first.letters[key(typed)]?.copyOf() ?: FloatArray(26)
             val result=Result(before,words,letters,instant.first.language,true,wordScores=instant.first.scores.mapKeys { Languages.lower(it.key) })
-            latest=result;callback(result)
+            callback(result,true)
         }
         val task = Runnable {
-            worker.execute(neuralAllowed) {
+            dictionary.execute(false) {
                 if (ticket != version.get()) return@execute
                 val prefix = Languages.prefix(before)
                 val stem = wordContext(before.dropLast(prefix.length))
                 val preferred=if(localOnly) latest?.language ?: ModelLanguages.selected(context,prefs).base.takeIf { it in Languages.names } ?: language else language
                 val detected = languages.detect(before, preferred)
                 language = detected.code
-                if(prefs.autocorrect) {
-                    local.prepare(languages.all.first { it.code==primaryLanguage() })
-                    local.prepare(detected)
-                }
+                fun deliver(result:Result,finished:Boolean=false) { main.post { if(ticket==version.get()) callback(result,finished) } }
                 if(localOnly) {
                     // Dictionary scans must yield to the next touch even without a neural model.
                     val basic=LocalPrediction.basic(languages,before,detected,prefs.autocorrect)
-                    main.post { if(ticket==version.get()) { latest=basic;callback(basic) } }
+                    deliver(basic)
                     if(ticket!=version.get()) return@execute
                     val result=local.request(before,detected,prefs.autocorrect)
-                    main.post { if(ticket==version.get()) { latest=result;callback(result) } }
+                    deliver(result,true)
                     return@execute
                 }
                 val completions = languages.choices(detected, stem, prefix)
@@ -238,13 +256,14 @@ class Prediction(private val context: Context, private val prefs: Prefs,private 
                 if(learningAllowed && !complete && prefix.isNotEmpty()) for((word,score) in learning.candidates(scope(detected.code),prefix)) {
                     if(pool.none { it.word.equals(word,true) }) pool.add(Languages.Choice(word,score.coerceAtMost(3.0)))
                 }
+                val localCount=pool.size
                 if ((complete || prefix.isEmpty()) && Languages.tokens(sentence).isNotEmpty() && sentence.lastOrNull() !in listOf('.', '?', '!'))
-                    listOf("?", ".", "!").forEach { pool.add(Languages.Choice(it, 3.4)) }
+                    for(mark in listOf("?",".","!")) if(pool.none { it.word==mark }) pool.add(Languages.Choice(mark,3.4))
                 val fixes = if(prefs.autocorrect) contraction?.let { listOf(it) } ?: if(pool.isEmpty()) languages.corrections(detected,prefix) else emptyList() else emptyList()
                 fun render(scores: FloatArray?, neural: Boolean, generated:List<String> = emptyList(),cachedScores:Map<String,Double> = emptyMap()): Result {
                     fun score(choice: Languages.Choice, index: Int) = choice.prior + (scores?.getOrNull(index)?.toDouble() ?: 0.0)
-                    val ranked = pool.mapIndexed { index, choice -> choice to score(choice, index) }
-                        .filter { neural || it.first.word.firstOrNull()?.isLetter() == true }.sortedByDescending { it.second }
+                    val ranked=(if(neural) pool else pool.subList(0,localCount)).mapIndexed { index,choice -> choice to score(choice,index) }
+                        .sortedByDescending { it.second }
                     val corrections = fixes.mapIndexed { index, choice -> choice to score(choice, pool.size + index) }.sortedByDescending { it.second }
                     val correction=if(prefs.autocorrect) contraction?.word else null
                     fun casing(word:String)=Languages.casing(word,prefix,detected.code,complete)
@@ -259,49 +278,58 @@ class Prediction(private val context: Context, private val prefs: Prefs,private 
                     }
                     val letterScores=pool.mapIndexedNotNull { i,choice -> scores?.getOrNull(i)?.let { choice.word to it.toDouble() } }+
                         generated.mapIndexedNotNull { i,word -> (scores?.getOrNull(pool.size+fixes.size+i)?.toDouble() ?: cachedScores[word])?.let { word to it } }
-                    val letters=AdaptiveKeys.probabilities(if(complete) "" else prefix,letterScores)
+                    val adaptiveScores=if(stable && !neural) ranked.take(24).map { (choice,score) -> choice.word to score } else letterScores
+                    val letters=AdaptiveKeys.probabilities(if(complete) "" else prefix,adaptiveScores)
                     val wordScores=(cachedScores.toList()+letterScores).associate { Languages.lower(it.first) to it.second }
-                    return local.spelling(Result(before, words, letters, detected.code, neural, correction?.let { casing(it) }, append,wordScores),detected,prefs.autocorrect)
+                    return local.spelling(Result(before, words, letters, detected.code, neural, correction?.let { casing(it) }, append,wordScores),detected,prefs.autocorrect,cached=!neural)
                 }
-                fun deliver(result: Result) { main.post { if (ticket == version.get()) { latest = result; callback(result) } } }
-                if(instant?.second.isNullOrEmpty()) deliver(render(null, false))
+                if(instant?.second.isNullOrEmpty()) deliver(render(null,false),!neuralAllowed)
                 if(!neuralAllowed) return@execute
-                if (ticket != version.get()) return@execute
-                try {
-                    if(!load() || ticket!=version.get()) return@execute
-                    val start=if(complete) "" else prefix
-                    val cache=cached(sentence,start,detected.code)
-                    val cached=cache?.second.orEmpty()
-                    if(cached.isNotEmpty()) deliver(render(null,true,cached,cache?.first?.scores.orEmpty()))
-                    if(cached.size>=3) return@execute
-                    val generated=Native.complete(sentence.takeLast(240),detected.name,start,if(fixes.isNotEmpty() && contraction==null) 1 else 0).lines()
-                        .filter { word ->
-                            (Languages.valid(word) && (detected.code!="en" || word.length>1 || Languages.lower(word) in listOf("a","i"))) ||
-                                (prefix.isEmpty() || complete) && word in listOf("?",".","!")
-                        }.distinctBy { Languages.lower(it) }.take(24).ifEmpty { cached }
-                    if(ticket!=version.get()) return@execute
-                    val choices=(pool+fixes).map { Languages.casing(it.word,"",detected.code) }+generated.map { Languages.casing(it,"",detected.code) }
-                    val unique=choices.distinct();val raw=Native.rank(sentence.takeLast(240),detected.name,unique.toTypedArray())
-                    val scores=if(raw.size==unique.size) unique.zip(raw.toList()).toMap().let { values -> FloatArray(choices.size) { values.getValue(choices[it]) } } else raw
-                    if(scores.size==choices.size && scores.all { it.isFinite() }) {
-                        val fallback=pool.mapIndexed { i,choice -> choice.word to (choice.prior+scores[i]) }.sortedByDescending { it.second }
-                            .map { it.first }.filter { word -> word.none(Char::isWhitespace) }
-                        val retained=(generated+fallback).distinctBy { Languages.lower(it) }
-                        val retainedScores=pool.mapIndexed { i,choice -> choice.word to scores[i].toDouble() }.toMap()+
-                            generated.mapIndexed { i,word -> word to scores[pool.size+fixes.size+i].toDouble() }.toMap()
-                        remember(sentence,start,detected.code,retained,epoch,retainedScores)
-                        val value=render(scores,true,generated)
-                        deliver(value)
-                        if(prefs.autocorrect && fixes.isNotEmpty() && ticket==version.get()) {
-                            val checked=evaluateCorrection(before,detected,generated)
-                            if(checked?.correction!=value.correction) deliver(value.copy(correction=checked?.correction))
-                        }
-                    } else android.util.Log.w("Lokey","Prediction scores: ${scores.size}/${choices.size}; finite=${scores.all { it.isFinite() }}")
-                } catch(error:Exception) { android.util.Log.w("Lokey","Prediction inference failed",error) }
+                main.post {
+                    if(ticket!=version.get()) return@post
+                    worker.execute inference@{
+                        try {
+                            if(ticket!=version.get() || !load() || ticket!=version.get()) return@inference
+                            val start=if(complete) "" else prefix
+                            val cache=cached(sentence,start,detected.code)
+                            val cached=cache?.second.orEmpty()
+                            if(cached.isNotEmpty()) deliver(render(null,true,cached,cache?.first?.scores.orEmpty()))
+                            if(cached.size>=3) return@inference
+                            val generated=Native.complete(sentence.takeLast(240),detected.name,start,if(fixes.isNotEmpty() && contraction==null) 1 else 0).lines()
+                                .filter { word ->
+                                    (Languages.valid(word) && (detected.code!="en" || word.length>1 || Languages.lower(word) in listOf("a","i"))) ||
+                                        (prefix.isEmpty() || complete) && word in listOf("?",".","!")
+                                }.distinctBy { Languages.lower(it) }.take(24).ifEmpty { cached }
+                            if(ticket!=version.get()) {
+                                if(epoch==session.get() && generated.isNotEmpty()) remember(sentence,start,detected.code,generated,epoch)
+                                return@inference
+                            }
+                            val choices=(pool+fixes).map { Languages.casing(it.word,"",detected.code) }+generated.map { Languages.casing(it,"",detected.code) }
+                            val unique=choices.distinct();val raw=Native.rank(sentence.takeLast(240),detected.name,unique.toTypedArray())
+                            val scores=if(raw.size==unique.size) unique.zip(raw.toList()).toMap().let { values -> FloatArray(choices.size) { values.getValue(choices[it]) } } else raw
+                            if(scores.size==choices.size && scores.all { it.isFinite() }) {
+                                val fallback=pool.mapIndexed { i,choice -> choice.word to (choice.prior+scores[i]) }.sortedByDescending { it.second }
+                                    .map { it.first }.filter { word -> word.none(Char::isWhitespace) }
+                                val retained=(generated+fallback).distinctBy { Languages.lower(it) }
+                                val retainedScores=pool.mapIndexed { i,choice -> choice.word to scores[i].toDouble() }.toMap()+
+                                    generated.mapIndexed { i,word -> word to scores[pool.size+fixes.size+i].toDouble() }.toMap()
+                                if(epoch!=session.get()) return@inference
+                                remember(sentence,start,detected.code,retained,epoch,retainedScores)
+                                if(ticket!=version.get()) return@inference
+                                val value=render(scores,true,generated)
+                                deliver(value)
+                                if(prefs.autocorrect && fixes.isNotEmpty() && ticket==version.get()) {
+                                    val checked=evaluateCorrection(before,detected,generated)
+                                    if(checked?.correction!=value.correction) deliver(value.copy(correction=checked?.correction))
+                                }
+                            } else android.util.Log.w("Lokey","Prediction scores: ${scores.size}/${choices.size}; finite=${scores.all { it.isFinite() }}")
+                        } catch(error:Exception) { android.util.Log.w("Lokey","Prediction inference failed",error) }
+                    }
+                }
             }
         }
         pending = task
-        main.postDelayed(task, if(localOnly || prefs.adaptive && instant?.second.isNullOrEmpty()) 0 else 35)
+        main.postDelayed(task, if(localOnly || (stable || prefs.adaptive) && instant?.second.isNullOrEmpty()) 0 else 35)
     }
     fun glide(before: String, points: List<Glide.Point>, centers: Map<Char, Glide.Point>, callback: (List<String>) -> Unit) {
         cleared.set(false)
@@ -334,5 +362,5 @@ class Prediction(private val context: Context, private val prefs: Prefs,private 
         // Editor cleanup must not keep otherwise idle weights resident.
         if(!cleared.getAndSet(true) && !worker.isShutdown) worker.execute(false) { wordCaches=emptyList();checkedBefore=null;checkedCorrection=null;Native.resetText() }
     }
-    fun close() { clear(); worker.shutdown() }
+    fun close() { clear();dictionary.shutdown();worker.shutdown() }
 }

@@ -7,7 +7,10 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.Typeface
+import android.graphics.drawable.ClipDrawable
 import android.graphics.drawable.GradientDrawable
+import android.graphics.drawable.LayerDrawable
+import android.graphics.drawable.RippleDrawable
 import android.os.Bundle
 import android.provider.Settings
 import android.text.InputType
@@ -214,11 +217,21 @@ class MainActivity : Activity() {
         }
         tryBox.addView(pads)
         val sound=card()
-        val soundToggle=setting(tr("Recorded switch sounds"),prefs.soundEnabled) { prefs.soundEnabled=it }
+        val soundToggle=setting(tr("Recorded switch sounds"),prefs.soundEnabled,FeelIcon.Kind.Sound) { enabled ->
+            if(prefs.soundEnabled!=enabled) { prefs.soundEnabled=enabled;refresh() }
+        }
         sound.addView(soundToggle)
-        updates.add { if(soundToggle.isChecked!=prefs.soundEnabled) soundToggle.isChecked=prefs.soundEnabled }
-        slider(sound,tr("Sound volume"),prefs.volume,0,100) { prefs.volume=it;feedback?.preview() }
-        slider(sound,tr("Release sound volume"),prefs.returnVolume,0,100) { prefs.returnVolume=it;feedback?.preview() }
+        val volume=slider(sound,tr("Sound volume"),prefs.volume,0,100,FeelIcon.Kind.Volume) { prefs.volume=it;feedback?.preview() }
+        val releaseVolume=slider(sound,tr("Release sound volume"),prefs.returnVolume,0,100,FeelIcon.Kind.Return) { prefs.returnVolume=it;feedback?.preview() }
+        val soundSliders=listOf(volume,releaseVolume)
+        updates.add {
+            val enabled=prefs.soundEnabled
+            if(soundToggle.isChecked!=enabled) soundToggle.isChecked=enabled
+            for (bar in soundSliders) {
+                bar.isEnabled=enabled
+                bar.alpha=if(enabled) 1f else .5f
+            }
+        }
         val soundStatus=text("",12f,muted);sound.addView(soundStatus)
         val audio=getSystemService(android.media.AudioManager::class.java)
         updates.add {
@@ -226,25 +239,31 @@ class MainActivity : Activity() {
             if(soundStatus.text.toString()!=status) soundStatus.text=status
         }
         val haptics=card()
+        val returnToggle=setting(tr("Haptic return on release"),prefs.vibration>0 && prefs.returnHaptics,FeelIcon.Kind.Return) { enabled ->
+            if(prefs.vibration>0 && enabled!=prefs.returnHaptics) { prefs.returnHaptics=enabled;feedback?.preview() }
+        }
+        fun syncReturn() {
+            returnToggle.isEnabled=prefs.vibration>0
+            returnToggle.isChecked=returnToggle.isEnabled && prefs.returnHaptics
+        }
         if(feedback?.usesSystemTaps==true) {
             val values=listOf(15,45,85)
-            val choices=RadioGroup(this).apply { orientation=RadioGroup.HORIZONTAL }
-            haptics.addView(setting(tr("Haptics"),prefs.vibration>0) { enabled ->
-                prefs.vibration=if(enabled) values[choices.checkedRadioButtonId-300] else 0
+            val weight=prefs.hapticWeight
+            haptics.addView(setting(tr("Haptics"),prefs.vibration>0,FeelIcon.Kind.Haptics) { enabled ->
+                prefs.vibration=if(enabled) prefs.hapticWeight else 0
+                syncReturn()
                 if(enabled) feedback?.preview()
             })
-            haptics.addView(text(tr("Haptic weight"),15f,bold=true))
-            listOf(tr("Light"),tr("Balanced"),tr("Firm")).forEachIndexed { i,label ->
-                choices.addView(RadioButton(this).apply {
-                    id=300+i;text=label;textSize=13f;setTextColor(ink)
-                    buttonTintList=android.content.res.ColorStateList.valueOf(accent)
-                },LinearLayout.LayoutParams(0,-2,1f))
-            }
-            choices.check(300+if(prefs.vibration<=20) 0 else if(prefs.vibration>=66) 2 else 1)
-            choices.setOnCheckedChangeListener { _,id -> if(prefs.vibration>0) { prefs.vibration=values[id-300];feedback?.preview() } }
-            haptics.addView(choices)
-        } else slider(haptics,tr("Haptic strength"),prefs.vibration,0,100) { prefs.vibration=it;feedback?.preview() }
-        haptics.addView(setting(tr("Haptic return on release"),prefs.returnHaptics) { prefs.returnHaptics=it;feedback?.preview() })
+            haptics.addView(text(tr("Haptic weight"),15f,bold=true).apply { setPadding(0,0,0,dp(8)) })
+            haptics.addView(segments(listOf(tr("Light"),tr("Balanced"),tr("Firm")),values.indexOf(weight)) { index ->
+                if(prefs.vibration>0) { prefs.vibration=values[index];feedback?.preview() }
+                else prefs.hapticWeight=values[index]
+            })
+        } else slider(haptics,tr("Haptic strength"),prefs.vibration,0,100,FeelIcon.Kind.Haptics) {
+            prefs.vibration=it;syncReturn();feedback?.preview()
+        }
+        syncReturn()
+        haptics.addView(returnToggle)
         content.addView(button(tr("Input & design credits")) {
             startActivity(Intent(this,CreditsActivity::class.java).putExtra("section","input"))
         },LinearLayout.LayoutParams(-1,-2))
@@ -255,13 +274,13 @@ class MainActivity : Activity() {
         }
         section(tr("Typing features"))
         card().apply {
-            addView(setting(tr("Swipe to type"),prefs.flow && prefs.currentLayout.flow) { prefs.flow=it }.apply { isEnabled=prefs.currentLayout.flow })
+            addView(setting(tr("Swipe to type"),prefs.flow && prefs.currentLayout.flow,FeelIcon.Kind.Swipe) { prefs.flow=it }.apply { isEnabled=prefs.currentLayout.flow })
             addView(text(if(prefs.currentLayout.flow) tr("Slide across letters to write a word.") else tr("Swipe typing is available on Latin layouts without composition."),13f,muted))
-            addView(setting(tr("Autocorrect"),prefs.autocorrect) { prefs.autocorrect=it })
+            addView(setting(tr("Autocorrect"),prefs.autocorrect,FeelIcon.Kind.Correct) { prefs.autocorrect=it })
             addView(text(tr("Correct words on space or punctuation. Backspace restores the original."),13f,muted))
-            addView(setting(tr("Adaptive letter sizes"),prefs.adaptive) { prefs.adaptive=it })
+            addView(setting(tr("Adaptive letter sizes"),prefs.adaptive,FeelIcon.Kind.Adapt) { prefs.adaptive=it })
             addView(text(tr("Likely keys grow; letter positions stay fixed."),13f,muted))
-            addView(setting(tr("One-tap speech"),prefs.oneTapSpeech) {
+            addView(setting(tr("One-tap speech"),prefs.oneTapSpeech,FeelIcon.Kind.Speech) {
                 prefs.oneTapSpeech=it
                 if(it && !Settings.canDrawOverlays(this@MainActivity)) {
                     val permission=Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,android.net.Uri.parse("package:$packageName"))
@@ -269,7 +288,7 @@ class MainActivity : Activity() {
                 }
             })
             addView(text(tr("Tap the floating microphone to record hands-free. Pause, resume or stop when ready."),13f,muted))
-            addView(setting(tr("Learn from typing"),prefs.learning) { prefs.learning=it })
+            addView(setting(tr("Learn from typing"),prefs.learning,FeelIcon.Kind.Learn) { prefs.learning=it })
             addView(text(tr("Learn frequent words and corrections on this device. Encrypted, never uploaded. Private fields are excluded. Turning this off erases learning."),13f,muted))
             addView(button(tr("Erase learned data")) {
                 UsageLearning.shared(this@MainActivity).erase()
@@ -280,8 +299,17 @@ class MainActivity : Activity() {
     private fun section(title:String) {
         gap(20);content.addView(text(title,20f,bold=true));gap(14)
     }
-    private fun setting(title:String,checked:Boolean,changed:(Boolean)->Unit)=Switch(this).apply {
-        text=title;textSize=15f;setTextColor(ink);isChecked=checked;minHeight=dp(52)
+    private fun TextView.feelIcon(icon:FeelIcon.Kind) {
+        compoundDrawablePadding=dp(10)
+        setCompoundDrawablesRelativeWithIntrinsicBounds(FeelIcon(icon,dp(21),accent),null,null,null)
+    }
+    private fun setting(title:String,checked:Boolean,icon:FeelIcon.Kind?=null,changed:(Boolean)->Unit)=Switch(this).apply {
+        text=title;textSize=15f;isChecked=checked;minHeight=dp(52);switchPadding=dp(10)
+        setTextColor(android.content.res.ColorStateList(arrayOf(intArrayOf(-android.R.attr.state_enabled),intArrayOf()),intArrayOf(muted,ink)))
+        if(icon!=null) {
+            feelIcon(icon)
+            setPaddingRelative(0,dp(7),0,dp(7))
+        }
         val states=arrayOf(intArrayOf(android.R.attr.state_checked),intArrayOf())
         thumbTintList=android.content.res.ColorStateList(states,intArrayOf(accent,muted))
         trackTintList=android.content.res.ColorStateList(states,intArrayOf(KeyboardTheme.blend(surface,accent,.4f),control))
@@ -292,17 +320,53 @@ class MainActivity : Activity() {
         if(page=="feel") feedback?.preview(profile.id)
         refresh()
     }
-    private fun slider(row:LinearLayout, title: String, initial: Int, min: Int, max: Int, changed: (Int) -> Unit) {
-        val label = text("$title  $initial", 15f, bold = true); row.addView(label)
-        row.addView(SeekBar(this).apply {
-            this.min = min; this.max = max; progress = initial
-            progressTintList = android.content.res.ColorStateList.valueOf(accent); thumbTintList = progressTintList
+    private fun segments(labels:List<String>,selected:Int,changed:(Int)->Unit):LinearLayout {
+        val row=LinearLayout(this).apply { background=shape(control,22);setPadding(dp(3),dp(3),dp(3),dp(3)) }
+        val ripple=android.content.res.ColorStateList.valueOf(KeyboardTheme.blend(control,accent,.3f))
+        fun select(index:Int) {
+            for(i in labels.indices) (row.getChildAt(i) as TextView).apply {
+                isSelected=i==index
+                setTextColor(if(isSelected) ink else muted)
+                background=RippleDrawable(ripple,shape(if(isSelected) bg else Color.TRANSPARENT,18,if(isSelected) accent else 0),shape(Color.WHITE,18))
+            }
+        }
+        for((i,label) in labels.withIndex()) row.addView(text(label,13f,bold=true).apply {
+            gravity=Gravity.CENTER;minHeight=dp(44);setPadding(dp(5),dp(6),dp(5),dp(6));isFocusable=true
+            setOnClickListener { select(i);changed(i) }
+        },LinearLayout.LayoutParams(0,-2,1f))
+        select(selected)
+        return row
+    }
+    private fun slider(row:LinearLayout, title: String, initial: Int, min: Int, max: Int, icon:FeelIcon.Kind?=null, changed: (Int) -> Unit):SeekBar {
+        val number=java.text.NumberFormat.getPercentInstance(resources.configuration.locales[0])
+        val value=text(number.format(initial/100.0),13f,muted,true)
+        row.addView(LinearLayout(this).apply {
+            gravity=Gravity.CENTER_VERTICAL
+            val heading=text(title,15f,bold=true).apply { if(icon!=null) feelIcon(icon) }
+            addView(heading,LinearLayout.LayoutParams(0,-2,1f).apply { marginEnd=dp(12) })
+            addView(value)
+        })
+        val bar=SeekBar(this).apply {
+            contentDescription=title
+            this.min=min;this.max=max
+            progressDrawable=LayerDrawable(arrayOf(shape(control,2),ClipDrawable(shape(accent,2),Gravity.START,ClipDrawable.HORIZONTAL))).apply {
+                setId(0,android.R.id.background);setId(1,android.R.id.progress)
+                for(i in 0..1) { setLayerHeight(i,dp(4));setLayerGravity(i,Gravity.FILL_HORIZONTAL or Gravity.CENTER_VERTICAL) }
+            }
+            thumb=shape(ink,8).apply { setSize(dp(24),dp(14)) }
+            progressTintList=null;thumbTintList=null;splitTrack=false
+            setPaddingRelative(dp(12),0,dp(12),0);progress=initial
             setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-                override fun onProgressChanged(bar: SeekBar, value: Int, user: Boolean) { label.text = "$title  $value"; if (user) changed(value) }
+                override fun onProgressChanged(bar: SeekBar, progress: Int, user: Boolean) {
+                    value.text=number.format(progress/100.0)
+                    if(user && bar.isEnabled) changed(progress)
+                }
                 override fun onStartTrackingTouch(bar: SeekBar) { }
                 override fun onStopTrackingTouch(bar: SeekBar) { }
             })
-        })
+        }
+        row.addView(bar,LinearLayout.LayoutParams(-1,dp(44)))
+        return bar
     }
     private fun models() {
         heading(tr("Small models.\nClose to you."), tr("Prediction and dictation, running locally."))
@@ -380,15 +444,20 @@ class MainActivity : Activity() {
         }
     }
     private fun lab() {
-        content.addView(text(tr("Find your flow."),24f,bold=true));gap(6)
-        content.addView(text(if(speedMode) tr("Follow the faded text. Keep your streak.") else tr("Type or speak. Stay in your flow."),12f,muted));gap(16)
-        val toggle=setting(tr("Speed test"),speedMode) { speedMode=it;show("lab") }
+        val toggle=setting(tr("Speed test"),speedMode,FeelIcon.Kind.Speed) { speedMode=it;show("lab") }.apply {
+            typeface=Typeface.create("sans-serif",Typeface.BOLD)
+            minHeight=dp(48);setPaddingRelative(dp(14),dp(8),dp(12),dp(8))
+            val fill=if(speedMode) KeyboardTheme.blend(surface,accent,.12f) else surface
+            val ripple=android.content.res.ColorStateList.valueOf(KeyboardTheme.blend(fill,accent,.24f))
+            background=RippleDrawable(ripple,shape(fill,16,if(speedMode) accent else control),shape(Color.WHITE,16))
+        }
         val editor:EditText
         if(speedMode) {
-            val game=SpeedTestView(this)
-            game.addView(toggle,1,LinearLayout.LayoutParams(-1,-2).apply { topMargin=dp(12) })
+            val game=SpeedTestView(this,toggle)
             content.addView(game,LinearLayout.LayoutParams(-1,-2));editor=game.editor
         } else {
+            content.addView(text(tr("Find your flow."),24f,bold=true));gap(6)
+            content.addView(text(tr("Type or speak. Stay in your flow."),12f,muted));gap(12)
             editor=EditText(this).apply {
                 id=View.generateViewId();hint=tr("Type something. Or say it.")
                 setTextColor(ink);setHintTextColor(muted);textSize=20f
@@ -402,7 +471,7 @@ class MainActivity : Activity() {
                 override fun afterTextChanged(value:android.text.Editable?) { draft=value.toString() }
             })
             content.addView(editor,LinearLayout.LayoutParams(-1,dp(140)))
-            content.addView(toggle,LinearLayout.LayoutParams(-1,-2).apply { topMargin=dp(12) })
+            content.addView(toggle,LinearLayout.LayoutParams(-1,-2).apply { topMargin=dp(8) })
         }
         editor.requestFocus()
         editor.postDelayed({ getSystemService(InputMethodManager::class.java).showSoftInput(editor,InputMethodManager.SHOW_IMPLICIT) },200)

@@ -7,6 +7,7 @@ import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.Typeface
 import android.graphics.drawable.GradientDrawable
+import android.graphics.drawable.RippleDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.os.SystemClock
@@ -14,14 +15,16 @@ import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
 import android.view.Gravity
+import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputConnection
 import android.view.inputmethod.InputConnectionWrapper
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import org.json.JSONObject
+import java.text.NumberFormat
 
-class SpeedTestView(context:Context):LinearLayout(context) {
+class SpeedTestView(context:Context,modeControl:View?=null):LinearLayout(context) {
     private val prefs=Prefs(context)
     private val passage=SpeedPassages.selected(context,prefs)
     private fun newRun()=SpeedRun(passage.text,passage.id,passage.code,prefs.currentLayout.id)
@@ -34,10 +37,16 @@ class SpeedTestView(context:Context):LinearLayout(context) {
     private val muted=if(light) Color.rgb(110,111,108) else Color.rgb(160,161,158)
     private val surface=if(light) Color.rgb(237,237,233) else Color.rgb(35,36,37)
     private val control=if(light) Color.rgb(223,223,219) else Color.rgb(53,53,54)
-    private val stats=label("",13f,muted)
+    private val stats=label("",18f).apply { typeface=Typeface.DEFAULT_BOLD }
     private val outcome=label("",12f,muted)
     private val pulse=label("",12f,accent)
+    private val reward=LinearLayout(context).apply {
+        orientation=VERTICAL;visibility=GONE
+        setPadding(dp(16),dp(14),dp(16),dp(16))
+        accessibilityLiveRegion=View.ACCESSIBILITY_LIVE_REGION_POLITE
+    }
     private val streak=ProgressBar(context,null,android.R.attr.progressBarStyleHorizontal)
+    private val passageBox=FrameLayout(context).apply { background=shape(surface,20);clipToOutline=true }
     private val share=action(context.tr("Share result"),true) { shareResult() }
     private var record=false
     private var predictionCommit=false
@@ -70,7 +79,6 @@ class SpeedTestView(context:Context):LinearLayout(context) {
     }
     init {
         orientation=VERTICAL
-        val box=FrameLayout(context).apply { background=shape(surface,20);clipToOutline=true }
         editor.apply {
             id=generateViewId();textSize=20f;setTextColor(ink);gravity=Gravity.TOP
             layoutDirection=android.text.TextUtils.getLayoutDirectionFromLocale(passage.locale)
@@ -95,15 +103,19 @@ class SpeedTestView(context:Context):LinearLayout(context) {
                 }
             })
         }
-        box.addView(editor,FrameLayout.LayoutParams(-1,-1))
+        passageBox.addView(editor,FrameLayout.LayoutParams(-1,-1))
         pulse.setPadding(dp(20),0,dp(20),0)
-        box.addView(pulse,FrameLayout.LayoutParams(-1,dp(28),Gravity.BOTTOM).apply { bottomMargin=dp(3) })
+        passageBox.addView(pulse,FrameLayout.LayoutParams(-1,dp(28),Gravity.BOTTOM).apply { bottomMargin=dp(3) })
         streak.max=10;streak.progressTintList=ColorStateList.valueOf(accent)
         streak.progressBackgroundTintList=ColorStateList.valueOf(surface)
-        box.addView(streak,FrameLayout.LayoutParams(-1,dp(3),Gravity.BOTTOM))
-        addView(box,LayoutParams(-1,dp(140)))
-        addView(stats,LayoutParams(-1,dp(30)))
-        addView(outcome,LayoutParams(-1,-2))
+        passageBox.addView(streak,FrameLayout.LayoutParams(-1,dp(3),Gravity.BOTTOM))
+        addView(stats,LayoutParams(-1,-2))
+        val attribution=context.tr("DANTE / INFERNO I")+" · "+passage.locale.getDisplayLanguage(context.uiLocale())
+        addView(label(attribution,12f,muted),LayoutParams(-1,-2).apply { topMargin=dp(4);bottomMargin=dp(12) })
+        addView(passageBox,LayoutParams(-1,dp(140)))
+        if(modeControl!=null) addView(modeControl,LayoutParams(-1,-2).apply { topMargin=dp(8) })
+        addView(outcome,LayoutParams(-1,-2).apply { topMargin=dp(8) })
+        addView(reward,LayoutParams(-1,-2).apply { topMargin=dp(12) })
         val buttons=LinearLayout(context).apply { setPadding(0,dp(12),0,0) }
         buttons.addView(action(context.tr("Restart")) { restart() },LayoutParams(0,dp(48),1f).apply { marginEnd=dp(8) })
         buttons.addView(share,LayoutParams(0,dp(48),1f));addView(buttons)
@@ -122,7 +134,9 @@ class SpeedTestView(context:Context):LinearLayout(context) {
     private fun shape(color:Int,radius:Int)=GradientDrawable().apply { setColor(color);cornerRadius=dp(radius).toFloat() }
     private fun label(value:String,size:Float,color:Int=ink)=TextView(context).apply { text=value;textSize=size;setTextColor(color);gravity=Gravity.CENTER_VERTICAL }
     private fun action(value:String,primary:Boolean=false,clicked:()->Unit)=label(value,14f,if(primary) (if(light) Color.rgb(248,248,245) else Color.rgb(23,24,25)) else ink).apply {
-        gravity=Gravity.CENTER;background=shape(if(primary) accent else control,13);typeface=Typeface.create("sans-serif",Typeface.BOLD)
+        val fill=if(primary) accent else control
+        gravity=Gravity.CENTER;typeface=Typeface.DEFAULT_BOLD;setPadding(dp(8),0,dp(8),0)
+        background=RippleDrawable(ColorStateList.valueOf(KeyboardTheme.blend(fill,ink,.2f)),shape(fill,13),shape(Color.WHITE,13))
         isClickable=true;isFocusable=true;isSoundEffectsEnabled=false;setOnClickListener { clicked() }
     }
     private fun bestKey()="best-${run.passageId}-${run.layout}"
@@ -130,14 +144,16 @@ class SpeedTestView(context:Context):LinearLayout(context) {
     private fun updateStats() {
         val summary=String.format(context.uiLocale(),context.tr("%1\$.0f WPM · %2\$.0f%% accuracy · %3\$d/%4\$d"),run.wpm(SystemClock.elapsedRealtime()),run.accuracy,run.index,run.passage.length)
         if(stats.text.toString()!=summary) stats.text=summary
-        val best=best()
         if(!run.finished) {
             val note=when {
             !run.eligible -> context.tr("Practice run · paste or voice used")
-            run.started==0L && best!=null -> String.format(context.uiLocale(),context.tr("Personal best %1\$.1f WPM · %2\$d character combo"),best.getDouble("wpm"),best.getInt("combo"))
-            else -> context.tr("DANTE / INFERNO I")+" · "+passage.locale.getDisplayLanguage(context.uiLocale())
+                run.started==0L -> best()?.let {
+                    String.format(context.uiLocale(),context.tr("Personal best %1\$.1f WPM · %2\$d character combo"),it.getDouble("wpm"),it.getInt("combo"))
+                }
+                else -> null
             }
-            if(outcome.text.toString()!=note) outcome.text=note
+            outcome.visibility=if(note==null) GONE else VISIBLE
+            if(note!=null && outcome.text.toString()!=note) outcome.text=note
         }
     }
     private fun complete() {
@@ -145,15 +161,53 @@ class SpeedTestView(context:Context):LinearLayout(context) {
         record=run.eligible && run.accuracy>=90 && run.wpm(now)>(best()?.optDouble("wpm") ?: 0.0)
         store.edit().putString("last",score.toString()).apply()
         if(record) store.edit().putString(bestKey(),score.toString()).apply()
-        outcome.text=when { !run.eligible -> context.tr("Practice complete · %1\$s points",run.score);record -> context.tr("New personal best · %1\$s points",run.score);else -> context.tr("Finished · %1\$s best combo",run.bestCombo) }
-        pulse.text=context.tr("%1\$s points · %2\$s best combo",run.score,run.bestCombo)
+        showReward(score)
         share.visibility=VISIBLE;editor.clearFocus();editor.isEnabled=false
         context.getSystemService(InputMethodManager::class.java).hideSoftInputFromWindow(editor.windowToken,0)
         removeCallbacks(tick)
     }
+    private fun showReward(score:JSONObject) {
+        val locale=context.uiLocale()
+        val numbers=NumberFormat.getIntegerInstance(locale)
+        val percent=NumberFormat.getPercentInstance(locale).apply { minimumFractionDigits=1 }
+        val speed=NumberFormat.getNumberInstance(locale).apply { minimumFractionDigits=1;maximumFractionDigits=1 }
+        reward.background=shape(KeyboardTheme.blend(surface,accent,.08f),18).apply {
+            setStroke(dp(1),if(record) accent else control)
+        }
+        val status=when {
+            record -> context.tr("A new personal best.")
+            !run.eligible -> context.tr("Practice run · Voice or paste used")
+            else -> null
+        }
+        if(status!=null) reward.addView(label(status,14f).apply {
+            typeface=Typeface.DEFAULT_BOLD
+            if(record) {
+                compoundDrawablePadding=dp(8)
+                setCompoundDrawablesRelativeWithIntrinsicBounds(FeelIcon(FeelIcon.Kind.Trophy,dp(22),accent),null,null,null)
+            }
+        },LayoutParams(-1,-2).apply { bottomMargin=dp(6) })
+        reward.addView(label(speed.format(score.getDouble("wpm")),40f).apply { typeface=Typeface.DEFAULT_BOLD })
+        reward.addView(label(context.tr("WORDS PER MINUTE"),11f,muted).apply { isAccessibilityHeading=true })
+        val metrics=LinearLayout(context)
+        fun metric(title:String,value:String) {
+            metrics.addView(LinearLayout(context).apply {
+                orientation=VERTICAL;setPaddingRelative(0,0,dp(8),0)
+                addView(label(value,18f).apply { typeface=Typeface.DEFAULT_BOLD })
+                addView(label(context.tr(title),11f,muted))
+            },LayoutParams(0,-2,1f))
+        }
+        metric("ACCURACY",percent.format(score.getDouble("accuracy")/100))
+        metric("SCORE",numbers.format(score.getInt("score")))
+        metric("BEST COMBO",numbers.format(score.getInt("combo")))
+        reward.addView(metrics,LayoutParams(-1,-2).apply { topMargin=dp(12) })
+        passageBox.visibility=GONE;stats.visibility=GONE;outcome.visibility=GONE
+        reward.visibility=VISIBLE
+    }
     fun restart() {
         run=newRun();predictionCommit=false;record=false
         editor.isEnabled=true;editor.setText("");share.visibility=GONE;streak.progress=0
+        reward.visibility=GONE;reward.removeAllViews()
+        passageBox.visibility=VISIBLE;stats.visibility=VISIBLE
         pulse.text=context.tr("Every character counts · ×1");updateStats();removeCallbacks(tick);post(tick)
         editor.requestFocus()
         editor.post { context.getSystemService(InputMethodManager::class.java).showSoftInput(editor,InputMethodManager.SHOW_IMPLICIT) }

@@ -1,7 +1,9 @@
 package org.lokey.app
 
 import android.app.Instrumentation
+import android.app.LocaleManager
 import android.content.Context
+import android.content.Intent
 import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.graphics.Canvas
@@ -10,6 +12,8 @@ import android.view.ContextThemeWrapper
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.SeekBar
+import android.widget.Switch
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.File
@@ -17,6 +21,87 @@ import java.util.Locale
 
 object LocaleChecks {
     private val format=Regex("%(\\d+)\\$(?:\\.\\d+)?([sdf])|%%")
+    fun feel(test:Instrumentation,context:Context):JSONObject {
+        val manager=context.getSystemService(LocaleManager::class.java)
+        val original=manager.applicationLocales
+        val prefs=Prefs(context);val setup=prefs.setupComplete
+        val strength=prefs.vibration;val weight=prefs.hapticWeight;val release=prefs.returnHaptics
+        val soundEnabled=prefs.soundEnabled;val volume=prefs.volume;val releaseVolume=prefs.returnVolume
+        val labels=listOf("Swipe to type","Autocorrect","Adaptive letter sizes","One-tap speech","Learn from typing")
+        val rows=JSONArray()
+        prefs.setupComplete=true
+        prefs.vibration=45;prefs.returnHaptics=true
+        prefs.soundEnabled=false
+        try {
+            for(code in ModelLanguages.all(context).map { it.code }+"zh-Hant") {
+                manager.applicationLocales=LocaleList.forLanguageTags(code)
+                val activity=test.startActivitySync(Intent(context,MainActivity::class.java).putExtra("page","feel").addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+                try { test.runOnMainSync {
+                    check(activity.getString(R.string.ui_language_tag)==code) { "Feel did not open in $code" }
+                    fun views(view:View):Sequence<View> = sequence {
+                        yield(view)
+                        if(view is ViewGroup) for(i in 0 until view.childCount) yieldAll(views(view.getChildAt(i)))
+                    }
+                    val controls=views(activity.window.decorView).filterIsInstance<Switch>().toList()
+                    val features=labels.map { label -> controls.single { it.text==activity.tr(label) } }
+                    val card=features.first().parent as View
+                    val sound=controls.single { it.text==activity.tr("Recorded switch sounds") }
+                    val returned=controls.single { it.text==activity.tr("Haptic return on release") }
+                    val master=controls.firstOrNull { it.text==activity.tr("Haptics") }
+                    val soundCard=sound.parent as View
+                    val hapticsCard=returned.parent as View
+                    fun label(group:View,name:String)=views(group).filterIsInstance<TextView>().single { it.text==activity.tr(name) }
+                    val iconLabels=features+listOf(sound,returned,label(soundCard,"Sound volume"),label(soundCard,"Release sound volume"),
+                        master ?: label(hapticsCard,"Haptic strength"))
+                    val width=(272*activity.resources.displayMetrics.density).toInt()
+                    for(group in listOf(card,soundCard,hapticsCard)) {
+                        group.measure(View.MeasureSpec.makeMeasureSpec(width,View.MeasureSpec.EXACTLY),View.MeasureSpec.makeMeasureSpec(0,View.MeasureSpec.UNSPECIFIED))
+                        group.layout(0,0,width,group.measuredHeight)
+                    }
+                    for(control in iconLabels) {
+                        check(control.compoundDrawablesRelative[0]!=null)
+                        val textLayout=checkNotNull(control.layout)
+                        check(textLayout.height<=control.height-control.totalPaddingTop-control.totalPaddingBottom &&
+                            (0 until textLayout.lineCount).all { textLayout.getEllipsisCount(it)==0 && textLayout.getLineMax(it)<=textLayout.width+1f }) {
+                            "Clipped Feel label in $code: ${control.text}"
+                        }
+                    }
+                    if(code in listOf("en","ar")) {
+                        val bitmap=Bitmap.createBitmap(card.width,card.height,Bitmap.Config.ARGB_8888);card.draw(Canvas(bitmap))
+                        File(context.filesDir,"feel-$code.png").outputStream().use { bitmap.compress(Bitmap.CompressFormat.PNG,100,it) };bitmap.recycle()
+                    }
+                    if(code=="en") {
+                        fun setProgress(bar:SeekBar,value:Int)=bar.performAccessibilityAction(android.view.accessibility.AccessibilityNodeInfo.AccessibilityAction.ACTION_SET_PROGRESS.id,
+                            android.os.Bundle().apply { putFloat(android.view.accessibility.AccessibilityNodeInfo.ACTION_ARGUMENT_PROGRESS_VALUE,value.toFloat()) })
+                        val soundBars=views(soundCard).filterIsInstance<SeekBar>().toList()
+                        val saved=soundBars.map { it.progress }
+                        check(soundBars.size==2 && !sound.isChecked && soundBars.all { !it.isEnabled && !setProgress(it,12) })
+                        check(soundBars.map { it.progress }==saved && prefs.volume==volume && prefs.returnVolume==releaseVolume)
+                        sound.performClick()
+                        check(soundBars.all { it.isEnabled } && soundBars.map { it.progress }==saved)
+                        sound.performClick()
+                        check(!prefs.soundEnabled && soundBars.all { !it.isEnabled })
+                        val slider=views(activity.window.decorView).filterIsInstance<SeekBar>().firstOrNull { it.contentDescription==activity.tr("Haptic strength") }
+                        fun vibrate(value:Int) {
+                            if(master!=null) master.performClick()
+                            else check(setProgress(slider!!,value))
+                        }
+                        check(returned.isEnabled && returned.isChecked)
+                        vibrate(0)
+                        check(prefs.vibration==0 && !returned.isEnabled && !returned.isChecked && prefs.returnHaptics)
+                        vibrate(45)
+                        check(prefs.vibration==45 && returned.isEnabled && returned.isChecked)
+                    }
+                    rows.put(code)
+                } } finally { test.runOnMainSync { activity.finish() } }
+            }
+        } finally {
+            manager.applicationLocales=original
+            prefs.setupComplete=setup;prefs.vibration=strength;prefs.hapticWeight=weight;prefs.returnHaptics=release
+            prefs.soundEnabled=soundEnabled;prefs.volume=volume;prefs.returnVolume=releaseVolume
+        }
+        return JSONObject().put("locales",rows).put("screen_width_dp",320).put("release_haptics_toggle",true).put("disabled_sound_sliders",true)
+    }
     fun run(test:Instrumentation,context:Context):JSONObject {
         val codes=ModelLanguages.all(context).map { it.code }+"zh-Hant"
         check(codes.size==40 && codes.distinct().size==40)

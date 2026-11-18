@@ -48,7 +48,7 @@ object PopupChecks {
                 val event=MotionEvent.obtain(start,SystemClock.uptimeMillis(),action,at,y,0)
                 view.onTouchEvent(event);event.recycle()
             } }
-            event(MotionEvent.ACTION_DOWN);SystemClock.sleep(280)
+            event(MotionEvent.ACTION_DOWN);SystemClock.sleep(350)
             val direction=if(x>view.width/2f+density) -1 else 1
             val cell=min(41*density,(view.width-8*density)/options.size)
             val available=if(direction<0) x-density else view.width-density-x

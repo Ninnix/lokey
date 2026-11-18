@@ -10,6 +10,39 @@ import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 
 object ResponsivenessChecks {
+    fun stable(test:Instrumentation,context:Context):JSONObject {
+        val prefs=Prefs(context);val oldModel=prefs.model;val oldCorrection=prefs.autocorrect
+        prefs.model="qwen";prefs.autocorrect=false
+        check(Models.ready(context,Models.selectedText(context,prefs)))
+        lateinit var engine:Prediction
+        test.runOnMainSync { engine=Prediction(context,prefs) }
+        try {
+            val warm=CountDownLatch(1)
+            test.runOnMainSync { engine.request("See you ",neuralAllowed=false,stable=true) { warm.countDown() } }
+            check(warm.await(10,TimeUnit.SECONDS))
+            val before="See you "
+            val published=ArrayList<Prediction.Result>()
+            val done=CountDownLatch(1);val start=SystemClock.elapsedRealtime()
+            test.runOnMainSync { engine.request(before,stable=true) { published.add(it);done.countDown() } }
+            check(done.await(10,TimeUnit.SECONDS))
+            val firstMs=SystemClock.elapsedRealtime()-start
+            val deadline=SystemClock.uptimeMillis()+20_000L
+            while(engine.latest?.neural!=true && SystemClock.uptimeMillis()<deadline) SystemClock.sleep(20)
+            val ranked=checkNotNull(engine.latest?.takeIf { it.before==before && it.neural })
+            var cachedMs=0.0
+            test.runOnMainSync {
+                check(published.size==1 && published.single().words.isNotEmpty()) { "Suggestions were republished: $published" }
+                val typed=ranked.words.first { it.first().isLetter() }.first()
+                val began=SystemClock.elapsedRealtimeNanos()
+                var cached:Prediction.Result?=null
+                engine.request(before+typed,stable=true) { cached=it }
+                check(cached?.neural==true && cached.words.all { it.startsWith(typed,true) })
+                cachedMs=(SystemClock.elapsedRealtimeNanos()-began)/1e6
+            }
+            return JSONObject().put("backend",Native.textBackend()).put("model",prefs.model)
+                .put("first_ms",firstMs).put("first_neural",published.single().neural).put("cached_ms",cachedMs).put("publications",published.size)
+        } finally { test.runOnMainSync { engine.close() };prefs.model=oldModel;prefs.autocorrect=oldCorrection }
+    }
     fun run(test:Instrumentation,context:Context):JSONObject {
         val sandbox=object:ContextWrapper(context) {
             override fun getApplicationContext():Context=this

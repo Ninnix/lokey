@@ -44,16 +44,16 @@ class Languages(private val context: Context) {
         Language(code, name, entries)
     }
     private val phrases = mapOf(
-        "en" to "thank you so much|see you tomorrow|how are you|on my way|let me know|good morning|I would like to|can you send me|I am going to|I found myself|within a forest dark|for the straightforward pathway",
-        "it" to "come stai|ci vediamo domani|grazie mille|ti voglio bene|buona giornata|buongiorno a tutti|sono in arrivo|a che ora|non lo so|mi fai sapere|va bene|per favore|sto arrivando|andiamo a cena|ci sentiamo dopo",
-        "es" to "cómo estás|muchas gracias|hasta mañana|buenos días|nos vemos mañana|te quiero mucho|por favor|estoy en camino|qué tal|no lo sé|que tengas un buen día",
-        "fr" to "comment ça va|merci beaucoup|à demain|bonne journée|je suis en route|s'il vous plaît|je ne sais pas|à bientôt|je t'aime|est ce que|tu vas bien",
-        "pt" to "bom dia|muito obrigado|até amanhã|como estás|por favor|estou a caminho|não sei|tudo bem",
-        "de" to "guten Morgen|vielen Dank|bis morgen|wie geht es dir|ich bin unterwegs|ich weiß nicht|alles klar",
-        "nl" to "goedemorgen allemaal|dank je wel|tot morgen|hoe gaat het|ik ben onderweg",
-        "sv" to "god morgon|tack så mycket|vi ses imorgon|hur mår du",
-        "pl" to "dzień dobry|dziękuję bardzo|do zobaczenia|jak się masz",
-        "ro" to "bună dimineața|mulțumesc mult|pe mâine|ce mai faci"
+        "en" to "thank you so much|see you tomorrow|how are you?|on my way|let me know|good morning|I would like to|can you send me|I am going to|I found myself|within a forest dark|for the straightforward pathway",
+        "it" to "come stai?|ci vediamo domani|grazie mille|ti voglio bene|buona giornata|buongiorno a tutti|sono in arrivo|a che ora?|non lo so|mi fai sapere?|va bene|per favore|sto arrivando|andiamo a cena|ci sentiamo dopo",
+        "es" to "cómo estás?|muchas gracias|hasta mañana|buenos días|nos vemos mañana|te quiero mucho|por favor|estoy en camino|qué tal?|no lo sé|que tengas un buen día",
+        "fr" to "comment ça va?|merci beaucoup|à demain|bonne journée|je suis en route|s'il vous plaît|je ne sais pas|à bientôt|je t'aime|est ce que|tu vas bien",
+        "pt" to "bom dia|muito obrigado|até amanhã|como estás?|por favor|estou a caminho|não sei|tudo bem",
+        "de" to "guten Morgen|vielen Dank|bis morgen|wie geht es dir?|ich bin unterwegs|ich weiß nicht|alles klar",
+        "nl" to "goedemorgen allemaal|dank je wel|tot morgen|hoe gaat het?|ik ben onderweg",
+        "sv" to "god morgon|tack så mycket|vi ses imorgon|hur mår du?",
+        "pl" to "dzień dobry|dziękuję bardzo|do zobaczenia|jak się masz?",
+        "ro" to "bună dimineața|mulțumesc mult|pe mâine|ce mai faci?"
     )
     fun detect(text: String, previous: String = "en"): Language {
         val raw=tokens(text).takeLast(9)
@@ -89,7 +89,12 @@ class Languages(private val context: Context) {
         val key=fold(prefix);val result=ArrayList<Choice>()
         val tail = lower(context.trimEnd())
         for (phrase in phrases[language.code].orEmpty().split('|')) {
-            val words = phrase.split(' ')
+            val body=phrase.removeSuffix("?")
+            val words=body.split(' ')
+            if(key.isEmpty() && phrase.endsWith('?')) {
+                val question=lower(body)
+                if(tail==question || tail.endsWith(" $question")) result.add(Choice("?",6.2))
+            }
             for (i in 1 until words.size) {
                 val stem = lower(words.take(i).joinToString(" "))
                 if ((tail == stem || tail.endsWith(" $stem")) && fold(words[i]).startsWith(key)) {

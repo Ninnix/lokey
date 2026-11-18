@@ -84,6 +84,7 @@ class KeyboardTest : Instrumentation() {
             if(mode=="memory") report.put("memory",MemoryChecks.run(this,targetContext,accelerator))
             if(mode=="battery") report.put("battery",BatteryChecks.run(this,targetContext))
             if(mode=="responsiveness") report.put("responsiveness",ResponsivenessChecks.run(this,targetContext))
+            if(mode=="stablesuggestions") report.put("stablesuggestions",ResponsivenessChecks.stable(this,targetContext))
             if(mode=="fasttyping") report.put("fasttyping",FastTypingChecks.run(this,targetContext))
             if(mode=="fasttypingprofile") {
                 check(targetContext.packageName.startsWith("org.lokey.app.fasttyping"))
@@ -101,6 +102,7 @@ class KeyboardTest : Instrumentation() {
             if(mode=="setup") report.put("setup",SetupChecks.run(this,targetContext))
             if(mode=="languagemap") report.put("languagemap",LanguageMapChecks.run(targetContext))
             if(mode=="localization") report.put("localization",LocaleChecks.run(this,targetContext))
+            if(mode=="feel") report.put("feel",LocaleChecks.feel(this,targetContext))
             if(mode=="privacy") report.put("privacy",PrivacyChecks.run(this,targetContext))
             if (mode == "all" || mode == "interaction") report.put("interaction", interactionTest())
             if (mode == "all" || mode == "flow") report.put("flow", flowTest())
@@ -363,6 +365,19 @@ class KeyboardTest : Instrumentation() {
                 touch(MotionEvent.ACTION_MOVE, x + slide * density, y)
                 touch(MotionEvent.ACTION_UP, x + slide * density, y)
             }
+            val e=bounds(12)
+            val tapX=e.exactCenterX();val tapY=e.exactCenterY()
+            val beforeDrift=typed.toString()
+            touch(MotionEvent.ACTION_DOWN,tapX,tapY)
+            touch(MotionEvent.ACTION_MOVE,tapX,tapY-12*density)
+            touch(MotionEvent.ACTION_UP,tapX,tapY-12*density)
+            touch(MotionEvent.ACTION_DOWN,tapX,tapY)
+            touch(MotionEvent.ACTION_UP,tapX,tapY-20*density)
+            touch(MotionEvent.ACTION_DOWN,tapX,tapY)
+            touch(MotionEvent.ACTION_MOVE,tapX,tapY-20*density)
+            touch(MotionEvent.ACTION_UP,tapX,tapY)
+            check(typed.toString()==beforeDrift+"eee") { "Tap drift selected an alternate: $typed" }
+            result.put("tap_drift_preserves_primary",true)
             runOnMainSync {
                 "!@#$%^&*()".forEachIndexed { i, symbol ->
                     check(view.accessibilityNodeProvider.createAccessibilityNodeInfo(i)!!.contentDescription.endsWith("hold for $symbol"))
@@ -471,6 +486,7 @@ class KeyboardTest : Instrumentation() {
             fun flick(id: Int, dx: Float, dy: Float) {
                 val r = bounds(id); val before = typed.length
                 touch(MotionEvent.ACTION_DOWN, r.exactCenterX(), r.exactCenterY())
+                touch(MotionEvent.ACTION_MOVE, r.exactCenterX() + dx * density, r.exactCenterY() + dy * density)
                 touch(MotionEvent.ACTION_UP, r.exactCenterX() + dx * density, r.exactCenterY() + dy * density)
                 check(typed.length == before + 1) { "Flick emitted more than one character" }
             }
@@ -923,7 +939,7 @@ class KeyboardTest : Instrumentation() {
         fun node(label:String):android.view.accessibility.AccessibilityNodeInfo? {
             if(android.os.Build.VERSION.SDK_INT>=34) uiAutomation.clearCache()
             fun walk(n:android.view.accessibility.AccessibilityNodeInfo):android.view.accessibility.AccessibilityNodeInfo? {
-                if(n.packageName=="org.lokey.app" && n.contentDescription?.toString()?.substringBefore(',')?.equals(label,true)==true) return n
+                if(n.packageName==targetContext.packageName && n.contentDescription?.toString()?.substringBefore(',')?.equals(label,true)==true) return n
                 for(i in 0 until n.childCount) n.getChild(i)?.let { walk(it)?.let { found -> return found } }
                 return null
             }
@@ -1569,13 +1585,23 @@ class KeyboardTest : Instrumentation() {
     }
     private fun speedUiTest():JSONObject {
         val prefs=Prefs(targetContext);val original=prefs.appLight
+        val originalLanguage=prefs.setupLanguage
+        val scores=targetContext.getSharedPreferences("speedtest",android.content.Context.MODE_PRIVATE)
+        val previousLast=scores.getString("last",null)
         val report=JSONArray()
         fun <T:View> find(view:View,type:Class<T>):T? {
             if(type.isInstance(view)) return type.cast(view)
             if(view is android.view.ViewGroup) for(i in 0 until view.childCount) find(view.getChildAt(i),type)?.let { return it }
             return null
         }
+        fun label(root:View,value:String):android.widget.TextView? {
+            if(root is android.widget.TextView && root.text==value) return root
+            if(root is android.view.ViewGroup) for(i in 0 until root.childCount) label(root.getChildAt(i),value)?.let { return it }
+            return null
+        }
+        fun top(view:View)=IntArray(2).also { view.getLocationOnScreen(it) }[1]
         try {
+            prefs.setupLanguage="Italian"
             for(light in listOf(false,true)) {
                 prefs.appLight=light
                 val activity=startActivitySync(android.content.Intent().setClass(targetContext,MainActivity::class.java).putExtra("page","lab")
@@ -1587,6 +1613,8 @@ class KeyboardTest : Instrumentation() {
                     runOnMainSync {
                         val normal=find(activity.window.decorView,android.widget.EditText::class.java)!!
                         val toggle=find(activity.window.decorView,android.widget.Switch::class.java)!!
+                        check(!toggle.isChecked && toggle.compoundDrawablesRelative[0]!=null)
+                        check(label(activity.window.decorView,activity.tr("Find your flow."))!=null)
                         val box=IntArray(2);val control=IntArray(2);normal.getLocationOnScreen(box);toggle.getLocationOnScreen(control)
                         check(control[1]>=box[1]+normal.height)
                         normalHeight=normal.height;normalWidth=normal.width
@@ -1597,11 +1625,19 @@ class KeyboardTest : Instrumentation() {
                     runOnMainSync {
                         check(game.editor.width==normalWidth && game.editor.height==normalHeight)
                         val toggle=find(activity.window.decorView,android.widget.Switch::class.java)!!
+                        check(toggle.isChecked && toggle.compoundDrawablesRelative[0]!=null)
                         val box=IntArray(2);val control=IntArray(2);game.editor.getLocationOnScreen(box);toggle.getLocationOnScreen(control)
                         check(control[1]>=box[1]+game.editor.height)
+                        val root=activity.window.decorView
+                        check(label(root,activity.tr("Find your flow."))==null && label(root,activity.tr("Follow the faded text. Keep your streak."))==null)
+                        val initial=String.format(activity.uiLocale(),activity.tr("%1\$.0f WPM · %2\$.0f%% accuracy · %3\$d/%4\$d"),0.0,100.0,0,game.run.passage.length)
+                        val stats=checkNotNull(label(game,initial))
+                        val italian=java.util.Locale.forLanguageTag("it").getDisplayLanguage(activity.uiLocale())
+                        val attribution=checkNotNull(label(game,activity.tr("DANTE / INFERNO I")+" · "+italian))
+                        check(top(stats)+stats.height<=top(attribution) && top(attribution)+attribution.height<=top(game.editor))
                         val prefix=game.run.passage.take(24)
                         game.editor.setText(prefix);game.editor.setSelection(prefix.length)
-                        check(game.run.score>0 && game.run.combo==prefix.length)
+                        check(game.run.score>0 && game.run.combo==prefix.length && stats.text!=initial && attribution.isShown)
                         val connection=game.editor.onCreateInputConnection(android.view.inputmethod.EditorInfo())!!
                         check(connection.getTextBeforeCursor(1000,0).toString()==prefix && connection.getTextAfterCursor(1000,0).isNullOrEmpty())
                     }
@@ -1611,13 +1647,35 @@ class KeyboardTest : Instrumentation() {
                         File(targetContext.filesDir,"speedtest-"+(if(light) "light" else "dark")+".png").outputStream().use { bitmap.compress(android.graphics.Bitmap.CompressFormat.PNG,100,it) };bitmap.recycle()
                     }
                     runOnMainSync {
+                        val key="best-${game.run.passageId}-${game.run.layout}"
+                        val previous=scores.getString(key,null)
+                        scores.edit().remove(key).apply()
+                        try {
+                            game.editor.setText(game.run.passage)
+                            check(game.run.finished && !game.editor.isEnabled && !game.editor.isShown)
+                            check(label(game,activity.tr("A new personal best."))!!.compoundDrawablesRelative[0]!=null)
+                            for(title in listOf("WORDS PER MINUTE","ACCURACY","SCORE","BEST COMBO")) check(label(game,activity.tr(title))!=null)
+                            check(label(game,activity.tr("Share result"))!!.visibility==View.VISIBLE)
+                        } finally { scores.edit().putString(key,previous).apply() }
+                    }
+                    SystemClock.sleep(250)
+                    uiAutomation.takeScreenshot()?.let { bitmap ->
+                        File(targetContext.filesDir,"speedtest-reward-"+(if(light) "light" else "dark")+".png").outputStream().use { bitmap.compress(android.graphics.Bitmap.CompressFormat.PNG,100,it) };bitmap.recycle()
+                    }
+                    runOnMainSync {
+                        label(game,activity.tr("Restart"))!!.performClick()
+                        check(game.editor.isEnabled && game.editor.isShown && game.run.index==0 && label(game,activity.tr("WORDS PER MINUTE"))==null)
+                        game.editor.onPrivateIMECommand("org.lokey.app.VOICE",null)
+                        game.editor.setText(game.run.passage)
+                        check(label(game,activity.tr("Practice run · Voice or paste used"))!=null && label(game,activity.tr("A new personal best."))==null)
                         find(activity.window.decorView,android.widget.Switch::class.java)!!.performClick()
                         check(find(activity.window.decorView,android.widget.EditText::class.java)!!.text.toString()=="My typing draft")
                     }
-                    report.put(JSONObject().put("theme",if(light) "light" else "dark").put("same_typing_box",true).put("toggle_below_box",true).put("ghost_text_excluded_from_input",true).put("normal_draft_preserved",true))
+                    report.put(JSONObject().put("theme",if(light) "light" else "dark").put("same_typing_box",true).put("toggle_below_box",true).put("ghost_text_excluded_from_input",true).put("normal_draft_preserved",true)
+                        .put("live_stats_and_italian_attribution_above_passage",true).put("personal_best_and_practice_rewards",true).put("restart_clears_reward",true))
                 } finally { runOnMainSync { activity.finish() } }
             }
-        } finally { prefs.appLight=original }
+        } finally { prefs.appLight=original;prefs.setupLanguage=originalLanguage;scores.edit().putString("last",previousLast).apply() }
         return JSONObject().put("themes",report)
     }
     private fun speedTest(): JSONObject {
@@ -1681,7 +1739,7 @@ class KeyboardTest : Instrumentation() {
             val score = game.snapshot(9000).put("wpm", 107.4).put("prediction_taps", 18)
             val image = ScoreCard.create(targetContext, score, true)
             check(image.length() > 1000)
-            val uri = android.net.Uri.parse("content://org.lokey.app.scores/record.png")
+            val uri = android.net.Uri.parse("content://${targetContext.packageName}.scores/record.png")
             check(targetContext.contentResolver.getType(uri) == "image/png")
             targetContext.contentResolver.openInputStream(uri)!!.use { input ->
                 val bitmap = android.graphics.BitmapFactory.decodeStream(input)

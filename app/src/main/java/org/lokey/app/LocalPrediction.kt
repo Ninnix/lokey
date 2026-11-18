@@ -40,7 +40,7 @@ class LocalPrediction(private val context:Context,private val languages:Language
     }
     // Space can read these immutable lookups without opening assets on the UI thread.
     @Volatile private var ready=emptyMap<String,Vocabulary>()
-    private fun vocabulary(language:Languages.Language)=vocabularies.getOrPut(language.code) {
+    @Synchronized private fun vocabulary(language:Languages.Language)=vocabularies.getOrPut(language.code) {
         val rows=HashMap<String,MutableMap<String,Int>>()
         try { context.assets.open("context/${language.code}.tsv").bufferedReader().useLines { lines -> lines.forEach { line ->
             val fields=line.split('\t');rows.getOrPut(fields[0]) { HashMap() }[fields[1]]=fields[2].toInt()
@@ -94,8 +94,8 @@ class LocalPrediction(private val context:Context,private val languages:Language
         }
         return if(possessive) form else preferred
     }
-    fun spelling(result:Prediction.Result,language:Languages.Language,autocorrect:Boolean):Prediction.Result =
-        languages.spelling(result.copy(spelling=spelling(result.before,language)),autocorrect)
+    fun spelling(result:Prediction.Result,language:Languages.Language,autocorrect:Boolean,cached:Boolean=false):Prediction.Result =
+        languages.spelling(result.copy(spelling=spelling(result.before,language,cached)),autocorrect)
     fun correction(before:String,language:Languages.Language,cached:Boolean=false):String? {
         val prefix=Languages.prefix(before)
         spelling(before,language,cached)?.let { return if(it.automatic) it.word else null }

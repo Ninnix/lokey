@@ -63,7 +63,20 @@ class Prefs(context: Context) {
         set(value) { store.edit().putInt("volume", value).apply() }
     var vibration: Int
         get() = store.getInt("vibration", 30)
-        set(value) { store.edit().putInt("vibration", value).apply() }
+        set(value) {
+            val strength=if(value>0) value else vibration
+            store.edit().putInt("vibration",value).apply {
+                if(strength>0) putInt("haptic_weight",vibrationWeight(strength))
+            }.apply()
+        }
+    var hapticWeight:Int
+        get() = vibration.let { if(it>0) vibrationWeight(it) else store.getInt("haptic_weight",45) }
+        set(value) { store.edit().putInt("haptic_weight",value).apply() }
+    private fun vibrationWeight(strength:Int)=when {
+        strength<=20 -> 15
+        strength>=66 -> 85
+        else -> 45
+    }
     var appLight: Boolean
         get() = store.getBoolean("app_light", false)
         set(value) { store.edit().putBoolean("app_light", value).apply() }

@@ -643,7 +643,7 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
         val task = Runnable { if (touches.containsKey(id)) { listener.delete(); repeatDelete(id) } }
         callbacks[id] = task; main.postDelayed(task, 45)
     }
-    private fun moveTouch(id: Int, x: Float, y: Float) {
+    private fun moveTouch(id: Int, x: Float, y: Float, released:Boolean=false) {
         val touch = touches[id] ?: return
         if(touch.committed) return
         val dx = x - touch.startX; val dy = y - touch.startY
@@ -675,18 +675,20 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
             val delta = ((x - touch.x) / dp(9f)).toInt()
             if (delta != 0) { listener.cursor(delta); touch.x += delta * dp(9f) }
         } else if (!touch.held && (touch.key.code == "." || touch.key.alternate.isNotBlank()) && (touch.key.custom==null || touch.key.custom.action.isEmpty() && touch.key.custom.secondary.isNotEmpty())) {
+            val horizontal=abs(dx)>abs(dy)*1.35f && abs(dx)>=dp(14f)
             val value = when {
-                (layout.composer=="dead" || touch.key.custom!=null) && reverseOptions(touch.key) && dx <= -dp(10f) && abs(dx)>abs(dy) -> options(touch.key).last()
-                touch.key.custom?.secondary?.isNotEmpty()==true && dx >= dp(10f) && abs(dx)>abs(dy) -> options(touch.key).last()
-                touch.key.custom==null && !touch.key.native && touch.key.code == "." && abs(dx) >= dp(10f) && abs(dx) > abs(dy) -> punctuation(if(dx>0) "?" else "!")
-                dy <= -dp(10f) && abs(dy) > abs(dx) -> if (touch.key.custom==null && !touch.key.native && touch.key.code == ".") punctuation(",") else touch.key.alternate
+                horizontal && dx<0 && (layout.composer=="dead" || touch.key.custom!=null) && reverseOptions(touch.key) -> options(touch.key).last()
+                horizontal && dx>0 && touch.key.custom?.secondary?.isNotEmpty()==true -> options(touch.key).last()
+                horizontal && touch.key.custom==null && !touch.key.native && touch.key.code == "." -> punctuation(if(dx>0) "?" else "!")
+                dy <= -dp(14f) && -dy > abs(dx)*1.35f -> if (touch.key.custom==null && !touch.key.native && touch.key.code == ".") punctuation(",") else touch.key.alternate
                 else -> null
             }
-            if (value != null) {
+            if (value != null && !released) {
                 callbacks.remove(id)?.let { main.removeCallbacks(it) }
                 if (touch.flick != value) listener.feedback("hold")
-                touch.flick = value
             }
+            // A release can confirm a flick, but cannot start one by itself.
+            touch.flick=value.takeIf { !released || it==touch.flick }
         }
         if (touch.held && touch.choice >= 0) {
             val options = options(touch.key)
@@ -772,7 +774,7 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
                     key.custom?.secondary?.isNotEmpty()==true || ((key.native || key.code.length==1) && key.alternate.isNotBlank())
                 if (hasHold && !touch.stopping) {
                     val task = Runnable { hold(id) }; callbacks[id] = task
-                    main.postDelayed(task, when (key.code) { "enter", "delete", "space" -> 320L; else -> 250L })
+                    main.postDelayed(task, when (key.code) { "shift", "symbols" -> 250L; else -> 320L })
                 }
                 invalidate()
             }
@@ -781,7 +783,7 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
                 invalidate()
             }
             MotionEvent.ACTION_UP, MotionEvent.ACTION_POINTER_UP -> {
-                moveTouch(id, x, y)
+                moveTouch(id, x, y, released=true)
                 callbacks.remove(id)?.let { main.removeCallbacks(it) }
                 val touch = touches.remove(id)
                 if (touch != null) {
