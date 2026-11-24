@@ -94,8 +94,8 @@ class LocalPrediction(private val context:Context,private val languages:Language
         }
         return if(possessive) form else preferred
     }
-    fun spelling(result:Prediction.Result,language:Languages.Language,autocorrect:Boolean,cached:Boolean=false):Prediction.Result =
-        languages.spelling(result.copy(spelling=spelling(result.before,language,cached)),autocorrect)
+    fun spelling(result:Prediction.Result,language:Languages.Language,autocorrect:Boolean,cached:Boolean=false,limit:Int=3):Prediction.Result =
+        languages.spelling(result.copy(spelling=spelling(result.before,language,cached)),autocorrect,limit)
     fun correction(before:String,language:Languages.Language,cached:Boolean=false):String? {
         val prefix=Languages.prefix(before)
         spelling(before,language,cached)?.let { return if(it.automatic) it.word else null }
@@ -131,7 +131,7 @@ class LocalPrediction(private val context:Context,private val languages:Language
         if(best.word !in language.words || best.count<1000 || score<8*(nearby.getOrNull(1)?.second ?: 0.0)) return null
         return Languages.casing(best.word,prefix,language.code)
     }
-    fun request(before:String,language:Languages.Language,autocorrect:Boolean=false):Prediction.Result {
+    fun request(before:String,language:Languages.Language,autocorrect:Boolean=false,limit:Int=3):Prediction.Result {
         val prefix=Languages.prefix(before);val stem=before.dropLast(prefix.length)
         val dictionary=vocabulary(language)
         val complete=prefix.length>=2 && Languages.lower(prefix) in language.words && languages.contraction(language,prefix)==null
@@ -152,22 +152,22 @@ class LocalPrediction(private val context:Context,private val languages:Language
         }.toMutableMap()
         for(choice in languages.phraseChoices(language,sentence,typed)) ranked[choice.word]=choice.prior-6.1
         val suggested=ranked.entries.sortedByDescending { it.value }.map { it.key }.toMutableList()
-        if(!complete && prefix.length in 3..24 && entries.keys.none { !it.equals(prefix,true) }) suggested.addAll(dictionary.nearby(prefix).take(3).map { it.word })
+        if(!complete && prefix.length in 3..24 && entries.keys.none { !it.equals(prefix,true) }) suggested.addAll(dictionary.nearby(prefix).take(limit).map { it.word })
         val fixed=if(autocorrect) correction(before,language) else null
-        val words=(listOfNotNull(fixed)+suggested).distinctBy { Languages.lower(it) }.take(3).map { Languages.casing(it,prefix,language.code,complete) }.toMutableList()
+        val words=(listOfNotNull(fixed)+suggested).distinctBy { Languages.lower(it) }.take(limit).map { Languages.casing(it,prefix,language.code,complete) }.toMutableList()
         if(words.isEmpty() && prefix.isNotEmpty()) words.add(prefix)
         val append=if(complete) words.toMutableSet() else mutableSetOf()
         if(complete) dictionary.complete(prefix).firstOrNull { !it.word.equals(prefix,true) && it.word !in words }?.let {
-            if(words.size==3) append.remove(words.removeAt(2))
+            if(words.size==limit) append.remove(words.removeAt(words.lastIndex))
             words.add(Languages.casing(it.word,prefix,language.code))
         }
-        return spelling(Prediction.Result(before,words,AdaptiveKeys.probabilities(typed,ranked.map { it.key to it.value }),language.code,false,fixed,append),language,autocorrect)
+        return spelling(Prediction.Result(before,words,AdaptiveKeys.probabilities(typed,ranked.map { it.key to it.value }),language.code,false,fixed,append),language,autocorrect,limit=limit)
     }
     companion object {
         private fun key(word:String)=Languages.fold(word).replace("'","")
         private val possessiveFrames="about above across against along around at behind below beneath beside between beyond by despite down during for from in inside into near of off on onto outside over past through throughout to toward towards under underneath unlike up upon via with within without is was are were has have had lost loses lose losing use uses used using keep keeps kept love loves loved give gives gave hold holds held take takes took".split(' ').toSet()
         // The small vocabulary is already resident while a richer index loads on the worker.
-        fun basic(languages:Languages,before:String,language:Languages.Language,autocorrect:Boolean):Prediction.Result {
+        fun basic(languages:Languages,before:String,language:Languages.Language,autocorrect:Boolean,limit:Int=3):Prediction.Result {
             val prefix=Languages.prefix(before)
             val alias=languages.contraction(language,prefix)
             val complete=prefix.length>=2 && alias==null && Languages.lower(prefix) in language.words
@@ -175,15 +175,15 @@ class LocalPrediction(private val context:Context,private val languages:Language
             val sentence=if(complete) before else before.dropLast(prefix.length)
             val choices=languages.choices(language,sentence,typed,24).sortedByDescending { it.prior }
             val fixed=if(autocorrect) alias?.word?.let { Languages.casing(it,prefix,language.code) } else null
-            val words=(listOfNotNull(fixed)+choices.map { Languages.casing(it.word,prefix,language.code,complete) }).distinct().take(3).toMutableList()
+            val words=(listOfNotNull(fixed)+choices.map { Languages.casing(it.word,prefix,language.code,complete) }).distinct().take(limit).toMutableList()
             if(words.isEmpty() && prefix.isNotEmpty()) words.add(prefix)
             val append=if(complete) words.toMutableSet() else mutableSetOf()
             if(complete) languages.choices(language,"",prefix).firstOrNull { it.word !in words }?.let {
-                if(words.size==3) append.remove(words.removeAt(2))
+                if(words.size==limit) append.remove(words.removeAt(words.lastIndex))
                 words.add(Languages.casing(it.word,prefix,language.code))
             }
             val letters=AdaptiveKeys.probabilities(typed,choices.take(24).map { it.word to it.prior })
-            return languages.spelling(Prediction.Result(before,words,letters,language.code,false,fixed,append),autocorrect)
+            return languages.spelling(Prediction.Result(before,words,letters,language.code,false,fixed,append),autocorrect,limit)
         }
     }
 }

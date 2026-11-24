@@ -21,7 +21,7 @@ import java.util.Locale
 
 object LocaleChecks {
     private val format=Regex("%(\\d+)\\$(?:\\.\\d+)?([sdf])|%%")
-    fun feel(test:Instrumentation,context:Context):JSONObject {
+    fun feel(test:Instrumentation,context:Context,locale:String?=null):JSONObject {
         val manager=context.getSystemService(LocaleManager::class.java)
         val original=manager.applicationLocales
         val prefs=Prefs(context);val setup=prefs.setupComplete
@@ -33,7 +33,8 @@ object LocaleChecks {
         prefs.vibration=45;prefs.returnHaptics=true
         prefs.soundEnabled=false
         try {
-            for(code in ModelLanguages.all(context).map { it.code }+"zh-Hant") {
+            val locales=locale?.let(::listOf) ?: (ModelLanguages.all(context).map { it.code }+"zh-Hant")
+            for(code in locales) {
                 manager.applicationLocales=LocaleList.forLanguageTags(code)
                 val activity=test.startActivitySync(Intent(context,MainActivity::class.java).putExtra("page","feel").addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
                 try { test.runOnMainSync {
@@ -43,16 +44,16 @@ object LocaleChecks {
                         if(view is ViewGroup) for(i in 0 until view.childCount) yieldAll(views(view.getChildAt(i)))
                     }
                     val controls=views(activity.window.decorView).filterIsInstance<Switch>().toList()
-                    val features=labels.map { label -> controls.single { it.text==activity.tr(label) } }
+                    fun control(name:String)=controls.single { it.text.toString()==activity.tr(name) }
+                    val features=labels.map(::control)
                     val card=features.first().parent as View
-                    val sound=controls.single { it.text==activity.tr("Recorded switch sounds") }
-                    val returned=controls.single { it.text==activity.tr("Haptic return on release") }
-                    val master=controls.firstOrNull { it.text==activity.tr("Haptics") }
+                    val sound=control("Recorded switch sounds")
+                    val returned=control("Haptic return on release")
+                    val master=control("Haptics")
                     val soundCard=sound.parent as View
                     val hapticsCard=returned.parent as View
-                    fun label(group:View,name:String)=views(group).filterIsInstance<TextView>().single { it.text==activity.tr(name) }
-                    val iconLabels=features+listOf(sound,returned,label(soundCard,"Sound volume"),label(soundCard,"Release sound volume"),
-                        master ?: label(hapticsCard,"Haptic strength"))
+                    fun label(group:View,name:String)=views(group).filterIsInstance<TextView>().single { it.text.toString()==activity.tr(name) }
+                    val iconLabels=features+listOf(sound,returned,label(soundCard,"Sound volume"),label(soundCard,"Release sound volume"),master)
                     val width=(272*activity.resources.displayMetrics.density).toInt()
                     for(group in listOf(card,soundCard,hapticsCard)) {
                         group.measure(View.MeasureSpec.makeMeasureSpec(width,View.MeasureSpec.EXACTLY),View.MeasureSpec.makeMeasureSpec(0,View.MeasureSpec.UNSPECIFIED))
@@ -82,15 +83,15 @@ object LocaleChecks {
                         sound.performClick()
                         check(!prefs.soundEnabled && soundBars.all { !it.isEnabled })
                         val slider=views(activity.window.decorView).filterIsInstance<SeekBar>().firstOrNull { it.contentDescription==activity.tr("Haptic strength") }
-                        fun vibrate(value:Int) {
-                            if(master!=null) master.performClick()
-                            else check(setProgress(slider!!,value))
-                        }
-                        check(returned.isEnabled && returned.isChecked)
-                        vibrate(0)
+                        val selected=if(slider==null) 45 else 63
+                        if(slider!=null) check(setProgress(slider,selected))
+                        check(master.isChecked && returned.isEnabled && returned.isChecked)
+                        master.performClick()
                         check(prefs.vibration==0 && !returned.isEnabled && !returned.isChecked && prefs.returnHaptics)
-                        vibrate(45)
-                        check(prefs.vibration==45 && returned.isEnabled && returned.isChecked)
+                        check(slider==null || !slider.isEnabled && !setProgress(slider,10))
+                        master.performClick()
+                        check(prefs.vibration==selected && returned.isEnabled && returned.isChecked)
+                        check(slider==null || slider.isEnabled && slider.progress==selected)
                     }
                     rows.put(code)
                 } } finally { test.runOnMainSync { activity.finish() } }

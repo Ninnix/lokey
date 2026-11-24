@@ -520,4 +520,5 @@
     <string name="ui_sucheng">"速成 · Sucheng"</string>
     <string name="ui_hangul">"한국어 · هانغول"</string>
     <string name="ui_korean">"한국어 · الكورية"</string>
+    <string name="ui_split_keyboard_in_landscape">"تقسيم لوحة المفاتيح في الوضع الأفقي"</string>
 </resources>

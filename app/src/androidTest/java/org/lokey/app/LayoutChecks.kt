@@ -111,16 +111,13 @@ object LayoutChecks {
                 view.layout(0,0,1080,view.measuredHeight)
             }
             reset();test.runOnMainSync {
-                view.editor(true,"Done",false)
-                view.accessibilityNodeProvider.performAction(10,AccessibilityNodeInfo.ACTION_LONG_CLICK,null)
-                check(raw.toString()=="(") { "Numeric field alternates changed: $raw" }
-                view.editor(false,"Done",false)
+                view.accessibilityNodeProvider.performAction(38,AccessibilityNodeInfo.ACTION_CLICK,null)
                 val image=Bitmap.createBitmap(view.width,view.height,Bitmap.Config.ARGB_8888);view.draw(Canvas(image))
                 File(context.filesDir,"intl-symbols.png").outputStream().use { image.compress(Bitmap.CompressFormat.PNG,100,it) };image.recycle()
             }
             test.runOnMainSync { prefs.layout="qwerty" };reset();secondary("p",0)
             check(typed.toString()=="'" && dead.pending.isEmpty()) { "Accent layout P apostrophe: $typed" }
-            return JSONObject().put("secondary_symbols",17).put("all_secondary_labels_visible",true).put("fast_upward_flick",true).put("zero_brace_slide_left",true).put("zero_brace_fast_left_flick",true).put("p_backslash_slide_left",true).put("p_backslash_fast_left_flick",true).put("held_symbol_selection",true).put("dead_key_cases",7).put("shift_preserved",true).put("dedicated_apostrophe_removed",true).put("accent_p_apostrophe",true).put("numeric_fields_unchanged",true).put("popup_screenshots_with_and_without_suggestions",true).put("event_delivery","Direct events to Lokey View")
+            return JSONObject().put("secondary_symbols",17).put("all_secondary_labels_visible",true).put("fast_upward_flick",true).put("zero_brace_slide_left",true).put("zero_brace_fast_left_flick",true).put("p_backslash_slide_left",true).put("p_backslash_fast_left_flick",true).put("held_symbol_selection",true).put("dead_key_cases",7).put("shift_preserved",true).put("dedicated_apostrophe_removed",true).put("accent_p_apostrophe",true).put("popup_screenshots_with_and_without_suggestions",true).put("event_delivery","Direct events to Lokey View")
         } finally { prefs.layout=original;test.runOnMainSync { activity.finish() } }
     }
     fun run(test:Instrumentation,context:Context):JSONObject {

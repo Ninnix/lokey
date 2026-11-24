@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Intent
 import android.content.ClipboardManager
 import android.content.pm.PackageManager
+import android.content.res.Configuration
 import android.inputmethodservice.InputMethodService
 import android.text.InputType
 import android.view.View
@@ -38,7 +39,7 @@ class LokeyService : InputMethodService(), KeyboardView.Listener {
             inputLayout().composer in listOf("","dead") && UsageLearning.allowed(info.inputType,info.imeOptions)
     }
     private fun learningScope()=UsageLearning.scope(prefs.layout,displayedPrediction?.language ?: ModelLanguages.code(inputHint() ?: "English"))
-    private lateinit var root:LinearLayout
+    private lateinit var root:ImeLayout
     private var toolMode=""
     private var editorAction="↵"
     private var translationBar:TranslationBar?=null
@@ -63,6 +64,7 @@ class LokeyService : InputMethodService(), KeyboardView.Listener {
         return editorConnection
     }
     private fun rawEditor()=editor()==null && currentInputEditorInfo?.inputType?.and(InputType.TYPE_MASK_CLASS)==InputType.TYPE_NULL
+    private fun numberField()=editor()==null && currentInputEditorInfo?.inputType?.and(InputType.TYPE_MASK_CLASS) in listOf(InputType.TYPE_CLASS_NUMBER,InputType.TYPE_CLASS_PHONE)
     private var translationResult:Translation.Result?=null
     private var translationSource:String?=null
     private var translationLanguage=""
@@ -82,6 +84,9 @@ class LokeyService : InputMethodService(), KeyboardView.Listener {
         deadKeys.clear();deadConnection=null
     }
     private val layoutListener=android.content.SharedPreferences.OnSharedPreferenceChangeListener { _,key ->
+        if(key=="split_landscape") {
+            keyboard?.updateGeometry();keyboardBackground();refresh()
+        }
         if(key in listOf("learning","learning_revision","one_tap_speech","adaptive","autocorrect","model")) {
             resetLearning();clearPrediction();refresh();keyboard?.invalidate()
         }
@@ -90,9 +95,8 @@ class LokeyService : InputMethodService(), KeyboardView.Listener {
             clearDead(true)
             resetComposition();clearGlide();correction.reset();clearPrediction()
             currentInputEditorInfo?.let { info ->
-                val type=info.inputType and InputType.TYPE_MASK_CLASS
-                keyboard?.editor(type==InputType.TYPE_CLASS_NUMBER || type==InputType.TYPE_CLASS_PHONE,editorAction,
-                    !rawEditor() && inputLayout().automaticCaps && (connection()?.getCursorCapsMode(info.inputType) ?: 0)!=0)
+                keyboard?.editor(info.inputType,editorAction,
+                    !rawEditor() && inputLayout().automaticCaps && (connection()?.getCursorCapsMode(info.inputType) ?: 0)!=0,decimalSeparator(info))
             }
             keyboard?.requestLayout();refresh()
         }
@@ -136,8 +140,11 @@ class LokeyService : InputMethodService(), KeyboardView.Listener {
     }
     private fun showComposition() {
         displayedPrediction=null
-        keyboard?.moreCandidates=composeChoices.size>3
-        keyboard?.prediction(composeChoices.drop(composePage).take(3).ifEmpty { listOf(displayComposition(true)) },FloatArray(26),false)
+        keyboard?.let { view ->
+            val limit=view.suggestionCount
+            view.moreCandidates=composeChoices.size>limit
+            view.prediction(composeChoices.drop(composePage).take(limit).ifEmpty { listOf(displayComposition(true)) },FloatArray(26),false)
+        }
     }
     private fun chooseComposition(value:String) {
         val queued=composeQueued.toString()
@@ -177,7 +184,8 @@ class LokeyService : InputMethodService(), KeyboardView.Listener {
         }
     }
     override fun moreCandidates() {
-        if(composeChoices.size>3) { composePage=(composePage+3).let { if(it>=composeChoices.size) 0 else it };showComposition() }
+        val limit=keyboard?.suggestionCount ?: 3
+        if(composeChoices.size>limit) { composePage=(composePage+limit).let { if(it>=composeChoices.size) 0 else it };showComposition() }
     }
     private var keyboard: KeyboardView? = null
     private val correction = Autocorrect()
@@ -193,6 +201,7 @@ class LokeyService : InputMethodService(), KeyboardView.Listener {
     private var displayedPrediction:Prediction.Result?=null
     private var requestedPrediction:String?=null
     private var requestedNeural=false
+    private var requestedSuggestions=0
     private fun clearPrediction() {
         requestedPrediction=null;displayedPrediction=null
         prediction.clear();keyboard?.prediction(emptyList(),FloatArray(26),false)
@@ -224,10 +233,19 @@ class LokeyService : InputMethodService(), KeyboardView.Listener {
         keyboard=KeyboardView(this,prefs,this).apply { addOnLayoutChangeListener { _,_,_,_,_,_,_,_,_ -> updateFloatingSpeech() } };renderTool()
         return root
     }
+    override fun onConfigurationChanged(newConfig:Configuration) {
+        super.onConfigurationChanged(newConfig);keyboardBackground();refresh()
+    }
+    private fun keyboardBackground() {
+        if(!::root.isInitialized) return
+        val split=keyboard?.let { it.parent===root && it.split }==true
+        val color=KeyboardTheme.colors(prefs).background
+        root.background(color,split)
+        window?.window?.let { AppWindow.keyboard(it,color,split) }
+    }
     private fun dp(value:Int)=(value*resources.displayMetrics.density).toInt()
     private fun renderTool() {
         if(!::root.isInitialized) return
-        root.setBackgroundColor(KeyboardTheme.colors(prefs).background)
         root.removeAllViews();translationBar=null;languagePicker=null
         keyboard?.suggestionsVisible=toolMode!="languages"
         keyboard?.forceLatin=toolMode=="languages"
@@ -275,6 +293,7 @@ class LokeyService : InputMethodService(), KeyboardView.Listener {
                 keyboard?.let { root.addView(it,LinearLayout.LayoutParams(-1,-2)) }
             }
         }
+        keyboardBackground()
     }
     private fun endTool(update:Boolean=true) {
         resetLearning()
@@ -362,7 +381,6 @@ class LokeyService : InputMethodService(), KeyboardView.Listener {
     override fun onStartInputView(info: EditorInfo, restarting: Boolean) {
         super.onStartInputView(info, restarting)
         inputVisible=true
-        val type = info.inputType and InputType.TYPE_MASK_CLASS
         val action = when (info.imeOptions and EditorInfo.IME_MASK_ACTION) {
             EditorInfo.IME_ACTION_SEARCH -> "⌕"
             EditorInfo.IME_ACTION_GO -> tr("Go")
@@ -372,18 +390,27 @@ class LokeyService : InputMethodService(), KeyboardView.Listener {
             else -> "↵"
         }
         editorAction=action
-        keyboard?.editor(type == InputType.TYPE_CLASS_NUMBER || type == InputType.TYPE_CLASS_PHONE, action,
-            inputLayout().automaticCaps && info.inputType and InputType.TYPE_TEXT_FLAG_CAP_SENTENCES != 0 && currentInputConnection?.getCursorCapsMode(info.inputType) != 0)
+        keyboard?.editor(info.inputType,action,inputLayout().automaticCaps &&
+            info.inputType and InputType.TYPE_TEXT_FLAG_CAP_SENTENCES!=0 && currentInputConnection?.getCursorCapsMode(info.inputType)!=0,decimalSeparator(info))
         keyboard?.requestLayout()
-        val colors=KeyboardTheme.colors(prefs)
-        window?.window?.let { AppWindow.keyboard(it,colors.background) }
+        keyboardBackground()
         if(!privateField) captureClipboard()
         if(phonetic()) dictionary().request("") { }
         refresh()
     }
+    private fun decimalSeparator(info:EditorInfo):Char {
+        if(info.inputType and InputType.TYPE_MASK_CLASS!=InputType.TYPE_CLASS_NUMBER ||
+            info.inputType and InputType.TYPE_NUMBER_FLAG_DECIMAL==0) return '.'
+        val locale=info.hintLocales?.get(0) ?: return '.'
+        return java.text.DecimalFormatSymbols.getInstance(locale).decimalSeparator
+    }
+    override fun symbol(text:String) {
+        if(inputLayout().composer=="dead" && toolMode!="languages") {
+            clearDead(true);typeText(text)
+        } else text(text)
+    }
     override fun text(text: String) {
-        val numeric=editor()==null && currentInputEditorInfo?.inputType?.and(InputType.TYPE_MASK_CLASS) in listOf(InputType.TYPE_CLASS_NUMBER,InputType.TYPE_CLASS_PHONE)
-        if(inputLayout().composer=="dead" && toolMode!="languages" && !numeric && text.length==1) {
+        if(inputLayout().composer=="dead" && toolMode!="languages" && !numberField() && text.length==1) {
             if(deadKeys.pending.isNotEmpty() && !validDead()) clearDead()
             val value=deadKeys.input(text)
             if(deadKeys.pending.isNotEmpty()) {
@@ -527,7 +554,7 @@ class LokeyService : InputMethodService(), KeyboardView.Listener {
         if (pending.caret < 0) return
         pendingGlide = pending
         if(displayedPrediction==null) requestedPrediction=null
-        prediction.glide(pending.before, points, centers) { words ->
+        prediction.glide(pending.before,points,centers,keyboard?.suggestionCount ?: 3) { words ->
             if (pendingGlide !== pending) return@glide
             pendingGlide = null
             val expected = pending.before + pending.suffix
@@ -648,12 +675,13 @@ class LokeyService : InputMethodService(), KeyboardView.Listener {
             glideWords = emptyList()
         }
         if (privateField) { keyboard?.prediction(emptyList(), FloatArray(26), false); keyboard?.status(tr("PRIVATE FIELD · PREDICTION PAUSED")); return }
-        if(toolMode in listOf("languages","layouts","clipboard")) { clearPrediction();return }
+        if(numberField() || toolMode in listOf("languages","layouts","clipboard")) { clearPrediction();keyboard?.status("");return }
         val before = connection()?.getTextBeforeCursor(240, 0)?.toString() ?: ""
         val neural=toolMode!="translate"
-        if(requestedPrediction==before && requestedNeural==neural) { keyboard?.status("");return }
-        requestedPrediction=before;requestedNeural=neural;displayedPrediction=null
-        prediction.request(before,neural,inputHint(),learningField(),stable=true) { result ->
+        val limit=keyboard?.suggestionCount ?: 3
+        if(requestedPrediction==before && requestedNeural==neural && requestedSuggestions==limit) { keyboard?.status("");return }
+        requestedPrediction=before;requestedNeural=neural;requestedSuggestions=limit;displayedPrediction=null
+        prediction.request(before,neural,inputHint(),learningField(),stable=true,limit=limit) { result ->
             displayedPrediction=result;keyboard?.prediction(result.words,result.letters,result.letters.any { it>0f },result.language)
         }
         if(displayedPrediction==null) keyboard?.prediction(emptyList(),FloatArray(26),false)
@@ -709,7 +737,7 @@ class LokeyService : InputMethodService(), KeyboardView.Listener {
                 } else message(tr("No speech detected"))
                 refresh()
             }
-        })
+        }, started={ if(recording) feedback.voiceStarted() })
         return true
     }
     override fun cancelVoice() {

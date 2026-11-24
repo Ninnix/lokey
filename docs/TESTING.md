@@ -53,6 +53,9 @@ The runner recognizes LoKey, Gboard and SwiftKey Beta, reports their installed
 versions, and restores the selected input method after each test. For another
 package, use `--keyboards swiftkey --ime PACKAGE/SERVICE`. The benchmark stops
 if its editor loses focus. JSON reports and raw logs go in `artifacts/`.
+Rotate the phone and pass `--orientation landscape` to require a landscape
+run. Choose the keyboard's full-width or split layout before each comparison.
+Use `--output-dir` to save test artifacts to another directory.
 Use the same device, settings, model availability and workloads for before/after
 comparisons; the runner does not normalize keyboard preferences.
 

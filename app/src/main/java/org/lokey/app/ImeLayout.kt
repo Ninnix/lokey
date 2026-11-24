@@ -1,12 +1,28 @@
 package org.lokey.app
 
 import android.content.Context
+import android.graphics.Canvas
+import android.graphics.Paint
 import android.os.Build
 import android.view.WindowInsets
 import android.widget.LinearLayout
 
 class ImeLayout(context:Context):LinearLayout(context) {
-    init { orientation=VERTICAL }
+    private val fill=Paint()
+    private var split=false
+    init { orientation=VERTICAL;setWillNotDraw(false) }
+    fun background(color:Int,split:Boolean) {
+        fill.color=color;this.split=split;invalidate()
+    }
+    override fun onDraw(canvas:Canvas) {
+        if(!split) canvas.drawColor(fill.color)
+        else {
+            val bottom=(height-paddingBottom).toFloat()
+            canvas.drawRect(0f,0f,paddingLeft.toFloat(),bottom,fill)
+            canvas.drawRect((width-paddingRight).toFloat(),0f,width.toFloat(),bottom,fill)
+            canvas.drawRect(0f,bottom,width.toFloat(),height.toFloat(),fill)
+        }
+    }
     override fun onApplyWindowInsets(insets:WindowInsets):WindowInsets {
         val left:Int;val right:Int;val bottom:Int
         if(Build.VERSION.SDK_INT>=30) {

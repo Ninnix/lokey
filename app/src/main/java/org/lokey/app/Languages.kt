@@ -37,7 +37,7 @@ class Languages(private val context: Context) {
                 Entry(line.substring(0, first), line.substring(first + 1, last).toLong(), line.substring(last + 1))
             }.toList()
         }
-        val forms=when(code) { "en" -> englishForms;"it" -> listOf("c'è","com'è","dov'è");else -> emptyList() }
+        val forms=when(code) { "en" -> englishForms+listOf("wasm","jinja");"it" -> listOf("c'è","com'è","dov'è");else -> emptyList() }
         val counts=common.associate { it.word to it.count }
         val additions=forms.map { word -> Entry(word,((counts[word.substringBefore('\'')] ?: 40000)/4).coerceAtLeast(1000),fold(word)) }
         val entries=(common+additions).distinctBy { it.word }.filter { valid(it.word) && (code!="en" || it.word.length>1 || it.word in listOf("a","i")) }.sortedByDescending { it.count }
@@ -172,11 +172,11 @@ class Languages(private val context: Context) {
         val fixed=when(language.code) { "en" -> englishAlternatives[lower(word)];"it" -> italianAlternatives[lower(word)];else -> null } ?: return null
         return Spelling(word,casing(fixed,word,language.code),false)
     }
-    fun spelling(result:Prediction.Result,autocorrect:Boolean):Prediction.Result {
+    fun spelling(result:Prediction.Result,autocorrect:Boolean,limit:Int=3):Prediction.Result {
         val language=all.firstOrNull { it.code==result.language } ?: return result
         val form=result.spelling ?: spelling(language,result.before) ?: return result
         val rest=result.words.filterNot { it.equals(form.word,true) }
-        val words=if(form.automatic) (listOf(form.word)+rest).take(3) else rest.take(2)+form.word
+        val words=if(form.automatic) (listOf(form.word)+rest).take(limit) else rest.take(limit-1)+form.word
         return result.copy(words=words,correction=if(autocorrect && form.automatic) form.word else null,
             appendWords=result.appendWords.intersect(words.toSet())-form.word,spelling=form)
     }

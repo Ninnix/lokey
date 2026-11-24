@@ -76,6 +76,7 @@ class TypingActivity:Activity() {
             }
             override fun onCreateInputConnection(info:EditorInfo):InputConnection? {
                 val base=super.onCreateInputConnection(info) ?: return null
+                info.imeOptions=info.imeOptions or EditorInfo.IME_FLAG_NO_EXTRACT_UI or EditorInfo.IME_FLAG_NO_FULLSCREEN
                 return object:InputConnectionWrapper(base,false) {
                     override fun getTextBeforeCursor(n:Int,flags:Int):CharSequence? { read("before");return super.getTextBeforeCursor(n,flags) }
                     override fun getTextAfterCursor(n:Int,flags:Int):CharSequence? { read("after");return super.getTextAfterCursor(n,flags) }

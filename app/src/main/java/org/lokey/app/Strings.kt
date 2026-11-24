@@ -246,6 +246,7 @@ object Strings {
         "Keyboard layout: %1\$s" to R.string.ui_keyboard_layout_1_s,
         "Keyboard simulator recording license" to R.string.ui_keyboard_simulator_recording_license,
         "Keyboard size" to R.string.ui_keyboard_size,
+        "Split keyboard in landscape" to R.string.ui_split_keyboard_in_landscape,
         "Keyboard themes" to R.string.ui_keyboard_themes,
         "Keyboard themes, images, and colors." to R.string.ui_keyboard_themes_images_and_colors,
         "Keys" to R.string.ui_keys,

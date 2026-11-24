@@ -135,7 +135,7 @@ class UsageLearning internal constructor(context:Context,private val alias:Strin
         val boost=(1.5*weight).coerceIn(0.0,3.0)
         return score.isFinite() && best.isFinite() && boost>0 && score+boost>=best
     }
-    fun personalize(result:Prediction.Result,scope:String):Prediction.Result=synchronized(lock) {
+    fun personalize(result:Prediction.Result,scope:String,limit:Int=3):Prediction.Result=synchronized(lock) {
         if(prefs.learning && !ready) prepare()
         if(!prefs.learning || !ready) return result
         val prefix=Languages.prefix(result.before)
@@ -148,14 +148,14 @@ class UsageLearning internal constructor(context:Context,private val alias:Strin
         val personal=(learned.firstOrNull() ?: nearby.firstOrNull())?.first?.let { Languages.casing(it,prefix,result.language) }
         // Keep the candidate set; only bounded, context-supported frequency can change neural order.
         var words=when {
-            fixed!=null -> (listOf(fixed)+result.words).distinctBy { Languages.lower(it) }.take(3)
+            fixed!=null -> (listOf(fixed)+result.words).distinctBy { Languages.lower(it) }.take(limit)
             personal==null -> result.words
             result.neural || append -> if(result.words.any { it.equals(personal,true) })
-                result.words.map { if(it.equals(personal,true)) personal else it } else result.words.take(2)+personal
-            else -> (listOf(personal)+result.words).distinctBy { Languages.lower(it) }.take(3)
+                result.words.map { if(it.equals(personal,true)) personal else it } else result.words.take(limit-1)+personal
+            else -> (listOf(personal)+result.words).distinctBy { Languages.lower(it) }.take(limit)
         }
         if(fixed==null && personal!=null && learned.isNotEmpty() && promote(result,personal,learned.first().second))
-            words=(listOf(personal)+words.filterNot { it.equals(personal,true) }).take(3)
+            words=(listOf(personal)+words.filterNot { it.equals(personal,true) }).take(limit)
         val prior=AdaptiveKeys.probabilities(prefix,learned)
         val hasPrior=prior.any { it>0 }
         val hasBase=result.letters.any { it>0 }

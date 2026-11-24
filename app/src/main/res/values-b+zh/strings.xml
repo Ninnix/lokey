@@ -520,4 +520,5 @@
     <string name="ui_sucheng">"速成·Sucheng"</string>
     <string name="ui_hangul">"한국어·韩文"</string>
     <string name="ui_korean">"한국어·韩语"</string>
+    <string name="ui_split_keyboard_in_landscape">"横屏时拆分键盘"</string>
 </resources>

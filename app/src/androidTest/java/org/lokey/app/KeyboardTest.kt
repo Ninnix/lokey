@@ -13,6 +13,7 @@ import java.nio.ByteOrder
 
 class KeyboardTest : Instrumentation() {
     private var mode = "all"
+    private var feelLocale:String?=null
     private var speechModel:String?=null
     private var accelerator=0
     private var speechAccelerator=0
@@ -41,6 +42,7 @@ class KeyboardTest : Instrumentation() {
         super.onCreate(arguments)
         arguments?.getString("layout")?.let { Prefs(targetContext).layout=it }
         speechModel=arguments?.getString("speech_model")
+        feelLocale=arguments?.getString("feel_locale")
         accelerator=when(arguments?.getString("accelerator")) { "cpu" -> 1;"hexagon" -> 2;else -> 0 }
         speechAccelerator=when(arguments?.getString("speech_accelerator")) { "cpu" -> 1;"decoder" -> 2;"hexagon" -> 3;else -> 0 }
         mode=arguments?.getString("mode") ?: "all";start()
@@ -70,6 +72,7 @@ class KeyboardTest : Instrumentation() {
             if(mode=="speedui") report.put("speedui",speedUiTest())
             if(mode=="layouts") report.put("layouts",LayoutChecks.run(this,targetContext))
             if(mode=="intl") report.put("intl",LayoutChecks.intl(this,targetContext))
+            if(mode=="panels") report.put("panels",PanelChecks.run(this,targetContext))
             if(mode=="labels") report.put("labels",LabelChecks.run(this,targetContext))
             if(mode=="local") report.put("local",LocalChecks.run(this,targetContext))
             if(mode=="typingfeatures") report.put("typingfeatures",TypingFeatureChecks.run(this,targetContext))
@@ -102,7 +105,7 @@ class KeyboardTest : Instrumentation() {
             if(mode=="setup") report.put("setup",SetupChecks.run(this,targetContext))
             if(mode=="languagemap") report.put("languagemap",LanguageMapChecks.run(targetContext))
             if(mode=="localization") report.put("localization",LocaleChecks.run(this,targetContext))
-            if(mode=="feel") report.put("feel",LocaleChecks.feel(this,targetContext))
+            if(mode=="feel") report.put("feel",LocaleChecks.feel(this,targetContext,feelLocale))
             if(mode=="privacy") report.put("privacy",PrivacyChecks.run(this,targetContext))
             if (mode == "all" || mode == "interaction") report.put("interaction", interactionTest())
             if (mode == "all" || mode == "flow") report.put("flow", flowTest())
@@ -296,9 +299,32 @@ class KeyboardTest : Instrumentation() {
             val primitives = if (android.os.Build.VERSION.SDK_INT >= 31)
                 vibrator.arePrimitivesSupported(android.os.VibrationEffect.Composition.PRIMITIVE_LOW_TICK,
                     android.os.VibrationEffect.Composition.PRIMITIVE_TICK, android.os.VibrationEffect.Composition.PRIMITIVE_CLICK).toList() else emptyList()
+            val effects=Feedback::class.java.getDeclaredField("effects").apply { isAccessible=true }.get(feedback) as Map<*,*>
+            val pressEffects=effects.values.map { it.toString() }.distinct().size
+            check(pressEffects>1)
+            if(primitives.size==3 && primitives.all { it }) check(pressEffects==available.size)
+            check(effects.keys.none { it.toString().contains(":false:") })
+            val nativeTaps=android.os.Build.VERSION.SDK_INT>=30 && vibrator.areAllEffectsSupported(
+                android.os.VibrationEffect.EFFECT_TICK,android.os.VibrationEffect.EFFECT_CLICK,
+                android.os.VibrationEffect.EFFECT_HEAVY_CLICK)==android.os.Vibrator.VIBRATION_EFFECT_SUPPORT_YES
+            val fallback=if(nativeTaps && primitives.any { it }) {
+                val support=Feedback::class.java.getDeclaredField("primitives").apply { isAccessible=true }.get(feedback) as BooleanArray
+                val originalSupport=support.copyOf()
+                try {
+                    support.fill(false);prefs.vibration=46
+                    for(profile in available) {
+                        prefs.switchId=profile.id
+                        runOnMainSync { feedback!!.tap("a",audible=false) }
+                    }
+                    effects.filterKeys { it.toString().endsWith(":true:46") }.values.map { it.toString() }.distinct().size
+                } finally { originalSupport.copyInto(support) }
+            } else if(nativeTaps) pressEffects else null
+            check(fallback==null || fallback>=3)
             return JSONObject().put("profiles", profiles).put("low_tick_tick_click_supported", JSONArray(primitives))
                 .put("system_taps", feedback!!.usesSystemTaps)
                 .put("amplitude_control", vibrator.hasAmplitudeControl())
+                .put("distinct_press_effects",pressEffects)
+                .put("distinct_preset_effects",fallback)
         } finally {
             prefs.switchId = original; prefs.soundEnabled = enabled; prefs.vibration = strength; prefs.returnHaptics = returnHaptics
             runOnMainSync { feedback?.close() }
@@ -408,7 +434,15 @@ class KeyboardTest : Instrumentation() {
 
             holdKey(10); check(typed.endsWith("q")) { "A letter without accents inserted a symbol: $typed" }
             tap(54f, 264 * unit)
-            holdKey(10); check(typed.endsWith("!")) { "Symbol page changed its punctuation: $typed" }
+            for(mark in listOf("!", "?")) {
+                var id=-1
+                runOnMainSync {
+                    id=generateSequence(0) { it+1 }.map { it to view.accessibilityNodeProvider.createAccessibilityNodeInfo(it) }
+                        .takeWhile { it.second!=null }.first { it.second!!.contentDescription.toString().substringBefore(",")==mark }.first
+                }
+                tapKey(id)
+            }
+            check(typed.endsWith("!?")) { "Symbol page did not enter punctuation: $typed" }
             tap(54f, 264 * unit)
             result.put("symbol_page_preserved", true)
             val spaceX = view.width * 0.49f

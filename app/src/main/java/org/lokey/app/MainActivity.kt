@@ -239,30 +239,34 @@ class MainActivity : Activity() {
             if(soundStatus.text.toString()!=status) soundStatus.text=status
         }
         val haptics=card()
+        val systemTaps=feedback?.usesSystemTaps==true
+        var strengthSlider:SeekBar?=null
         val returnToggle=setting(tr("Haptic return on release"),prefs.vibration>0 && prefs.returnHaptics,FeelIcon.Kind.Return) { enabled ->
             if(prefs.vibration>0 && enabled!=prefs.returnHaptics) { prefs.returnHaptics=enabled;feedback?.preview() }
         }
-        fun syncReturn() {
-            returnToggle.isEnabled=prefs.vibration>0
-            returnToggle.isChecked=returnToggle.isEnabled && prefs.returnHaptics
+        fun syncHaptics() {
+            val enabled=prefs.vibration>0
+            returnToggle.isEnabled=enabled
+            returnToggle.isChecked=enabled && prefs.returnHaptics
+            strengthSlider?.let { it.isEnabled=enabled;it.alpha=if(enabled) 1f else .5f }
         }
-        if(feedback?.usesSystemTaps==true) {
+        haptics.addView(setting(tr("Haptics"),prefs.vibration>0,FeelIcon.Kind.Haptics) { enabled ->
+            prefs.vibration=if(!enabled) 0 else if(systemTaps) prefs.hapticWeight else prefs.hapticStrength
+            syncHaptics()
+            if(enabled) feedback?.preview()
+        })
+        if(systemTaps) {
             val values=listOf(15,45,85)
             val weight=prefs.hapticWeight
-            haptics.addView(setting(tr("Haptics"),prefs.vibration>0,FeelIcon.Kind.Haptics) { enabled ->
-                prefs.vibration=if(enabled) prefs.hapticWeight else 0
-                syncReturn()
-                if(enabled) feedback?.preview()
-            })
             haptics.addView(text(tr("Haptic weight"),15f,bold=true).apply { setPadding(0,0,0,dp(8)) })
             haptics.addView(segments(listOf(tr("Light"),tr("Balanced"),tr("Firm")),values.indexOf(weight)) { index ->
                 if(prefs.vibration>0) { prefs.vibration=values[index];feedback?.preview() }
                 else prefs.hapticWeight=values[index]
             })
-        } else slider(haptics,tr("Haptic strength"),prefs.vibration,0,100,FeelIcon.Kind.Haptics) {
-            prefs.vibration=it;syncReturn();feedback?.preview()
+        } else strengthSlider=slider(haptics,tr("Haptic strength"),prefs.hapticStrength,1,100) {
+            prefs.vibration=it;feedback?.preview()
         }
-        syncReturn()
+        syncHaptics()
         haptics.addView(returnToggle)
         content.addView(button(tr("Input & design credits")) {
             startActivity(Intent(this,CreditsActivity::class.java).putExtra("section","input"))
@@ -271,6 +275,7 @@ class MainActivity : Activity() {
         card().apply {
             slider(this,tr("Keyboard height"),prefs.height,85,120) { prefs.height=it }
             addView(text(tr("Hold the top edge of the keyboard and drag to resize while typing."),13f,muted))
+            addView(setting(tr("Split keyboard in landscape"),prefs.splitLandscape) { prefs.splitLandscape=it })
         }
         section(tr("Typing features"))
         card().apply {

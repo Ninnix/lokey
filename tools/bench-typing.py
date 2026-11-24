@@ -18,6 +18,9 @@ def main():
     parser.add_argument('--adb', default=str(Path(os.environ.get('ANDROID_HOME', Path.home() / 'Android/Sdk')) / 'platform-tools/adb'))
     parser.add_argument('--serial')
     parser.add_argument('--label', default='typing')
+    parser.add_argument('--output-dir', type=Path, default=Path('artifacts'))
+    parser.add_argument('--orientation', choices=['portrait', 'landscape'],
+                        help='Require this orientation in the benchmark editor.')
     parser.add_argument('--keyboards', nargs='+', choices=KEYBOARDS, default=list(KEYBOARDS))
     parser.add_argument('--intervals', nargs='+', type=int, default=[80, 40, 24])
     parser.add_argument('--rounds', type=int, default=3)
@@ -32,11 +35,12 @@ def main():
     def run(*command, timeout=60):
         return subprocess.check_output(adb + list(command), timeout=timeout).decode()
 
-    out = Path('artifacts')
-    out.mkdir(exist_ok=True)
+    out = args.output_dir
+    out.mkdir(parents=True, exist_ok=True)
     device = run('shell', 'getprop', 'ro.product.model').strip()
     installed = run('shell', 'ime', 'list', '-a', '-s').splitlines()
     report = {'device': device, 'terminal': args.terminal, 'read_delay_ms': args.read_delay_ms, 'results': []}
+    orientation = ['-e', 'orientation', args.orientation] if args.orientation else []
     for name in args.keyboards:
         ime = args.ime or KEYBOARDS[name]
         if ime not in installed:
@@ -49,7 +53,7 @@ def main():
             log = run('shell', 'am', 'instrument', '-w', '-e', 'ime', ime,
                       '-e', 'terminal', str(args.terminal).lower(), '-e', 'read_delay_ms', str(args.read_delay_ms),
                       '-e', 'interval_ms', str(interval), '-e', 'rounds', str(args.rounds),
-                      'org.lokey.benchmark/.TypingBenchmark', timeout=180)
+                      *orientation, 'org.lokey.benchmark/.TypingBenchmark', timeout=180)
             stem = f'{args.label}-{name}-{interval}'
             (out / f'{stem}.log').write_text(log)
             raw = next((line.split('results=', 1)[1] for line in log.splitlines()

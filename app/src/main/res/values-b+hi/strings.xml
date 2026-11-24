@@ -520,4 +520,5 @@
     <string name="ui_sucheng">"速成 · Sucheng"</string>
     <string name="ui_hangul">"한국어 · हंगुल"</string>
     <string name="ui_korean">"한국어 · कोरियाई"</string>
+    <string name="ui_split_keyboard_in_landscape">"लैंडस्केप मोड में कीबोर्ड बाँटें"</string>
 </resources>

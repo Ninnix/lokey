@@ -20,9 +20,14 @@ class Feedback(private val context: Context, private val prefs: Prefs) {
     private val primitives = if (Build.VERSION.SDK_INT >= 31) vibrator?.arePrimitivesSupported(
         VibrationEffect.Composition.PRIMITIVE_LOW_TICK, VibrationEffect.Composition.PRIMITIVE_TICK,
         VibrationEffect.Composition.PRIMITIVE_CLICK) ?: BooleanArray(3) else BooleanArray(3)
-    val usesSystemTaps = Build.VERSION.SDK_INT >= 30 && !primitives.all { it } && vibrator?.areEffectsSupported(
+    private val nativeTaps = Build.VERSION.SDK_INT >= 30 && vibrator?.areEffectsSupported(
         VibrationEffect.EFFECT_TICK, VibrationEffect.EFFECT_CLICK, VibrationEffect.EFFECT_HEAVY_CLICK
     )?.all { it == Vibrator.VIBRATION_EFFECT_SUPPORT_YES } == true
+    private val doubleClick = Build.VERSION.SDK_INT >= 30 &&
+        vibrator?.areAllEffectsSupported(VibrationEffect.EFFECT_DOUBLE_CLICK)==Vibrator.VIBRATION_EFFECT_SUPPORT_YES
+    private val samsung=Build.MANUFACTURER.equals("samsung",true)
+    val usesSystemTaps=Build.VERSION.SDK_INT>=29 && primitives.none { it } && (nativeTaps || !amplitudeControl)
+    private val touchAttributes=if(Build.VERSION.SDK_INT>=33) VibrationAttributes.createForUsage(VibrationAttributes.USAGE_TOUCH) else null
     private val audio = context.getSystemService(AudioManager::class.java)
     private val main = Handler(Looper.getMainLooper())
     private val sounds = SoundPool.Builder().setMaxStreams(12).setAudioAttributes(AudioAttributes.Builder()
@@ -66,63 +71,86 @@ class Feedback(private val context: Context, private val prefs: Prefs) {
         "." -> "period"; "," -> "comma"
         else -> if (key.length == 1 && key[0].isLetterOrDigit()) key.lowercase() else key.ifEmpty { "a" }
     }
+    private fun preset(profile:String,down:Boolean,strength:Int):Int {
+        if(down && doubleClick && profile=="kailh_box_jade" && strength>20) return VibrationEffect.EFFECT_DOUBLE_CLICK
+        val base=when {
+            !down || profile in listOf("cherry_red","topre") -> 0
+            profile in listOf("cherry_blue","holy_panda","kailh_box_jade") -> 2
+            else -> 1
+        }
+        val adjustment=when { !down -> 0;strength<=20 -> -1;strength>=66 -> 1;else -> 0 }
+        return when((base+adjustment).coerceIn(0,2)) {
+            0 -> VibrationEffect.EFFECT_TICK
+            1 -> VibrationEffect.EFFECT_CLICK
+            else -> VibrationEffect.EFFECT_HEAVY_CLICK
+        }
+    }
+    private fun primitiveIndex(primitive:Int)=when(primitive) {
+        VibrationEffect.Composition.PRIMITIVE_LOW_TICK -> 0
+        VibrationEffect.Composition.PRIMITIVE_TICK -> 1
+        else -> 2
+    }
     @SuppressLint("WrongConstant")
     private fun effect(profile: String, down: Boolean, strength: Int): VibrationEffect {
         val identity = "$profile:$down:$strength"
         return effects.getOrPut(identity) {
             val pulses = Switches.pulses(profile, down)
             val gain = (strength / 50f).coerceIn(0f, 2f)
-            if (Build.VERSION.SDK_INT >= 30 && usesSystemTaps) {
-                val base = when { !down -> 0; profile in listOf("cherry_red","topre") -> 0; profile in listOf("cherry_blue","holy_panda","kailh_box_jade") -> 2; else -> 1 }
-                val adjustment = if (!down) 0 else if (strength <= 20) -1 else if (strength >= 66) 1 else 0
-                val preset = when ((base + adjustment).coerceIn(0, 2)) {
-                    0 -> VibrationEffect.EFFECT_TICK
-                    1 -> VibrationEffect.EFFECT_CLICK
-                    else -> VibrationEffect.EFFECT_HEAVY_CLICK
-                }
-                return@getOrPut VibrationEffect.createPredefined(preset)
-            }
-            val supported = pulses.all { primitives[when (it.primitive) {
-                VibrationEffect.Composition.PRIMITIVE_LOW_TICK -> 0
-                VibrationEffect.Composition.PRIMITIVE_TICK -> 1
-                else -> 2
-            }] }
-            if (Build.VERSION.SDK_INT >= 31 && supported) {
+            if(Build.VERSION.SDK_INT>=31 && pulses.all { primitives[primitiveIndex(it.primitive)] }) {
+                // The Galaxy A54's low tick is faint at the default scale.
+                val weight=strength/100f
+                val min=if(down) .4f+.26f*weight else .08f+.22f*weight
+                val max=if(down) .7f+.3f*weight else .30f+.25f*weight
                 val composition = VibrationEffect.startComposition()
-                pulses.forEach { composition.addPrimitive(it.primitive, (it.scale * gain).coerceAtMost(1f), it.delay) }
-                composition.compose()
-            } else {
-                if (!amplitudeControl && Build.VERSION.SDK_INT >= 29) {
-                    VibrationEffect.createPredefined(if (down && profile == "cherry_blue") VibrationEffect.EFFECT_CLICK else VibrationEffect.EFFECT_TICK)
-                } else {
-                    val times: LongArray
-                    val levels: IntArray
-                    if (!down) {
-                        times = longArrayOf(0, 1, 2, 2, 2); levels = intArrayOf(0, 0, 60, 24, 0)
-                    } else if (profile.endsWith("brown")) {
-                        times = longArrayOf(0, 1, 2, 1, 2, 2, 2, 2)
-                        levels = if (profile == "gateron_brown") intArrayOf(0, 0, 150, 50, 0, 70, 35, 0)
-                            else intArrayOf(0, 0, 200, 65, 0, 105, 45, 0)
-                    } else if (profile == "cherry_blue") {
-                        times = longArrayOf(0, 1, 2, 1, 1, 2, 2, 2); levels = intArrayOf(0, 0, 250, 80, 0, 170, 50, 0)
-                    } else {
-                        times = longArrayOf(0, 1, 2, 2, 2, 2); levels = intArrayOf(0, 0, 45, 115, 55, 0)
-                    }
-                    // Returning to zero lets the motor brake instead of ringing after each tap.
-                    VibrationEffect.createWaveform(times, levels.map { (it * gain).roundToInt().coerceIn(0, 255) }.toIntArray(), -1)
+                for(pulse in pulses) {
+                    val scale=if(samsung) min+(max-min)*pulse.scale else (pulse.scale*gain).coerceAtMost(1f)
+                    composition.addPrimitive(pulse.primitive,scale,pulse.delay)
                 }
+                return@getOrPut composition.compose()
             }
+            if(Build.VERSION.SDK_INT>=29 && (nativeTaps || !amplitudeControl))
+                return@getOrPut VibrationEffect.createPredefined(preset(profile,down,strength))
+            if(!amplitudeControl) {
+                val times=LongArray(pulses.size*2)
+                for((i,pulse) in pulses.withIndex()) {
+                    times[2*i]=if(i==0) 0 else maxOf(9,pulse.delay).toLong()
+                    times[2*i+1]=(8+strength/12+(pulse.scale*8).roundToInt()).toLong()
+                }
+                return@getOrPut VibrationEffect.createWaveform(times,-1)
+            }
+            val times=LongArray(pulses.size*3)
+            val levels=IntArray(times.size)
+            for((i,pulse) in pulses.withIndex()) {
+                val index=i*3
+                val level=(pulse.scale*gain*255).roundToInt().coerceIn(1,255)
+                times[index]=pulse.delay.toLong()
+                times[index+1]=when(primitiveIndex(pulse.primitive)) { 0 -> 6;1 -> 8;else -> 10 }
+                times[index+2]=5
+                levels[index+1]=level
+                levels[index+2]=level/3
+            }
+            VibrationEffect.createWaveform(times,levels,-1)
         }
+    }
+    private fun vibrate(effect:VibrationEffect) {
+        if(Build.VERSION.SDK_INT>=33 && touchAttributes!=null) vibrator?.vibrate(effect,touchAttributes)
+        else vibrator?.vibrate(effect)
+    }
+    fun voiceStarted() {
+        val strength=prefs.vibration
+        if(closed || strength==0) return
+        val effect=if(Build.VERSION.SDK_INT>=29) VibrationEffect.createPredefined(when {
+            strength<=20 -> VibrationEffect.EFFECT_TICK
+            strength>=66 -> VibrationEffect.EFFECT_HEAVY_CLICK
+            else -> VibrationEffect.EFFECT_CLICK
+        }) else VibrationEffect.createOneShot(20,VibrationEffect.DEFAULT_AMPLITUDE)
+        vibrate(effect)
     }
     fun tap(key: String = "a", down: Boolean = true, audible: Boolean = true): Int {
         if (closed) return 0
         val profile = prefs.switchId
-        if (prefs.vibration > 0 && (down || prefs.returnHaptics)) {
-            val effect = effect(profile, down, prefs.vibration)
-            if (Build.VERSION.SDK_INT >= 33) vibrator?.vibrate(effect,
-                VibrationAttributes.Builder().setUsage(VibrationAttributes.USAGE_TOUCH).build())
-            else vibrator?.vibrate(effect)
-        }
+        val strength=prefs.vibration
+        if(strength>0 && (down || prefs.returnHaptics)) vibrate(effect(profile,down,strength))
         if (key == "hold" || !audible || !prefs.soundEnabled || audio.ringerMode != AudioManager.RINGER_MODE_NORMAL) return 0
         val name = keyName(key)
         val config=Switches.profiles.firstOrNull { it.id==profile }

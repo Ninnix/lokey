@@ -66,9 +66,13 @@ class Prefs(context: Context) {
         set(value) {
             val strength=if(value>0) value else vibration
             store.edit().putInt("vibration",value).apply {
-                if(strength>0) putInt("haptic_weight",vibrationWeight(strength))
+                if(strength>0) {
+                    putInt("haptic_weight",vibrationWeight(strength))
+                    putInt("haptic_strength",strength)
+                }
             }.apply()
         }
+    val hapticStrength get()=vibration.takeIf { it>0 } ?: store.getInt("haptic_strength",30)
     var hapticWeight:Int
         get() = vibration.let { if(it>0) vibrationWeight(it) else store.getInt("haptic_weight",45) }
         set(value) { store.edit().putInt("haptic_weight",value).apply() }
@@ -151,6 +155,9 @@ class Prefs(context: Context) {
     var height: Int
         get() = store.getInt("height", 100)
         set(value) { store.edit().putInt("height", value).apply() }
+    var splitLandscape:Boolean
+        get()=store.getBoolean("split_landscape",false)
+        set(value) { store.edit().putBoolean("split_landscape",value).apply() }
     var model: String
         get() = store.getString("model", "auto")!!
         set(value) { store.edit().putString("model", value).apply() }

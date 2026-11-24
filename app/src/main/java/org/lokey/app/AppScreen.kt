@@ -1,6 +1,8 @@
 package org.lokey.app
 
 import android.app.Activity
+import android.graphics.Color
+import android.graphics.PixelFormat
 import android.graphics.Typeface
 import android.graphics.Rect
 import android.graphics.drawable.ColorDrawable
@@ -47,8 +49,10 @@ object AppWindow {
         icons(window,light)
         root.post { icons(window,light);root.requestApplyInsets() }
     }
-    fun keyboard(window:Window,color:Int) {
-        window.setBackgroundDrawable(ColorDrawable(color));icons(window,KeyboardTheme.light(color),false)
+    fun keyboard(window:Window,color:Int,split:Boolean) {
+        window.setBackgroundDrawable(ColorDrawable(if(split) Color.TRANSPARENT else color))
+        window.setFormat(if(split) PixelFormat.TRANSLUCENT else PixelFormat.UNKNOWN)
+        icons(window,KeyboardTheme.light(color),false)
     }
 }
 

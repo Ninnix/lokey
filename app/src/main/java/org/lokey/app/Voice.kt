@@ -37,7 +37,7 @@ class Voice(private val context: Context) {
         worker.execute { synchronized(speechLock) { try { if(Models.ready(context,model)) load(model) } catch(_:Exception) { } } }
     }
     @SuppressLint("MissingPermission")
-    fun start(level: (Float, Long) -> Unit, complete: (String?, String?) -> Unit) {
+    fun start(level: (Float, Long) -> Unit, complete: (String?, String?) -> Unit, started:()->Unit={}) {
         if (active) return
         active = true
         paused = false
@@ -56,7 +56,13 @@ class Voice(private val context: Context) {
                 val buffer = ShortArray(800)
                 var count = 0
                 var running=false
-                if (active && ticket == generation) { recorder.startRecording();running=true;prepare() }
+                if(active && ticket==generation) {
+                    recorder.startRecording()
+                    check(recorder.recordingState==AudioRecord.RECORDSTATE_RECORDING) { context.tr("Cannot open microphone") }
+                    running=true
+                    main.post { if(active && ticket==generation) started() }
+                    prepare()
+                }
                 while (active && ticket == generation && count < samples.size - buffer.size) {
                     if(paused) {
                         if(running) { recorder.stop();running=false }

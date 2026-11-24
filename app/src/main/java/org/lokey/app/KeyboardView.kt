@@ -2,10 +2,12 @@ package org.lokey.app
 
 import android.animation.ValueAnimator
 import android.content.Context
+import android.content.res.Configuration
 import android.graphics.*
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.text.InputType
 import android.view.MotionEvent
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
@@ -19,6 +21,7 @@ import kotlin.math.roundToInt
 class KeyboardView(context: Context, private val prefs: Prefs, private val listener: Listener) : View(context) {
     interface Listener {
         fun text(text: String)
+        fun symbol(text: String) = text(text)
         fun delete()
         fun enter()
         fun cursor(delta: Int)
@@ -32,10 +35,12 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
         fun tool(name:String) { }
         fun moreCandidates() { }
     }
-    data class Key(val label: String, val alternate: String, val weight: Float = 1f, val code: String = label, val rect: RectF = RectF(), var row:Int=0,val native:Boolean=false,val custom:CustomLayouts.Key?=null,val anchor:RectF=RectF())
+    data class Key(val label: String, val alternate: String, val weight: Float = 1f, val code: String = label, val rect: RectF = RectF(), var row:Int=0,val native:Boolean=false,val custom:CustomLayouts.Key?=null,val anchor:RectF=RectF(),val menu:List<String> = emptyList())
     private data class Touch(val key: Key, val startX: Float, val startY: Float, var x: Float, var held: Boolean = false, var cursor: Boolean = false, var choice: Int = -1, var recording: Boolean = false, var stopping: Boolean = false, var flick: String? = null, var glide: Boolean = false, var committed:Boolean=false, val trace: MutableList<Glide.Point> = ArrayList(), val centers: Map<Char, Glide.Point> = emptyMap())
     private val main = Handler(Looper.getMainLooper())
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG)
+    private val panelShape=Path()
+    private val panelCorners=FloatArray(8)
     private val textBounds=Rect()
     private val labelArea=RectF()
     private val regularFont = Typeface.create("sans-serif", Typeface.NORMAL)
@@ -56,7 +61,17 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
     private var toolsOpen=false
     private val toolBounds=Array(2) { RectF() }
     private var symbolPage = false
-    private var numeric = false
+    private var inputType = InputType.TYPE_CLASS_TEXT
+    private val inputClass get()=inputType and InputType.TYPE_MASK_CLASS
+    private val numeric get()=inputClass==InputType.TYPE_CLASS_NUMBER || inputClass==InputType.TYPE_CLASS_PHONE
+    private var decimal = '.'
+    private val landscape get()=resources.configuration.orientation==Configuration.ORIENTATION_LANDSCAPE
+    val split get()=landscape && !numeric && prefs.splitLandscape && previewLayout==null &&
+        previewTheme==null && previewDesign==null && selectPreview==null && chooseKey==null
+    val suggestionCount get()=if(split) 4 else 3
+    private var splitEdge=0f
+    private var numberInset=0f
+    private fun inSplitGap(x:Float)=splitEdge>0f && x>=splitEdge && x<width-splitEdge
     private var enterLabel = "↵"
     private var probabilities = FloatArray(26)
     var adaptiveInput=true
@@ -71,7 +86,13 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
     var previewLayout:KeyboardLayouts.Layout?=null
     private val layout get()=previewLayout ?: if(forceLatin) KeyboardLayouts.find("qwerty") else prefs.currentLayout
     private val flowEnabled get()=!rawInput && prefs.flow && layout.flow
-    private fun punctuation(value:String)=if(numeric) value else layout.punctuation(value)
+    private fun punctuation(value:String)=layout.punctuation(value)
+    private fun nativeDigit(digit:Char):String? {
+        val zero=when(layout.behaviorId) {
+            "arabic" -> '٠';"persian" -> '۰';"hindi","bolnagri","hindi_phonetic" -> '०';"thai" -> '๐';else -> return null
+        }
+        return (zero+digit.digitToInt()).toString()
+    }
     private fun customOutput(key:CustomLayouts.Key):String {
         if(!shift && !caps) return key.primary
         return layout.shifted[key.primary] ?: if(layout.cased) key.primary.uppercase(java.util.Locale.forLanguageTag(if(layout.behaviorId=="turkish") "tr" else "und")) else key.primary
@@ -82,8 +103,9 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
         if(layout.composer=="dead") return emptyList()
         return if(layout.latin && !layout.phonetic) code.singleOrNull()?.let { LatinAccents.options(it,accentLanguage ?: prefs.setupLanguage) }.orEmpty() else emptyList()
     }
-    private fun secondaryLabel(key:Key)=key.custom?.secondary?.joinToString(" ") ?: if(layout.composer=="dead" && !numeric) layout.variants(key.code).joinToString(" ").ifEmpty { key.alternate } else key.alternate
-    private fun symbolHints(key:Key)=key.custom==null && layout.composer=="dead" && !numeric && key.code.length==1 && key.code!=","
+    private fun secondaryLabel(key:Key)=key.custom?.secondary?.joinToString(" ") ?: if(layout.composer=="dead" && !numeric && !symbols) layout.variants(key.code).joinToString(" ").ifEmpty { key.alternate } else key.alternate
+    private fun symbolHints(key:Key)=key.custom==null && layout.composer=="dead" && !numeric && !symbols && key.code.length==1 && key.code!=","
+    private fun period(key:Key)=!numeric && key.custom==null && !key.native && key.code=="."
     private fun fitSize(text:String,size:Float,available:Float):Float {
         paint.textSize=dp(size);paint.typeface=regularFont
         return min(size,size*available.coerceAtLeast(1f)/paint.measureText(text).coerceAtLeast(1f))
@@ -104,11 +126,13 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
         area.set(key.rect.left+dp(3f),key.rect.top+dp(3f),key.rect.right-dp(3f),key.rect.top+key.rect.height()*.36f-dp(2f))
     }
     private fun units()=293f+(if(numeric || symbols) 0 else if(layout.keyRows.isNotEmpty()) layout.keyRows.size-5 else layout.rows.size-3)*48
-    private fun baseHeight()=(if(resources.configuration.screenWidthDp>resources.configuration.screenHeightDp) 260f else 325f)*units()/325f
-    var suggestionsVisible=true
+    private fun baseHeight()=(if(landscape) 260f else 325f)*units()/325f
+    private var showSuggestions=true
+    var suggestionsVisible:Boolean
+        get()=showSuggestions && !numeric
         set(value) {
-            if(field==value) return
-            field=value;cancelTouches();requestLayout();layoutKeys();invalidate()
+            if(showSuggestions==value) return
+            showSuggestions=value;cancelTouches();requestLayout();layoutKeys();invalidate()
         }
     private var probabilistic = false
     private var status = ""
@@ -197,7 +221,20 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
         }
         invalidate()
     }
-    private val candidateBounds = Array(3) { RectF() }
+    private val candidateBounds = Array(4) { RectF() }
+    private val shownSuggestions get()=if(suggestionsVisible) min(suggestions.size,if(splitEdge>0f) 4 else 3) else 0
+    private fun candidateRects() {
+        val reserve=dp(if(moreCandidates) 32f else if(speechButton) 50f else 0f)
+        val margin=dp(12f)
+        val count=if(splitEdge>0f) 2 else 3
+        for(i in 0 until shownSuggestions) {
+            val start=if(i>=count) width-splitEdge+margin else margin
+            val end=if(splitEdge>0f && i<count) splitEdge-margin else width-margin-reserve
+            val cell=max(0f,end-start)/count
+            val column=i%count
+            candidateBounds[i].set(start+column*cell,0f,start+(column+1)*cell,46*unit())
+        }
+    }
     private var palette = KeyboardTheme.colors(prefs)
     private val bg get()=palette.background
     private val keyColor get()=palette.keys
@@ -224,17 +261,24 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
         setLayerType(LAYER_TYPE_HARDWARE, null)
     }
 
-    fun editor(numeric: Boolean, action: String, capital: Boolean) {
-        this.numeric = numeric; enterLabel = action; shift = capital; automaticCapital = capital; caps = false; symbols = false
+    fun editor(numeric:Boolean, action:String, capital:Boolean) =
+        editor(if(numeric) InputType.TYPE_CLASS_NUMBER else InputType.TYPE_CLASS_TEXT,action,capital)
+    fun editor(inputType:Int, action:String, capital:Boolean, decimal:Char='.') {
+        this.inputType=inputType;this.decimal=decimal
+        enterLabel=action;shift=capital && !numeric;automaticCapital=shift;caps=false;symbols=false;symbolPage=false
         probabilities=FloatArray(26);probabilistic=false
         cancelTouches();accentLanguage=null;nextAccentLanguage=null;activity(); layoutKeys(); invalidate()
+    }
+    fun updateGeometry() {
+        cancelTouches();layoutKeys();invalidate()
+        sendAccessibilityEvent(AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED)
     }
     fun action(label:String) { if(enterLabel!=label) { enterLabel=label;layoutKeys();invalidate() } }
     fun prediction(words: List<String>, letters: FloatArray, probabilistic: Boolean,language:String?=null) {
         val geometry=accentLanguage!=(language ?: nextAccentLanguage) || this.probabilistic!=probabilistic || adaptiveTouch() && !probabilities.contentEquals(letters)
         if(language!=null) nextAccentLanguage=language
         if(touches.isEmpty()) accentLanguage=nextAccentLanguage
-        val next=words.take(3)
+        val next=words.take(candidateBounds.size)
         val changed=suggestions!=next
         suggestions = next; probabilities = letters.copyOf(); this.probabilistic = probabilistic
         if(changed) sendAccessibilityEvent(AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED)
@@ -253,6 +297,9 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
         setMeasuredDimension(MeasureSpec.getSize(widthMeasureSpec), resolveSize(desired, heightMeasureSpec))
     }
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) { imageVersion=Long.MIN_VALUE;imageRequest++;layoutKeys() }
+    override fun onConfigurationChanged(newConfig:Configuration) {
+        super.onConfigurationChanged(newConfig);updateGeometry()
+    }
     private fun unit()=height/(units()-(if(suggestionsVisible) 0 else 48))
     private fun layoutKeys() {
         keysDirty=true
@@ -264,32 +311,75 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
         val gap = dp(4f)
         val rowHeight = 48 * u
         var rowIndex=0
-        fun row(items: List<Key>, y: Float, inset: Float = 0f, h: Float = rowHeight) {
-            val available = width - 2 * margin - inset * 2
-            val sum = items.sumOf { it.weight.toDouble() }.toFloat()
-            val minimum=if(items.any { it.custom!=null }) min(dp(4f),(available-gap*(items.size-1))/items.size) else 0f
+        splitEdge=if(split) min(dp(340f),width*.39f) else 0f
+        numberInset=if(numeric) max(0f,(width-dp(380f))/2f) else 0f
+        fun place(items:List<Key?>, y:Float, h:Float, left:Float, right:Float) {
+            if(items.isEmpty()) return
+            val available=right-left
+            val sum=items.sumOf { (it?.weight ?: 1f).toDouble() }.toFloat()
+            val minimum=if(items.any { it?.custom!=null }) min(dp(4f),(available-gap*(items.size-1))/items.size) else 0f
             val flexible=available-gap*(items.size-1)-minimum*items.size
-            var x = margin + inset
+            var x=left
             items.forEach { key ->
-                val width = if(minimum>0f) minimum+flexible*key.weight/sum else (available + gap) * key.weight / sum - gap
-                val top=y-(if(suggestionsVisible) 0f else 48*u)
-                key.rect.set(x, top, x + width, top + h - 5 * u)
-                key.anchor.set(key.rect)
-                key.row=rowIndex
-                keys.add(key); x += width + gap
+                val weight=key?.weight ?: 1f
+                val w=if(minimum>0f) minimum+flexible*weight/sum else (available+gap)*weight/sum-gap
+                if(key!=null) {
+                    val top=y-(if(suggestionsVisible) 0f else 48*u)
+                    key.rect.set(x,top,x+w,top+h-5*u)
+                    key.anchor.set(key.rect);key.row=rowIndex;keys.add(key)
+                }
+                x+=w+gap
+            }
+        }
+        fun row(items: List<Key>, y: Float, inset: Float = 0f, h: Float = rowHeight) {
+            val edge=margin+inset
+            if(splitEdge==0f) place(items,y,h,edge,width-edge)
+            else {
+                val middle=items.sumOf { it.weight.toDouble() }/2
+                var weight=0.0
+                val space=items.indexOfFirst { key ->
+                    val start=weight
+                    weight+=key.weight
+                    key.code=="space" && start<=middle && weight>=middle
+                }
+                val cut=(items.size+1)/2
+                val left:List<Key>
+                val right:List<Key>
+                if(space<0) {
+                    left=items.take(cut);right=items.drop(cut)
+                } else {
+                    val key=items[space]
+                    val half=key.copy(weight=key.weight/2)
+                    left=items.take(space)+half
+                    right=listOf(half.copy(rect=RectF(),anchor=RectF()))+items.drop(space+1)
+                }
+                place(left,y,h,edge,splitEdge)
+                place(right,y,h,width-splitEdge,width-edge)
             }
             rowIndex++
         }
-        fun letters(chars: String, alt: String = ""): List<Key> = chars.mapIndexed { i, c ->
-            var secondary = variants(c.toString()).firstOrNull() ?: alt.getOrNull(i)?.toString().orEmpty().trim()
-            if (shift && c in 'a'..'z') secondary = uppercaseVariant(secondary)
-            Key(if (shift) c.uppercase() else c.toString(), secondary, code=c.toString())
-        }
+        fun key(value:String,menu:List<String> = emptyList())=Key(value,menu.firstOrNull().orEmpty(),menu=menu)
+        fun digit(value:Char,menu:List<String> = emptyList())=key(value.toString(),menu+listOfNotNull(nativeDigit(value)))
         if (numeric) {
-            row(letters("123", "!@#") + Key("⌫", "hold", code = "delete"), 48 * u, h = 60 * u)
-            row(letters("456", "$%^") + Key("-", "+"), 108 * u, h = 60 * u)
-            row(letters("789", "&*(") + Key(",", ";"), 168 * u, h = 60 * u)
-            row(listOf(Key(".", ","), Key("0", ")"), Key("space", "", code = "space"), Key(enterLabel, context.tr("hold · voice"), code = "enter")), 228 * u, h = 58 * u)
+            val phone=inputClass==InputType.TYPE_CLASS_PHONE
+            val signed=inputType and InputType.TYPE_NUMBER_FLAG_SIGNED!=0
+            val fractional=inputType and InputType.TYPE_NUMBER_FLAG_DECIMAL!=0
+            fun pad(digits:String,action:Key?) {
+                place(digits.map { digit(it) }+action,(48+60*rowIndex)*u,60*u,margin+numberInset,width-margin-numberInset)
+                rowIndex++
+            }
+            pad("123",when { phone -> key("+");signed -> key("-",listOf("+"));else -> null })
+            pad("456",if(phone) key(",",listOf(";")) else null)
+            pad("789",Key("⌫","hold",code="delete"))
+            val separator=decimal.toString()
+            val alternateSeparator=if(decimal=='.') "," else "."
+            val bottom=listOf(
+                when { phone -> key("*");fractional -> key(alternateSeparator);else -> null },
+                digit('0',if(phone) listOf("+") else emptyList()),
+                when { phone -> key("#");fractional -> key(separator,if(decimal in ".,") emptyList() else listOf(","));else -> null },
+                Key(enterLabel,context.tr("hold · voice"),code="enter")
+            )
+            place(bottom,228*u,60*u,margin+numberInset,width-margin-numberInset)
             return
         }
         if(!symbols && layout.keyRows.isNotEmpty()) {
@@ -315,7 +405,10 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
             if(shift && layout.cased) secondary=uppercaseVariant(secondary)
             Key(layout.label(code,shift || caps),secondary,code=code,native=true)
         }
-        row(letters("1234567890", "!@#$%^&*()"), 48 * u)
+        row("1234567890".mapIndexed { i,c ->
+            val code=c.toString()
+            if(symbols) digit(c) else Key(code,variants(code).firstOrNull() ?: "!@#$%^&*()"[i].toString())
+        },48*u)
         if (!symbols) {
             layout.rows.forEachIndexed { index,letters ->
                 val inset=if(index==1 && letters.size<layout.rows.first().size) dp(15f) else 0f
@@ -324,9 +417,17 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
                 row(values,(96+index*48)*u,inset)
             }
         } else {
-            row(letters(if (symbolPage) "~`|•√π÷×¶∆" else "!@#$%^&*()", "          "), 96 * u)
-            row(letters(if (symbolPage) "£€¥¢©®™✓§" else "-_=+[]{}\\", "         "), 144 * u, dp(15f))
-            row(listOf(Key(if (symbolPage) "123" else "=/<", "more", 1.35f, "page")) + letters(if (symbolPage) "…°∞≠≤≥≈" else ";:'\"<>/", "       ") + Key("⌫", "hold", 1.35f, "delete"), 192 * u)
+            fun marks(chars:String)=chars.map { char ->
+                val code=char.toString()
+                val localized=punctuation(code)
+                val label=if(layout.behaviorId=="greek" && code=="?") code else localized
+                val extras=when(char) { '?' -> "¿";'!' -> "¡";'"' -> "«»“”";'\'' -> "‘’";'*' -> "^";else -> "" }
+                key(label,(listOf(code,localized)+extras.map { it.toString() }).distinct().filter { it!=label })
+            }
+            row(marks(if(symbolPage) "~`|•√π÷×¶∆" else "@#\$€%&-+()"),96*u)
+            row(marks(if(symbolPage) "£¥¢©®™✓§^" else "\"':;/_=!?"),144*u,dp(15f))
+            row(listOf(Key(if(symbolPage) "123" else "=/<","more",1.35f,"page"))+
+                marks(if(symbolPage) "…°∞≠≤≥≈¿¡" else "[]{}<>\\*")+Key("⌫","hold",1.35f,"delete"),192*u)
         }
         val bottom=mutableListOf(Key(if (symbols) "ABC" else "?123", "tools", 1.5f, "symbols"), Key(punctuation(","), "😊", 0.9f, ","),
             Key("space", context.tr("Hold for cursor"), (if(layout.id=="persian") 4f else 4.9f)-idleAmount*.3f,"space"),
@@ -334,6 +435,7 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
         if(layout.id=="persian") bottom.add(3,Key("½","",.9f,"\u200c",native=true))
         row(bottom,(units()-53)*u,h=53*u)
         if(adaptiveTouch() && probabilistic) for(values in keys.groupBy { it.row }.values) for((a,b) in values.zipWithNext()) {
+            if(b.anchor.left-a.anchor.right>gap+1f) continue
             val pitch=b.anchor.centerX()-a.anchor.centerX()
             val shift=AdaptiveKeys.boundary(a.code,b.code,probabilities,pitch)
             a.rect.right+=shift;b.rect.left+=shift
@@ -366,18 +468,21 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
             imageMatrix.setScale(scale,scale);imageMatrix.postTranslate((width-bitmap.width*scale)/2,top+(area-bitmap.height*scale)/2)
             keycapShader?.setLocalMatrix(imageMatrix);imageMatrix.invert(imageInverse)
         }
-        canvas.drawColor(bg)
         val u = unit()
+        drawBackground(canvas,u)
+        val leftPanel=if(splitEdge>0f) splitEdge else width.toFloat()
         speechRects()
         if(suggestionsVisible) {
             if (resize?.held == true) {
-                label(canvas, context.tr("Drag to resize · %1\$s%%",resizeHeight ?: prefs.height), width / 2f, 29 * u, 14f, ink)
+                val caption=context.tr("Drag to resize · %1\$s%%",resizeHeight ?: prefs.height)
+                label(canvas,caption,leftPanel/2,29*u,fitSize(caption,14f,leftPanel-dp(16f)),ink)
             } else if (voiceState.isNotEmpty()) {
                 if (listening) {
                     paint.color = accent; canvas.drawCircle(dp(10f), 24 * u, dp(2.5f), paint)
                     val seconds = elapsedMillis / 1000
                     label(canvas, "${seconds / 60}:${(seconds % 60).toString().padStart(2, '0')}", dp(20f), 29 * u, 12f, ink, Paint.Align.LEFT)
-                    val left = dp(65f); val right = width - dp(if(speechButton) 164f else if (recordingLocked) 93f else 72f)
+                    val left=dp(65f)
+                    val right=leftPanel-dp(if(splitEdge>0f) 8f else if(speechButton) 164f else if(recordingLocked) 93f else 72f)
                     val step = dp(5f); val bars = ((right - left) / step).toInt().coerceAtLeast(1)
                     val phase = (elapsedMillis % 125) / 125f
                     for (i in 0 until min(bars, levelCount)) {
@@ -389,22 +494,29 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
                         canvas.drawRoundRect(x - dp(1.3f), 24 * u - h / 2, x + dp(1.3f), 24 * u + h / 2, dp(2f), dp(2f), paint)
                     }
                     if (recordingLocked && !speechButton) drawLock(canvas, width - dp(80f), 24 * u, accent)
-                } else label(canvas, context.tr(voiceState), (width - dp(60f)) / 2, 29 * u, 12f, ink)
+                } else {
+                    val message=context.tr(voiceState)
+                    val available=leftPanel-dp(if(splitEdge>0f) 0f else 60f)
+                    label(canvas,message,available/2,29*u,fitSize(message,12f,available-dp(16f)),ink)
+                }
                 val cancel=context.tr("Cancel")
                 label(canvas, cancel, width - dp(if(speechButton && listening) 125f else 33f), 29 * u, fitSize(cancel,12f,dp(60f)), muted)
             } else {
-                val cell = (width - dp(if(moreCandidates) 56f else if(speechButton) 74f else 24f)) / 3
-                suggestions.forEachIndexed { index, word ->
-                    val rect = candidateBounds[index]
-                    rect.set(dp(12f) + index * cell, 0f, dp(12f) + (index + 1) * cell, 46 * u)
-                    label(canvas, word, rect.centerX(), 29 * u, 16f, if (index == 0) ink else muted, bold = index == 0)
-                    if (index < 2) { paint.color = keyColor; canvas.drawRect(rect.right, 15 * u, rect.right + dp(0.5f), 34 * u, paint) }
+                candidateRects()
+                for(index in 0 until shownSuggestions) {
+                    val rect=candidateBounds[index];val word=suggestions[index]
+                    label(canvas,word,rect.centerX(),29*u,fitSize(word,16f,rect.width()-dp(12f)),if(index==0) ink else muted,bold=index==0)
+                    if(if(splitEdge>0f) index%2==0 else index<2) {
+                        paint.color=keyColor;canvas.drawRect(rect.right,15*u,rect.right+dp(.5f),34*u,paint)
+                    }
                 }
             }
             if(moreCandidates) label(canvas,"›",width-dp(16f),30*u,24f,accent)
             paint.color = if (resize?.held == true) accent else muted
             paint.alpha = if (resize?.held == true) 255 else 100
-            canvas.drawRoundRect(width / 2f - dp(15f), dp(3f), width / 2f + dp(15f), dp(4.2f), dp(1f), dp(1f), paint)
+            fun grip(center:Float) { canvas.drawRoundRect(center-dp(15f),dp(3f),center+dp(15f),dp(4.2f),dp(1f),dp(1f),paint) }
+            grip(leftPanel/2)
+            if(splitEdge>0f) grip(width-leftPanel/2)
             paint.alpha = 255
             if(!speechBounds[0].isEmpty) {
                 val area=RectF(speechBounds[if(listening) 1 else 0]);area.right=speechBounds[0].right
@@ -457,7 +569,9 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
             imageLabels=bitmap!=null && !active && custom==null && rowColor==null
             if (key.code == "space") {
                 val cursor=touches.values.any { it.cursor }
-                label(canvas, if(cursor) context.tr("‹  Move cursor  ›") else context.tr("Hold for cursor"), key.rect.centerX(), if(cursor) key.rect.centerY()+dp(4f) else key.rect.bottom-dp(5f), if(cursor) 11f else 9f, if(bitmap!=null) color else KeyboardTheme.blend(color,fill,.3f))
+                val caption=if(cursor) context.tr("‹  Move cursor  ›") else context.tr("Hold for cursor")
+                label(canvas,caption,key.rect.centerX(),if(cursor) key.rect.centerY()+dp(4f) else key.rect.bottom-dp(5f),
+                    fitSize(caption,if(cursor) 11f else 9f,key.rect.width()-dp(8f)),if(bitmap!=null) color else KeyboardTheme.blend(color,fill,.3f))
             } else if (key.code == "shift") {
                 drawIcon(canvas, if (caps) capsIcon else shiftIcon, key.rect.centerX(), key.rect.centerY() - dp(4f), 24f, color)
                 val caption=context.tr(layout.shiftLabel)
@@ -507,7 +621,7 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
             if (recordingLocked) context.tr("RECORDING LOCKED · TAP STOP TO FINISH") else context.tr("SLIDE UP TO LOCK · RELEASE TO FINISH")
         } else status
         if(suggestionsVisible && footer.isNotEmpty() && resize?.held!=true) {
-            val available=width-dp(if(speechButton && listening) 104f else 0f)
+            val available=leftPanel-dp(if(splitEdge==0f && speechButton && listening) 104f else 0f)
             label(canvas,footer,available/2f,45*u,fitSize(footer,8f,available-dp(16f)),muted)
         }
         touches.values.firstOrNull { it.glide }?.let { touch ->
@@ -559,6 +673,18 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
             }
         }
     }
+    private fun drawBackground(canvas:Canvas,u:Float) {
+        if(splitEdge==0f) { canvas.drawColor(bg);return }
+        val radius=if(suggestionsVisible) minOf(dp(34f),42*u,splitEdge/4) else 0f
+        panelShape.rewind()
+        panelCorners[2]=radius;panelCorners[3]=radius
+        panelShape.addRoundRect(0f,0f,splitEdge,height.toFloat(),panelCorners,Path.Direction.CW)
+        panelCorners[2]=0f;panelCorners[3]=0f
+        panelCorners[0]=radius;panelCorners[1]=radius
+        panelShape.addRoundRect(width-splitEdge,0f,width.toFloat(),height.toFloat(),panelCorners,Path.Direction.CW)
+        panelCorners[0]=0f;panelCorners[1]=0f
+        paint.color=bg;canvas.drawPath(panelShape,paint)
+    }
     private fun label(canvas: Canvas, text: String, x: Float, y: Float, size: Float, color: Int, align: Paint.Align = Paint.Align.CENTER, bold: Boolean = false) {
         paint.color = color; paint.alpha = 255; paint.textSize = dp(size); paint.textAlign = align
         paint.typeface = if (bold) boldFont else regularFont
@@ -588,18 +714,18 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
         canvas.drawRoundRect(x - dp(5f), y - dp(1f), x + dp(5f), y + dp(6f), dp(2f), dp(2f), strokes)
     }
     private fun uppercaseVariant(value: String) = if (value == "ß") "ẞ" else value.uppercase()
-    private fun reverseOptions(key:Key)=key.rect.centerX()>width/2f+dp(1f) && !(key.custom==null && !key.native && key.code==".")
+    private fun reverseOptions(key:Key)=key.rect.centerX()>width/2f+dp(1f) && !period(key)
     private fun options(key: Key): List<String> {
         key.custom?.let { return if((shift || caps) && layout.cased) it.secondary.map(::uppercaseVariant) else it.secondary }
-        val variants=variants(key.code)
+        if(key.menu.isNotEmpty()) return key.menu
+        val variants=if(symbols || numeric) emptyList() else variants(key.code)
         if((key.native || key.code.singleOrNull()?.isDigit()==true) && variants.isNotEmpty()) return variants.map { if((shift || caps) && layout.cased) uppercaseVariant(it) else it }
-        if(key.code.length==1 && key.code[0].isDigit()) {
-            val base=when(layout.id) { "arabic" -> 0x660;"persian" -> 0x6f0;"hindi","bolnagri","hindi_phonetic" -> 0x966;"thai" -> 0xe50;else -> 0 }
-            if(base!=0) return listOf(key.alternate,(base+key.code[0].digitToInt()).toChar().toString())
+        if(!symbols && !numeric && key.code.length==1 && key.code[0].isDigit()) {
+            nativeDigit(key.code[0])?.let { return listOf(key.alternate,it) }
         }
-        return when (key.code) {
-            "." -> listOf("!", ",", "?").map { punctuation(it) }
-            "," -> CustomLayouts.emojis
+        return when {
+            period(key) -> listOf("!", ",", "?").map { punctuation(it) }
+            !numeric && key.code=="," -> CustomLayouts.emojis
             else -> listOf(key.alternate.ifEmpty { key.label })
         }
     }
@@ -626,7 +752,7 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
         val touch = touches[id] ?: return
         if (touch.held || touch.stopping) return
         touch.held = true
-        listener.feedback("hold")
+        if(touch.key.code!="enter") listener.feedback("hold")
         if(touch.key.custom?.secondary?.isNotEmpty()==true) { touch.choice=0;invalidate();return }
         if(touch.key.native && variants(touch.key.code).isNotEmpty()) { touch.choice=0;invalidate();return }
         when (touch.key.code) {
@@ -635,7 +761,7 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
             "delete" -> { listener.delete(); repeatDelete(id) }
             "shift" -> { caps=true;shift=true }
             "symbols" -> { toolsOpen=true;sendAccessibilityEvent(AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED) }
-            else -> touch.choice = if (touch.key.code == ".") 2 else 0
+            else -> touch.choice = if(period(touch.key)) 2 else 0
         }
         invalidate()
     }
@@ -674,13 +800,13 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
         if (touch.cursor) {
             val delta = ((x - touch.x) / dp(9f)).toInt()
             if (delta != 0) { listener.cursor(delta); touch.x += delta * dp(9f) }
-        } else if (!touch.held && (touch.key.code == "." || touch.key.alternate.isNotBlank()) && (touch.key.custom==null || touch.key.custom.action.isEmpty() && touch.key.custom.secondary.isNotEmpty())) {
+        } else if (!touch.held && (period(touch.key) || touch.key.alternate.isNotBlank()) && (touch.key.custom==null || touch.key.custom.action.isEmpty() && touch.key.custom.secondary.isNotEmpty())) {
             val horizontal=abs(dx)>abs(dy)*1.35f && abs(dx)>=dp(14f)
             val value = when {
-                horizontal && dx<0 && (layout.composer=="dead" || touch.key.custom!=null) && reverseOptions(touch.key) -> options(touch.key).last()
+                horizontal && dx<0 && (!symbols && !numeric && layout.composer=="dead" || touch.key.custom!=null) && reverseOptions(touch.key) -> options(touch.key).last()
                 horizontal && dx>0 && touch.key.custom?.secondary?.isNotEmpty()==true -> options(touch.key).last()
-                horizontal && touch.key.custom==null && !touch.key.native && touch.key.code == "." -> punctuation(if(dx>0) "?" else "!")
-                dy <= -dp(14f) && -dy > abs(dx)*1.35f -> if (touch.key.custom==null && !touch.key.native && touch.key.code == ".") punctuation(",") else touch.key.alternate
+                horizontal && period(touch.key) -> punctuation(if(dx>0) "?" else "!")
+                dy <= -dp(14f) && -dy > abs(dx)*1.35f -> if(period(touch.key)) punctuation(",") else touch.key.alternate
                 else -> null
             }
             if (value != null && !released) {
@@ -693,7 +819,7 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
         if (touch.held && touch.choice >= 0) {
             val options = options(touch.key)
             val rect = popup(touch, options.size)
-            val initial = if (touch.key.custom==null && !touch.key.native && touch.key.code == ".") 2 else 0
+            val initial = if(period(touch.key)) 2 else 0
             val delta=if(reverseOptions(touch.key)) -dx else dx
             val cell=rect.width()/options.size
             val available=if(reverseOptions(touch.key)) touch.startX-dp(1f) else width-dp(1f)-touch.startX
@@ -737,7 +863,7 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
             if(selected>=0) { toolsOpen=false;cancelTouches();listener.tool(when(selected) { 0 -> "clipboard";else -> "translate" });return true }
         }
         if (resize != null) return resize(event)
-        if (suggestionsVisible && event.actionMasked == MotionEvent.ACTION_DOWN && event.y < dp(12f) && voiceState.isEmpty() && touches.isEmpty()) {
+        if (suggestionsVisible && event.actionMasked == MotionEvent.ACTION_DOWN && event.y < dp(12f) && !inSplitGap(event.x) && voiceState.isEmpty() && touches.isEmpty()) {
             activity(); resize = Resize(event.getPointerId(0), event.rawY, prefs.height)
             main.postDelayed(resizeHold, 400)
             return true
@@ -750,7 +876,10 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
                 if (suggestionsVisible && event.actionMasked == MotionEvent.ACTION_DOWN && y < 46 * unit()) {
                     if(moreCandidates && x>width-dp(32f)) listener.moreCandidates()
                     else if (voiceState.isNotEmpty() && x > width - dp(if(speechButton && listening) 158f else 70f)) cancelRecording()
-                    else if (voiceState.isEmpty()) suggestions.indices.firstOrNull { candidateBounds[it].contains(x, y) }?.let { listener.feedback(); listener.candidate(suggestions[it]) }
+                    else if (voiceState.isEmpty()) {
+                        candidateRects()
+                        (0 until shownSuggestions).firstOrNull { candidateBounds[it].contains(x,y) }?.let { listener.feedback();listener.candidate(suggestions[it]) }
+                    }
                     return true
                 }
                 val key = hit(x, y) ?: return true
@@ -770,8 +899,8 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
                 activity()
                 listener.feedback(key.code)
                 if (key.code == "delete") listener.delete()
-                val hasHold = if(key.custom?.action=="") key.custom.secondary.isNotEmpty() else key.code in listOf("space", "enter", "delete", "shift", "symbols", ".", ",") ||
-                    key.custom?.secondary?.isNotEmpty()==true || ((key.native || key.code.length==1) && key.alternate.isNotBlank())
+                val hasHold = if(key.custom?.action=="") key.custom.secondary.isNotEmpty() else key.code in listOf("space", "enter", "delete", "shift", "symbols") ||
+                    period(key) || key.custom?.secondary?.isNotEmpty()==true || ((key.native || key.code.length==1) && key.alternate.isNotBlank())
                 if (hasHold && !touch.stopping) {
                     val task = Runnable { hold(id) }; callbacks[id] = task
                     main.postDelayed(task, when (key.code) { "shift", "symbols" -> 250L; else -> 320L })
@@ -820,18 +949,24 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
         if(key.custom?.action=="") { emit(customOutput(key.custom));return }
         when (key.code) {
             "shift" -> { when { caps -> { caps = false; shift = false }; shift -> caps = true; else -> shift = true }; layoutKeys() }
-            "symbols" -> { symbols = !symbols;requestLayout();layoutKeys() }
-            "page" -> { symbolPage = !symbolPage; layoutKeys() }
+            "symbols","page" -> {
+                if(key.code=="symbols") { symbols=!symbols;symbolPage=false;requestLayout() }
+                else symbolPage=!symbolPage
+                layoutKeys();sendAccessibilityEvent(AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED)
+            }
             "enter" -> if (listening) stopRecording() else if (voiceState.isEmpty()) listener.enter()
             "space" -> listener.text(" ")
             "delete" -> listener.delete()
-            else -> emit(if(key.native) layout.output(key.code,shift || caps) else punctuation(key.label))
+            else -> emit(if(key.native) layout.output(key.code,shift || caps) else key.label)
         }
     }
     private fun hit(x: Float, y: Float): Key? {
+        if(inSplitGap(x) || x<numberInset || x>width-numberInset) return null
         keys.firstOrNull { it.rect.contains(x, y) }?.let { return it }
+        if(numeric) return keys.firstOrNull { x>=it.rect.left-dp(2f) && x<it.rect.right+dp(2f) && y>=it.rect.top-dp(2f) && y<it.rect.bottom+dp(2f) }
         if (keys.isEmpty() || y < keys.first().rect.top - dp(2f) || y > keys.last().rect.bottom + dp(5f)) return null
-        return keys.minByOrNull {
+        val side=if(splitEdge==0f) keys else keys.filter { (it.anchor.centerX()<width/2f)==(x<width/2f) }
+        return side.minByOrNull {
             val dx = x - x.coerceIn(it.rect.left, it.rect.right)
             val dy = y - y.coerceIn(it.rect.top, it.rect.bottom)
             dx * dx + dy * dy
@@ -839,7 +974,10 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
     }
     private fun adaptiveTouch()=prefs.adaptive && adaptiveInput && !numeric && !symbols && !forceLatin &&
         previewLayout==null && previewTheme==null && previewDesign==null && layout.keyRows.isEmpty() && layout.composer in listOf("","dead")
-    private fun emit(text: String) { listener.text(text); if (!caps && shift && !(layout.composer=="dead" && text in listOf("'","`","^","~","\""))) { shift = false; layoutKeys() } }
+    private fun emit(text: String) {
+        if(symbols) listener.symbol(text) else listener.text(text)
+        if(!caps && shift && !(layout.composer=="dead" && text in listOf("'","`","^","~","\""))) { shift=false;layoutKeys() }
+    }
     private fun point(x: Float, y: Float) = Glide.Point(x * 10f / width, y * 10f / width)
     private fun resize(event: MotionEvent): Boolean {
         val drag = resize ?: return true
@@ -874,9 +1012,9 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
             if (id == View.NO_ID) return AccessibilityNodeInfo.obtain(this@KeyboardView).apply {
                 className = "android.inputmethodservice.KeyboardView"
                 keys.indices.forEach { addChild(this@KeyboardView, it) }
-                if (suggestionsVisible && voiceState.isEmpty() && resize?.held != true) suggestions.indices.forEach { addChild(this@KeyboardView, 1000 + it) }
+                if (suggestionsVisible && voiceState.isEmpty() && resize?.held != true) repeat(shownSuggestions) { addChild(this@KeyboardView,1000+it) }
                 if(toolsOpen) repeat(2) { addChild(this@KeyboardView,2000+it) }
-                if(moreCandidates && suggestionsVisible) addChild(this@KeyboardView,1003)
+                if(moreCandidates && suggestionsVisible) addChild(this@KeyboardView,1004)
                 speechBounds.indices.filter { !speechBounds[it].isEmpty }.forEach { addChild(this@KeyboardView,3000+it) }
             }
             if(id in 3000..3001 && !speechBounds[id-3000].isEmpty) return AccessibilityNodeInfo.obtain().apply {
@@ -895,17 +1033,18 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
                 val position=IntArray(2);getLocationOnScreen(position);rect.offset(position[0],position[1]);setBoundsInScreen(rect)
                 addAction(AccessibilityNodeInfo.AccessibilityAction.ACTION_CLICK)
             }
-            if(id==1003 && moreCandidates && suggestionsVisible) return AccessibilityNodeInfo.obtain().apply {
+            if(id==1004 && moreCandidates && suggestionsVisible) return AccessibilityNodeInfo.obtain().apply {
                 setSource(this@KeyboardView,id);setParent(this@KeyboardView);packageName=context.packageName
                 className="android.widget.Button";contentDescription=context.tr("More candidates");isEnabled=true;isClickable=true;isVisibleToUser=true
                 val rect=Rect(width-dp(32f).toInt(),0,width,(46*unit()).toInt());setBoundsInParent(rect)
                 val location=IntArray(2);getLocationOnScreen(location);rect.offset(location[0],location[1]);setBoundsInScreen(rect)
                 addAction(AccessibilityNodeInfo.AccessibilityAction.ACTION_CLICK)
             }
-            if (id in 1000..1002) {
-                if(!suggestionsVisible) return null
+            if (id in 1000..1003) {
+                if(!suggestionsVisible || id-1000>=shownSuggestions) return null
                 val index = id - 1000
-                val word = suggestions.getOrNull(index) ?: return null
+                val word = suggestions[index]
+                candidateRects()
                 return AccessibilityNodeInfo.obtain().apply {
                     setSource(this@KeyboardView, id); setParent(this@KeyboardView)
                     packageName = context.packageName; className = "android.widget.Button"; contentDescription = context.tr("Suggestion: %1\$s",word)
@@ -942,11 +1081,10 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
                 val event = AccessibilityEvent.obtain(AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED)
                 event.setSource(this@KeyboardView, id); parent?.requestSendAccessibilityEvent(this@KeyboardView, event); return true
             }
-            if(action==AccessibilityNodeInfo.ACTION_CLICK && id==1003 && moreCandidates) { listener.moreCandidates();return true }
-            if (action == AccessibilityNodeInfo.ACTION_CLICK && id in 1000..1002) {
-                if(!suggestionsVisible) return false
-                val word = suggestions.getOrNull(id - 1000) ?: return false
-                activity(); listener.candidate(word); return true
+            if(action==AccessibilityNodeInfo.ACTION_CLICK && id==1004 && moreCandidates && suggestionsVisible) { listener.moreCandidates();return true }
+            if (action == AccessibilityNodeInfo.ACTION_CLICK && id in 1000..1003) {
+                if(!suggestionsVisible || voiceState.isNotEmpty() || resize?.held==true || id-1000>=shownSuggestions) return false
+                activity();listener.candidate(suggestions[id-1000]);return true
             }
             if(action==AccessibilityNodeInfo.ACTION_CLICK && id in 2000..2001 && toolsOpen) {
                 toolsOpen=false;invalidate();listener.tool(when(id) { 2000 -> "clipboard";else -> "translate" });return true

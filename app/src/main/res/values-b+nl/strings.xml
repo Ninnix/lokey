@@ -520,4 +520,5 @@
     <string name="ui_sucheng">"· Sucheng"</string>
     <string name="ui_hangul">"한국어 · Hangul"</string>
     <string name="ui_korean">"한국어 · Koreaans"</string>
+    <string name="ui_split_keyboard_in_landscape">"Toetsenbord splitsen in liggende stand"</string>
 </resources>

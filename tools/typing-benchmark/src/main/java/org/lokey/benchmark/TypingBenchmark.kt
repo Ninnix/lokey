@@ -2,6 +2,7 @@ package org.lokey.benchmark
 
 import android.app.Instrumentation
 import android.content.Intent
+import android.content.res.Configuration
 import android.graphics.Rect
 import android.os.Bundle
 import android.os.ParcelFileDescriptor
@@ -69,6 +70,9 @@ class TypingBenchmark:Instrumentation() {
             activity=startActivitySync(Intent(targetContext,TypingActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 .putExtra("terminal",terminal).putExtra("read_delay_ms",delay)) as TypingActivity
             SystemClock.sleep(1500)
+            val orientation=if(activity.resources.configuration.orientation==Configuration.ORIENTATION_LANDSCAPE) "landscape" else "portrait"
+            report.put("orientation",orientation)
+            args.getString("orientation")?.let { check(orientation==it) { "Expected $it, editor opened in $orientation" } }
             var keys=centers()
             val until=SystemClock.uptimeMillis()+10000
             while((text.toSet()+ '\b').any { it !in keys } && SystemClock.uptimeMillis()<until) { SystemClock.sleep(250);keys=centers() }
