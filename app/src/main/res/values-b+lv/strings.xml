@@ -540,4 +540,12 @@
     <string name="ui_dictation_speed">"Diktēšanas ātrums"</string>
     <string name="ui_no_speech_timings">"Laiki parādās pēc diktēšanas ar lejupielādētu runas modeli."</string>
     <string name="ui_speech_timing_description">"Apstrādes laiks norādīts uz vienu ierakstītā audio sekundi. Modeļa ielāde nav iekļauta."</string>
+    <string name="ui_spacebar_action">"Atstarpes taustiņa darbība"</string>
+    <string name="ui_spacebar_cursor">"Kursors"</string>
+    <string name="ui_spacebar_dictation">"Diktēšana"</string>
+    <string name="ui_spacebar_cursor_help">"Turiet nospiestu vai velciet, lai pārvietotu kursoru."</string>
+    <string name="ui_spacebar_prediction_help">"Pieskarieties, lai pieņemtu pirmo ieteikumu. Turiet nospiestu, lai ievadītu atstarpi."</string>
+    <string name="ui_spacebar_dictation_help">"Turiet nospiestu, lai diktētu. Atlaidiet, lai pārvērstu tekstā."</string>
+    <string name="ui_spacebar_prediction_hint">"Pieskarieties ieteikumam"</string>
+    <string name="ui_spacebar_dictation_hint">"Turiet nospiestu, lai diktētu"</string>
 </resources>

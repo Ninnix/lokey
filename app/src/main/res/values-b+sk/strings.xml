@@ -540,4 +540,12 @@
     <string name="ui_dictation_speed">"Rýchlosť diktovania"</string>
     <string name="ui_no_speech_timings">"Časy sa zobrazia po diktovaní so stiahnutým rečovým modelom."</string>
     <string name="ui_speech_timing_description">"Časy spracovania sú na sekundu zaznamenaného zvuku. Načítanie modelu sa nepočíta."</string>
+    <string name="ui_spacebar_action">"Akcia medzerníka"</string>
+    <string name="ui_spacebar_cursor">"Kurzor"</string>
+    <string name="ui_spacebar_dictation">"Diktovanie"</string>
+    <string name="ui_spacebar_cursor_help">"Podržaním alebo potiahnutím posuniete kurzor."</string>
+    <string name="ui_spacebar_prediction_help">"Klepnutím prijmete prvý návrh. Podržaním vložíte medzeru."</string>
+    <string name="ui_spacebar_dictation_help">"Podržte na diktovanie. Uvoľnite na prepis."</string>
+    <string name="ui_spacebar_prediction_hint">"Klepnite na prijatie návrhu"</string>
+    <string name="ui_spacebar_dictation_hint">"Podržte na diktovanie"</string>
 </resources>

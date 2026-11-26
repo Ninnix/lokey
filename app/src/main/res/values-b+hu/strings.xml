@@ -540,4 +540,12 @@
     <string name="ui_dictation_speed">"A diktálás sebessége"</string>
     <string name="ui_no_speech_timings">"Az idők letöltött beszédmodellel végzett diktálás után jelennek meg."</string>
     <string name="ui_speech_timing_description">"A feldolgozási idő a rögzített hang egy másodpercére vonatkozik. A modell betöltése nem számít."</string>
+    <string name="ui_spacebar_action">"Szóközbillentyű művelete"</string>
+    <string name="ui_spacebar_cursor">"Kurzor"</string>
+    <string name="ui_spacebar_dictation">"Diktálás"</string>
+    <string name="ui_spacebar_cursor_help">"Tartsd lenyomva vagy húzd el a kurzor mozgatásához."</string>
+    <string name="ui_spacebar_prediction_help">"Koppints az első javaslat elfogadásához. Szóközhöz tartsd lenyomva."</string>
+    <string name="ui_spacebar_dictation_help">"Tartsd lenyomva a diktáláshoz. Engedd fel az átíráshoz."</string>
+    <string name="ui_spacebar_prediction_hint">"Koppints a javaslatért"</string>
+    <string name="ui_spacebar_dictation_hint">"Tartsd lenyomva a diktáláshoz"</string>
 </resources>

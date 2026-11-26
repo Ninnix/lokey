@@ -540,4 +540,12 @@
     <string name="ui_dictation_speed">"Dictation speed"</string>
     <string name="ui_no_speech_timings">"Speech timings appear after you dictate with a downloaded speech model."</string>
     <string name="ui_speech_timing_description">"Processing times are per second of recorded audio. Model loading is excluded."</string>
+    <string name="ui_spacebar_action">"Spacebar action"</string>
+    <string name="ui_spacebar_cursor">"Cursor"</string>
+    <string name="ui_spacebar_dictation">"Dictation"</string>
+    <string name="ui_spacebar_cursor_help">"Hold or swipe to move the cursor."</string>
+    <string name="ui_spacebar_prediction_help">"Tap to accept the first suggestion. Hold for a space."</string>
+    <string name="ui_spacebar_dictation_help">"Hold to dictate. Release to transcribe."</string>
+    <string name="ui_spacebar_prediction_hint">"Tap for prediction"</string>
+    <string name="ui_spacebar_dictation_hint">"Hold to dictate"</string>
 </resources>

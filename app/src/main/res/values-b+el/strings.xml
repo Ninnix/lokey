@@ -540,4 +540,12 @@
     <string name="ui_dictation_speed">"Ταχύτητα υπαγόρευσης"</string>
     <string name="ui_no_speech_timings">"Οι χρόνοι εμφανίζονται αφού υπαγορεύσετε με ένα μοντέλο ομιλίας που έχετε κατεβάσει."</string>
     <string name="ui_speech_timing_description">"Οι χρόνοι επεξεργασίας είναι ανά δευτερόλεπτο εγγεγραμμένου ήχου. Η φόρτωση του μοντέλου εξαιρείται."</string>
+    <string name="ui_spacebar_action">"Λειτουργία πλήκτρου διαστήματος"</string>
+    <string name="ui_spacebar_cursor">"Δρομέας"</string>
+    <string name="ui_spacebar_dictation">"Υπαγόρευση"</string>
+    <string name="ui_spacebar_cursor_help">"Κρατήστε ή σύρετε για μετακίνηση του δρομέα."</string>
+    <string name="ui_spacebar_prediction_help">"Πατήστε για αποδοχή της πρώτης πρότασης. Κρατήστε για διάστημα."</string>
+    <string name="ui_spacebar_dictation_help">"Κρατήστε για υπαγόρευση. Αφήστε για μεταγραφή."</string>
+    <string name="ui_spacebar_prediction_hint">"Πατήστε για πρόταση"</string>
+    <string name="ui_spacebar_dictation_hint">"Κρατήστε για υπαγόρευση"</string>
 </resources>

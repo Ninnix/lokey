@@ -100,6 +100,7 @@ class LokeyService : InputMethodService(), KeyboardView.Listener {
             keyboard?.updateGeometry();keyboardBackground();refresh()
         }
         if(key=="number_row") keyboard?.updateGeometry()
+        if(key=="spacebar_action") keyboard?.updateSpacebar()
         if(key=="keyboard_theme") { keyboardBackground();keyboard?.invalidate() }
         if(key in listOf("learning","learning_revision","one_tap_speech","adaptive","autocorrect","model")) {
             resetLearning();clearPrediction();refresh();keyboard?.invalidate()
@@ -393,6 +394,7 @@ class LokeyService : InputMethodService(), KeyboardView.Listener {
     override fun onStartInputView(info: EditorInfo, restarting: Boolean) {
         super.onStartInputView(info, restarting)
         inputVisible=true
+        keyboard?.spacePredictionsAllowed=AdaptiveKeys.allowed(info.inputType,info.imeOptions)
         val action = when (info.imeOptions and EditorInfo.IME_MASK_ACTION) {
             EditorInfo.IME_ACTION_SEARCH -> "⌕"
             EditorInfo.IME_ACTION_GO -> tr("Go")
@@ -595,37 +597,59 @@ class LokeyService : InputMethodService(), KeyboardView.Listener {
         }
     }
     override fun candidate(word: String) {
-        clearDead(true)
-        if(composeDraft.isNotEmpty()) {
-            if(phonetic()) { if(word in composeChoices || word==displayComposition(true)) chooseComposition(word);return }
-            resetComposition()
+        acceptCandidate(word,false)
+    }
+    override fun spacePrediction(word:String):Boolean {
+        val info=currentInputEditorInfo ?: return false
+        if(privateField || recording || processing || toolMode=="languages" || !AdaptiveKeys.allowed(info.inputType,info.imeOptions) ||
+            deadKeys.pending.isNotEmpty() || composeDraft.isNotEmpty() || pendingGlide!=null || glideWords.isNotEmpty() ||
+            word.none { it.isLetterOrDigit() }) return false
+        return acceptCandidate(word,true)
+    }
+    private fun acceptCandidate(word:String,fromSpace:Boolean):Boolean {
+        if(!fromSpace) {
+            clearDead(true)
+            if(composeDraft.isNotEmpty()) {
+                if(phonetic()) { if(word in composeChoices || word==displayComposition(true)) chooseComposition(word);return false }
+                resetComposition()
+            }
+            correction.clear()
         }
-        correction.clear()
-        val connection = connection() ?: return
+        val connection=connection() ?: return false
         if (word in glideWords && connection.getTextBeforeCursor(240, 0)?.toString() == glideBefore && connection.getTextAfterCursor(80, 0)?.toString() == glideAfter) {
             connection.beginBatchEdit(); connection.deleteSurroundingText(glideInserted.length, 0); connection.commitText("$word ", 1); connection.endBatchEdit()
-            clearGlide(); autoSpace = connection.getTextBeforeCursor(240, 0)?.toString(); refresh(); return
+            clearGlide(); autoSpace = connection.getTextBeforeCursor(240, 0)?.toString(); refresh(); return true
         }
-        clearGlide()
-        if (currentInputEditorInfo?.privateImeOptions == "org.lokey.app.speedtest")
-            connection.performPrivateCommand("org.lokey.app.PREDICTION", android.os.Bundle().apply { putInt("words", Languages.tokens(word).size) })
+        if(!fromSpace) clearGlide()
         val before = connection.getTextBeforeCursor(240, 0)?.toString().orEmpty()
         val shown=displayedPrediction
-        if(shown==null || shown.before!=before || word !in shown.words) { refresh();return }
+        if(shown==null || shown.before!=before || word !in shown.words) { if(!fromSpace) refresh();return false }
+        if(fromSpace && (shown.words.firstOrNull()!=word || !connection.getSelectedText(0).isNullOrEmpty() ||
+                connection.getTextAfterCursor(1,0)?.firstOrNull()?.let { Languages.isWord(it) || it.isDigit() }==true)) return false
         val append=word in shown.appendWords
         val learned=if(learningField() && Cursor.position(connection)==learningCaret && learningDraft.value==Languages.prefix(before)) learningDraft.value else ""
         val punctuation = word.length == 1 && word[0] in "?!."
         val replacement=shown.spelling?.takeIf { it.word==word }?.source
         if(replacement!=null && (!before.endsWith(replacement) || !connection.getSelectedText(0).isNullOrEmpty() ||
-            connection.getTextAfterCursor(1,0)?.firstOrNull()?.let { Languages.isWord(it) || it.isDigit() }==true)) { refresh();return }
+            connection.getTextAfterCursor(1,0)?.firstOrNull()?.let { Languages.isWord(it) || it.isDigit() }==true)) { if(!fromSpace) refresh();return false }
         val prefix = if (append || punctuation) 0 else replacement?.length ?: Languages.prefix(before).length
+        if(fromSpace && prefix==word.length && before.endsWith(word)) return false
         val separator = if (append && !unspaced() && !punctuation && before.isNotEmpty() && !before.last().isWhitespace()) " " else ""
         connection.beginBatchEdit()
-        if (punctuation) connection.deleteSurroundingText(before.length - before.trimEnd(' ', '\t').length, 0)
-        else connection.deleteSurroundingText(prefix, 0)
+        val removed=when {
+            punctuation -> connection.deleteSurroundingText(before.length-before.trimEnd(' ','\t').length,0)
+            fromSpace && prefix==0 -> true
+            else -> connection.deleteSurroundingText(prefix,0)
+        }
         val ending=if(unspaced()) "" else " "
-        val committed=connection.commitText("$separator$word$ending",1)
+        val canCommit=!fromSpace || removed
+        if(canCommit && currentInputEditorInfo?.privateImeOptions=="org.lokey.app.speedtest")
+            connection.performPrivateCommand("org.lokey.app.PREDICTION",android.os.Bundle().apply { putInt("words",Languages.tokens(word).size) })
+        val committed=canCommit && connection.commitText("$separator$word$ending",1)
+        if(fromSpace && removed && !committed && prefix>0) connection.commitText(before.takeLast(prefix),1)
         connection.endBatchEdit()
+        if(fromSpace && !committed) return false
+        if(fromSpace) correction.clear()
         if(committed && statsAllowed()) {
             val saved=if(!punctuation && word.regionMatches(0,before,before.length-prefix,prefix,ignoreCase=true))
                 word.codePointCount(prefix,word.length) else 0
@@ -635,6 +659,7 @@ class LokeyService : InputMethodService(), KeyboardView.Listener {
         resetLearning()
         autoSpace=if(ending.isEmpty()) null else connection.getTextBeforeCursor(240,0)?.toString()
         refresh()
+        return committed
     }
     private fun restrictedCorrection(): Boolean {
         if(toolMode=="languages") return true

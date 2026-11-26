@@ -540,4 +540,12 @@
     <string name="ui_dictation_speed">"Kecepatan dikte"</string>
     <string name="ui_no_speech_timings">"Waktu muncul setelah Anda mendikte dengan model suara yang diunduh."</string>
     <string name="ui_speech_timing_description">"Waktu pemrosesan dihitung per detik audio yang direkam. Pemuatan model tidak dihitung."</string>
+    <string name="ui_spacebar_action">"Tindakan bilah spasi"</string>
+    <string name="ui_spacebar_cursor">"Kursor"</string>
+    <string name="ui_spacebar_dictation">"Dikte"</string>
+    <string name="ui_spacebar_cursor_help">"Tahan atau geser untuk memindahkan kursor."</string>
+    <string name="ui_spacebar_prediction_help">"Ketuk untuk menerima saran pertama. Tahan untuk menyisipkan spasi."</string>
+    <string name="ui_spacebar_dictation_help">"Tahan untuk mendikte. Lepaskan untuk mengubahnya menjadi teks."</string>
+    <string name="ui_spacebar_prediction_hint">"Ketuk untuk menerima saran"</string>
+    <string name="ui_spacebar_dictation_hint">"Tahan untuk mendikte"</string>
 </resources>

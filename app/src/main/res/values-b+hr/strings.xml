@@ -540,4 +540,12 @@
     <string name="ui_dictation_speed">"Brzina diktiranja"</string>
     <string name="ui_no_speech_timings">"Vremena se prikazuju nakon diktiranja uz preuzeti govorni model."</string>
     <string name="ui_speech_timing_description">"Vrijeme obrade računa se po sekundi snimljenog zvuka. Učitavanje modela nije uključeno."</string>
+    <string name="ui_spacebar_action">"Radnja razmaknice"</string>
+    <string name="ui_spacebar_cursor">"Pokazivač"</string>
+    <string name="ui_spacebar_dictation">"Diktiranje"</string>
+    <string name="ui_spacebar_cursor_help">"Držite ili povucite za pomicanje pokazivača."</string>
+    <string name="ui_spacebar_prediction_help">"Dodirnite za prvi prijedlog. Držite za razmak."</string>
+    <string name="ui_spacebar_dictation_help">"Držite za diktiranje. Otpustite za prijepis."</string>
+    <string name="ui_spacebar_prediction_hint">"Dodirnite za prijedlog"</string>
+    <string name="ui_spacebar_dictation_hint">"Držite za diktiranje"</string>
 </resources>

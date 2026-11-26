@@ -540,4 +540,12 @@
     <string name="ui_dictation_speed">"Dicteersnelheid"</string>
     <string name="ui_no_speech_timings">"De tijden verschijnen nadat je met een gedownload spraakmodel hebt gedicteerd."</string>
     <string name="ui_speech_timing_description">"De verwerkingstijd geldt per seconde opgenomen audio. De laadtijd van het model telt niet mee."</string>
+    <string name="ui_spacebar_action">"Actie van de spatiebalk"</string>
+    <string name="ui_spacebar_cursor">"Cursor"</string>
+    <string name="ui_spacebar_dictation">"Dicteren"</string>
+    <string name="ui_spacebar_cursor_help">"Houd vast of veeg om de cursor te verplaatsen."</string>
+    <string name="ui_spacebar_prediction_help">"Tik om de eerste suggestie te accepteren. Houd vast voor een spatie."</string>
+    <string name="ui_spacebar_dictation_help">"Houd vast om te dicteren. Laat los om te transcriberen."</string>
+    <string name="ui_spacebar_prediction_hint">"Tik voor suggestie"</string>
+    <string name="ui_spacebar_dictation_hint">"Houd vast om te dicteren"</string>
 </resources>

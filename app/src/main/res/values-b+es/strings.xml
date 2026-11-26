@@ -540,4 +540,12 @@
     <string name="ui_dictation_speed">"Velocidad de dictado"</string>
     <string name="ui_no_speech_timings">"Los tiempos aparecen después de dictar con un modelo de voz descargado."</string>
     <string name="ui_speech_timing_description">"Los tiempos de procesamiento son por segundo de audio grabado. Se excluye la carga del modelo."</string>
+    <string name="ui_spacebar_action">"Función de la barra espaciadora"</string>
+    <string name="ui_spacebar_cursor">"Cursor"</string>
+    <string name="ui_spacebar_dictation">"Dictado"</string>
+    <string name="ui_spacebar_cursor_help">"Mantén pulsado o desliza para mover el cursor."</string>
+    <string name="ui_spacebar_prediction_help">"Toca para aceptar la primera sugerencia. Mantén pulsado para insertar un espacio."</string>
+    <string name="ui_spacebar_dictation_help">"Mantén pulsado para dictar. Suelta para transcribir."</string>
+    <string name="ui_spacebar_prediction_hint">"Toca para aceptar sugerencia"</string>
+    <string name="ui_spacebar_dictation_hint">"Mantén pulsado para dictar"</string>
 </resources>

@@ -540,4 +540,12 @@
     <string name="ui_dictation_speed">"Kelajuan imlak"</string>
     <string name="ui_no_speech_timings">"Masa dipaparkan selepas anda mengimlak dengan model pertuturan yang dimuat turun."</string>
     <string name="ui_speech_timing_description">"Masa pemprosesan dikira bagi setiap saat audio rakaman. Pemuatan model tidak dikira."</string>
+    <string name="ui_spacebar_action">"Tindakan bar ruang"</string>
+    <string name="ui_spacebar_cursor">"Kursor"</string>
+    <string name="ui_spacebar_dictation">"Imlak"</string>
+    <string name="ui_spacebar_cursor_help">"Tekan dan tahan atau leret untuk menggerakkan kursor."</string>
+    <string name="ui_spacebar_prediction_help">"Ketik untuk menerima cadangan pertama. Tekan dan tahan untuk memasukkan ruang."</string>
+    <string name="ui_spacebar_dictation_help">"Tekan dan tahan untuk mengimlak. Lepaskan untuk menyalin kepada teks."</string>
+    <string name="ui_spacebar_prediction_hint">"Ketik untuk menerima cadangan"</string>
+    <string name="ui_spacebar_dictation_hint">"Tekan dan tahan untuk mengimlak"</string>
 </resources>

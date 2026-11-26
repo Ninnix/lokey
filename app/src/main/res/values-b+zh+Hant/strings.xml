@@ -540,4 +540,12 @@
     <string name="ui_dictation_speed">"聽寫速度"</string>
     <string name="ui_no_speech_timings">"使用已下載的語音模型聽寫後，就會顯示處理時間。"</string>
     <string name="ui_speech_timing_description">"處理時間按每秒錄音計算。不包含模型載入時間。"</string>
+    <string name="ui_spacebar_action">"空白鍵功能"</string>
+    <string name="ui_spacebar_cursor">"游標"</string>
+    <string name="ui_spacebar_dictation">"語音輸入"</string>
+    <string name="ui_spacebar_cursor_help">"長按或滑動可移動游標。"</string>
+    <string name="ui_spacebar_prediction_help">"輕觸接受第一個建議。長按輸入空格。"</string>
+    <string name="ui_spacebar_dictation_help">"長按開始語音輸入。放開轉換為文字。"</string>
+    <string name="ui_spacebar_prediction_hint">"輕觸接受建議"</string>
+    <string name="ui_spacebar_dictation_hint">"長按語音輸入"</string>
 </resources>

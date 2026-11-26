@@ -540,4 +540,12 @@
     <string name="ui_dictation_speed">"Veloċità tad-dettatura"</string>
     <string name="ui_no_speech_timings">"Il-ħinijiet jidhru wara li tiddetta b’mudell tal-vuċi mniżżel."</string>
     <string name="ui_speech_timing_description">"Il-ħin tal-ipproċessar jitkejjel għal kull sekonda ta’ awdjo rreġistrat. It-tagħbija tal-mudell ma tingħaddx."</string>
+    <string name="ui_spacebar_action">"Azzjoni tal-ispazjatur"</string>
+    <string name="ui_spacebar_cursor">"Kerser"</string>
+    <string name="ui_spacebar_dictation">"Dettatura"</string>
+    <string name="ui_spacebar_cursor_help">"Żomm magħfus jew żerżaq biex iċċaqlaq il-kerser."</string>
+    <string name="ui_spacebar_prediction_help">"Tektek biex taċċetta l-ewwel suġġeriment. Żomm magħfus għal spazju."</string>
+    <string name="ui_spacebar_dictation_help">"Żomm magħfus biex tiddetta. Erħi biex tittraskrivi."</string>
+    <string name="ui_spacebar_prediction_hint">"Tektek għas-suġġeriment"</string>
+    <string name="ui_spacebar_dictation_hint">"Żomm magħfus biex tiddetta"</string>
 </resources>

@@ -540,4 +540,12 @@
     <string name="ui_dictation_speed">"Szybkość dyktowania"</string>
     <string name="ui_no_speech_timings">"Czasy pojawią się po dyktowaniu z pobranym modelem mowy."</string>
     <string name="ui_speech_timing_description">"Czas przetwarzania jest podany na sekundę nagranego dźwięku. Czas wczytywania modelu jest pomijany."</string>
+    <string name="ui_spacebar_action">"Działanie spacji"</string>
+    <string name="ui_spacebar_cursor">"Kursor"</string>
+    <string name="ui_spacebar_dictation">"Dyktowanie"</string>
+    <string name="ui_spacebar_cursor_help">"Przytrzymaj lub przesuń palcem, aby przesunąć kursor."</string>
+    <string name="ui_spacebar_prediction_help">"Dotknij, aby zaakceptować pierwszą sugestię. Przytrzymaj, aby wstawić spację."</string>
+    <string name="ui_spacebar_dictation_help">"Przytrzymaj, aby dyktować. Puść, aby zapisać tekst."</string>
+    <string name="ui_spacebar_prediction_hint">"Dotknij, aby przyjąć sugestię"</string>
+    <string name="ui_spacebar_dictation_hint">"Przytrzymaj, aby dyktować"</string>
 </resources>

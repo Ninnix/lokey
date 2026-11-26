@@ -540,4 +540,12 @@
     <string name="ui_dictation_speed">"Dikteerimise kiirus"</string>
     <string name="ui_no_speech_timings">"Töötlusajad ilmuvad pärast allalaaditud kõnemudeliga dikteerimist."</string>
     <string name="ui_speech_timing_description">"Töötlusaeg on salvestatud heli ühe sekundi kohta. Mudeli laadimist ei arvestata."</string>
+    <string name="ui_spacebar_action">"Tühikuklahvi toiming"</string>
+    <string name="ui_spacebar_cursor">"Kursor"</string>
+    <string name="ui_spacebar_dictation">"Dikteerimine"</string>
+    <string name="ui_spacebar_cursor_help">"Kursori liigutamiseks hoia all või libista."</string>
+    <string name="ui_spacebar_prediction_help">"Puuduta esimese soovituse valimiseks. Tühiku lisamiseks hoia all."</string>
+    <string name="ui_spacebar_dictation_help">"Dikteerimiseks hoia all. Tekstiks teisendamiseks lase lahti."</string>
+    <string name="ui_spacebar_prediction_hint">"Puuduta soovituse valimiseks"</string>
+    <string name="ui_spacebar_dictation_hint">"Hoia all dikteerimiseks"</string>
 </resources>

@@ -540,4 +540,12 @@
     <string name="ui_dictation_speed">"听写速度"</string>
     <string name="ui_no_speech_timings">"使用已下载的语音模型听写后会显示处理时间。"</string>
     <string name="ui_speech_timing_description">"处理时间按每秒录音计算。不包含模型加载时间。"</string>
+    <string name="ui_spacebar_action">"空格键功能"</string>
+    <string name="ui_spacebar_cursor">"光标"</string>
+    <string name="ui_spacebar_dictation">"语音输入"</string>
+    <string name="ui_spacebar_cursor_help">"长按或滑动可移动光标。"</string>
+    <string name="ui_spacebar_prediction_help">"轻点接受第一个建议。长按输入空格。"</string>
+    <string name="ui_spacebar_dictation_help">"长按开始语音输入。松开转换为文字。"</string>
+    <string name="ui_spacebar_prediction_hint">"轻点接受建议"</string>
+    <string name="ui_spacebar_dictation_hint">"长按语音输入"</string>
 </resources>

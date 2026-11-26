@@ -540,4 +540,12 @@
     <string name="ui_dictation_speed">"Dikte hızı"</string>
     <string name="ui_no_speech_timings">"İndirilen bir konuşma modeliyle dikte ettiğinizde süreler görünür."</string>
     <string name="ui_speech_timing_description">"İşleme süreleri, kaydedilen sesin her saniyesi için hesaplanır. Model yükleme süresi dahil değildir."</string>
+    <string name="ui_spacebar_action">"Boşluk tuşu işlevi"</string>
+    <string name="ui_spacebar_cursor">"İmleç"</string>
+    <string name="ui_spacebar_dictation">"Dikte"</string>
+    <string name="ui_spacebar_cursor_help">"İmleci hareket ettirmek için basılı tutun veya kaydırın."</string>
+    <string name="ui_spacebar_prediction_help">"İlk öneriyi kabul etmek için dokunun. Boşluk için basılı tutun."</string>
+    <string name="ui_spacebar_dictation_help">"Dikte etmek için basılı tutun. Metne dönüştürmek için bırakın."</string>
+    <string name="ui_spacebar_prediction_hint">"Öneriyi kabul etmek için dokunun"</string>
+    <string name="ui_spacebar_dictation_hint">"Dikte etmek için basılı tutun"</string>
 </resources>

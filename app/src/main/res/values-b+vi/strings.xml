@@ -540,4 +540,12 @@
     <string name="ui_dictation_speed">"Tốc độ đọc chính tả"</string>
     <string name="ui_no_speech_timings">"Thời gian sẽ hiển thị sau khi bạn đọc chính tả bằng mô hình giọng nói đã tải xuống."</string>
     <string name="ui_speech_timing_description">"Thời gian xử lý tính trên mỗi giây âm thanh được ghi. Không tính thời gian tải mô hình."</string>
+    <string name="ui_spacebar_action">"Tác vụ của phím cách"</string>
+    <string name="ui_spacebar_cursor">"Con trỏ"</string>
+    <string name="ui_spacebar_dictation">"Nhập giọng nói"</string>
+    <string name="ui_spacebar_cursor_help">"Nhấn giữ hoặc vuốt để di chuyển con trỏ."</string>
+    <string name="ui_spacebar_prediction_help">"Chạm để chấp nhận gợi ý đầu tiên. Nhấn giữ để chèn dấu cách."</string>
+    <string name="ui_spacebar_dictation_help">"Nhấn giữ để nói. Thả để chuyển thành văn bản."</string>
+    <string name="ui_spacebar_prediction_hint">"Chạm để chấp nhận gợi ý"</string>
+    <string name="ui_spacebar_dictation_hint">"Nhấn giữ để nói"</string>
 </resources>

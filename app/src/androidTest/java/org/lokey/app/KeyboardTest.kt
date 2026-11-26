@@ -1285,12 +1285,15 @@ class KeyboardTest : Instrumentation() {
         val prefs = Prefs(targetContext)
         val oldHeight = prefs.height; val oldFlow = prefs.flow; val oldAdaptive = prefs.adaptive
         val oldNumberRow=prefs.numberRow
+        val oldSpacebar=prefs.spacebarAction
         val oldLanguage=prefs.setupLanguage;prefs.setupLanguage="Italian"
         val result = JSONObject()
         val activity = startActivitySync(android.content.Intent().setClass(targetContext, MainActivity::class.java).addFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK))
         lateinit var view: KeyboardView
         var entered = 0; var cursor = 0; var glides = 0; var candidates = 0
         val typed = StringBuilder(); val voice = ArrayList<Boolean>()
+        val spacePredictions=ArrayList<String>()
+        var acceptSpacePrediction=true
         val density = targetContext.resources.displayMetrics.density
         fun bounds(index: Int): android.graphics.Rect {
             val rect = android.graphics.Rect()
@@ -1320,6 +1323,7 @@ class KeyboardTest : Instrumentation() {
             runOnMainSync {
                 activity.window.addFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
                 prefs.height = 100; prefs.flow = false; prefs.adaptive = true; prefs.numberRow=true
+                prefs.spacebarAction=SpacebarAction.Cursor
                 view = KeyboardView(activity, prefs, object : KeyboardView.Listener {
                     override fun text(text: String) { typed.append(text) }
                     override fun delete() { }
@@ -1330,6 +1334,7 @@ class KeyboardTest : Instrumentation() {
                     override fun nextKeyboard() { }
                     override fun glide(points: List<Glide.Point>, centers: Map<Char, Glide.Point>, caseMode: Int) { glides++; check(points.size > 2 && centers.size == 26) }
                     override fun candidate(word: String) { candidates++ }
+                    override fun spacePrediction(word:String)=acceptSpacePrediction && spacePredictions.add(word)
                     override fun feedback(key: String, down: Boolean) { }
                 })
                 val root = android.widget.FrameLayout(activity).apply { setBackgroundColor(android.graphics.Color.rgb(23,24,25)) }
@@ -1415,8 +1420,34 @@ class KeyboardTest : Instrumentation() {
                 view.draw(android.graphics.Canvas(bitmap))
                 File(targetContext.filesDir, "interaction-keyboard.png").outputStream().use { bitmap.compress(android.graphics.Bitmap.CompressFormat.PNG,100,it) }; bitmap.recycle()
             }
+            fun spaceMode(mode:SpacebarAction) = runOnMainSync { prefs.spacebarAction=mode;view.updateSpacebar();typed.clear() }
+            fun holdSpace() {
+                val r=bounds(40)
+                touch(MotionEvent.ACTION_DOWN,r.exactCenterX(),r.exactCenterY())
+                SystemClock.sleep(380)
+                touch(MotionEvent.ACTION_UP,r.exactCenterX(),r.exactCenterY())
+            }
+            spaceMode(SpacebarAction.Prediction)
+            runOnMainSync { view.prediction(listOf("tomorrow","today"),FloatArray(26),false) }
+            tap(40);check(spacePredictions==listOf("tomorrow") && typed.isEmpty())
+            acceptSpacePrediction=false
+            tap(40);check(typed.toString()==" ")
+            acceptSpacePrediction=true
+            holdSpace();check(typed.toString()=="  " && spacePredictions.size==1)
+            runOnMainSync { view.rawInput=true }
+            tap(40);check(typed.toString()=="   " && spacePredictions.size==1)
+            runOnMainSync { view.rawInput=false;voice.clear() }
+            spaceMode(SpacebarAction.Dictation)
+            tap(40);check(typed.toString()==" " && voice.isEmpty())
+            val target=bounds(40);val cursorBefore=cursor
+            touch(MotionEvent.ACTION_DOWN,target.exactCenterX(),target.exactCenterY())
+            touch(MotionEvent.ACTION_MOVE,target.exactCenterX()+30*density,target.exactCenterY())
+            touch(MotionEvent.ACTION_UP,target.exactCenterX()+30*density,target.exactCenterY())
+            check(voice.isEmpty() && cursor>cursorBefore && typed.toString()==" ")
+            holdSpace();check(voice==listOf(true,false) && typed.toString()==" ")
+            result.put("space_prediction_and_fallback",true).put("space_dictation_and_cursor",true)
         } finally {
-            runOnMainSync { prefs.height=oldHeight; prefs.flow=oldFlow; prefs.adaptive=oldAdaptive;prefs.setupLanguage=oldLanguage;prefs.numberRow=oldNumberRow;activity.finish() }
+            runOnMainSync { prefs.height=oldHeight; prefs.flow=oldFlow; prefs.adaptive=oldAdaptive;prefs.setupLanguage=oldLanguage;prefs.numberRow=oldNumberRow;prefs.spacebarAction=oldSpacebar;activity.finish() }
         }
         return result
     }

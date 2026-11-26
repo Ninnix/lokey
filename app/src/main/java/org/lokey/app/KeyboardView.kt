@@ -34,6 +34,7 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
         fun glide(points: List<Glide.Point>, centers: Map<Char, Glide.Point>, caseMode: Int) { }
         fun nextKeyboard()
         fun candidate(word: String)
+        fun spacePrediction(word:String):Boolean = false
         fun feedback(key: String = "a", down: Boolean = true)
         fun tool(name:String) { }
         fun moreCandidates() { }
@@ -87,6 +88,15 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
     var adaptiveInput=true
         set(value) { if(field!=value) { field=value;adaptKeys();invalidate() } }
     var rawInput=false
+    internal var spacePredictionsAllowed=true
+        set(value) { if(field!=value) { field=value;invalidate() } }
+    private var configuredSpace=prefs.spacebarAction
+    private val spaceAction get()=when {
+        rawInput || forceLatin -> SpacebarAction.Cursor
+        configuredSpace==SpacebarAction.Prediction && (!spacePredictionsAllowed || !suggestionsVisible || symbols) -> SpacebarAction.Cursor
+        configuredSpace==SpacebarAction.Dictation && !speechAllowed -> SpacebarAction.Cursor
+        else -> configuredSpace
+    }
     private var suggestions = emptyList<String>()
     private var accentLanguage:String?=null
     private var nextAccentLanguage:String?=null
@@ -292,6 +302,11 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
     fun updateGeometry() {
         cancelTouches();layoutKeys();invalidate()
         sendAccessibilityEvent(AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED)
+    }
+    internal fun updateSpacebar() {
+        configuredSpace=prefs.spacebarAction
+        if(!recordingLocked && touches.values.any { it.recording }) cancelRecording()
+        cancelTouches();invalidate();sendAccessibilityEvent(AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED)
     }
     fun action(label:String) { if(enterLabel!=label) { enterLabel=label;layoutKeys();invalidate() } }
     fun prediction(words: List<String>, letters: FloatArray, probabilistic: Boolean,language:String?=null) {
@@ -617,7 +632,7 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
             imageLabels=bitmap!=null && !active && custom==null && rowColor==null
             if (key.code == "space") {
                 val cursor=touches.values.any { it.cursor }
-                val caption=if(cursor) context.tr("‹  Move cursor  ›") else context.tr("Hold for cursor")
+                val caption=if(cursor) context.tr("‹  Move cursor  ›") else context.tr(spaceAction.caption)
                 label(canvas,caption,key.rect.centerX(),if(cursor) key.rect.centerY()+dp(4f) else key.rect.bottom-dp(5f),
                     fitSize(caption,if(cursor || contrast) 11f else 9f,key.rect.width()-dp(8f)),if(bitmap!=null || contrast) color else KeyboardTheme.blend(color,fill,.3f))
             } else if (key.code == "shift") {
@@ -814,7 +829,11 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
         if(touch.key.custom?.secondary?.isNotEmpty()==true) { touch.choice=0;invalidate();return }
         if(touch.key.native && variants(touch.key.code).isNotEmpty()) { touch.choice=0;invalidate();return }
         when (touch.key.code) {
-            "space" -> touch.cursor = true
+            "space" -> when(spaceAction) {
+                SpacebarAction.Cursor -> touch.cursor=true
+                SpacebarAction.Prediction -> Unit
+                SpacebarAction.Dictation -> touch.recording=startRecording()
+            }
             "enter" -> touch.recording = startRecording()
             "delete" -> { listener.delete(); repeatDelete(id) }
             "shift" -> { caps=true;shift=true }
@@ -843,7 +862,7 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
             }
             if (touch.glide) return
         }
-        if (touch.key.code == "enter") {
+        if (touch.key.code == "enter" || touch.recording) {
             if (!touch.held && dy < -dp(48f) && abs(dx) < dp(48f)) hold(id)
             if (touch.recording && listening && !recordingLocked) {
                 if (dy < -dp(48f)) { recordingLocked = true; listener.feedback("hold") }
@@ -851,14 +870,16 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
             }
             return
         }
-        if (touch.key.code == "space" && !touch.held && abs(dx) > dp(12f)) {
+        if (touch.key.code == "space" && touch.choice<0 && !touch.cursor && abs(dx)>dp(12f) &&
+            (!touch.held || spaceAction==SpacebarAction.Prediction)) {
             callbacks.remove(id)?.let { main.removeCallbacks(it) }
             touch.cursor = true; touch.held = true
         }
         if (touch.cursor) {
             val delta = ((x - touch.x) / dp(9f)).toInt()
             if (delta != 0) { listener.cursor(delta); touch.x += delta * dp(9f) }
-        } else if (!touch.held && (period(touch.key) || touch.key.alternate.isNotBlank()) && (touch.key.custom==null || touch.key.custom.action.isEmpty() && touch.key.custom.secondary.isNotEmpty())) {
+        } else if(touch.key.code=="space" && touch.choice<0) return
+        else if (!touch.held && (period(touch.key) || touch.key.alternate.isNotBlank()) && (touch.key.custom==null || touch.key.custom.action.isEmpty() && touch.key.custom.secondary.isNotEmpty())) {
             val horizontal=abs(dx)>abs(dy)*1.35f && abs(dx)>=dp(14f)
             val value = when {
                 horizontal && dx<0 && (!symbols && !numeric && layout.composer=="dead" || touch.key.custom!=null) && reverseOptions(touch.key) -> options(touch.key).last()
@@ -985,6 +1006,7 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
                             val accent=if(touch.key.custom!=null || layout.composer=="dead") touch.flick!! else variants(touch.key.code).firstOrNull() ?: touch.flick!!
                             if((shift || caps) && layout.cased) uppercaseVariant(accent) else accent
                         } else touch.flick!!)
+                        touch.held && touch.key.code=="space" && touch.choice<0 && spaceAction==SpacebarAction.Prediction -> listener.text(" ")
                         touch.held -> if (touch.choice >= 0) emit(options(touch.key).getOrElse(touch.choice) { touch.key.alternate })
                         touch.key.code != "delete" -> activate(touch.key)
                     }
@@ -1013,7 +1035,10 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
                 layoutKeys();sendAccessibilityEvent(AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED)
             }
             "enter" -> if (listening) stopRecording() else if (voiceState.isEmpty()) listener.enter()
-            "space" -> listener.text(" ")
+            "space" -> {
+                val word=if(spaceAction==SpacebarAction.Prediction && voiceState.isEmpty()) suggestions.firstOrNull() else null
+                if(word==null || !listener.spacePrediction(word)) listener.text(" ")
+            }
             "delete" -> listener.delete()
             else -> emit(if(key.native) layout.output(key.code,shift || caps) else key.label)
         }
@@ -1125,7 +1150,11 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
                 packageName = context.packageName; className = "android.widget.Button"
                 contentDescription = when (key.code) {
                     "shift" -> if (caps) context.tr("Caps lock on") else if (shift) context.tr("Shift on for next letter") else context.tr("Shift off")
-                    "space" -> context.tr("Space, hold to move cursor")
+                    "space" -> when(spaceAction) {
+                        SpacebarAction.Cursor -> context.tr("Space, hold to move cursor")
+                        SpacebarAction.Prediction -> context.tr("Space")+", "+context.tr(spaceAction.help)
+                        SpacebarAction.Dictation -> context.tr("Space")+", "+context.tr(spaceAction.caption)
+                    }
                     "delete" -> context.tr("Backspace, hold to keep deleting")
                     "\u200c" -> context.tr("Half space")
                     "enter" -> if (listening) context.tr("Stop recording") else if (voiceState.isNotEmpty()) context.tr("Transcribing") else context.tr("%1\$s, hold to record, slide up to lock",key.label)
@@ -1158,6 +1187,15 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
                 return true
             }
             if (action == AccessibilityNodeInfo.ACTION_LONG_CLICK) {
+                val key=keys.getOrNull(id)
+                if(key?.code=="space" && key.custom?.secondary.isNullOrEmpty()) {
+                    when(spaceAction) {
+                        SpacebarAction.Cursor -> Unit
+                        SpacebarAction.Prediction -> listener.text(" ")
+                        SpacebarAction.Dictation -> if(listening) stopRecording() else recordingLocked=startRecording()
+                    }
+                    invalidate();return true
+                }
                 keys.getOrNull(id)?.let { if(it.custom?.secondary?.isNotEmpty()==true) emit(options(it).first()) else if(it.code=="symbols") openTools(it) else if(it.code=="shift") { caps=true;shift=true;layoutKeys();invalidate() } else if (it.code == "enter" && startRecording()) recordingLocked = true else if ((it.native || it.code.length==1) && it.alternate.isNotEmpty()) emit(options(it).first()) }
                 return true
             }

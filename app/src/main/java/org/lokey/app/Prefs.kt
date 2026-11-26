@@ -2,6 +2,12 @@ package org.lokey.app
 
 import android.content.Context
 
+internal enum class SpacebarAction(val id:String,val title:String,val caption:String,val help:String) {
+    Cursor("cursor","Cursor","Hold for cursor","Hold or swipe to move the cursor."),
+    Prediction("prediction","Prediction","Tap for prediction","Tap to accept the first suggestion. Hold for a space."),
+    Dictation("dictation","Dictation","Hold to dictate","Hold to dictate. Release to transcribe.")
+}
+
 class Prefs(context: Context) {
     val context:Context=context.applicationContext
     private val store = context.getSharedPreferences("lokey", Context.MODE_PRIVATE)
@@ -180,6 +186,12 @@ class Prefs(context: Context) {
     var splitLandscape:Boolean
         get()=store.getBoolean("split_landscape",false)
         set(value) { store.edit().putBoolean("split_landscape",value).apply() }
+    internal var spacebarAction:SpacebarAction
+        get() {
+            val id=store.getString("spacebar_action",null)
+            return SpacebarAction.entries.firstOrNull { it.id==id } ?: SpacebarAction.Cursor
+        }
+        set(value) { store.edit().putString("spacebar_action",value.id).apply() }
     var model: String
         get() = store.getString("model", "auto")!!
         set(value) { store.edit().putString("model", value).apply() }

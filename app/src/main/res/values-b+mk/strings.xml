@@ -540,4 +540,12 @@
     <string name="ui_dictation_speed">"Брзина на диктирање"</string>
     <string name="ui_no_speech_timings">"Времињата се појавуваат по диктирање со преземен говорен модел."</string>
     <string name="ui_speech_timing_description">"Времето за обработка е за секунда снимен звук. Вчитувањето на моделот не се вклучува."</string>
+    <string name="ui_spacebar_action">"Дејство на празното место"</string>
+    <string name="ui_spacebar_cursor">"Курсор"</string>
+    <string name="ui_spacebar_dictation">"Диктирање"</string>
+    <string name="ui_spacebar_cursor_help">"Задржете или повлечете за да го поместите курсорот."</string>
+    <string name="ui_spacebar_prediction_help">"Допрете за да го прифатите првиот предлог. Задржете за празно место."</string>
+    <string name="ui_spacebar_dictation_help">"Задржете за диктирање. Пуштете за транскрипција."</string>
+    <string name="ui_spacebar_prediction_hint">"Допрете за предлог"</string>
+    <string name="ui_spacebar_dictation_hint">"Задржете за диктирање"</string>
 </resources>

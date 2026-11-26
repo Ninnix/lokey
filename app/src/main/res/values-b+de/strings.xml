@@ -540,4 +540,12 @@
     <string name="ui_dictation_speed">"Diktiergeschwindigkeit"</string>
     <string name="ui_no_speech_timings">"Sprachzeiten erscheinen nach dem Diktieren mit einem heruntergeladenen Sprachmodell."</string>
     <string name="ui_speech_timing_description">"Die Verarbeitungszeit gilt pro Sekunde aufgezeichneter Audiodaten. Die Modellladezeit zählt nicht."</string>
+    <string name="ui_spacebar_action">"Funktion der Leertaste"</string>
+    <string name="ui_spacebar_cursor">"Cursor"</string>
+    <string name="ui_spacebar_dictation">"Diktat"</string>
+    <string name="ui_spacebar_cursor_help">"Halten oder wischen, um den Cursor zu bewegen."</string>
+    <string name="ui_spacebar_prediction_help">"Tippen übernimmt den ersten Vorschlag. Halten fügt ein Leerzeichen ein."</string>
+    <string name="ui_spacebar_dictation_help">"Halten zum Diktieren. Loslassen zum Transkribieren."</string>
+    <string name="ui_spacebar_prediction_hint">"Tippen für Vorschlag"</string>
+    <string name="ui_spacebar_dictation_hint">"Halten zum Diktieren"</string>
 </resources>

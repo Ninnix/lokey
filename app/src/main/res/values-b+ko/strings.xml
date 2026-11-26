@@ -540,4 +540,12 @@
     <string name="ui_dictation_speed">"받아쓰기 속도"</string>
     <string name="ui_no_speech_timings">"다운로드한 음성 모델로 받아쓰기를 하면 처리 시간이 표시됩니다."</string>
     <string name="ui_speech_timing_description">"녹음 오디오 1초당 처리 시간입니다. 모델 로딩 시간은 제외됩니다."</string>
+    <string name="ui_spacebar_action">"스페이스바 동작"</string>
+    <string name="ui_spacebar_cursor">"커서"</string>
+    <string name="ui_spacebar_dictation">"받아쓰기"</string>
+    <string name="ui_spacebar_cursor_help">"길게 누르거나 밀어서 커서를 이동합니다."</string>
+    <string name="ui_spacebar_prediction_help">"탭하면 첫 번째 추천을 적용합니다. 길게 누르면 공백을 입력합니다."</string>
+    <string name="ui_spacebar_dictation_help">"길게 눌러 받아쓰기합니다. 손을 떼면 텍스트로 변환합니다."</string>
+    <string name="ui_spacebar_prediction_hint">"탭하여 추천 적용"</string>
+    <string name="ui_spacebar_dictation_hint">"길게 눌러 받아쓰기"</string>
 </resources>

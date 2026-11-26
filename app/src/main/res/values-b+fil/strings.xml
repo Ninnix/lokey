@@ -540,4 +540,12 @@
     <string name="ui_dictation_speed">"Bilis ng pagdidikta"</string>
     <string name="ui_no_speech_timings">"Lalabas ang mga oras matapos magdikta gamit ang na-download na speech model."</string>
     <string name="ui_speech_timing_description">"Ang oras ng pagproseso ay bawat segundo ng na-record na audio. Hindi kasama ang pag-load ng modelo."</string>
+    <string name="ui_spacebar_action">"Aksyon ng spacebar"</string>
+    <string name="ui_spacebar_cursor">"Cursor"</string>
+    <string name="ui_spacebar_dictation">"Pagdidikta"</string>
+    <string name="ui_spacebar_cursor_help">"Pindutin nang matagal o i-swipe para ilipat ang cursor."</string>
+    <string name="ui_spacebar_prediction_help">"I-tap para tanggapin ang unang mungkahi. Pindutin nang matagal para sa espasyo."</string>
+    <string name="ui_spacebar_dictation_help">"Pindutin nang matagal para magdikta. Bitawan para gawing teksto."</string>
+    <string name="ui_spacebar_prediction_hint">"I-tap para sa mungkahi"</string>
+    <string name="ui_spacebar_dictation_hint">"Pindutin nang matagal para magdikta"</string>
 </resources>

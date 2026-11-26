@@ -540,4 +540,12 @@
     <string name="ui_dictation_speed">"Viteza dictării"</string>
     <string name="ui_no_speech_timings">"Timpii apar după ce dictezi cu un model vocal descărcat."</string>
     <string name="ui_speech_timing_description">"Timpii de procesare sunt pe secundă de audio înregistrat. Încărcarea modelului este exclusă."</string>
+    <string name="ui_spacebar_action">"Acțiunea barei de spațiu"</string>
+    <string name="ui_spacebar_cursor">"Cursor"</string>
+    <string name="ui_spacebar_dictation">"Dictare"</string>
+    <string name="ui_spacebar_cursor_help">"Ține apăsat sau glisează pentru a muta cursorul."</string>
+    <string name="ui_spacebar_prediction_help">"Atinge pentru a accepta prima sugestie. Ține apăsat pentru spațiu."</string>
+    <string name="ui_spacebar_dictation_help">"Ține apăsat pentru a dicta. Eliberează pentru a transcrie."</string>
+    <string name="ui_spacebar_prediction_hint">"Atinge pentru sugestie"</string>
+    <string name="ui_spacebar_dictation_hint">"Ține apăsat pentru a dicta"</string>
 </resources>

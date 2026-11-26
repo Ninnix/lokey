@@ -540,4 +540,12 @@
     <string name="ui_dictation_speed">"سرعت دیکته"</string>
     <string name="ui_no_speech_timings">"زمان‌ها پس از دیکته با یک مدل گفتاری دانلودشده نمایش داده می‌شوند."</string>
     <string name="ui_speech_timing_description">"زمان پردازش به‌ازای هر ثانیه صدای ضبط‌شده است. بارگذاری مدل محاسبه نمی‌شود."</string>
+    <string name="ui_spacebar_action">"عملکرد کلید فاصله"</string>
+    <string name="ui_spacebar_cursor">"نشانگر"</string>
+    <string name="ui_spacebar_dictation">"دیکته"</string>
+    <string name="ui_spacebar_cursor_help">"برای جابه‌جایی نشانگر نگه دارید یا بکشید."</string>
+    <string name="ui_spacebar_prediction_help">"برای پذیرش نخستین پیشنهاد ضربه بزنید. برای درج فاصله نگه دارید."</string>
+    <string name="ui_spacebar_dictation_help">"برای دیکته نگه دارید. برای تبدیل به متن رها کنید."</string>
+    <string name="ui_spacebar_prediction_hint">"برای پذیرش پیشنهاد ضربه بزنید"</string>
+    <string name="ui_spacebar_dictation_hint">"برای دیکته نگه دارید"</string>
 </resources>

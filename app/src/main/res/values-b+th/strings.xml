@@ -540,4 +540,12 @@
     <string name="ui_dictation_speed">"ความเร็วการป้อนด้วยเสียง"</string>
     <string name="ui_no_speech_timings">"เวลาประมวลผลจะแสดงเมื่อป้อนด้วยเสียงโดยใช้โมเดลเสียงที่ดาวน์โหลดมา"</string>
     <string name="ui_speech_timing_description">"เวลาประมวลผลคิดต่อหนึ่งวินาทีของเสียงที่บันทึก ไม่นับเวลาโหลดโมเดล"</string>
+    <string name="ui_spacebar_action">"การทำงานของแป้นเว้นวรรค"</string>
+    <string name="ui_spacebar_cursor">"เคอร์เซอร์"</string>
+    <string name="ui_spacebar_dictation">"ป้อนด้วยเสียง"</string>
+    <string name="ui_spacebar_cursor_help">"กดค้างหรือปัดเพื่อเลื่อนเคอร์เซอร์"</string>
+    <string name="ui_spacebar_prediction_help">"แตะเพื่อเลือกคำแนะนำแรก กดค้างเพื่อเว้นวรรค"</string>
+    <string name="ui_spacebar_dictation_help">"กดค้างเพื่อป้อนด้วยเสียง ปล่อยเพื่อแปลงเป็นข้อความ"</string>
+    <string name="ui_spacebar_prediction_hint">"แตะเพื่อเลือกคำแนะนำ"</string>
+    <string name="ui_spacebar_dictation_hint">"กดค้างเพื่อป้อนด้วยเสียง"</string>
 </resources>

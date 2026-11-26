@@ -540,4 +540,12 @@
     <string name="ui_dictation_speed">"Dikteringshastighed"</string>
     <string name="ui_no_speech_timings">"Taletider vises, når du har dikteret med en downloadet talemodel."</string>
     <string name="ui_speech_timing_description">"Behandlingstiderne er pr. sekund optaget lyd. Indlæsning af modellen tæller ikke."</string>
+    <string name="ui_spacebar_action">"Mellemrumstastens funktion"</string>
+    <string name="ui_spacebar_cursor">"Markør"</string>
+    <string name="ui_spacebar_dictation">"Diktering"</string>
+    <string name="ui_spacebar_cursor_help">"Hold eller stryg for at flytte markøren."</string>
+    <string name="ui_spacebar_prediction_help">"Tryk for at acceptere første forslag. Hold for mellemrum."</string>
+    <string name="ui_spacebar_dictation_help">"Hold for at diktere. Slip for at transskribere."</string>
+    <string name="ui_spacebar_prediction_hint">"Tryk for forslag"</string>
+    <string name="ui_spacebar_dictation_hint">"Hold for diktering"</string>
 </resources>

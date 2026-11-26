@@ -540,4 +540,12 @@
     <string name="ui_dictation_speed">"Hitrost narekovanja"</string>
     <string name="ui_no_speech_timings">"Časi se prikažejo po narekovanju s prenesenim govornim modelom."</string>
     <string name="ui_speech_timing_description">"Čas obdelave je podan na sekundo posnetega zvoka. Nalaganje modela ni vključeno."</string>
+    <string name="ui_spacebar_action">"Dejanje preslednice"</string>
+    <string name="ui_spacebar_cursor">"Kazalec"</string>
+    <string name="ui_spacebar_dictation">"Narekovanje"</string>
+    <string name="ui_spacebar_cursor_help">"Pridržite ali povlecite za premik kazalca."</string>
+    <string name="ui_spacebar_prediction_help">"Tapnite za sprejem prvega predloga. Pridržite za presledek."</string>
+    <string name="ui_spacebar_dictation_help">"Pridržite za narekovanje. Spustite za prepis."</string>
+    <string name="ui_spacebar_prediction_hint">"Tapnite za predlog"</string>
+    <string name="ui_spacebar_dictation_hint">"Pridržite za narekovanje"</string>
 </resources>

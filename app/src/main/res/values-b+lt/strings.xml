@@ -540,4 +540,12 @@
     <string name="ui_dictation_speed">"Diktavimo sparta"</string>
     <string name="ui_no_speech_timings">"Laikai rodomi padiktavus su atsisiųstu kalbos modeliu."</string>
     <string name="ui_speech_timing_description">"Apdorojimo laikas skaičiuojamas vienai įrašyto garso sekundei. Modelio įkėlimas neįskaičiuojamas."</string>
+    <string name="ui_spacebar_action">"Tarpo klavišo veiksmas"</string>
+    <string name="ui_spacebar_cursor">"Žymeklis"</string>
+    <string name="ui_spacebar_dictation">"Diktavimas"</string>
+    <string name="ui_spacebar_cursor_help">"Norėdami perkelti žymeklį, palaikykite arba braukite."</string>
+    <string name="ui_spacebar_prediction_help">"Bakstelėkite pirmajam pasiūlymui priimti. Palaikykite tarpui įterpti."</string>
+    <string name="ui_spacebar_dictation_help">"Palaikykite, kad diktuotumėte. Atleiskite, kad būtų perrašyta."</string>
+    <string name="ui_spacebar_prediction_hint">"Bakstelėkite pasiūlymui priimti"</string>
+    <string name="ui_spacebar_dictation_hint">"Palaikykite diktavimui"</string>
 </resources>

@@ -540,4 +540,12 @@
     <string name="ui_dictation_speed">"سرعة الإملاء"</string>
     <string name="ui_no_speech_timings">"تظهر أوقات المعالجة بعد الإملاء باستخدام نموذج صوتي تم تنزيله."</string>
     <string name="ui_speech_timing_description">"أوقات المعالجة محسوبة لكل ثانية من الصوت المسجّل. لا يُحتسب تحميل النموذج."</string>
+    <string name="ui_spacebar_action">"وظيفة مفتاح المسافة"</string>
+    <string name="ui_spacebar_cursor">"المؤشر"</string>
+    <string name="ui_spacebar_dictation">"الإملاء"</string>
+    <string name="ui_spacebar_cursor_help">"اضغط مطولًا أو اسحب لتحريك المؤشر."</string>
+    <string name="ui_spacebar_prediction_help">"انقر لقبول أول اقتراح. اضغط مطولًا لإدخال مسافة."</string>
+    <string name="ui_spacebar_dictation_help">"اضغط مطولًا للإملاء. ارفع إصبعك لتحويل الكلام إلى نص."</string>
+    <string name="ui_spacebar_prediction_hint">"انقر لقبول الاقتراح"</string>
+    <string name="ui_spacebar_dictation_hint">"اضغط مطولًا للإملاء"</string>
 </resources>

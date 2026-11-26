@@ -540,4 +540,12 @@
     <string name="ui_dictation_speed">"Скорост на диктовката"</string>
     <string name="ui_no_speech_timings">"Времената се показват след диктовка с изтеглен говорен модел."</string>
     <string name="ui_speech_timing_description">"Времето за обработка е за секунда записано аудио. Зареждането на модела не се брои."</string>
+    <string name="ui_spacebar_action">"Действие на интервала"</string>
+    <string name="ui_spacebar_cursor">"Курсор"</string>
+    <string name="ui_spacebar_dictation">"Диктовка"</string>
+    <string name="ui_spacebar_cursor_help">"Задръжте или плъзнете, за да местите курсора."</string>
+    <string name="ui_spacebar_prediction_help">"Докоснете за първото предложение. Задръжте за интервал."</string>
+    <string name="ui_spacebar_dictation_help">"Задръжте за диктовка. Отпуснете за транскрипция."</string>
+    <string name="ui_spacebar_prediction_hint">"Докоснете за предложение"</string>
+    <string name="ui_spacebar_dictation_hint">"Задръжте за диктовка"</string>
 </resources>

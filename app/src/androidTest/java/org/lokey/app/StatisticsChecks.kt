@@ -38,6 +38,7 @@ object StatisticsChecks {
         val prefs=Prefs(context);val stats=TypingStats.shared(context);val before=stats.snapshot()
         val layout=prefs.layoutSelection;val shortcuts=prefs.quickLayouts;val language=prefs.setupLanguage
         val correction=prefs.autocorrect;val modelId=prefs.model
+        val spacebar=prefs.spacebarAction
         val info=test.uiAutomation.serviceInfo
         info.flags=info.flags or android.accessibilityservice.AccessibilityServiceInfo.FLAG_RETRIEVE_INTERACTIVE_WINDOWS
         test.uiAutomation.serviceInfo=info
@@ -87,7 +88,7 @@ object StatisticsChecks {
         }
         var activity:android.app.Activity?=null
         try {
-            prefs.layout="qwerty";prefs.setupLanguage="English";prefs.autocorrect=true
+            prefs.layout="qwerty";prefs.setupLanguage="English";prefs.autocorrect=true;prefs.spacebarAction=SpacebarAction.Cursor
             val typing=start("lab").also { activity=it }
             await("editor window") { typing.hasWindowFocus() }
             fun editor(private:Boolean=false):EditText {
@@ -123,9 +124,23 @@ object StatisticsChecks {
             val second=editor();type("teh ")
             await("applied autocorrection") { value(second)=="the " && stats.snapshot().corrections==before.corrections+1 }
             val normal=stats.snapshot()
+            prefs.spacebarAction=SpacebarAction.Prediction
             val secret=editor(private=true);type("teh ")
             await("private text") { value(secret)=="teh " }
             check(stats.snapshot()==normal)
+            prefs.autocorrect=false
+            val predicted=editor();type(prefix)
+            fun firstSuggestion()=node { it.startsWith("Suggestion: ") }?.contentDescription?.toString()?.removePrefix("Suggestion: ")
+            await("first spacebar prediction") { firstSuggestion()?.let { it.startsWith(prefix,true) && it.length>prefix.length }==true }
+            val accepted=firstSuggestion()!!
+            type(" ")
+            await("prediction inserted by spacebar") { value(predicted)=="$accepted " && stats.snapshot().suggestions==normal.suggestions+1 }
+            val ordinary=editor();type(prefix)
+            await("prediction before holding space") { firstSuggestion()?.startsWith(prefix,true)==true }
+            val space=node { it.startsWith("Space,") }!!
+            check(space.performAction(AccessibilityNodeInfo.ACTION_LONG_CLICK))
+            await("ordinary space on hold") { value(ordinary)=="$prefix " }
+            check(stats.snapshot().suggestions==normal.suggestions+1)
             test.runOnMainSync { typing.finish() };activity=null
 
             val timed=JSONObject()
@@ -162,7 +177,13 @@ object StatisticsChecks {
             }
             val feel=start("feel").also { activity=it }
             await("Feel window") { feel.hasWindowFocus() }
-            test.runOnMainSync { checkButtonIcons(feel.window.decorView,"Input & design credits","Erase learned data") }
+            test.runOnMainSync {
+                val root=feel.window.decorView
+                checkButtonIcons(root,"Input & design credits","Erase learned data")
+                check(find(root,context.tr("Spacebar action"))!=null && find(root,context.tr("Prediction"))!!.isSelected)
+                check(find(root,context.tr("Dictation"))!!.performClick())
+                check(Prefs(context).spacebarAction==SpacebarAction.Dictation && find(root,context.tr(SpacebarAction.Dictation.help))!=null)
+            }
             val models=start("models").also { activity=it }
             await("Models window") { models.hasWindowFocus() }
             test.runOnMainSync {
@@ -199,11 +220,13 @@ object StatisticsChecks {
             }
             return JSONObject().put("persisted_bounded_timings",true).put("accepted_suggestion_and_saved_characters",true)
                 .put("committed_autocorrection",true).put("private_field_excluded",true).put("metric_icons_and_model_logos",true).put("button_icons",7)
+                .put("spacebar_prediction_and_setting",true)
                 .put("models",timed).put("speech_models",speech)
         } finally {
             activity?.let { current -> test.runOnMainSync { current.finish() } }
             Native.release();links.forEach { it.delete() }
             prefs.layout=layout;prefs.quickLayouts=shortcuts;prefs.setupLanguage=language;prefs.autocorrect=correction;prefs.model=modelId
+            prefs.spacebarAction=spacebar
             stats.flush()
         }
     }

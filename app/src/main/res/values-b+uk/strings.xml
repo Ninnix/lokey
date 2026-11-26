@@ -540,4 +540,12 @@
     <string name="ui_dictation_speed">"Швидкість диктування"</string>
     <string name="ui_no_speech_timings">"Час обробки з’явиться після диктування із завантаженою мовленнєвою моделлю."</string>
     <string name="ui_speech_timing_description">"Час обробки наведено на секунду запису. Завантаження моделі не враховується."</string>
+    <string name="ui_spacebar_action">"Дія клавіші пробілу"</string>
+    <string name="ui_spacebar_cursor">"Курсор"</string>
+    <string name="ui_spacebar_dictation">"Диктування"</string>
+    <string name="ui_spacebar_cursor_help">"Утримуйте або проведіть пальцем, щоб перемістити курсор."</string>
+    <string name="ui_spacebar_prediction_help">"Торкніться, щоб прийняти першу підказку. Утримуйте для пробілу."</string>
+    <string name="ui_spacebar_dictation_help">"Утримуйте для диктування. Відпустіть для розпізнавання."</string>
+    <string name="ui_spacebar_prediction_hint">"Торкніться для підказки"</string>
+    <string name="ui_spacebar_dictation_hint">"Утримуйте для диктування"</string>
 </resources>

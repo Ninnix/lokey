@@ -540,4 +540,12 @@
     <string name="ui_dictation_speed">"डिक्टेशन की गति"</string>
     <string name="ui_no_speech_timings">"डाउनलोड किए गए स्पीच मॉडल से बोलकर लिखने के बाद समय दिखेगा।"</string>
     <string name="ui_speech_timing_description">"प्रोसेसिंग का समय रिकॉर्ड किए गए ऑडियो के हर सेकंड के लिए है। मॉडल लोड होने का समय शामिल नहीं है।"</string>
+    <string name="ui_spacebar_action">"स्पेसबार की क्रिया"</string>
+    <string name="ui_spacebar_cursor">"कर्सर"</string>
+    <string name="ui_spacebar_dictation">"बोलकर लिखना"</string>
+    <string name="ui_spacebar_cursor_help">"कर्सर ले जाने के लिए दबाकर रखें या स्वाइप करें।"</string>
+    <string name="ui_spacebar_prediction_help">"पहला सुझाव स्वीकार करने के लिए टैप करें। स्पेस के लिए दबाकर रखें।"</string>
+    <string name="ui_spacebar_dictation_help">"बोलकर लिखने के लिए दबाकर रखें। टेक्स्ट में बदलने के लिए छोड़ें।"</string>
+    <string name="ui_spacebar_prediction_hint">"सुझाव के लिए टैप करें"</string>
+    <string name="ui_spacebar_dictation_hint">"बोलकर लिखने के लिए दबाकर रखें"</string>
 </resources>

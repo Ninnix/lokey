@@ -291,6 +291,13 @@ class MainActivity : Activity() {
             addView(text(if(prefs.currentLayout.flow) tr("Slide across letters to write a word.") else tr("Swipe typing is available on Latin layouts without composition."),13f,muted))
             addView(setting(tr("Autocorrect"),prefs.autocorrect,FeelIcon.Kind.Correct) { prefs.autocorrect=it })
             addView(text(tr("Correct words on space or punctuation. Backspace restores the original."),13f,muted))
+            addView(text(tr("Spacebar action"),15f,bold=true).apply { setPadding(0,dp(16),0,dp(8)) })
+            val actions=SpacebarAction.entries
+            val spacebarHelp=text(tr(prefs.spacebarAction.help),13f,muted).apply { setPadding(0,dp(8),0,dp(8)) }
+            addView(segments(actions.map { tr(it.title) },prefs.spacebarAction.ordinal) { index ->
+                prefs.spacebarAction=actions[index];spacebarHelp.text=tr(actions[index].help)
+            })
+            addView(spacebarHelp)
             addView(setting(tr("Adaptive letter sizes"),prefs.adaptive,FeelIcon.Kind.Adapt) { prefs.adaptive=it })
             addView(text(tr("Likely keys grow; letter positions stay fixed."),13f,muted))
             addView(setting(tr("One-tap speech"),prefs.oneTapSpeech,FeelIcon.Kind.Speech) {

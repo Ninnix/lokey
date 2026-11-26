@@ -540,4 +540,12 @@
     <string name="ui_dictation_speed">"音声入力の速度"</string>
     <string name="ui_no_speech_timings">"ダウンロードした音声モデルで音声入力すると、処理時間が表示されます。"</string>
     <string name="ui_speech_timing_description">"録音音声1秒あたりの処理時間です。モデルの読み込み時間は含みません。"</string>
+    <string name="ui_spacebar_action">"スペースキーの動作"</string>
+    <string name="ui_spacebar_cursor">"カーソル"</string>
+    <string name="ui_spacebar_dictation">"音声入力"</string>
+    <string name="ui_spacebar_cursor_help">"長押しまたはスワイプでカーソルを移動します。"</string>
+    <string name="ui_spacebar_prediction_help">"タップで最初の候補を確定します。長押しでスペースを入力します。"</string>
+    <string name="ui_spacebar_dictation_help">"長押しして音声入力します。離すと文字に変換します。"</string>
+    <string name="ui_spacebar_prediction_hint">"タップで候補を確定"</string>
+    <string name="ui_spacebar_dictation_hint">"長押しで音声入力"</string>
 </resources>

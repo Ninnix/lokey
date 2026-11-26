@@ -7,14 +7,21 @@ Commands and repository paths below are relative to the repository root.
 - The number row is visible by default. Hold a digit for its alternate symbol.
 - Letter keys use US International accent variants, with the first variant printed on the key. Hold and slide for more: `a → à á â ä ã å æ ā ą ă`, `e → è é ê ë ē ė ę ě`, `n → ñ ń ň ņ`, `c → ç ć č`. Polish, Czech, Romanian, Hungarian, Turkish and Baltic variants are also included (`ą ă ě ı İ ő ű ų ş ļ ņ`). Shift and caps lock also apply to accents. Letters without common variants have no duplicated symbol shortcut; punctuation remains on the number row and ?123 pages.
 - Tap period for `.`. Flick it right for `?`, left for `!`, or up for `,`, without waiting. Holding it opens only `! , ?`. Swipe up on a letter or digit for its printed alternate; hold and slide for the complete accent list.
-- Hold or slide across space to move the cursor inside the active text field. It stops at the beginning and end, including in empty fields, without moving focus to other controls. Hold Enter to record; release to stop and transcribe.
+- Slide across the spacebar to move the cursor inside the active text field. It stops at the beginning and end, including in empty fields, without moving focus to other controls. Hold Enter to record and release to transcribe.
 - While holding Enter, slide up to lock recording. Release your finger and keep talking; the same Enter key becomes Stop. Tap it to stop and transcribe. Slide left while holding, or tap Cancel in the waveform row, to discard audio. The suggestion row shows live microphone levels and a timer while recording.
 - Tap Shift to cycle off → one uppercase letter → caps lock → off. Active Shift and caps lock use the theme’s accent color. Hold Delete for repeat. Hold ?123 for Clipboard, Translate, and Layout. Android’s system keyboard switcher remains available.
 - Hold comma for a small emoji menu.
 - Hold the thin handle above predictions for 400 ms, then drag up/down to change keyboard height live between 85% and 120%. Release to save; a cancelled drag restores the prior height.
 - After three seconds without input, Enter becomes slightly wider over 180 ms. Letter rows stay fixed. Touching a key restores its standard size after release; no target moves beneath a held finger. Recording/resize gestures suspend idle expansion.
-- The spacebar shows “Hold for cursor”; the footer slogan and its reserved blank strip are removed without shrinking the keys. Android’s own keyboard switch button remains unchanged. No settings button is added.
 - Feel → Swipe to type enables optional glide input (off by default). Slide across letters and lift for a word. Shape matching combines the detected language’s vocabulary with local model scores. Alternate words stay in predictions until typing continues. Short upward accent flicks, held accents, space-cursor movement, and voice gestures remain available. Swipe input respects one-letter Shift and Caps Lock. Stale editor results are rejected and consecutive swipes are queued.
+
+Choose a mode under **Feel → Typing features → Spacebar action**.
+
+- **Cursor** is the default. Tap for a space. Hold or slide to move the cursor.
+- **Prediction** accepts the first current suggestion on tap. Hold for an ordinary space. If a suggestion is unavailable or stale, tapping inserts a space as usual.
+- **Dictation** inserts a space on tap. Hold to record, then release to transcribe. Slide up while recording to lock, or slide left to cancel. The Enter key can stop a locked recording.
+
+Horizontal spacebar swipes move the cursor in all three modes. Prediction acceptance uses the active editor and preserves ordinary space behavior in private fields, terminals, and composition.
 
 ## Symbols, numbers, and landscape
 

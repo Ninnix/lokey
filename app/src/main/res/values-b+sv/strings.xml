@@ -540,4 +540,12 @@
     <string name="ui_dictation_speed">"Dikteringshastighet"</string>
     <string name="ui_no_speech_timings">"Tiderna visas när du har dikterat med en nedladdad talmodell."</string>
     <string name="ui_speech_timing_description">"Bearbetningstiden anges per sekund inspelat ljud. Inläsning av modellen räknas inte."</string>
+    <string name="ui_spacebar_action">"Mellanslagstangentens funktion"</string>
+    <string name="ui_spacebar_cursor">"Markör"</string>
+    <string name="ui_spacebar_dictation">"Diktering"</string>
+    <string name="ui_spacebar_cursor_help">"Håll ned eller svep för att flytta markören."</string>
+    <string name="ui_spacebar_prediction_help">"Tryck för att välja första förslaget. Håll ned för mellanslag."</string>
+    <string name="ui_spacebar_dictation_help">"Håll ned för att diktera. Släpp för att transkribera."</string>
+    <string name="ui_spacebar_prediction_hint">"Tryck för att välja förslag"</string>
+    <string name="ui_spacebar_dictation_hint">"Håll ned för att diktera"</string>
 </resources>
