@@ -1,6 +1,6 @@
 # Lokey privacy policy
 
-Effective date: November 13, 2026.
+Effective date: November 26, 2026.
 
 Lokey (`org.lokey.app`) is developed by Nicolo' D'Evangelista, also known as
 Ninnix. For privacy questions or requests, contact nicolo.deva@gmail.com.
