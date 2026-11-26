@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.view.Gravity
 import android.widget.*
 
 class SetupActivity:AppScreen() {
@@ -86,9 +87,12 @@ class SetupActivity:AppScreen() {
             modelChoice(content,false);modelChoice(content,true)
             content.addView(text(tr("Model downloads connect to Hugging Face, which receives your IP address. Typing and audio stay on your device."),12f,muted).apply { setPadding(0,dp(8),0,dp(8)) })
             content.addView(text(tr("Suggested for your language and device. Downloads stay on your device. Qwen ASR includes its audio encoder."),12f,muted).apply { setPadding(0,dp(8),0,dp(8)) })
-            content.addView(button(tr("See all supported languages")) { startActivity(Intent(this,LanguageActivity::class.java)) })
+            content.addView(button(tr("See all supported languages")) { startActivity(Intent(this,LanguageActivity::class.java)) }
+                .apply { setFeelIcon(FeelIcon.Kind.Globe,accent);gravity=Gravity.START or Gravity.CENTER_VERTICAL })
         }
-        content.addView(button(tr("Privacy policy")) { startActivity(Intent(this,PrivacyActivity::class.java)) },LinearLayout.LayoutParams(-1,-2).apply { topMargin=dp(10) })
+        content.addView(button(tr("Privacy policy")) { startActivity(Intent(this,PrivacyActivity::class.java)) }
+            .apply { setFeelIcon(FeelIcon.Kind.Shield,accent);gravity=Gravity.START or Gravity.CENTER_VERTICAL },
+            LinearLayout.LayoutParams(-1,-2).apply { topMargin=dp(10) })
         if(step==0) {
             val preview=vertical().apply { setPadding(dp(24),dp(8),dp(24),0) }
             layoutTitle=text(layoutName(prefs.currentLayout),12f,muted).apply { setPadding(0,0,0,dp(6));contentDescription=tr("Setup preview layout") }

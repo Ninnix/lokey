@@ -22,6 +22,12 @@ model checkpoints and translation working state are held in memory rather
 than saved as a typing history. Private/password fields identified through
 Android's editor flags disable prediction, dictation and clipboard capture.
 
+Models → Statistics for nerds keeps local totals for accepted suggestions,
+completion characters, applied autocorrections and inserted dictations. It
+keeps up to 64 recent autocomplete or dictation timings per model. Private
+fields are excluded. Only numeric totals, durations and model identifiers are
+saved for these statistics. They are never sent off the device.
+
 Adaptive letter sizes use current on-device probability estimates from the
 installed text model or bundled public dictionary/context tables. The offline
 word-context tables contain fixed public corpus counts and never learn from

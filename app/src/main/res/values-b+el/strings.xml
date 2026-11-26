@@ -525,4 +525,19 @@
     <string name="ui_split_keyboard_in_landscape">"Διαχωρισμός πληκτρολογίου σε οριζόντιο προσανατολισμό"</string>
     <string name="ui_add_layout">"Προσθήκη διάταξης"</string>
     <string name="ui_remove_layout_shortcut">"Κατάργηση συντόμευσης"</string>
+    <string name="ui_statistics_for_nerds">"Στατιστικά για προχωρημένους"</string>
+    <string name="ui_suggestions_accepted">"Προτάσεις που αποδεχτήκατε"</string>
+    <string name="ui_characters_saved">"Χαρακτήρες που εξοικονομήθηκαν"</string>
+    <string name="ui_autocorrections_applied">"Αυτόματες διορθώσεις που εφαρμόστηκαν"</string>
+    <string name="ui_autocomplete_speed">"Ταχύτητα αυτόματης συμπλήρωσης"</string>
+    <string name="ui_median">"Διάμεσος"</string>
+    <string name="ui_p95">"95ο εκατοστημόριο"</string>
+    <string name="ui_timing_samples">"Μετρήσεις"</string>
+    <string name="ui_no_model_timings">"Οι χρόνοι εμφανίζονται αφού πληκτρολογήσετε με ένα μοντέλο κειμένου που έχετε κατεβάσει."</string>
+    <string name="ui_timing_description">"Οι πρόσφατοι χρόνοι παραγωγής εξαρτώνται από το κείμενο. Η φόρτωση και τα αποτελέσματα της κρυφής μνήμης εξαιρούνται."</string>
+    <string name="ui_statistics_local">"Τα στατιστικά παραμένουν στη συσκευή."</string>
+    <string name="ui_dictations_inserted">"Υπαγορεύσεις που εισήχθησαν"</string>
+    <string name="ui_dictation_speed">"Ταχύτητα υπαγόρευσης"</string>
+    <string name="ui_no_speech_timings">"Οι χρόνοι εμφανίζονται αφού υπαγορεύσετε με ένα μοντέλο ομιλίας που έχετε κατεβάσει."</string>
+    <string name="ui_speech_timing_description">"Οι χρόνοι επεξεργασίας είναι ανά δευτερόλεπτο εγγεγραμμένου ήχου. Η φόρτωση του μοντέλου εξαιρείται."</string>
 </resources>

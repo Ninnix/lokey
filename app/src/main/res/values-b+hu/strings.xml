@@ -525,4 +525,19 @@
     <string name="ui_split_keyboard_in_landscape">"Billentyűzet felosztása fekvő módban"</string>
     <string name="ui_add_layout">"Kiosztás hozzáadása"</string>
     <string name="ui_remove_layout_shortcut">"Parancsikon eltávolítása"</string>
+    <string name="ui_statistics_for_nerds">"Statisztikák a kíváncsiaknak"</string>
+    <string name="ui_suggestions_accepted">"Elfogadott javaslatok"</string>
+    <string name="ui_characters_saved">"Megspórolt karakterek"</string>
+    <string name="ui_autocorrections_applied">"Elvégzett automatikus javítások"</string>
+    <string name="ui_autocomplete_speed">"Az automatikus kiegészítés sebessége"</string>
+    <string name="ui_median">"Medián"</string>
+    <string name="ui_p95">"95. percentilis"</string>
+    <string name="ui_timing_samples">"Mérések"</string>
+    <string name="ui_no_model_timings">"Az idők akkor jelennek meg, ha letöltött szövegmodellel gépelsz."</string>
+    <string name="ui_timing_description">"A legutóbbi generálási idők a beírt szövegtől függnek. A betöltés és a gyorsítótárazott eredmények nem számítanak."</string>
+    <string name="ui_statistics_local">"Ezek a statisztikák ezen az eszközön maradnak."</string>
+    <string name="ui_dictations_inserted">"Beszúrt diktálások"</string>
+    <string name="ui_dictation_speed">"A diktálás sebessége"</string>
+    <string name="ui_no_speech_timings">"Az idők letöltött beszédmodellel végzett diktálás után jelennek meg."</string>
+    <string name="ui_speech_timing_description">"A feldolgozási idő a rögzített hang egy másodpercére vonatkozik. A modell betöltése nem számít."</string>
 </resources>

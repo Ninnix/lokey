@@ -525,4 +525,19 @@
     <string name="ui_split_keyboard_in_landscape">"Tastatur im Querformat teilen"</string>
     <string name="ui_add_layout">"Layout hinzufügen"</string>
     <string name="ui_remove_layout_shortcut">"Eintrag entfernen"</string>
+    <string name="ui_statistics_for_nerds">"Statistik für Nerds"</string>
+    <string name="ui_suggestions_accepted">"Übernommene Vorschläge"</string>
+    <string name="ui_characters_saved">"Gesparte Zeichen"</string>
+    <string name="ui_autocorrections_applied">"Angewandte Autokorrekturen"</string>
+    <string name="ui_autocomplete_speed">"Tempo der Autovervollständigung"</string>
+    <string name="ui_median">"Median"</string>
+    <string name="ui_p95">"95. Perzentil"</string>
+    <string name="ui_timing_samples">"Messungen"</string>
+    <string name="ui_no_model_timings">"Modellzeiten erscheinen nach dem Tippen mit einem heruntergeladenen Textmodell."</string>
+    <string name="ui_timing_description">"Die letzten Generierungszeiten hängen vom eingegebenen Text ab. Ladezeiten und zwischengespeicherte Ergebnisse zählen nicht."</string>
+    <string name="ui_statistics_local">"Diese Statistiken bleiben auf diesem Gerät."</string>
+    <string name="ui_dictations_inserted">"Eingefügte Diktate"</string>
+    <string name="ui_dictation_speed">"Diktiergeschwindigkeit"</string>
+    <string name="ui_no_speech_timings">"Sprachzeiten erscheinen nach dem Diktieren mit einem heruntergeladenen Sprachmodell."</string>
+    <string name="ui_speech_timing_description">"Die Verarbeitungszeit gilt pro Sekunde aufgezeichneter Audiodaten. Die Modellladezeit zählt nicht."</string>
 </resources>

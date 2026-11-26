@@ -525,4 +525,19 @@
     <string name="ui_split_keyboard_in_landscape">"Podziel klawiaturę w orientacji poziomej"</string>
     <string name="ui_add_layout">"Dodaj układ"</string>
     <string name="ui_remove_layout_shortcut">"Usuń skrót"</string>
+    <string name="ui_statistics_for_nerds">"Statystyki dla dociekliwych"</string>
+    <string name="ui_suggestions_accepted">"Przyjęte sugestie"</string>
+    <string name="ui_characters_saved">"Zaoszczędzone znaki"</string>
+    <string name="ui_autocorrections_applied">"Zastosowane autokorekty"</string>
+    <string name="ui_autocomplete_speed">"Szybkość autouzupełniania"</string>
+    <string name="ui_median">"Mediana"</string>
+    <string name="ui_p95">"95. percentyl"</string>
+    <string name="ui_timing_samples">"Pomiary"</string>
+    <string name="ui_no_model_timings">"Czasy pojawią się po pisaniu z pobranym modelem tekstowym."</string>
+    <string name="ui_timing_description">"Ostatnie czasy generowania zależą od wpisywanego tekstu. Wczytywanie i wyniki z pamięci podręcznej są pomijane."</string>
+    <string name="ui_statistics_local">"Te statystyki pozostają na tym urządzeniu."</string>
+    <string name="ui_dictations_inserted">"Wstawione dyktowania"</string>
+    <string name="ui_dictation_speed">"Szybkość dyktowania"</string>
+    <string name="ui_no_speech_timings">"Czasy pojawią się po dyktowaniu z pobranym modelem mowy."</string>
+    <string name="ui_speech_timing_description">"Czas przetwarzania jest podany na sekundę nagranego dźwięku. Czas wczytywania modelu jest pomijany."</string>
 </resources>

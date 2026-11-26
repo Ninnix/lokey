@@ -525,4 +525,19 @@
     <string name="ui_split_keyboard_in_landscape">"Hatiin ang keyboard sa landscape mode"</string>
     <string name="ui_add_layout">"Magdagdag ng layout"</string>
     <string name="ui_remove_layout_shortcut">"Alisin ang shortcut"</string>
+    <string name="ui_statistics_for_nerds">"Estadistika para sa mga nerd"</string>
+    <string name="ui_suggestions_accepted">"Mga tinanggap na mungkahi"</string>
+    <string name="ui_characters_saved">"Mga natipid na character"</string>
+    <string name="ui_autocorrections_applied">"Mga inilapat na autocorrect"</string>
+    <string name="ui_autocomplete_speed">"Bilis ng autocomplete"</string>
+    <string name="ui_median">"Median"</string>
+    <string name="ui_p95">"Ika-95 percentile"</string>
+    <string name="ui_timing_samples">"Mga pagsukat"</string>
+    <string name="ui_no_model_timings">"Lalabas ang mga oras kapag nag-type ka gamit ang na-download na text model."</string>
+    <string name="ui_timing_description">"Nakadepende sa tina-type mo ang mga kamakailang oras ng pagbuo. Hindi kasama ang pag-load at mga naka-cache na resulta."</string>
+    <string name="ui_statistics_local">"Nananatili sa device na ito ang estadistika."</string>
+    <string name="ui_dictations_inserted">"Mga naipasok na dikta"</string>
+    <string name="ui_dictation_speed">"Bilis ng pagdidikta"</string>
+    <string name="ui_no_speech_timings">"Lalabas ang mga oras matapos magdikta gamit ang na-download na speech model."</string>
+    <string name="ui_speech_timing_description">"Ang oras ng pagproseso ay bawat segundo ng na-record na audio. Hindi kasama ang pag-load ng modelo."</string>
 </resources>

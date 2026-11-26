@@ -17,9 +17,9 @@ import java.io.File
 import java.util.Locale
 
 object SetupChecks {
-    private fun find(view:View,label:String):View? {
-        if(view.contentDescription?.toString()==label) return view
-        if(view is ViewGroup) for(i in 0 until view.childCount) find(view.getChildAt(i),label)?.let { return it }
+    private fun find(view:View,label:String,byText:Boolean=false):View? {
+        if(if(byText) view is TextView && view.text.toString()==label else view.contentDescription?.toString()==label) return view
+        if(view is ViewGroup) for(i in 0 until view.childCount) find(view.getChildAt(i),label,byText)?.let { return it }
         return null
     }
     private fun labels(view:View):List<String> {
@@ -82,6 +82,7 @@ object SetupChecks {
                 test.removeMonitor(monitor);check(launcher.isFinishing || launcher.isDestroyed)
                 val setup=activity!!;focus(test,setup)
                 test.runOnMainSync {
+                    check((find(setup.window.decorView,"Privacy policy",byText=true) as TextView).compoundDrawablesRelative[0] is FeelIcon)
                     check(find(setup.window.decorView,"Automatic keyboard layout")==null)
                     val family=KeyboardLayouts.families.first { it.id==KeyboardLayouts.find(prefs.layout).family }
                     check(find(setup.window.decorView,"Keyboard layout: ${family.title}")!!.isSelected)
@@ -100,6 +101,7 @@ object SetupChecks {
                     find(setup.window.decorView,"Setup continue")!!.performClick()
                     val text=labels(setup.window.decorView).joinToString("\n")
                     check("✓  Qwen 3.5" in text && "✓  Qwen3 ASR" in text)
+                    check((find(setup.window.decorView,"See all supported languages",byText=true) as TextView).compoundDrawablesRelative[0] is FeelIcon)
                     check(find(setup.window.decorView,"Setup model: onejev")==null)
                 }
                 capture(test,context,setup,"setup-models-"+if(light) "light" else "dark")

@@ -18,6 +18,7 @@ import android.view.Gravity
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
+import java.text.NumberFormat
 
 class MainActivity : Activity() {
     private lateinit var prefs: Prefs
@@ -61,8 +62,9 @@ class MainActivity : Activity() {
         background = shape(surface); setPadding(dp(20), dp(20), dp(20), dp(20))
         content.addView(this, LinearLayout.LayoutParams(-1, -2).apply { bottomMargin = dp(12) })
     }
-    private fun button(label: String, primary: Boolean = false, action: () -> Unit): TextView = text(label, 14f, if (primary) bg else ink, true).apply {
+    private fun button(label: String, primary: Boolean = false, icon:FeelIcon.Kind?=null, action: () -> Unit): TextView = text(label, 14f, if (primary) bg else ink, true).apply {
         gravity = Gravity.CENTER; background = shape(if (primary) accent else control, 13)
+        if(icon!=null) { setFeelIcon(icon,if(primary) bg else accent);gravity=Gravity.START or Gravity.CENTER_VERTICAL }
         setPadding(dp(18), dp(15), dp(18), dp(15)); isClickable = true; setOnClickListener { action() }
         isSoundEffectsEnabled = false; isHapticFeedbackEnabled = false
     }
@@ -74,9 +76,13 @@ class MainActivity : Activity() {
         setContentView(body)
         AppWindow.frame(window,body,prefs.appLight)
         val header = LinearLayout(this).apply { gravity = Gravity.CENTER_VERTICAL; setPadding(dp(24), dp(14), dp(24), dp(14)) }
-        if(destination=="theme" || destination=="layout") {
-            header.addView(BackButton(this,ink) { show("feel") },LinearLayout.LayoutParams(dp(40),dp(40)))
-            header.addView(text(if(destination=="layout") tr("Keyboard layout") else tr("Appearance"),22f,bold=true),LinearLayout.LayoutParams(0,-2,1f).apply { marginStart=dp(8) })
+        if(destination in listOf("theme","layout","statistics")) {
+            val parent=if(destination=="statistics") "models" else "feel"
+            val back=BackButton(this,ink) { show(parent) }
+            if(destination=="statistics") back.contentDescription=tr("Back")
+            header.addView(back,LinearLayout.LayoutParams(dp(40),dp(40)))
+            val title=when(destination) { "layout" -> "Keyboard layout";"statistics" -> "Statistics for nerds";else -> "Appearance" }
+            header.addView(text(tr(title),22f,bold=true),LinearLayout.LayoutParams(0,-2,1f).apply { marginStart=dp(8) })
         } else {
             val logo=ImageView(this).apply { setImageResource(R.drawable.lokey_logo);clipToOutline=true;background=shape(bg,12) }
             header.addView(logo,LinearLayout.LayoutParams(dp(40),dp(40)))
@@ -87,13 +93,13 @@ class MainActivity : Activity() {
         val scroll = ScrollView(this).apply { isFillViewport = true; clipToPadding = false }
         content = vertical().apply { setPadding(dp(24), dp(16), dp(24), dp(20)) }
         scroll.addView(content); body.addView(scroll, LinearLayout.LayoutParams(-1, 0, 1f))
-        when (destination) { "home" -> home(); "feel" -> feel(); "models" -> models(); "lab" -> lab(); "theme" -> { heading(tr("Make it yours."),tr("Customize your keyboard’s theme, colors, and keycaps."));content.addView(ThemeEditor(this,prefs)) }; "layout" -> {
+        when (destination) { "home" -> home(); "feel" -> feel(); "models" -> models(); "statistics" -> statistics(); "lab" -> lab(); "theme" -> { heading(tr("Make it yours."),tr("Customize your keyboard’s theme, colors, and keycaps."));content.addView(ThemeEditor(this,prefs)) }; "layout" -> {
                 heading(tr("Make it familiar."),tr("Follow your device language, or choose the keys you know."))
                 content.addView(LayoutPicker(this,prefs))
             } }
         val tabs = LinearLayout(this).apply { setPadding(dp(12), dp(8), dp(12), dp(16)); background = shape(bg, 0) }
         listOf("home" to tr("Keyboard"), "feel" to tr("Feel"), "models" to tr("Models"), "lab" to tr("Try it")).forEach { (id, label) ->
-            val selected=id==page || id=="feel" && page in listOf("theme","layout")
+            val selected=id==page || id=="feel" && page in listOf("theme","layout") || id=="models" && page=="statistics"
             tabs.addView(text(label,12f,if(selected) accent else muted,selected).apply {
                 gravity=Gravity.CENTER;maxLines=2;setPadding(dp(2),dp(6),dp(2),dp(6))
                 setAutoSizeTextTypeUniformWithConfiguration(9,12,1,android.util.TypedValue.COMPLEX_UNIT_SP)
@@ -269,7 +275,7 @@ class MainActivity : Activity() {
         }
         syncHaptics()
         haptics.addView(returnToggle)
-        content.addView(button(tr("Input & design credits")) {
+        content.addView(button(tr("Input & design credits"),icon=FeelIcon.Kind.Learn) {
             startActivity(Intent(this,CreditsActivity::class.java).putExtra("section","input"))
         },LinearLayout.LayoutParams(-1,-2))
         section(tr("Keyboard size"))
@@ -297,7 +303,7 @@ class MainActivity : Activity() {
             addView(text(tr("Tap the floating microphone to record hands-free. Pause, resume or stop when ready."),13f,muted))
             addView(setting(tr("Learn from typing"),prefs.learning,FeelIcon.Kind.Learn) { prefs.learning=it })
             addView(text(tr("Learn frequent words and corrections on this device. Encrypted, never uploaded. Private fields are excluded. Turning this off erases learning."),13f,muted))
-            addView(button(tr("Erase learned data")) {
+            addView(button(tr("Erase learned data"),icon=FeelIcon.Kind.Trash) {
                 UsageLearning.shared(this@MainActivity).erase()
                 Toast.makeText(this@MainActivity,tr("Learned data erased"),Toast.LENGTH_SHORT).show()
             },LinearLayout.LayoutParams(-1,-2).apply { topMargin=dp(16) })
@@ -306,15 +312,11 @@ class MainActivity : Activity() {
     private fun section(title:String) {
         gap(20);content.addView(text(title,20f,bold=true));gap(14)
     }
-    private fun TextView.feelIcon(icon:FeelIcon.Kind) {
-        compoundDrawablePadding=dp(10)
-        setCompoundDrawablesRelativeWithIntrinsicBounds(FeelIcon(icon,dp(21),accent),null,null,null)
-    }
     private fun setting(title:String,checked:Boolean,icon:FeelIcon.Kind?=null,changed:(Boolean)->Unit)=Switch(this).apply {
         text=title;textSize=15f;isChecked=checked;minHeight=dp(52);switchPadding=dp(10)
         setTextColor(android.content.res.ColorStateList(arrayOf(intArrayOf(-android.R.attr.state_enabled),intArrayOf()),intArrayOf(muted,ink)))
         if(icon!=null) {
-            feelIcon(icon)
+            setFeelIcon(icon,accent)
             setPaddingRelative(0,dp(7),0,dp(7))
         }
         val states=arrayOf(intArrayOf(android.R.attr.state_checked),intArrayOf())
@@ -349,7 +351,7 @@ class MainActivity : Activity() {
         val value=text(number.format(initial/100.0),13f,muted,true)
         row.addView(LinearLayout(this).apply {
             gravity=Gravity.CENTER_VERTICAL
-            val heading=text(title,15f,bold=true).apply { if(icon!=null) feelIcon(icon) }
+            val heading=text(title,15f,bold=true).apply { if(icon!=null) setFeelIcon(icon,accent) }
             addView(heading,LinearLayout.LayoutParams(0,-2,1f).apply { marginEnd=dp(12) })
             addView(value)
         })
@@ -378,7 +380,9 @@ class MainActivity : Activity() {
     private fun models() {
         heading(tr("Small models.\nClose to you."), tr("Prediction and dictation, running locally."))
         content.addView(text(tr("Model downloads connect to Hugging Face, which receives your IP address. Typing and audio stay on your device."),12f,muted).apply { setPadding(0,0,0,dp(12)) })
-        content.addView(button(tr("Supported languages")) { startActivity(Intent(this,LanguageActivity::class.java)) },LinearLayout.LayoutParams(-1,-2))
+        content.addView(button(tr("Supported languages"),icon=FeelIcon.Kind.Globe) { startActivity(Intent(this,LanguageActivity::class.java)) },LinearLayout.LayoutParams(-1,-2))
+        gap(10)
+        content.addView(button(tr("Statistics for nerds"),icon=FeelIcon.Kind.Statistics) { show("statistics") },LinearLayout.LayoutParams(-1,-2))
         gap(16)
         val automatic = card()
         val autoTitle=text(tr("Automatic"),20f,bold=true)
@@ -408,11 +412,71 @@ class MainActivity : Activity() {
         section(tr("Speak"))
         Models.voices.forEach { modelCard(it,true) }
         gap(10)
-        content.addView(button(tr("Allow microphone")) { permission() }, LinearLayout.LayoutParams(-1, -2))
+        content.addView(button(tr("Allow microphone"),icon=FeelIcon.Kind.Speech) { permission() }, LinearLayout.LayoutParams(-1, -2))
         gap(10)
-        content.addView(button(tr("Models & inference credits")) { startActivity(Intent(this,CreditsActivity::class.java)) },LinearLayout.LayoutParams(-1,-2))
+        content.addView(button(tr("Models & inference credits"),icon=FeelIcon.Kind.Learn) { startActivity(Intent(this,CreditsActivity::class.java)) },LinearLayout.LayoutParams(-1,-2))
         gap(10)
-        content.addView(button(tr("Privacy policy")) { startActivity(Intent(this,PrivacyActivity::class.java)) },LinearLayout.LayoutParams(-1,-2))
+        content.addView(button(tr("Privacy policy"),icon=FeelIcon.Kind.Shield) { startActivity(Intent(this,PrivacyActivity::class.java)) },LinearLayout.LayoutParams(-1,-2))
+    }
+    private fun statistics() {
+        val stats=TypingStats.shared(this).snapshot()
+        val numbers=NumberFormat.getIntegerInstance(uiLocale())
+        val decimals=NumberFormat.getNumberInstance(uiLocale()).apply { minimumFractionDigits=1;maximumFractionDigits=1 }
+        card().apply {
+            val metrics=listOf(
+                Triple("Suggestions accepted",stats.suggestions,FeelIcon.Kind.Suggestion),
+                Triple("Characters saved",stats.characters,FeelIcon.Kind.Characters),
+                Triple("Autocorrections applied",stats.corrections,FeelIcon.Kind.Correct),
+                Triple("Dictations inserted",stats.dictations,FeelIcon.Kind.Speech)
+            )
+            for((label,value,icon) in metrics) {
+                val row=LinearLayout(this@MainActivity).apply { gravity=Gravity.CENTER_VERTICAL;minimumHeight=dp(44) }
+                row.addView(ImageView(this@MainActivity).apply {
+                    setImageDrawable(FeelIcon(icon,dp(20),accent));scaleType=ImageView.ScaleType.CENTER_INSIDE
+                    background=shape(KeyboardTheme.blend(surface,accent,.14f),10)
+                    setPadding(dp(7),dp(7),dp(7),dp(7));importantForAccessibility=View.IMPORTANT_FOR_ACCESSIBILITY_NO
+                },LinearLayout.LayoutParams(dp(34),dp(34)).apply { marginEnd=dp(12) })
+                row.addView(text(tr(label),14f),LinearLayout.LayoutParams(0,-2,1f))
+                row.addView(text(numbers.format(value),22f,bold=true).apply { setPaddingRelative(dp(8),0,0,0) })
+                addView(row,LinearLayout.LayoutParams(-1,-2))
+            }
+        }
+        fun timings(title:String,available:List<Models.Model>,empty:String,note:String) {
+            section(tr(title))
+            card().apply {
+                val models=available.filter { it.id in stats.models }
+                if(models.isEmpty()) addView(text(tr(empty),14f,muted))
+                else {
+                    fun row(label:String,cells:List<View>) {
+                        val line=LinearLayout(this@MainActivity).apply { gravity=Gravity.CENTER_VERTICAL;setPadding(0,dp(7),0,dp(7)) }
+                        line.addView(text(label,13f,muted),LinearLayout.LayoutParams(0,-2,1f))
+                        for(cell in cells) line.addView(cell,LinearLayout.LayoutParams(0,-2,1.1f))
+                        addView(line,LinearLayout.LayoutParams(-1,-2))
+                    }
+                    val timings=models.map { stats.models.getValue(it.id) }
+                    row("",models.map { model ->
+                        LinearLayout(this@MainActivity).apply {
+                            gravity=Gravity.CENTER_VERTICAL or Gravity.END;setPaddingRelative(dp(4),0,0,0)
+                            addView(ModelCredits.logo(this@MainActivity,prefs,model.id).apply {
+                                importantForAccessibility=View.IMPORTANT_FOR_ACCESSIBILITY_NO
+                            },LinearLayout.LayoutParams(dp(16),dp(16)).apply { marginEnd=dp(4) })
+                            addView(text(model.title,13f,bold=true).apply { gravity=Gravity.END })
+                        }
+                    })
+                    val rows=listOf("Median" to timings.map { tr("%1\$s ms",decimals.format(it.medianMs)) },
+                        "95th percentile" to timings.map { tr("%1\$s ms",decimals.format(it.p95Ms)) },"Samples" to timings.map { numbers.format(it.count) })
+                    for((label,values) in rows) row(tr(label),values.map { value ->
+                        text(value,13f).apply { gravity=Gravity.END;setPaddingRelative(dp(4),0,0,0) }
+                    })
+                    addView(text(tr(note),12f,muted).apply { setPadding(0,dp(10),0,0) })
+                }
+            }
+        }
+        timings("Autocomplete speed",Models.text,"Model timings appear after you type with a downloaded text model.",
+            "Recent generation times vary with what you type. Loading and cached results are excluded.")
+        timings("Dictation speed",Models.voices,"Speech timings appear after you dictate with a downloaded speech model.",
+            "Processing times are per second of recorded audio. Model loading is excluded.")
+        content.addView(text(tr("These statistics stay on this device."),12f,muted))
     }
     private fun modelActionStyle(action:TextView,selected:Boolean,cancel:Boolean=false) {
         val state=if(cancel) 2 else if(selected) 1 else 0
@@ -510,6 +574,6 @@ class MainActivity : Activity() {
         }
     }
     override fun onDestroy() { main.removeCallbacks(poll);updates.clear();themeSound?.close();feedback?.close(); super.onDestroy() }
-    override fun onResume() { super.onResume();if(page=="layout") show("layout");main.removeCallbacks(poll);main.post(poll) }
+    override fun onResume() { super.onResume();if(page=="layout" || page=="statistics") show(page);main.removeCallbacks(poll);main.post(poll) }
     override fun onPause() { main.removeCallbacks(poll);super.onPause() }
 }

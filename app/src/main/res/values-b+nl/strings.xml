@@ -525,4 +525,19 @@
     <string name="ui_split_keyboard_in_landscape">"Toetsenbord splitsen in liggende stand"</string>
     <string name="ui_add_layout">"Indeling toevoegen"</string>
     <string name="ui_remove_layout_shortcut">"Snelkoppeling verwijderen"</string>
+    <string name="ui_statistics_for_nerds">"Statistieken voor nerds"</string>
+    <string name="ui_suggestions_accepted">"Geaccepteerde suggesties"</string>
+    <string name="ui_characters_saved">"Bespaarde tekens"</string>
+    <string name="ui_autocorrections_applied">"Toegepaste autocorrecties"</string>
+    <string name="ui_autocomplete_speed">"Snelheid van automatisch aanvullen"</string>
+    <string name="ui_median">"Mediaan"</string>
+    <string name="ui_p95">"95e percentiel"</string>
+    <string name="ui_timing_samples">"Metingen"</string>
+    <string name="ui_no_model_timings">"Modeltijden verschijnen nadat je met een gedownload tekstmodel hebt getypt."</string>
+    <string name="ui_timing_description">"Recente generatietijden hangen af van wat je typt. Laden en resultaten uit het cachegeheugen tellen niet mee."</string>
+    <string name="ui_statistics_local">"Deze statistieken blijven op dit apparaat."</string>
+    <string name="ui_dictations_inserted">"Ingevoegde dictaten"</string>
+    <string name="ui_dictation_speed">"Dicteersnelheid"</string>
+    <string name="ui_no_speech_timings">"De tijden verschijnen nadat je met een gedownload spraakmodel hebt gedicteerd."</string>
+    <string name="ui_speech_timing_description">"De verwerkingstijd geldt per seconde opgenomen audio. De laadtijd van het model telt niet mee."</string>
 </resources>

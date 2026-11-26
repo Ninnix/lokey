@@ -525,4 +525,19 @@
     <string name="ui_split_keyboard_in_landscape">"Tách bàn phím ở chế độ ngang"</string>
     <string name="ui_add_layout">"Thêm bố cục"</string>
     <string name="ui_remove_layout_shortcut">"Xóa lối tắt"</string>
+    <string name="ui_statistics_for_nerds">"Thống kê chuyên sâu"</string>
+    <string name="ui_suggestions_accepted">"Gợi ý đã chấp nhận"</string>
+    <string name="ui_characters_saved">"Ký tự tiết kiệm được"</string>
+    <string name="ui_autocorrections_applied">"Lần tự sửa đã áp dụng"</string>
+    <string name="ui_autocomplete_speed">"Tốc độ tự động hoàn thành"</string>
+    <string name="ui_median">"Trung vị"</string>
+    <string name="ui_p95">"Phân vị thứ 95"</string>
+    <string name="ui_timing_samples">"Lượt đo"</string>
+    <string name="ui_no_model_timings">"Thời gian sẽ hiển thị sau khi bạn nhập bằng mô hình văn bản đã tải xuống."</string>
+    <string name="ui_timing_description">"Thời gian tạo gần đây thay đổi theo nội dung nhập. Không tính thời gian tải và kết quả đã lưu đệm."</string>
+    <string name="ui_statistics_local">"Các số liệu này được lưu trên thiết bị này."</string>
+    <string name="ui_dictations_inserted">"Lượt chèn văn bản đọc chính tả"</string>
+    <string name="ui_dictation_speed">"Tốc độ đọc chính tả"</string>
+    <string name="ui_no_speech_timings">"Thời gian sẽ hiển thị sau khi bạn đọc chính tả bằng mô hình giọng nói đã tải xuống."</string>
+    <string name="ui_speech_timing_description">"Thời gian xử lý tính trên mỗi giây âm thanh được ghi. Không tính thời gian tải mô hình."</string>
 </resources>

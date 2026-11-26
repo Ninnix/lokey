@@ -525,4 +525,19 @@
     <string name="ui_split_keyboard_in_landscape">"Aqsam it-tastiera fil-modalità orizzontali"</string>
     <string name="ui_add_layout">"Żid tqassim"</string>
     <string name="ui_remove_layout_shortcut">"Neħħi s-shortcut"</string>
+    <string name="ui_statistics_for_nerds">"Statistika għad-dilettanti"</string>
+    <string name="ui_suggestions_accepted">"Suġġerimenti aċċettati"</string>
+    <string name="ui_characters_saved">"Karattri ffrankati"</string>
+    <string name="ui_autocorrections_applied">"Korrezzjonijiet awtomatiċi applikati"</string>
+    <string name="ui_autocomplete_speed">"Veloċità tal-ikkompletar awtomatiku"</string>
+    <string name="ui_median">"Medjan"</string>
+    <string name="ui_p95">"Il-95 perċentil"</string>
+    <string name="ui_timing_samples">"Kejl"</string>
+    <string name="ui_no_model_timings">"Il-ħinijiet jidhru wara li tittajpja b’mudell tat-test imniżżel."</string>
+    <string name="ui_timing_description">"Il-ħinijiet riċenti jiddependu fuq dak li tittajpja. It-tagħbija u r-riżultati fil-cache ma jingħaddux."</string>
+    <string name="ui_statistics_local">"Din l-istatistika tibqa’ fuq l-apparat."</string>
+    <string name="ui_dictations_inserted">"Dettati mdaħħla"</string>
+    <string name="ui_dictation_speed">"Veloċità tad-dettatura"</string>
+    <string name="ui_no_speech_timings">"Il-ħinijiet jidhru wara li tiddetta b’mudell tal-vuċi mniżżel."</string>
+    <string name="ui_speech_timing_description">"Il-ħin tal-ipproċessar jitkejjel għal kull sekonda ta’ awdjo rreġistrat. It-tagħbija tal-mudell ma tingħaddx."</string>
 </resources>

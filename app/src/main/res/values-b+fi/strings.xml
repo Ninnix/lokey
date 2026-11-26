@@ -525,4 +525,19 @@
     <string name="ui_split_keyboard_in_landscape">"Jaa näppäimistö vaakanäkymässä"</string>
     <string name="ui_add_layout">"Lisää asettelu"</string>
     <string name="ui_remove_layout_shortcut">"Poista pikavalinta"</string>
+    <string name="ui_statistics_for_nerds">"Tilastot nörteille"</string>
+    <string name="ui_suggestions_accepted">"Hyväksytyt ehdotukset"</string>
+    <string name="ui_characters_saved">"Säästetyt merkit"</string>
+    <string name="ui_autocorrections_applied">"Tehdyt automaattikorjaukset"</string>
+    <string name="ui_autocomplete_speed">"Automaattitäydennyksen nopeus"</string>
+    <string name="ui_median">"Mediaani"</string>
+    <string name="ui_p95">"95. prosenttipiste"</string>
+    <string name="ui_timing_samples">"Mittauksia"</string>
+    <string name="ui_no_model_timings">"Mallin ajat näkyvät, kun olet kirjoittanut ladatulla tekstimallilla."</string>
+    <string name="ui_timing_description">"Viimeaikaiset luontiajat vaihtelevat tekstin mukaan. Latausta ja välimuistituloksia ei lasketa."</string>
+    <string name="ui_statistics_local">"Nämä tilastot pysyvät laitteella."</string>
+    <string name="ui_dictations_inserted">"Lisätyt sanelut"</string>
+    <string name="ui_dictation_speed">"Sanelun nopeus"</string>
+    <string name="ui_no_speech_timings">"Ajat näkyvät, kun olet sanellut ladatulla puhemallilla."</string>
+    <string name="ui_speech_timing_description">"Käsittelyaika ilmoitetaan äänitettyä sekuntia kohti. Mallin latausta ei lasketa."</string>
 </resources>

@@ -525,4 +525,19 @@
     <string name="ui_split_keyboard_in_landscape">"Dividi la tastiera in orizzontale"</string>
     <string name="ui_add_layout">"Aggiungi layout"</string>
     <string name="ui_remove_layout_shortcut">"Rimuovi scorciatoia"</string>
+    <string name="ui_statistics_for_nerds">"Statistiche per nerd"</string>
+    <string name="ui_suggestions_accepted">"Suggerimenti accettati"</string>
+    <string name="ui_characters_saved">"Caratteri risparmiati"</string>
+    <string name="ui_autocorrections_applied">"Correzioni automatiche applicate"</string>
+    <string name="ui_autocomplete_speed">"Velocità di completamento"</string>
+    <string name="ui_median">"Mediana"</string>
+    <string name="ui_p95">"95° percentile"</string>
+    <string name="ui_timing_samples">"Misurazioni"</string>
+    <string name="ui_no_model_timings">"I tempi compaiono dopo aver scritto con un modello di testo scaricato."</string>
+    <string name="ui_timing_description">"I tempi di generazione recenti variano in base a ciò che scrivi. Il caricamento e i risultati in cache sono esclusi."</string>
+    <string name="ui_statistics_local">"Queste statistiche restano su questo dispositivo."</string>
+    <string name="ui_dictations_inserted">"Dettature inserite"</string>
+    <string name="ui_dictation_speed">"Velocità di dettatura"</string>
+    <string name="ui_no_speech_timings">"I tempi compaiono dopo aver dettato con un modello vocale scaricato."</string>
+    <string name="ui_speech_timing_description">"I tempi di elaborazione sono per secondo di audio registrato. Il caricamento del modello è escluso."</string>
 </resources>

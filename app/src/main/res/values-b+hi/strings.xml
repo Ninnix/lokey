@@ -525,4 +525,19 @@
     <string name="ui_split_keyboard_in_landscape">"लैंडस्केप मोड में कीबोर्ड बाँटें"</string>
     <string name="ui_add_layout">"लेआउट जोड़ें"</string>
     <string name="ui_remove_layout_shortcut">"शॉर्टकट हटाएँ"</string>
+    <string name="ui_statistics_for_nerds">"तकनीकी आँकड़े"</string>
+    <string name="ui_suggestions_accepted">"स्वीकार किए गए सुझाव"</string>
+    <string name="ui_characters_saved">"बचाए गए वर्ण"</string>
+    <string name="ui_autocorrections_applied">"लागू किए गए स्वतः सुधार"</string>
+    <string name="ui_autocomplete_speed">"स्वतः पूर्ण होने की गति"</string>
+    <string name="ui_median">"माध्यिका"</string>
+    <string name="ui_p95">"95वाँ प्रतिशतक"</string>
+    <string name="ui_timing_samples">"माप"</string>
+    <string name="ui_no_model_timings">"डाउनलोड किए गए टेक्स्ट मॉडल से टाइप करने के बाद समय दिखेगा।"</string>
+    <string name="ui_timing_description">"हाल के जनरेशन का समय आपके लिखे टेक्स्ट पर निर्भर करता है। लोडिंग और कैश किए गए नतीजे शामिल नहीं हैं।"</string>
+    <string name="ui_statistics_local">"ये आँकड़े इसी डिवाइस पर रहते हैं।"</string>
+    <string name="ui_dictations_inserted">"डाले गए डिक्टेशन"</string>
+    <string name="ui_dictation_speed">"डिक्टेशन की गति"</string>
+    <string name="ui_no_speech_timings">"डाउनलोड किए गए स्पीच मॉडल से बोलकर लिखने के बाद समय दिखेगा।"</string>
+    <string name="ui_speech_timing_description">"प्रोसेसिंग का समय रिकॉर्ड किए गए ऑडियो के हर सेकंड के लिए है। मॉडल लोड होने का समय शामिल नहीं है।"</string>
 </resources>

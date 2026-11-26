@@ -525,4 +525,19 @@
     <string name="ui_split_keyboard_in_landscape">"Împarte tastatura în modul peisaj"</string>
     <string name="ui_add_layout">"Adaugă un aranjament"</string>
     <string name="ui_remove_layout_shortcut">"Elimină scurtătura"</string>
+    <string name="ui_statistics_for_nerds">"Statistici pentru pasionați"</string>
+    <string name="ui_suggestions_accepted">"Sugestii acceptate"</string>
+    <string name="ui_characters_saved">"Caractere economisite"</string>
+    <string name="ui_autocorrections_applied">"Corectări automate aplicate"</string>
+    <string name="ui_autocomplete_speed">"Viteza completării automate"</string>
+    <string name="ui_median">"Mediană"</string>
+    <string name="ui_p95">"Percentila 95"</string>
+    <string name="ui_timing_samples">"Măsurători"</string>
+    <string name="ui_no_model_timings">"Timpii apar după ce scrii cu un model de text descărcat."</string>
+    <string name="ui_timing_description">"Timpii recenți de generare depind de ce scrii. Încărcarea și rezultatele din cache sunt excluse."</string>
+    <string name="ui_statistics_local">"Aceste statistici rămân pe dispozitiv."</string>
+    <string name="ui_dictations_inserted">"Dictări inserate"</string>
+    <string name="ui_dictation_speed">"Viteza dictării"</string>
+    <string name="ui_no_speech_timings">"Timpii apar după ce dictezi cu un model vocal descărcat."</string>
+    <string name="ui_speech_timing_description">"Timpii de procesare sunt pe secundă de audio înregistrat. Încărcarea modelului este exclusă."</string>
 </resources>

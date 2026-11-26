@@ -7,11 +7,13 @@ import android.media.AudioRecord
 import android.media.MediaRecorder
 import android.os.Handler
 import android.os.Looper
+import android.os.SystemClock
 import kotlin.math.sqrt
 
 class Voice(private val context: Context) {
     private val main = Handler(Looper.getMainLooper())
     private val worker=ModelMemory.Worker("lokey-transcription",ModelMemory.SPEECH)
+    private val stats by lazy { TypingStats.shared(context) }
     @Volatile private var active = false
     @Volatile private var processing = false
     @Volatile private var generation = 0
@@ -37,7 +39,7 @@ class Voice(private val context: Context) {
         worker.execute { synchronized(speechLock) { try { if(Models.ready(context,model)) load(model) } catch(_:Exception) { } } }
     }
     @SuppressLint("MissingPermission")
-    fun start(level: (Float, Long) -> Unit, complete: (String?, String?) -> Unit, started:()->Unit={}) {
+    fun start(level: (Float, Long) -> Unit, complete: (String?, String?) -> Unit, trackTiming:Boolean=false,started:()->Unit={}) {
         if (active) return
         active = true
         paused = false
@@ -89,7 +91,9 @@ class Voice(private val context: Context) {
                             if(ticket!=generation) return@execute
                             processing=true;load(model)
                             if(ticket!=generation) return@execute
-                            Native.transcribe(samples.copyOf(count)).trim()
+                            transcribe(samples.copyOf(count),if(trackTiming) { elapsed ->
+                                if(ticket==generation) stats.speechSample(model.id,count,elapsed)
+                            } else null)
                         }
                         main.post { if (ticket == generation) complete(result, null) }
                     } catch (error: Exception) { main.post { if (ticket == generation) complete(null, error.message ?: context.tr("Transcription failed")) } }
@@ -116,6 +120,15 @@ class Voice(private val context: Context) {
     fun cancel() { generation++; stop(); if(processing) Native.cancelSpeech() }
     fun close() { cancel(); worker.shutdown() }
     companion object {
+        internal fun transcribe(samples:FloatArray,timing:((Long)->Unit)?=null):String {
+            val start=if(timing!=null) SystemClock.elapsedRealtimeNanos() else 0L
+            val result=Native.transcribe(samples)
+            if(timing!=null) {
+                val elapsed=SystemClock.elapsedRealtimeNanos()-start
+                if(result.isNotBlank()) timing(elapsed)
+            }
+            return result.trim()
+        }
         private val speechLock=Any()
         private var loaded=""
         private var loadedGeneration=-1L

@@ -525,4 +525,19 @@
     <string name="ui_split_keyboard_in_landscape">"Sadalīt tastatūru ainavas režīmā"</string>
     <string name="ui_add_layout">"Pievienot izkārtojumu"</string>
     <string name="ui_remove_layout_shortcut">"Noņemt saīsni"</string>
+    <string name="ui_statistics_for_nerds">"Statistika entuziastiem"</string>
+    <string name="ui_suggestions_accepted">"Pieņemtie ieteikumi"</string>
+    <string name="ui_characters_saved">"Ietaupītās rakstzīmes"</string>
+    <string name="ui_autocorrections_applied">"Piemērotie automātiskie labojumi"</string>
+    <string name="ui_autocomplete_speed">"Automātiskās pabeigšanas ātrums"</string>
+    <string name="ui_median">"Mediāna"</string>
+    <string name="ui_p95">"95. procentile"</string>
+    <string name="ui_timing_samples">"Mērījumi"</string>
+    <string name="ui_no_model_timings">"Modeļa laiki parādās pēc rakstīšanas ar lejupielādētu teksta modeli."</string>
+    <string name="ui_timing_description">"Nesenie ģenerēšanas laiki ir atkarīgi no rakstītā. Ielāde un kešatmiņas rezultāti netiek ieskaitīti."</string>
+    <string name="ui_statistics_local">"Šī statistika paliek ierīcē."</string>
+    <string name="ui_dictations_inserted">"Ievietotie diktāti"</string>
+    <string name="ui_dictation_speed">"Diktēšanas ātrums"</string>
+    <string name="ui_no_speech_timings">"Laiki parādās pēc diktēšanas ar lejupielādētu runas modeli."</string>
+    <string name="ui_speech_timing_description">"Apstrādes laiks norādīts uz vienu ierakstītā audio sekundi. Modeļa ielāde nav iekļauta."</string>
 </resources>

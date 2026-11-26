@@ -525,4 +525,19 @@
     <string name="ui_split_keyboard_in_landscape">"دو تکه کردن صفحه‌کلید در حالت افقی"</string>
     <string name="ui_add_layout">"افزودن چیدمان"</string>
     <string name="ui_remove_layout_shortcut">"حذف میان‌بر"</string>
+    <string name="ui_statistics_for_nerds">"آمار برای علاقه‌مندان"</string>
+    <string name="ui_suggestions_accepted">"پیشنهادهای پذیرفته‌شده"</string>
+    <string name="ui_characters_saved">"نویسه‌های صرفه‌جویی‌شده"</string>
+    <string name="ui_autocorrections_applied">"اصلاح‌های خودکار اعمال‌شده"</string>
+    <string name="ui_autocomplete_speed">"سرعت تکمیل خودکار"</string>
+    <string name="ui_median">"میانه"</string>
+    <string name="ui_p95">"صدک ۹۵"</string>
+    <string name="ui_timing_samples">"اندازه‌گیری‌ها"</string>
+    <string name="ui_no_model_timings">"زمان‌های مدل پس از تایپ با یک مدل متنی دانلودشده نمایش داده می‌شوند."</string>
+    <string name="ui_timing_description">"زمان‌های اخیر تولید با متن شما تغییر می‌کنند. بارگذاری و نتایج حافظهٔ نهان محاسبه نمی‌شوند."</string>
+    <string name="ui_statistics_local">"این آمار در همین دستگاه می‌ماند."</string>
+    <string name="ui_dictations_inserted">"دیکته‌های درج‌شده"</string>
+    <string name="ui_dictation_speed">"سرعت دیکته"</string>
+    <string name="ui_no_speech_timings">"زمان‌ها پس از دیکته با یک مدل گفتاری دانلودشده نمایش داده می‌شوند."</string>
+    <string name="ui_speech_timing_description">"زمان پردازش به‌ازای هر ثانیه صدای ضبط‌شده است. بارگذاری مدل محاسبه نمی‌شود."</string>
 </resources>

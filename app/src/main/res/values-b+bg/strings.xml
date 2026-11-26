@@ -525,4 +525,19 @@
     <string name="ui_split_keyboard_in_landscape">"Разделяне на клавиатурата в пейзажен режим"</string>
     <string name="ui_add_layout">"Добавяне на подредба"</string>
     <string name="ui_remove_layout_shortcut">"Премахване на пряк път"</string>
+    <string name="ui_statistics_for_nerds">"Статистика за ентусиасти"</string>
+    <string name="ui_suggestions_accepted">"Приети предложения"</string>
+    <string name="ui_characters_saved">"Спестени знаци"</string>
+    <string name="ui_autocorrections_applied">"Приложени автокорекции"</string>
+    <string name="ui_autocomplete_speed">"Скорост на автоматичното довършване"</string>
+    <string name="ui_median">"Медиана"</string>
+    <string name="ui_p95">"95-и персентил"</string>
+    <string name="ui_timing_samples">"Измервания"</string>
+    <string name="ui_no_model_timings">"Времената се показват след писане с изтеглен текстов модел."</string>
+    <string name="ui_timing_description">"Последните времена за генериране зависят от написаното. Зареждането и кешираните резултати са изключени."</string>
+    <string name="ui_statistics_local">"Тази статистика остава на устройството."</string>
+    <string name="ui_dictations_inserted">"Вмъкнати диктовки"</string>
+    <string name="ui_dictation_speed">"Скорост на диктовката"</string>
+    <string name="ui_no_speech_timings">"Времената се показват след диктовка с изтеглен говорен модел."</string>
+    <string name="ui_speech_timing_description">"Времето за обработка е за секунда записано аудио. Зареждането на модела не се брои."</string>
 </resources>

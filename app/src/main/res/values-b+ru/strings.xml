@@ -525,4 +525,19 @@
     <string name="ui_split_keyboard_in_landscape">"Разделить клавиатуру в альбомном режиме"</string>
     <string name="ui_add_layout">"Добавить раскладку"</string>
     <string name="ui_remove_layout_shortcut">"Убрать ярлык"</string>
+    <string name="ui_statistics_for_nerds">"Статистика для гиков"</string>
+    <string name="ui_suggestions_accepted">"Принятые подсказки"</string>
+    <string name="ui_characters_saved">"Сэкономленные символы"</string>
+    <string name="ui_autocorrections_applied">"Применённые автоисправления"</string>
+    <string name="ui_autocomplete_speed">"Скорость автодополнения"</string>
+    <string name="ui_median">"Медиана"</string>
+    <string name="ui_p95">"95-й процентиль"</string>
+    <string name="ui_timing_samples">"Измерения"</string>
+    <string name="ui_no_model_timings">"Время работы появится после ввода с загруженной текстовой моделью."</string>
+    <string name="ui_timing_description">"Последнее время генерации зависит от введённого текста. Загрузка и результаты из кэша не учитываются."</string>
+    <string name="ui_statistics_local">"Эта статистика остаётся на устройстве."</string>
+    <string name="ui_dictations_inserted">"Вставленные диктовки"</string>
+    <string name="ui_dictation_speed">"Скорость диктовки"</string>
+    <string name="ui_no_speech_timings">"Время обработки появится после диктовки с загруженной речевой моделью."</string>
+    <string name="ui_speech_timing_description">"Время обработки указано на секунду записи. Загрузка модели не учитывается."</string>
 </resources>

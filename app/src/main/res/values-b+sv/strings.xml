@@ -525,4 +525,19 @@
     <string name="ui_split_keyboard_in_landscape">"Dela tangentbordet i liggande läge"</string>
     <string name="ui_add_layout">"Lägg till layout"</string>
     <string name="ui_remove_layout_shortcut">"Ta bort genväg"</string>
+    <string name="ui_statistics_for_nerds">"Statistik för nördar"</string>
+    <string name="ui_suggestions_accepted">"Godkända förslag"</string>
+    <string name="ui_characters_saved">"Sparade tecken"</string>
+    <string name="ui_autocorrections_applied">"Tillämpade autokorrigeringar"</string>
+    <string name="ui_autocomplete_speed">"Hastighet för automatisk komplettering"</string>
+    <string name="ui_median">"Median"</string>
+    <string name="ui_p95">"95:e percentilen"</string>
+    <string name="ui_timing_samples">"Mätningar"</string>
+    <string name="ui_no_model_timings">"Modelltider visas när du har skrivit med en nedladdad textmodell."</string>
+    <string name="ui_timing_description">"De senaste genereringstiderna beror på vad du skriver. Inläsning och cachade resultat räknas inte."</string>
+    <string name="ui_statistics_local">"Statistiken stannar på enheten."</string>
+    <string name="ui_dictations_inserted">"Infogade dikteringar"</string>
+    <string name="ui_dictation_speed">"Dikteringshastighet"</string>
+    <string name="ui_no_speech_timings">"Tiderna visas när du har dikterat med en nedladdad talmodell."</string>
+    <string name="ui_speech_timing_description">"Bearbetningstiden anges per sekund inspelat ljud. Inläsning av modellen räknas inte."</string>
 </resources>

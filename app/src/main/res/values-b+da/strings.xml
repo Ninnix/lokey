@@ -525,4 +525,19 @@
     <string name="ui_split_keyboard_in_landscape">"Opdel tastaturet i liggende format"</string>
     <string name="ui_add_layout">"Tilføj layout"</string>
     <string name="ui_remove_layout_shortcut">"Fjern genvej"</string>
+    <string name="ui_statistics_for_nerds">"Statistik for nørder"</string>
+    <string name="ui_suggestions_accepted">"Accepterede forslag"</string>
+    <string name="ui_characters_saved">"Sparede tegn"</string>
+    <string name="ui_autocorrections_applied">"Anvendte autokorrekturer"</string>
+    <string name="ui_autocomplete_speed">"Hastighed for autofuldførelse"</string>
+    <string name="ui_median">"Median"</string>
+    <string name="ui_p95">"95. percentil"</string>
+    <string name="ui_timing_samples">"Målinger"</string>
+    <string name="ui_no_model_timings">"Modeltider vises, når du har skrevet med en downloadet tekstmodel."</string>
+    <string name="ui_timing_description">"De seneste genereringstider afhænger af det, du skriver. Indlæsning og cachede resultater tæller ikke."</string>
+    <string name="ui_statistics_local">"Statistikken bliver på enheden."</string>
+    <string name="ui_dictations_inserted">"Indsatte dikteringer"</string>
+    <string name="ui_dictation_speed">"Dikteringshastighed"</string>
+    <string name="ui_no_speech_timings">"Taletider vises, når du har dikteret med en downloadet talemodel."</string>
+    <string name="ui_speech_timing_description">"Behandlingstiderne er pr. sekund optaget lyd. Indlæsning af modellen tæller ikke."</string>
 </resources>

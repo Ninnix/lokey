@@ -525,4 +525,19 @@
     <string name="ui_split_keyboard_in_landscape">"Podijeli tipkovnicu u vodoravnom prikazu"</string>
     <string name="ui_add_layout">"Dodaj raspored"</string>
     <string name="ui_remove_layout_shortcut">"Ukloni prečac"</string>
+    <string name="ui_statistics_for_nerds">"Statistika za znatiželjne"</string>
+    <string name="ui_suggestions_accepted">"Prihvaćeni prijedlozi"</string>
+    <string name="ui_characters_saved">"Ušteđeni znakovi"</string>
+    <string name="ui_autocorrections_applied">"Primijenjeni automatski ispravci"</string>
+    <string name="ui_autocomplete_speed">"Brzina automatskog dovršavanja"</string>
+    <string name="ui_median">"Medijan"</string>
+    <string name="ui_p95">"95. percentil"</string>
+    <string name="ui_timing_samples">"Mjerenja"</string>
+    <string name="ui_no_model_timings">"Vremena se prikazuju nakon tipkanja uz preuzeti tekstni model."</string>
+    <string name="ui_timing_description">"Nedavna vremena generiranja ovise o upisanom tekstu. Učitavanje i rezultati iz predmemorije nisu uključeni."</string>
+    <string name="ui_statistics_local">"Ova statistika ostaje na uređaju."</string>
+    <string name="ui_dictations_inserted">"Umetnuti diktati"</string>
+    <string name="ui_dictation_speed">"Brzina diktiranja"</string>
+    <string name="ui_no_speech_timings">"Vremena se prikazuju nakon diktiranja uz preuzeti govorni model."</string>
+    <string name="ui_speech_timing_description">"Vrijeme obrade računa se po sekundi snimljenog zvuka. Učitavanje modela nije uključeno."</string>
 </resources>

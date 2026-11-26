@@ -525,4 +525,19 @@
     <string name="ui_split_keyboard_in_landscape">"تقسيم لوحة المفاتيح في الوضع الأفقي"</string>
     <string name="ui_add_layout">"إضافة تخطيط"</string>
     <string name="ui_remove_layout_shortcut">"إزالة الاختصار"</string>
+    <string name="ui_statistics_for_nerds">"إحصاءات للمتخصصين"</string>
+    <string name="ui_suggestions_accepted">"الاقتراحات المقبولة"</string>
+    <string name="ui_characters_saved">"الأحرف الموفّرة"</string>
+    <string name="ui_autocorrections_applied">"التصحيحات التلقائية المطبّقة"</string>
+    <string name="ui_autocomplete_speed">"سرعة الإكمال التلقائي"</string>
+    <string name="ui_median">"الوسيط"</string>
+    <string name="ui_p95">"المئين 95"</string>
+    <string name="ui_timing_samples">"القياسات"</string>
+    <string name="ui_no_model_timings">"تظهر أوقات النموذج بعد الكتابة باستخدام نموذج نصي تم تنزيله."</string>
+    <string name="ui_timing_description">"تختلف أوقات التوليد الأخيرة حسب ما تكتبه. لا يُحتسب التحميل أو النتائج المخزّنة مؤقتًا."</string>
+    <string name="ui_statistics_local">"تبقى هذه الإحصاءات على هذا الجهاز."</string>
+    <string name="ui_dictations_inserted">"النصوص المضافة بالإملاء"</string>
+    <string name="ui_dictation_speed">"سرعة الإملاء"</string>
+    <string name="ui_no_speech_timings">"تظهر أوقات المعالجة بعد الإملاء باستخدام نموذج صوتي تم تنزيله."</string>
+    <string name="ui_speech_timing_description">"أوقات المعالجة محسوبة لكل ثانية من الصوت المسجّل. لا يُحتسب تحميل النموذج."</string>
 </resources>

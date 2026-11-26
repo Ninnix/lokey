@@ -525,4 +525,19 @@
     <string name="ui_split_keyboard_in_landscape">"가로 모드에서 키보드 분할"</string>
     <string name="ui_add_layout">"레이아웃 추가"</string>
     <string name="ui_remove_layout_shortcut">"바로가기 삭제"</string>
+    <string name="ui_statistics_for_nerds">"고급 통계"</string>
+    <string name="ui_suggestions_accepted">"수락한 추천"</string>
+    <string name="ui_characters_saved">"절약한 문자 수"</string>
+    <string name="ui_autocorrections_applied">"적용된 자동 수정"</string>
+    <string name="ui_autocomplete_speed">"자동 완성 속도"</string>
+    <string name="ui_median">"중앙값"</string>
+    <string name="ui_p95">"95번째 백분위수"</string>
+    <string name="ui_timing_samples">"측정 횟수"</string>
+    <string name="ui_no_model_timings">"다운로드한 텍스트 모델로 입력하면 처리 시간이 표시됩니다."</string>
+    <string name="ui_timing_description">"최근 생성 시간은 입력 내용에 따라 달라집니다. 로딩과 캐시된 결과는 제외됩니다."</string>
+    <string name="ui_statistics_local">"이 통계는 이 기기에만 저장됩니다."</string>
+    <string name="ui_dictations_inserted">"삽입된 받아쓰기"</string>
+    <string name="ui_dictation_speed">"받아쓰기 속도"</string>
+    <string name="ui_no_speech_timings">"다운로드한 음성 모델로 받아쓰기를 하면 처리 시간이 표시됩니다."</string>
+    <string name="ui_speech_timing_description">"녹음 오디오 1초당 처리 시간입니다. 모델 로딩 시간은 제외됩니다."</string>
 </resources>

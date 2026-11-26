@@ -35,6 +35,7 @@ class Prediction(private val context: Context, private val prefs: Prefs,private 
     private var loaded = ""
     @Volatile private var loadedGeneration=-1L
     private var failed = ""
+    private val stats by lazy { TypingStats.shared(context) }
     private var checkedBefore:String?=null
     private var checkedCorrection:Result?=null
     private data class WordCache(val boundary:String,val language:String,val prefix:String,val words:Map<String,List<String>>,val model:String,val session:Int,val scores:Map<String,Double>,val letters:Map<String,FloatArray>)
@@ -157,7 +158,16 @@ class Prediction(private val context: Context, private val prefs: Prefs,private 
         checkedBefore=before;checkedCorrection=answer
         return answer
     }
-    private fun requestScript(before:String,name:String,allowed:Boolean,ticket:Int,limit:Int,callback:(Result,Boolean)->Unit) {
+    private fun complete(model:Models.Model,stem:String,language:String,prefix:String,edits:Int,track:Boolean):String {
+        val start=if(track) SystemClock.elapsedRealtimeNanos() else 0L
+        val result=Native.complete(stem,language,prefix,edits)
+        if(track) {
+            val elapsed=SystemClock.elapsedRealtimeNanos()-start
+            if(result.isNotBlank()) stats.sample(model.id,elapsed)
+        }
+        return result
+    }
+    private fun requestScript(before:String,name:String,allowed:Boolean,ticket:Int,limit:Int,trackTiming:Boolean,callback:(Result,Boolean)->Unit) {
         val code=when(name) {
             "Russian" -> "ru";"Ukrainian" -> "uk";"Bulgarian" -> "bg";"Macedonian" -> "mk";"Arabic" -> "ar";"Persian" -> "fa";"Greek" -> "el"
             "Hindi" -> "hi";"Korean" -> "ko";"Japanese" -> "ja";"Vietnamese" -> "vi";"Thai" -> "th";"Chinese" -> "zh";else -> ModelLanguages.code(name)
@@ -178,7 +188,7 @@ class Prediction(private val context: Context, private val prefs: Prefs,private 
             try {
                 val model=Models.selectedText(context,prefs)
                 if(!loadModel(model)) return@execute
-                val words=Native.complete(stem.takeLast(240),name,prefix.lowercase()).lines()
+                val words=complete(model,stem.takeLast(240),name,prefix.lowercase(),0,trackTiming).lines()
                     .filter { it.isNotBlank() && it.any { c -> c.isLetter() } }.distinctBy { Languages.lower(it) }.take(24)
                 if(ticket!=version.get()) return@execute
                 remember(stem,prefix,code,words,epoch)
@@ -188,7 +198,7 @@ class Prediction(private val context: Context, private val prefs: Prefs,private 
         } }
         pending=task;main.postDelayed(task,150)
     }
-    fun request(before:String,neuralAllowed:Boolean=true,script:String?=null,learningAllowed:Boolean=false,stable:Boolean=false,limit:Int=3,callback:(Result)->Unit) {
+    fun request(before:String,neuralAllowed:Boolean=true,script:String?=null,learningAllowed:Boolean=false,stable:Boolean=false,limit:Int=3,trackTiming:Boolean=false,callback:(Result)->Unit) {
         val ticket=version.incrementAndGet()
         pending?.let { main.removeCallbacks(it) }
         val deadline=SystemClock.uptimeMillis()+85
@@ -202,7 +212,7 @@ class Prediction(private val context: Context, private val prefs: Prefs,private 
         // Give warm inference a short window. A late result can still seed the next prefix.
         val timeout=Runnable { if(ticket==version.get()) fallback?.let(::publish) }
         if(stable) main.postAtTime(timeout,deadline)
-        requestBase(before,neuralAllowed,script,learningAllowed,ticket,stable,limit) { result,finished ->
+        requestBase(before,neuralAllowed,script,learningAllowed,ticket,stable,limit,trackTiming) { result,finished ->
             val personal=if(learningAllowed) learning.personalize(result,scope(result.language),limit) else result
             val value=if(languageData.isInitialized()) languages.spelling(personal,prefs.autocorrect,limit) else personal
             latest=value
@@ -215,11 +225,11 @@ class Prediction(private val context: Context, private val prefs: Prefs,private 
             }
         }
     }
-    private fun requestBase(before:String,neuralAllowed:Boolean,script:String?,learningAllowed:Boolean,ticket:Int,stable:Boolean,limit:Int,callback:(Result,Boolean)->Unit) {
+    private fun requestBase(before:String,neuralAllowed:Boolean,script:String?,learningAllowed:Boolean,ticket:Int,stable:Boolean,limit:Int,trackTiming:Boolean,callback:(Result,Boolean)->Unit) {
         cleared.set(false)
         if(neuralAllowed) Native.touchModel(ModelMemory.TEXT)
         val detected=KeyboardLayouts.predictionLanguage(before,script)
-        if(detected!=null) { requestScript(before,detected,neuralAllowed,ticket,limit,callback);return }
+        if(detected!=null) { requestScript(before,detected,neuralAllowed,ticket,limit,trackTiming,callback);return }
         val localOnly=neuralAllowed && Models.text.none { Models.ready(context,it) }
         val epoch=session.get()
         val typed=Languages.prefix(before)
@@ -289,13 +299,15 @@ class Prediction(private val context: Context, private val prefs: Prefs,private 
                     if(ticket!=version.get()) return@post
                     worker.execute inference@{
                         try {
-                            if(ticket!=version.get() || !load() || ticket!=version.get()) return@inference
+                            if(ticket!=version.get()) return@inference
+                            val model=Models.selectedText(context,prefs)
+                            if(!loadModel(model) || ticket!=version.get()) return@inference
                             val start=if(complete) "" else prefix
                             val cache=cached(sentence,start,detected.code)
                             val cached=cache?.second.orEmpty()
                             if(cached.isNotEmpty()) deliver(render(null,true,cached,cache?.first?.scores.orEmpty()))
                             if(cached.size>=3) return@inference
-                            val generated=Native.complete(sentence.takeLast(240),detected.name,start,if(fixes.isNotEmpty() && contraction==null) 1 else 0).lines()
+                            val generated=complete(model,sentence.takeLast(240),detected.name,start,if(fixes.isNotEmpty() && contraction==null) 1 else 0,trackTiming).lines()
                                 .filter { word ->
                                     (Languages.valid(word) && (detected.code!="en" || word.length>1 || Languages.lower(word) in listOf("a","i"))) ||
                                         (prefix.isEmpty() || complete) && word in listOf("?",".","!")

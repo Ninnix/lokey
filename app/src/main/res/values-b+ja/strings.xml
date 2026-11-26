@@ -525,4 +525,19 @@
     <string name="ui_split_keyboard_in_landscape">"横向きでキーボードを分割"</string>
     <string name="ui_add_layout">"レイアウトを追加"</string>
     <string name="ui_remove_layout_shortcut">"ショートカットを削除"</string>
+    <string name="ui_statistics_for_nerds">"詳細統計"</string>
+    <string name="ui_suggestions_accepted">"採用した候補"</string>
+    <string name="ui_characters_saved">"省略できた文字数"</string>
+    <string name="ui_autocorrections_applied">"適用された自動修正"</string>
+    <string name="ui_autocomplete_speed">"自動補完の速度"</string>
+    <string name="ui_median">"中央値"</string>
+    <string name="ui_p95">"95パーセンタイル"</string>
+    <string name="ui_timing_samples">"計測数"</string>
+    <string name="ui_no_model_timings">"ダウンロードしたテキストモデルで入力すると、処理時間が表示されます。"</string>
+    <string name="ui_timing_description">"最近の生成時間は入力内容によって変わります。読み込み時間とキャッシュ済みの結果は含みません。"</string>
+    <string name="ui_statistics_local">"この統計は端末内に保存されます。"</string>
+    <string name="ui_dictations_inserted">"挿入した音声入力"</string>
+    <string name="ui_dictation_speed">"音声入力の速度"</string>
+    <string name="ui_no_speech_timings">"ダウンロードした音声モデルで音声入力すると、処理時間が表示されます。"</string>
+    <string name="ui_speech_timing_description">"録音音声1秒あたりの処理時間です。モデルの読み込み時間は含みません。"</string>
 </resources>

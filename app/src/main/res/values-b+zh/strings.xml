@@ -525,4 +525,19 @@
     <string name="ui_split_keyboard_in_landscape">"横屏时拆分键盘"</string>
     <string name="ui_add_layout">"添加键盘布局"</string>
     <string name="ui_remove_layout_shortcut">"移除快捷项"</string>
+    <string name="ui_statistics_for_nerds">"高级统计"</string>
+    <string name="ui_suggestions_accepted">"已采纳的建议"</string>
+    <string name="ui_characters_saved">"节省的字符"</string>
+    <string name="ui_autocorrections_applied">"已应用的自动纠正"</string>
+    <string name="ui_autocomplete_speed">"自动补全速度"</string>
+    <string name="ui_median">"中位数"</string>
+    <string name="ui_p95">"第 95 百分位数"</string>
+    <string name="ui_timing_samples">"测量次数"</string>
+    <string name="ui_no_model_timings">"使用已下载的文本模型输入后会显示处理时间。"</string>
+    <string name="ui_timing_description">"近期生成时间因输入内容而异。不包含加载和缓存结果。"</string>
+    <string name="ui_statistics_local">"这些统计数据保留在本设备上。"</string>
+    <string name="ui_dictations_inserted">"已插入的听写"</string>
+    <string name="ui_dictation_speed">"听写速度"</string>
+    <string name="ui_no_speech_timings">"使用已下载的语音模型听写后会显示处理时间。"</string>
+    <string name="ui_speech_timing_description">"处理时间按每秒录音计算。不包含模型加载时间。"</string>
 </resources>

@@ -525,4 +525,19 @@
     <string name="ui_split_keyboard_in_landscape">"Padalyti klaviatūrą gulsčiuoju režimu"</string>
     <string name="ui_add_layout">"Pridėti išdėstymą"</string>
     <string name="ui_remove_layout_shortcut">"Pašalinti nuorodą"</string>
+    <string name="ui_statistics_for_nerds">"Statistika entuziastams"</string>
+    <string name="ui_suggestions_accepted">"Priimti pasiūlymai"</string>
+    <string name="ui_characters_saved">"Sutaupyti ženklai"</string>
+    <string name="ui_autocorrections_applied">"Pritaikytos automatinės pataisos"</string>
+    <string name="ui_autocomplete_speed">"Automatinio užbaigimo sparta"</string>
+    <string name="ui_median">"Mediana"</string>
+    <string name="ui_p95">"95-asis procentilis"</string>
+    <string name="ui_timing_samples">"Matavimai"</string>
+    <string name="ui_no_model_timings">"Modelio laikai rodomi parašius teksto su atsisiųstu modeliu."</string>
+    <string name="ui_timing_description">"Naujausi generavimo laikai priklauso nuo įvesto teksto. Įkėlimas ir podėlio rezultatai neįskaičiuojami."</string>
+    <string name="ui_statistics_local">"Ši statistika lieka įrenginyje."</string>
+    <string name="ui_dictations_inserted">"Įterpti diktavimai"</string>
+    <string name="ui_dictation_speed">"Diktavimo sparta"</string>
+    <string name="ui_no_speech_timings">"Laikai rodomi padiktavus su atsisiųstu kalbos modeliu."</string>
+    <string name="ui_speech_timing_description">"Apdorojimo laikas skaičiuojamas vienai įrašyto garso sekundei. Modelio įkėlimas neįskaičiuojamas."</string>
 </resources>

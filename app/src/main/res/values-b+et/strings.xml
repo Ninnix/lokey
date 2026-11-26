@@ -525,4 +525,19 @@
     <string name="ui_split_keyboard_in_landscape">"Jaga klaviatuur rõhtpaigutuses pooleks"</string>
     <string name="ui_add_layout">"Lisa paigutus"</string>
     <string name="ui_remove_layout_shortcut">"Eemalda otsetee"</string>
+    <string name="ui_statistics_for_nerds">"Statistika huvilistele"</string>
+    <string name="ui_suggestions_accepted">"Aktsepteeritud soovitused"</string>
+    <string name="ui_characters_saved">"Säästetud märgid"</string>
+    <string name="ui_autocorrections_applied">"Rakendatud automaatparandused"</string>
+    <string name="ui_autocomplete_speed">"Automaatse täitmise kiirus"</string>
+    <string name="ui_median">"Mediaan"</string>
+    <string name="ui_p95">"95. protsentiil"</string>
+    <string name="ui_timing_samples">"Mõõtmised"</string>
+    <string name="ui_no_model_timings">"Mudeli ajad ilmuvad pärast allalaaditud tekstimudeliga kirjutamist."</string>
+    <string name="ui_timing_description">"Hiljutised genereerimisajad sõltuvad sisestatud tekstist. Laadimist ja puhverdatud tulemusi ei arvestata."</string>
+    <string name="ui_statistics_local">"See statistika jääb seadmesse."</string>
+    <string name="ui_dictations_inserted">"Sisestatud dikteeringud"</string>
+    <string name="ui_dictation_speed">"Dikteerimise kiirus"</string>
+    <string name="ui_no_speech_timings">"Töötlusajad ilmuvad pärast allalaaditud kõnemudeliga dikteerimist."</string>
+    <string name="ui_speech_timing_description">"Töötlusaeg on salvestatud heli ühe sekundi kohta. Mudeli laadimist ei arvestata."</string>
 </resources>

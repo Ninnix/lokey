@@ -525,4 +525,19 @@
     <string name="ui_split_keyboard_in_landscape">"Pisahkan papan kekunci dalam mod landskap"</string>
     <string name="ui_add_layout">"Tambah reka letak"</string>
     <string name="ui_remove_layout_shortcut">"Alih keluar pintasan"</string>
+    <string name="ui_statistics_for_nerds">"Statistik untuk peminat"</string>
+    <string name="ui_suggestions_accepted">"Cadangan diterima"</string>
+    <string name="ui_characters_saved">"Aksara dijimatkan"</string>
+    <string name="ui_autocorrections_applied">"Pembetulan automatik digunakan"</string>
+    <string name="ui_autocomplete_speed">"Kelajuan autolengkap"</string>
+    <string name="ui_median">"Median"</string>
+    <string name="ui_p95">"Persentil ke-95"</string>
+    <string name="ui_timing_samples">"Ukuran"</string>
+    <string name="ui_no_model_timings">"Masa model dipaparkan selepas anda menaip dengan model teks yang dimuat turun."</string>
+    <string name="ui_timing_description">"Masa penjanaan terkini berbeza mengikut teks yang ditaip. Pemuatan dan hasil yang dicache tidak dikira."</string>
+    <string name="ui_statistics_local">"Statistik ini kekal pada peranti ini."</string>
+    <string name="ui_dictations_inserted">"Imlak yang disisipkan"</string>
+    <string name="ui_dictation_speed">"Kelajuan imlak"</string>
+    <string name="ui_no_speech_timings">"Masa dipaparkan selepas anda mengimlak dengan model pertuturan yang dimuat turun."</string>
+    <string name="ui_speech_timing_description">"Masa pemprosesan dikira bagi setiap saat audio rakaman. Pemuatan model tidak dikira."</string>
 </resources>

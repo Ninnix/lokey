@@ -525,4 +525,19 @@
     <string name="ui_split_keyboard_in_landscape">"Rozdeliť klávesnicu pri orientácii na šírku"</string>
     <string name="ui_add_layout">"Pridať rozloženie"</string>
     <string name="ui_remove_layout_shortcut">"Odstrániť odkaz"</string>
+    <string name="ui_statistics_for_nerds">"Štatistiky pre nadšencov"</string>
+    <string name="ui_suggestions_accepted">"Prijaté návrhy"</string>
+    <string name="ui_characters_saved">"Ušetrené znaky"</string>
+    <string name="ui_autocorrections_applied">"Vykonané automatické opravy"</string>
+    <string name="ui_autocomplete_speed">"Rýchlosť automatického dopĺňania"</string>
+    <string name="ui_median">"Medián"</string>
+    <string name="ui_p95">"95. percentil"</string>
+    <string name="ui_timing_samples">"Merania"</string>
+    <string name="ui_no_model_timings">"Časy modelu sa zobrazia po písaní so stiahnutým textovým modelom."</string>
+    <string name="ui_timing_description">"Nedávne časy generovania závisia od písaného textu. Načítavanie ani výsledky z vyrovnávacej pamäte sa nepočítajú."</string>
+    <string name="ui_statistics_local">"Tieto štatistiky zostávajú v zariadení."</string>
+    <string name="ui_dictations_inserted">"Vložené diktáty"</string>
+    <string name="ui_dictation_speed">"Rýchlosť diktovania"</string>
+    <string name="ui_no_speech_timings">"Časy sa zobrazia po diktovaní so stiahnutým rečovým modelom."</string>
+    <string name="ui_speech_timing_description">"Časy spracovania sú na sekundu zaznamenaného zvuku. Načítanie modelu sa nepočíta."</string>
 </resources>

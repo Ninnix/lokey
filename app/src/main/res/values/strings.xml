@@ -525,4 +525,19 @@
     <string name="ui_korean">"한국어 · Korean"</string>
     <string name="ui_add_layout">"Add layout"</string>
     <string name="ui_remove_layout_shortcut">"Remove shortcut"</string>
+    <string name="ui_statistics_for_nerds">"Statistics for nerds"</string>
+    <string name="ui_suggestions_accepted">"Suggestions accepted"</string>
+    <string name="ui_characters_saved">"Characters saved"</string>
+    <string name="ui_autocorrections_applied">"Autocorrections applied"</string>
+    <string name="ui_autocomplete_speed">"Autocomplete speed"</string>
+    <string name="ui_median">"Median"</string>
+    <string name="ui_p95">"95th percentile"</string>
+    <string name="ui_timing_samples">"Samples"</string>
+    <string name="ui_no_model_timings">"Model timings appear after you type with a downloaded text model."</string>
+    <string name="ui_timing_description">"Recent generation times vary with what you type. Loading and cached results are excluded."</string>
+    <string name="ui_statistics_local">"These statistics stay on this device."</string>
+    <string name="ui_dictations_inserted">"Dictations inserted"</string>
+    <string name="ui_dictation_speed">"Dictation speed"</string>
+    <string name="ui_no_speech_timings">"Speech timings appear after you dictate with a downloaded speech model."</string>
+    <string name="ui_speech_timing_description">"Processing times are per second of recorded audio. Model loading is excluded."</string>
 </resources>

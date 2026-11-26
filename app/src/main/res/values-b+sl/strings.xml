@@ -525,4 +525,19 @@
     <string name="ui_split_keyboard_in_landscape">"Razdeli tipkovnico v ležečem načinu"</string>
     <string name="ui_add_layout">"Dodaj razporeditev"</string>
     <string name="ui_remove_layout_shortcut">"Odstrani bližnjico"</string>
+    <string name="ui_statistics_for_nerds">"Statistika za navdušence"</string>
+    <string name="ui_suggestions_accepted">"Sprejeti predlogi"</string>
+    <string name="ui_characters_saved">"Prihranjeni znaki"</string>
+    <string name="ui_autocorrections_applied">"Izvedeni samodejni popravki"</string>
+    <string name="ui_autocomplete_speed">"Hitrost samodejnega dopolnjevanja"</string>
+    <string name="ui_median">"Mediana"</string>
+    <string name="ui_p95">"95. percentil"</string>
+    <string name="ui_timing_samples">"Meritve"</string>
+    <string name="ui_no_model_timings">"Časi modela se prikažejo po tipkanju s prenesenim besedilnim modelom."</string>
+    <string name="ui_timing_description">"Nedavni časi ustvarjanja so odvisni od vnosa. Nalaganje in predpomnjeni rezultati se ne upoštevajo."</string>
+    <string name="ui_statistics_local">"Ta statistika ostane v napravi."</string>
+    <string name="ui_dictations_inserted">"Vstavljeni nareki"</string>
+    <string name="ui_dictation_speed">"Hitrost narekovanja"</string>
+    <string name="ui_no_speech_timings">"Časi se prikažejo po narekovanju s prenesenim govornim modelom."</string>
+    <string name="ui_speech_timing_description">"Čas obdelave je podan na sekundo posnetega zvoka. Nalaganje modela ni vključeno."</string>
 </resources>

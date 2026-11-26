@@ -525,4 +525,19 @@
     <string name="ui_split_keyboard_in_landscape">"แยกแป้นพิมพ์ในแนวนอน"</string>
     <string name="ui_add_layout">"เพิ่มรูปแบบแป้นพิมพ์"</string>
     <string name="ui_remove_layout_shortcut">"นำทางลัดออก"</string>
+    <string name="ui_statistics_for_nerds">"สถิติสำหรับสายเทคนิค"</string>
+    <string name="ui_suggestions_accepted">"คำแนะนำที่เลือกใช้"</string>
+    <string name="ui_characters_saved">"อักขระที่ประหยัดได้"</string>
+    <string name="ui_autocorrections_applied">"การแก้ไขอัตโนมัติที่ใช้"</string>
+    <string name="ui_autocomplete_speed">"ความเร็วการเติมข้อความอัตโนมัติ"</string>
+    <string name="ui_median">"มัธยฐาน"</string>
+    <string name="ui_p95">"เปอร์เซ็นไทล์ที่ 95"</string>
+    <string name="ui_timing_samples">"จำนวนการวัด"</string>
+    <string name="ui_no_model_timings">"เวลาประมวลผลจะแสดงเมื่อคุณพิมพ์โดยใช้โมเดลข้อความที่ดาวน์โหลดมา"</string>
+    <string name="ui_timing_description">"เวลาสร้างคำแนะนำล่าสุดขึ้นอยู่กับข้อความที่พิมพ์ ไม่นับเวลาโหลดและผลลัพธ์จากแคช"</string>
+    <string name="ui_statistics_local">"สถิตินี้เก็บอยู่ในอุปกรณ์นี้"</string>
+    <string name="ui_dictations_inserted">"ข้อความจากการป้อนด้วยเสียงที่แทรกแล้ว"</string>
+    <string name="ui_dictation_speed">"ความเร็วการป้อนด้วยเสียง"</string>
+    <string name="ui_no_speech_timings">"เวลาประมวลผลจะแสดงเมื่อป้อนด้วยเสียงโดยใช้โมเดลเสียงที่ดาวน์โหลดมา"</string>
+    <string name="ui_speech_timing_description">"เวลาประมวลผลคิดต่อหนึ่งวินาทีของเสียงที่บันทึก ไม่นับเวลาโหลดโมเดล"</string>
 </resources>

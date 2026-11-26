@@ -525,4 +525,19 @@
     <string name="ui_split_keyboard_in_landscape">"Yatay modda klavyeyi böl"</string>
     <string name="ui_add_layout">"Düzen ekle"</string>
     <string name="ui_remove_layout_shortcut">"Kısayolu kaldır"</string>
+    <string name="ui_statistics_for_nerds">"Meraklılar için istatistikler"</string>
+    <string name="ui_suggestions_accepted">"Kabul edilen öneriler"</string>
+    <string name="ui_characters_saved">"Tasarruf edilen karakterler"</string>
+    <string name="ui_autocorrections_applied">"Uygulanan otomatik düzeltmeler"</string>
+    <string name="ui_autocomplete_speed">"Otomatik tamamlama hızı"</string>
+    <string name="ui_median">"Medyan"</string>
+    <string name="ui_p95">"95. yüzdelik dilim"</string>
+    <string name="ui_timing_samples">"Ölçümler"</string>
+    <string name="ui_no_model_timings">"İndirilen bir metin modeliyle yazdığınızda süreler görünür."</string>
+    <string name="ui_timing_description">"Son üretim süreleri yazdığınız metne göre değişir. Yükleme ve önbellekteki sonuçlar dahil değildir."</string>
+    <string name="ui_statistics_local">"Bu istatistikler cihazda kalır."</string>
+    <string name="ui_dictations_inserted">"Eklenen dikte metinleri"</string>
+    <string name="ui_dictation_speed">"Dikte hızı"</string>
+    <string name="ui_no_speech_timings">"İndirilen bir konuşma modeliyle dikte ettiğinizde süreler görünür."</string>
+    <string name="ui_speech_timing_description">"İşleme süreleri, kaydedilen sesin her saniyesi için hesaplanır. Model yükleme süresi dahil değildir."</string>
 </resources>
