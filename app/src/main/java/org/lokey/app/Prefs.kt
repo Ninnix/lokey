@@ -26,6 +26,25 @@ class Prefs(context: Context) {
         return savedLayouts
     }
     val currentLayout get():KeyboardLayouts.Layout { layouts();return resolvedLayouts[layout] ?: KeyboardLayouts.find(layout) }
+    internal fun layoutChoices()=buildMap {
+        put("auto",KeyboardLayouts.automatic())
+        for(layout in KeyboardLayouts.all) put(layout.id,layout)
+        layouts();putAll(resolvedLayouts)
+    }
+    internal val layoutSelection get()=store.getString("layout","auto") ?: "auto"
+    internal var quickLayouts:List<String>
+        get()=savedQuickLayouts() ?: defaultQuickLayouts(layout)
+        set(value) { store.edit().putString("quick_layouts",value.joinToString(",")).apply() }
+    private fun savedQuickLayouts()=store.getString("quick_layouts",null)?.split(',')?.filter { it.isNotEmpty() }
+    private fun defaultQuickLayouts(id:String)=if(id=="intl" || id=="qwerty") emptyList() else listOf("intl")
+
+    internal fun selectLayout(id:String,rememberPrevious:Boolean=false) {
+        val recent=if(rememberPrevious) listOf(id,layoutSelection) else listOf(id)
+        val saved=savedQuickLayouts() ?: defaultQuickLayouts(if(id=="auto") KeyboardLayouts.automatic().id else id)
+        val edit=store.edit()
+        if(id=="auto") edit.remove("layout") else edit.putString("layout",id)
+        edit.putString("quick_layouts",(recent+saved).distinct().joinToString(",")).apply()
+    }
     fun designSettings():org.json.JSONObject=org.json.JSONObject().apply {
         put("keyboard_theme",keyboardTheme);put("theme_background",themeBackground);put("theme_keys",themeKeys)
         put("theme_accent",themeAccent);put("theme_picture",themePicture)
@@ -168,9 +187,9 @@ class Prefs(context: Context) {
         get()=supportedLanguage(store.getString("translation_target","English")!!,"English")
         set(value) { store.edit().putString("translation_target",value).apply() }
     var layout:String
-        get()=store.getString("layout",null)?.takeIf { it!="auto" } ?: KeyboardLayouts.automatic().id
-        set(value) { if(value=="auto") store.edit().remove("layout").apply() else store.edit().putString("layout",value).apply() }
-    val automaticLayout get()=store.getString("layout",null) in listOf(null,"auto")
+        get()=layoutSelection.takeUnless { it=="auto" } ?: KeyboardLayouts.automatic().id
+        set(value) { selectLayout(value) }
+    val automaticLayout get()=layoutSelection=="auto"
     var setupComplete:Boolean
         get()=store.getBoolean("setup_complete",false)
         set(value) { store.edit().putBoolean("setup_complete",value).apply() }

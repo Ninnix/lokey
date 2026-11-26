@@ -19,6 +19,9 @@ import kotlin.math.min
 import kotlin.math.roundToInt
 
 class KeyboardView(context: Context, private val prefs: Prefs, private val listener: Listener) : View(context) {
+    private companion object {
+        val tools=listOf("clipboard" to "Clipboard","translate" to "Translate","layout" to "Layout")
+    }
     interface Listener {
         fun text(text: String)
         fun symbol(text: String) = text(text)
@@ -66,7 +69,7 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
     private var automaticCapital = false
     private var symbols = false
     private var toolsOpen=false
-    private val toolBounds=Array(2) { RectF() }
+    private val toolBounds=Array(tools.size) { RectF() }
     private var symbolPage = false
     private var inputType = InputType.TYPE_CLASS_TEXT
     private val inputClass get()=inputType and InputType.TYPE_MASK_CLASS
@@ -704,18 +707,28 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
             }
         }
         if(toolsOpen) {
-            val key=keys.firstOrNull { it.code=="symbols" }
-            if(key!=null) {
-                val left=dp(5f);val top=key.rect.top-dp(66f)
-                val rect=RectF(left,top,left+dp(136f),top+dp(60f))
-                paint.color=palette.special;canvas.drawRoundRect(rect,dp(12f),dp(12f),paint)
-                listOf("clipboard" to context.tr("Clipboard"),"translate" to context.tr("Translate")).forEachIndexed { i,(icon,title) ->
-                    val bounds=toolBounds[i];bounds.set(left+i*dp(68f),top,left+(i+1)*dp(68f),rect.bottom)
-                    ToolIcons.draw(canvas,icon,bounds.centerX(),top+dp(21f),dp(24f),ink)
-                    label(canvas,title,bounds.centerX(),top+dp(48f),fitSize(title,11f,bounds.width()-dp(8f)),ink)
-                }
+            val first=toolBounds.first()
+            paint.color=palette.special
+            canvas.drawRoundRect(first.left,first.top,toolBounds.last().right,first.bottom,dp(12f),dp(12f),paint)
+            tools.forEachIndexed { i,(icon,name) ->
+                val bounds=toolBounds[i];val title=context.tr(name)
+                ToolIcons.draw(canvas,icon,bounds.centerX(),bounds.top+dp(21f),dp(24f),ink)
+                label(canvas,title,bounds.centerX(),bounds.top+dp(48f),fitSize(title,11f,bounds.width()-dp(8f)),ink)
             }
         }
+    }
+    private fun openTools(key:Key) {
+        val inset=dp(5f)
+        val cell=min(dp(68f),(width-2*inset)/tools.size)
+        if(cell<=0f) return
+        val left=key.rect.left.coerceIn(inset,max(inset,width-cell*tools.size-inset))
+        val top=(key.rect.top-dp(66f)).coerceAtLeast(0f)
+        toolBounds.forEachIndexed { i,rect -> rect.set(left+i*cell,top,left+(i+1)*cell,top+dp(60f)) }
+        toolsOpen=true;invalidate();sendAccessibilityEvent(AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED)
+    }
+    private fun selectTool(index:Int) {
+        cancelTouches();invalidate()
+        listener.tool(tools[index].first)
     }
     private fun drawBackground(canvas:Canvas,u:Float) {
         if(splitEdge==0f) { canvas.drawColor(bg);return }
@@ -805,7 +818,7 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
             "enter" -> touch.recording = startRecording()
             "delete" -> { listener.delete(); repeatDelete(id) }
             "shift" -> { caps=true;shift=true }
-            "symbols" -> { toolsOpen=true;sendAccessibilityEvent(AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED) }
+            "symbols" -> openTools(touch.key)
             else -> touch.choice = if(period(touch.key)) 2 else 0
         }
         invalidate()
@@ -901,11 +914,11 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
         if(toolsOpen && event.actionMasked==MotionEvent.ACTION_DOWN) {
             val selected=toolBounds.indexOfFirst { it.contains(event.x,event.y) }
             toolsOpen=false;invalidate()
-            if(selected>=0) { cancelTouches();listener.tool(when(selected) { 0 -> "clipboard";else -> "translate" });return true }
+            if(selected>=0) { selectTool(selected);return true }
         }
         if(toolsOpen && event.actionMasked==MotionEvent.ACTION_UP) {
             val selected=toolBounds.indexOfFirst { it.contains(event.x,event.y) }
-            if(selected>=0) { toolsOpen=false;cancelTouches();listener.tool(when(selected) { 0 -> "clipboard";else -> "translate" });return true }
+            if(selected>=0) { selectTool(selected);return true }
         }
         if (resize != null) return resize(event)
         if (suggestionsVisible && event.actionMasked == MotionEvent.ACTION_DOWN && event.y < dp(12f) && !inSplitGap(event.x) && voiceState.isEmpty() && touches.isEmpty()) {
@@ -1064,7 +1077,7 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
                 className = "android.inputmethodservice.KeyboardView"
                 keys.indices.forEach { addChild(this@KeyboardView, it) }
                 if (suggestionsVisible && voiceState.isEmpty() && resize?.held != true) repeat(shownSuggestions) { addChild(this@KeyboardView,1000+it) }
-                if(toolsOpen) repeat(2) { addChild(this@KeyboardView,2000+it) }
+                if(toolsOpen) tools.indices.forEach { addChild(this@KeyboardView,2000+it) }
                 if(moreCandidates && suggestionsVisible) addChild(this@KeyboardView,1004)
                 speechBounds.indices.filter { !speechBounds[it].isEmpty }.forEach { addChild(this@KeyboardView,3000+it) }
             }
@@ -1076,9 +1089,9 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
                 val position=IntArray(2);getLocationOnScreen(position);rect.offset(position[0],position[1]);setBoundsInScreen(rect)
                 addAction(AccessibilityNodeInfo.AccessibilityAction.ACTION_CLICK)
             }
-            if(id in 2000..2001 && toolsOpen) return AccessibilityNodeInfo.obtain().apply {
+            if(id-2000 in tools.indices && toolsOpen) return AccessibilityNodeInfo.obtain().apply {
                 setSource(this@KeyboardView,id);setParent(this@KeyboardView);packageName=context.packageName
-                className="android.widget.Button";contentDescription=when(id) { 2000 -> context.tr("Clipboard");else -> context.tr("Translate") }
+                className="android.widget.Button";contentDescription=context.tr(tools[id-2000].second)
                 isEnabled=true;isClickable=true;isVisibleToUser=true
                 val rect=Rect();toolBounds[id-2000].roundOut(rect);setBoundsInParent(rect)
                 val position=IntArray(2);getLocationOnScreen(position);rect.offset(position[0],position[1]);setBoundsInScreen(rect)
@@ -1137,15 +1150,15 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
                 if(!suggestionsVisible || voiceState.isNotEmpty() || resize?.held==true || id-1000>=shownSuggestions) return false
                 activity();listener.candidate(suggestions[id-1000]);return true
             }
-            if(action==AccessibilityNodeInfo.ACTION_CLICK && id in 2000..2001 && toolsOpen) {
-                toolsOpen=false;invalidate();listener.tool(when(id) { 2000 -> "clipboard";else -> "translate" });return true
+            if(action==AccessibilityNodeInfo.ACTION_CLICK && id-2000 in tools.indices && toolsOpen) {
+                selectTool(id-2000);return true
             }
             if (action == AccessibilityNodeInfo.ACTION_CLICK) {
                 keys.getOrNull(id)?.let { key -> if(chooseKey!=null) chooseKey!!.invoke(key.custom?.id ?: key.code) else activate(key);activity();invalidate() }
                 return true
             }
             if (action == AccessibilityNodeInfo.ACTION_LONG_CLICK) {
-                keys.getOrNull(id)?.let { if(it.custom?.secondary?.isNotEmpty()==true) emit(options(it).first()) else if(it.code=="symbols") { toolsOpen=true;invalidate();sendAccessibilityEvent(AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED) } else if(it.code=="shift") { caps=true;shift=true;layoutKeys();invalidate() } else if (it.code == "enter" && startRecording()) recordingLocked = true else if ((it.native || it.code.length==1) && it.alternate.isNotEmpty()) emit(options(it).first()) }
+                keys.getOrNull(id)?.let { if(it.custom?.secondary?.isNotEmpty()==true) emit(options(it).first()) else if(it.code=="symbols") openTools(it) else if(it.code=="shift") { caps=true;shift=true;layoutKeys();invalidate() } else if (it.code == "enter" && startRecording()) recordingLocked = true else if ((it.native || it.code.length==1) && it.alternate.isNotEmpty()) emit(options(it).first()) }
                 return true
             }
             return false

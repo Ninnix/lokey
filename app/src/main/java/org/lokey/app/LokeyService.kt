@@ -265,14 +265,9 @@ class LokeyService : InputMethodService(), KeyboardView.Listener {
         val height=dp((if(resources.configuration.screenWidthDp>resources.configuration.screenHeightDp) 260 else 325)*prefs.height/100)
         when(toolMode) {
             "layouts" -> {
-                val colors=ToolStyle(this,prefs)
-                val panel=LinearLayout(this).apply { orientation=LinearLayout.VERTICAL;setPadding(dp(6),0,dp(6),0);setBackgroundColor(colors.colors.background) }
-                val back={ toolMode=if(sourceEditor!=null) "translate" else "";renderTool();refresh() }
-                val header=LinearLayout(this).apply { gravity=android.view.Gravity.CENTER_VERTICAL }
-                header.addView(ToolButton(this,"back",tr("Back to keyboard"),colors.colors.ink,back),LinearLayout.LayoutParams(dp(40),dp(40)))
-                header.addView(colors.text(tr("Keyboard layout"),18f));panel.addView(header)
-                panel.addView(android.widget.ScrollView(this).apply { addView(LayoutPicker(this@LokeyService,prefs,true)) },LinearLayout.LayoutParams(-1,0,1f))
+                val panel=LayoutTool(this,prefs) { toolMode=if(sourceEditor!=null) "translate" else "";renderTool();refresh() }
                 root.addView(panel,LinearLayout.LayoutParams(-1,height))
+                updateFloatingSpeech()
             }
             "clipboard" -> root.addView(ClipboardPanel(this,prefs,history,{
                 if(sourceEditor!=null) { toolMode="translate";renderTool();refresh() } else endTool()
@@ -317,7 +312,7 @@ class LokeyService : InputMethodService(), KeyboardView.Listener {
         renderTool();if(update) refresh()
     }
     override fun tool(name:String) {
-        if(privateField) { message(tr("Unavailable in private fields"));return }
+        if(privateField && name!="layout") { message(tr("Unavailable in private fields"));return }
         if(recording || processing) { message(tr("Finish recording first"));return }
         resetLearning()
         clearDead(true);resetComposition();clearGlide();correction.reset()
@@ -772,7 +767,10 @@ class LokeyService : InputMethodService(), KeyboardView.Listener {
     private fun message(text: String) { Toast.makeText(this, tr(text), Toast.LENGTH_LONG).show() }
     override fun onKeyDown(keyCode:Int,event:KeyEvent):Boolean {
         if(keyCode==KeyEvent.KEYCODE_BACK && toolMode.isNotEmpty()) {
-            if(toolMode=="languages" || toolMode in listOf("clipboard","layouts") && sourceEditor!=null) { toolMode="translate";renderTool();refresh() } else endTool()
+            val layouts=root.getChildAt(0) as? LayoutTool
+            if(layouts!=null) layouts.back()
+            else if(toolMode=="languages" || toolMode=="clipboard" && sourceEditor!=null) { toolMode="translate";renderTool();refresh() }
+            else endTool()
             return true
         }
         return super.onKeyDown(keyCode,event)

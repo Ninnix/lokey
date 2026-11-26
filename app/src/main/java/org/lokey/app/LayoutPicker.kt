@@ -41,17 +41,15 @@ class LayoutPreview(context:Context,private val prefs:Prefs,private val selected
     }
 }
 
-class LayoutPicker(context:Context,private val prefs:Prefs,ime:Boolean=false,private val automaticChoice:Boolean=true,private val selected:()->Unit={}):LinearLayout(context) {
-    private val keyboardColors=KeyboardTheme.colors(prefs)
-    private val ink=if(ime) keyboardColors.ink else if(prefs.appLight) 0xff1c1d1e.toInt() else 0xfff5f0e7.toInt()
-    private val muted=if(ime) keyboardColors.muted else if(prefs.appLight) 0xff6e6f6c.toInt() else 0xffa0a19e.toInt()
-    private val accent=if(ime) keyboardColors.accent else if(prefs.appLight) 0xffff5a00.toInt() else 0xfff05c5e.toInt()
-    private val surface=if(ime) keyboardColors.special else if(prefs.appLight) 0xffededE9.toInt() else 0xff232425.toInt()
+class LayoutPicker(context:Context,private val prefs:Prefs,private val automaticChoice:Boolean=true,private val selected:()->Unit={}):LinearLayout(context) {
+    private val ink=if(prefs.appLight) 0xff1c1d1e.toInt() else 0xfff5f0e7.toInt()
+    private val muted=if(prefs.appLight) 0xff6e6f6c.toInt() else 0xffa0a19e.toInt()
+    private val accent=if(prefs.appLight) 0xffff5a00.toInt() else 0xfff05c5e.toInt()
+    private val surface=if(prefs.appLight) 0xffededE9.toInt() else 0xff232425.toInt()
     private val choices=ArrayList<Pair<String,LinearLayout>>()
     private val checkmarks=HashMap<String,TextView>()
     private val variants=LinearLayout(context).apply { orientation=VERTICAL }
     private val custom=LinearLayout(context).apply { orientation=VERTICAL }
-    private val editing=!ime && automaticChoice
     private lateinit var automatic:LinearLayout
     private lateinit var autoCheck:TextView
     private fun dp(value:Int)=(value*resources.displayMetrics.density).toInt()
@@ -71,7 +69,7 @@ class LayoutPicker(context:Context,private val prefs:Prefs,ime:Boolean=false,pri
         automatic.addView(autoCheck)
         if(automaticChoice) addView(automatic,LayoutParams(-1,-2).apply { bottomMargin=dp(12) })
         addView(custom)
-        if(editing) {
+        if(automaticChoice) {
             val actions=LinearLayout(context)
             for((title,blank) in listOf(context.tr("Customize current") to false,context.tr("Create blank") to true)) actions.addView(text(title,13f,accent).apply {
                 gravity=Gravity.CENTER;setPadding(dp(8),dp(14),dp(8),dp(14));background=shape(false);isClickable=true;isFocusable=true
@@ -126,7 +124,7 @@ class LayoutPicker(context:Context,private val prefs:Prefs,ime:Boolean=false,pri
             tile.addView(LayoutPreview(context,prefs) { saved.layout() },LayoutParams(-1,dp(70)))
             val row=LinearLayout(context).apply { gravity=Gravity.CENTER_VERTICAL }
             row.addView(text(saved.name+if(current.id==saved.id) " ✓" else "",15f),LayoutParams(0,-2,1f))
-            if(editing) {
+            if(automaticChoice) {
                 for(title in listOf("Edit","Delete")) row.addView(text(context.tr(title),13f,accent).apply {
                     setPadding(dp(12),dp(12),dp(12),dp(12));isClickable=true;isFocusable=true;contentDescription=context.tr("%1\$s layout: %2\$s",context.tr(title),saved.name)
                     setOnClickListener {

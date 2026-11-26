@@ -523,4 +523,6 @@
     <string name="ui_hangul">"한국어 · Хангъл"</string>
     <string name="ui_korean">"한국어 · Корейски"</string>
     <string name="ui_split_keyboard_in_landscape">"Разделяне на клавиатурата в пейзажен режим"</string>
+    <string name="ui_add_layout">"Добавяне на подредба"</string>
+    <string name="ui_remove_layout_shortcut">"Премахване на пряк път"</string>
 </resources>

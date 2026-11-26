@@ -523,4 +523,6 @@
     <string name="ui_hangul">"한국어 · هانغول"</string>
     <string name="ui_korean">"한국어 · الكورية"</string>
     <string name="ui_split_keyboard_in_landscape">"تقسيم لوحة المفاتيح في الوضع الأفقي"</string>
+    <string name="ui_add_layout">"إضافة تخطيط"</string>
+    <string name="ui_remove_layout_shortcut">"إزالة الاختصار"</string>
 </resources>

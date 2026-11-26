@@ -523,4 +523,6 @@
     <string name="ui_hangul">"한국어 · 한글"</string>
     <string name="ui_korean">"한국어 · 한국어"</string>
     <string name="ui_split_keyboard_in_landscape">"가로 모드에서 키보드 분할"</string>
+    <string name="ui_add_layout">"레이아웃 추가"</string>
+    <string name="ui_remove_layout_shortcut">"바로가기 삭제"</string>
 </resources>

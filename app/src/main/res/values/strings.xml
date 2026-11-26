@@ -523,4 +523,6 @@
     <string name="ui_sucheng">"速成 · Sucheng"</string>
     <string name="ui_hangul">"한국어 · Hangul"</string>
     <string name="ui_korean">"한국어 · Korean"</string>
+    <string name="ui_add_layout">"Add layout"</string>
+    <string name="ui_remove_layout_shortcut">"Remove shortcut"</string>
 </resources>

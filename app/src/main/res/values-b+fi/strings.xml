@@ -523,4 +523,6 @@
     <string name="ui_hangul">"한국어 · Hangul"</string>
     <string name="ui_korean">"한국어 · korea"</string>
     <string name="ui_split_keyboard_in_landscape">"Jaa näppäimistö vaakanäkymässä"</string>
+    <string name="ui_add_layout">"Lisää asettelu"</string>
+    <string name="ui_remove_layout_shortcut">"Poista pikavalinta"</string>
 </resources>

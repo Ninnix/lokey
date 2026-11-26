@@ -10,6 +10,8 @@ object Strings {
         "Learn from typing" to R.string.ui_learn_from_typing,
         "Learn frequent words and corrections on this device. Encrypted, never uploaded. Private fields are excluded. Turning this off erases learning." to R.string.ui_learning_description,
         "Erase learned data" to R.string.ui_erase_learned_data,
+        "Add layout" to R.string.ui_add_layout,
+        "Remove shortcut" to R.string.ui_remove_layout_shortcut,
         "Learned data erased" to R.string.ui_learned_data_erased,
         "Likely keys grow; letter positions stay fixed." to R.string.ui_adaptive_sizes_description,
         "Start recording" to R.string.ui_start_recording,

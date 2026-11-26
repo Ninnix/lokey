@@ -523,4 +523,6 @@
     <string name="ui_hangul">"한국어 · Hangul"</string>
     <string name="ui_korean">"한국어 · koreansk"</string>
     <string name="ui_split_keyboard_in_landscape">"Opdel tastaturet i liggende format"</string>
+    <string name="ui_add_layout">"Tilføj layout"</string>
+    <string name="ui_remove_layout_shortcut">"Fjern genvej"</string>
 </resources>

@@ -340,14 +340,15 @@ object LayoutChecks {
         if(view is ViewGroup) for(i in 0 until view.childCount) editor(view.getChildAt(i))?.let { return it }
         return null
     }
-    fun live(test:Instrumentation,context:Context):JSONObject {
+    fun live(test:Instrumentation,context:Context,quick:Boolean=false):JSONObject {
         val prefs=Prefs(context);val original=if(prefs.automaticLayout) "auto" else prefs.layout
+        val oldShortcuts=prefs.quickLayouts
         val info=test.uiAutomation.serviceInfo
         info.flags=info.flags or android.accessibilityservice.AccessibilityServiceInfo.FLAG_RETRIEVE_INTERACTIVE_WINDOWS
         test.uiAutomation.serviceInfo=info
         val report=JSONArray()
         try {
-            val cases=listOf(
+            val cases=if(quick) listOf(Triple("qwerty","ciao","Ciao")) else listOf(
                 Triple("qwerty","ciao","Ciao"),Triple("intl","'e","É"),Triple("spanish","niño","Niño"),Triple("portuguese","cç","Cç"),Triple("turkish","ıiş","Iiş"),
                 Triple("azerty","aze","Aze"),Triple("qwertz","qwe","Qwe"),Triple("cyrillic","йцу","Йцу"),Triple("ukrainian","привіт","Привіт"),
                 Triple("arabic","ضصث","ضصث"),Triple("persian","سلام","سلام"),Triple("greek","γεια","Γεια"),Triple("hindi","नमस्ते","नमस्ते"),Triple("bolnagri","नमस्ते","नमस्ते"),Triple("hindi_phonetic","namaste","नमस्ते "),
@@ -357,20 +358,22 @@ object LayoutChecks {
                 val keys=raw.map { KeyboardLayouts.display(it.toString()) }
                 val firstKey=if(layout=="intl" && keys.first()=="'") "l" else keys.first()
                 prefs.layout=layout
+                if(quick) prefs.quickLayouts=listOf("qwerty","cyrillic","auto","intl")
                 val activity=test.startActivitySync(Intent().setClass(context,MainActivity::class.java).putExtra("page","lab").addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK))
                 lateinit var input:EditText
                 fun focused():Boolean { var ready=false;test.runOnMainSync { ready=activity.hasWindowFocus() };return ready }
                 fun value():String { var value="";test.runOnMainSync { value=input.text.toString() };return value }
-                fun node(label:String):AccessibilityNodeInfo? {
+                fun node(label:String,popup:Boolean=false):AccessibilityNodeInfo? {
                     if(android.os.Build.VERSION.SDK_INT>=34) test.uiAutomation.clearCache()
                     val matches=ArrayList<AccessibilityNodeInfo>()
+                    fun description(n:AccessibilityNodeInfo)=(n.contentDescription ?: n.text)?.toString()?.substringBefore(',')
                     fun walk(n:AccessibilityNodeInfo) {
                         if(!n.refresh()) return
-                        if(n.packageName==context.packageName && n.contentDescription?.toString()?.substringBefore(',')?.equals(label,true)==true) matches.add(n)
+                        if(n.packageName==context.packageName && description(n)?.equals(label,true)==true) matches.add(n)
                         for(i in 0 until n.childCount) n.getChild(i)?.let { walk(it) }
                     }
-                    for(window in test.uiAutomation.windows) if(window.type==AccessibilityWindowInfo.TYPE_INPUT_METHOD) window.root?.let { walk(it) }
-                    return matches.firstOrNull { it.contentDescription.toString().substringBefore(',')==label } ?: matches.firstOrNull()
+                    for(window in test.uiAutomation.windows) if(popup || window.type==AccessibilityWindowInfo.TYPE_INPUT_METHOD) window.root?.let { walk(it) }
+                    return matches.firstOrNull { description(it)==label } ?: matches.firstOrNull()
                 }
                 fun firstSuggestion():String? {
                     if(android.os.Build.VERSION.SDK_INT>=34) test.uiAutomation.clearCache()
@@ -383,10 +386,10 @@ object LayoutChecks {
                     }
                     return test.uiAutomation.windows.firstOrNull { it.type==AccessibilityWindowInfo.TYPE_INPUT_METHOD }?.root?.let { find(it) }
                 }
-                fun await(condition:()->Boolean) {
+                fun await(requireFocus:Boolean=true,condition:()->Boolean) {
                     val until=SystemClock.uptimeMillis()+15000
                     while(SystemClock.uptimeMillis()<until) {
-                        if(focused() && condition()) return
+                        if((!requireFocus || focused()) && condition()) return
                         SystemClock.sleep(50)
                     }
                     var details=""
@@ -394,9 +397,11 @@ object LayoutChecks {
                     val windows=test.uiAutomation.windows.joinToString { "${it.type}:${it.root?.packageName}" }
                     error("$layout timed out: ${value()}; $details; $windows")
                 }
-                fun action(label:String,operation:Int=AccessibilityNodeInfo.ACTION_CLICK) {
-                    await { node(label)!=null };check(focused())
-                    check(node(label)!!.performAction(operation));SystemClock.sleep(30)
+                fun action(label:String,operation:Int=AccessibilityNodeInfo.ACTION_CLICK,popup:Boolean=false) {
+                    await(requireFocus=!popup) { node(label,popup)!=null }
+                    var target=node(label,popup)!!
+                    if(popup) while(!target.isClickable) target=target.parent ?: error("No clickable menu entry: $label")
+                    check(target.performAction(operation));SystemClock.sleep(30)
                 }
                 try {
                     test.runOnMainSync { activity.window.addFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON) }
@@ -421,6 +426,48 @@ object LayoutChecks {
                     }
                     await { value()==expected }
                     check(focused())
+                    if(quick) {
+                        fun open() { action("?123",AccessibilityNodeInfo.ACTION_LONG_CLICK);action("Layout") }
+                        fun capture(name:String) {
+                            SystemClock.sleep(150)
+                            test.uiAutomation.takeScreenshot()?.let { image ->
+                                File(context.filesDir,name+".png").outputStream().use { image.compress(Bitmap.CompressFormat.PNG,100,it) };image.recycle()
+                            }
+                        }
+                        val english=context.layoutName(KeyboardLayouts.find("qwerty"))
+                        val russian=context.layoutName(KeyboardLayouts.find("cyrillic"))
+                        val intl=context.layoutName(KeyboardLayouts.find("intl"))
+                        open()
+                        await { node(russian)!=null && node(intl)!=null && node(english)==null }
+                        val first=android.graphics.Rect();val second=android.graphics.Rect()
+                        val automatic="${context.tr("Automatic")} · ${context.layoutName(KeyboardLayouts.automatic())}"
+                        node(russian)!!.getBoundsInScreen(first);node(automatic)!!.getBoundsInScreen(second)
+                        check(first.top==second.top && first.left!=second.left) { "Layout shortcuts are not side by side" }
+                        capture("tools-layouts")
+                        action(intl,AccessibilityNodeInfo.ACTION_LONG_CLICK)
+                        check("intl" in prefs.quickLayouts)
+                        val remove=context.tr("Remove shortcut")
+                        await(requireFocus=false) { node(remove,popup=true)!=null }
+                        capture("tools-remove-layout")
+                        action(remove,popup=true)
+                        check(Prefs(context).quickLayouts==listOf("qwerty","cyrillic","auto") && prefs.layout=="qwerty")
+                        action("Back to keyboard");open()
+                        check(node(intl)==null)
+                        action("Add layout");action("Back")
+                        await { node(russian)!=null && node(intl)==null }
+                        action("Add layout");await { node(intl)!=null && node(russian)==null && node(english)==null };action(intl)
+                        check(Prefs(context).quickLayouts==listOf("qwerty","cyrillic","auto","intl"))
+                        action(russian);action("space")
+                        for(key in "йцу") action(key.toString())
+                        await { value()=="Ciao йцу" }
+                        check(Prefs(context).quickLayouts.first()=="cyrillic")
+                        open();await { node(english)!=null && node(russian)==null };action(english);action("space")
+                        for(key in "qwe") action(key.toString())
+                        await { value()=="Ciao йцу qwe" }
+                        open();action(automatic)
+                        await { prefs.automaticLayout && node("?123")!=null }
+                        return JSONObject().put("same_editor",value()).put("shortcut_grid_filters_active",true).put("add_and_remove_shortcuts",true).put("automatic_restored",true)
+                    }
                     test.uiAutomation.takeScreenshot()?.let { image -> File(context.filesDir,"layout-live-$layout.png").outputStream().use { image.compress(Bitmap.CompressFormat.PNG,100,it) };image.recycle() }
                     if(layout=="pinyin") {
                         for(key in "shijie") action(key.toString())
@@ -478,7 +525,7 @@ object LayoutChecks {
                     File(context.filesDir,"layout-details.json").writeText(report.toString(2))
                 } finally { test.runOnMainSync { activity.finish() } }
             }
-        } finally { prefs.layout=original }
+        } finally { prefs.layout=original;prefs.quickLayouts=oldShortcuts }
         return JSONObject().put("layouts",report).put("pinyin_space_and_selection",true)
     }
 }

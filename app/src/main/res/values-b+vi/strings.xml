@@ -523,4 +523,6 @@
     <string name="ui_hangul">"한국어 · Hangul"</string>
     <string name="ui_korean">"한국어 · Hàn Quốc"</string>
     <string name="ui_split_keyboard_in_landscape">"Tách bàn phím ở chế độ ngang"</string>
+    <string name="ui_add_layout">"Thêm bố cục"</string>
+    <string name="ui_remove_layout_shortcut">"Xóa lối tắt"</string>
 </resources>

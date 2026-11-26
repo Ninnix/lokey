@@ -523,4 +523,6 @@
     <string name="ui_hangul">"한국어 · Хангул"</string>
     <string name="ui_korean">"한국어 · корејски"</string>
     <string name="ui_split_keyboard_in_landscape">"Подели ја тастатурата во хоризонтален режим"</string>
+    <string name="ui_add_layout">"Додај распоред"</string>
+    <string name="ui_remove_layout_shortcut">"Отстрани кратенка"</string>
 </resources>

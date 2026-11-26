@@ -523,4 +523,6 @@
     <string name="ui_hangul">"한국어 · Χανγκούλ"</string>
     <string name="ui_korean">"한국어 · Κορεάτικα"</string>
     <string name="ui_split_keyboard_in_landscape">"Διαχωρισμός πληκτρολογίου σε οριζόντιο προσανατολισμό"</string>
+    <string name="ui_add_layout">"Προσθήκη διάταξης"</string>
+    <string name="ui_remove_layout_shortcut">"Κατάργηση συντόμευσης"</string>
 </resources>

@@ -523,4 +523,6 @@
     <string name="ui_hangul">"한국어 · Hangul"</string>
     <string name="ui_korean">"한국어 · kórejčina"</string>
     <string name="ui_split_keyboard_in_landscape">"Rozdeliť klávesnicu pri orientácii na šírku"</string>
+    <string name="ui_add_layout">"Pridať rozloženie"</string>
+    <string name="ui_remove_layout_shortcut">"Odstrániť odkaz"</string>
 </resources>

@@ -523,4 +523,6 @@
     <string name="ui_hangul">"한국어 · Hangul"</string>
     <string name="ui_korean">"한국어 · Coréen"</string>
     <string name="ui_split_keyboard_in_landscape">"Scinder le clavier en mode paysage"</string>
+    <string name="ui_add_layout">"Ajouter une disposition"</string>
+    <string name="ui_remove_layout_shortcut">"Retirer le raccourci"</string>
 </resources>

@@ -98,6 +98,7 @@ class KeyboardTest : Instrumentation() {
             if(mode=="popups") report.put("popups",PopupChecks.run(this,targetContext))
             if(mode=="downloads") report.put("downloads",DownloadChecks.run(this,targetContext))
             if(mode=="layoutui") report.put("layoutui",LayoutChecks.live(this,targetContext))
+            if(mode=="layouttools") report.put("layouttools",LayoutChecks.live(this,targetContext,true))
             if(mode=="insets") report.put("insets",InsetsChecks.run(this,targetContext))
             if(mode=="activityinsets") report.put("activityinsets",InsetsChecks.activities(this,targetContext))
             if(mode=="layoutpicker") report.put("layoutpicker",LayoutChecks.picker(this,targetContext))
@@ -1111,9 +1112,19 @@ class KeyboardTest : Instrumentation() {
         val activity=startActivitySync(android.content.Intent().setClass(targetContext,MainActivity::class.java).addFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK))
         awaitFocus(activity)
         val result=JSONObject();val prefs=Prefs(targetContext);val typed=StringBuilder();val tools=ArrayList<String>();var switched=0
+        val originalLayout=prefs.layoutSelection;val originalShortcuts=prefs.quickLayouts;val originalNumberRow=prefs.numberRow
         lateinit var view:KeyboardView
         try {
             runOnMainSync {
+                val store=targetContext.getSharedPreferences("lokey",android.content.Context.MODE_PRIVATE)
+                for(id in listOf("intl","qwerty","cyrillic")) {
+                    store.edit().putString("layout",id).remove("quick_layouts").apply()
+                    check(prefs.quickLayouts==if(id=="cyrillic") listOf("intl") else emptyList())
+                }
+                prefs.selectLayout("intl",rememberPrevious=true)
+                check(prefs.quickLayouts==listOf("intl","cyrillic"))
+                result.put("shortcut_defaults_and_first_switch",true)
+                prefs.layout="qwerty";prefs.numberRow=true
                 view=KeyboardView(activity,prefs,object:KeyboardView.Listener {
                     override fun text(text:String) { typed.append(text) }
                     override fun delete() { }
@@ -1153,10 +1164,14 @@ class KeyboardTest : Instrumentation() {
                 view.draw(android.graphics.Canvas(bitmap));File(targetContext.filesDir,"tools-menu.png").outputStream().use { bitmap.compress(android.graphics.Bitmap.CompressFormat.PNG,100,it) };bitmap.recycle()
                 check(view.accessibilityNodeProvider.createAccessibilityNodeInfo(2000)!!.contentDescription=="Clipboard")
                 check(view.accessibilityNodeProvider.createAccessibilityNodeInfo(2001)!!.contentDescription=="Translate")
-                check(view.accessibilityNodeProvider.createAccessibilityNodeInfo(2002)==null)
+                check(view.accessibilityNodeProvider.createAccessibilityNodeInfo(2002)!!.contentDescription=="Layout")
                 view.accessibilityNodeProvider.performAction(2000,android.view.accessibility.AccessibilityNodeInfo.ACTION_CLICK,null)
             }
             check(tools==listOf("clipboard") && switched==0);result.put("symbols_hold_tools_keeps_keyboard",true)
+            event(MotionEvent.ACTION_DOWN,intArrayOf(0),listOf(rect(38)))
+            SystemClock.sleep(550)
+            event(MotionEvent.ACTION_UP,intArrayOf(0),listOf(rect(2002)))
+            check(tools==listOf("clipboard","layout") && switched==0);result.put("hold_and_slide_to_layout",true)
             runOnMainSync {
                 val store=targetContext.getSharedPreferences("clipboard-test",android.content.Context.MODE_PRIVATE);store.edit().clear().commit()
                 val history=ClipboardHistory(targetContext,"clipboard-test")
@@ -1202,7 +1217,7 @@ class KeyboardTest : Instrumentation() {
                 check(caret.source.isEmpty() && caret.write(connection,"new") && editor.text.toString()=="Before  afternew")
                 result.put("translation_stream_slot_and_cursor_guard",true)
             }
-        } finally { runOnMainSync { activity.finish() } }
+        } finally { runOnMainSync { prefs.layout=originalLayout;prefs.quickLayouts=originalShortcuts;prefs.numberRow=originalNumberRow;activity.finish() } }
         return result
     }
     private fun completionTest():JSONObject {

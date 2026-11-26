@@ -523,4 +523,6 @@
     <string name="ui_hangul">"한국어 · Hangul"</string>
     <string name="ui_korean">"한국어 · Korean"</string>
     <string name="ui_split_keyboard_in_landscape">"Hatiin ang keyboard sa landscape mode"</string>
+    <string name="ui_add_layout">"Magdagdag ng layout"</string>
+    <string name="ui_remove_layout_shortcut">"Alisin ang shortcut"</string>
 </resources>

@@ -523,4 +523,6 @@
     <string name="ui_hangul">"한국어 · Hangul"</string>
     <string name="ui_korean">"한국어 · Korejski"</string>
     <string name="ui_split_keyboard_in_landscape">"Podijeli tipkovnicu u vodoravnom prikazu"</string>
+    <string name="ui_add_layout">"Dodaj raspored"</string>
+    <string name="ui_remove_layout_shortcut">"Ukloni prečac"</string>
 </resources>

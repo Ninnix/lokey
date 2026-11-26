@@ -523,4 +523,6 @@
     <string name="ui_hangul">"한국어 · Hangul"</string>
     <string name="ui_korean">"한국어 · Coreano"</string>
     <string name="ui_split_keyboard_in_landscape">"Dividir el teclado en horizontal"</string>
+    <string name="ui_add_layout">"Añadir distribución"</string>
+    <string name="ui_remove_layout_shortcut">"Quitar acceso directo"</string>
 </resources>

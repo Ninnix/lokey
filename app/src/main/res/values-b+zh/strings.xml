@@ -523,4 +523,6 @@
     <string name="ui_hangul">"한국어·韩文"</string>
     <string name="ui_korean">"한국어·韩语"</string>
     <string name="ui_split_keyboard_in_landscape">"横屏时拆分键盘"</string>
+    <string name="ui_add_layout">"添加键盘布局"</string>
+    <string name="ui_remove_layout_shortcut">"移除快捷项"</string>
 </resources>

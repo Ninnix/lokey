@@ -63,6 +63,8 @@ object CustomLayouts {
         if(prefs.layouts().none { it.id==id }) return false
         if(prefs.layout==id) prefs.layout="auto"
         prefs.customLayouts=JSONArray(prefs.layouts().filter { it.id!=id }.map { it.json() }).toString()
+        val shortcuts=prefs.quickLayouts
+        if(id in shortcuts) prefs.quickLayouts=shortcuts-id
         return true
     }
 }
