@@ -43,7 +43,7 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
     private val panelCorners=FloatArray(8)
     private val textBounds=Rect()
     private val labelArea=RectF()
-    private data class LabelSpec(val text:String,val pixels:Float)
+    private data class LabelSpec(val text:String,val pixels:Float,val bold:Boolean)
     private data class LabelMetrics(val width:Float,val height:Int,val centerX:Float,val centerY:Float)
     // Only static key labels use this cache; suggestions and editor text do not.
     private val labelMetrics=object:LinkedHashMap<LabelSpec,LabelMetrics>(128,.75f,true) {
@@ -120,23 +120,23 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
         paint.textSize=dp(size);paint.typeface=regularFont
         return min(size,size*available.coerceAtLeast(1f)/paint.measureText(text).coerceAtLeast(1f))
     }
-    private fun fitKeyLabel(text:String,size:Float,area:RectF):Float {
-        val metrics=metrics(text,size)
+    private fun fitKeyLabel(text:String,size:Float,area:RectF,bold:Boolean=false):Float {
+        val metrics=metrics(text,size,bold)
         return size*min(1f,min(area.width().coerceAtLeast(0f)/metrics.width.coerceAtLeast(1f),area.height().coerceAtLeast(0f)/metrics.height.coerceAtLeast(1)))
     }
-    private fun metrics(text:String,size:Float):LabelMetrics {
-        val spec=LabelSpec(text,dp(size))
+    private fun metrics(text:String,size:Float,bold:Boolean=false):LabelMetrics {
+        val spec=LabelSpec(text,dp(size),bold)
         return labelMetrics.getOrPut(spec) {
-            paint.textSize=spec.pixels;paint.typeface=regularFont;paint.textAlign=Paint.Align.LEFT
+            paint.textSize=spec.pixels;paint.typeface=if(bold) boldFont else regularFont;paint.textAlign=Paint.Align.LEFT
             paint.getTextBounds(text,0,text.length,textBounds)
             LabelMetrics(max(paint.measureText(text),textBounds.width().toFloat()),textBounds.height(),textBounds.exactCenterX(),textBounds.exactCenterY())
         }
     }
-    private fun keyLabel(canvas:Canvas,text:String,area:RectF,size:Float,color:Int) {
-        val fitted=fitKeyLabel(text,size,area)
+    private fun keyLabel(canvas:Canvas,text:String,area:RectF,size:Float,color:Int,bold:Boolean=false) {
+        val fitted=fitKeyLabel(text,size,area,bold)
         if(fitted<=0f) return
-        val metrics=metrics(text,fitted)
-        label(canvas,text,area.centerX()-metrics.centerX,area.centerY()-metrics.centerY,fitted,color,Paint.Align.LEFT)
+        val metrics=metrics(text,fitted,bold)
+        label(canvas,text,area.centerX()-metrics.centerX,area.centerY()-metrics.centerY,fitted,color,Paint.Align.LEFT,bold)
     }
     private fun hintArea(key:Key,area:RectF) {
         area.set(key.rect.left+dp(3f),key.rect.top+dp(3f),key.rect.right-dp(3f),key.rect.top+key.rect.height()*.36f-dp(2f))
@@ -427,16 +427,21 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
             if(shift && layout.cased) secondary=uppercaseVariant(secondary)
             Key(layout.label(code,shift || caps),secondary,code=code,native=true)
         }
-        row("1234567890".mapIndexed { i,c ->
+        val showNumbers=symbols || prefs.numberRow
+        if(showNumbers) row("1234567890".mapIndexed { i,c ->
             val code=c.toString()
             if(symbols) digit(c) else Key(code,variants(code).firstOrNull() ?: "!@#$%^&*()"[i].toString())
         },48*u)
+        // Keep saved row colors tied to their original rows when the number row is hidden.
+        if(!showNumbers) rowIndex++
         if (!symbols) {
+            val letterTop=if(showNumbers) 96f else 48f
+            val letterHeight=if(showNumbers) 48f else 48f+48f/layout.rows.size
             layout.rows.forEachIndexed { index,letters ->
                 val inset=if(index==1 && letters.size<layout.rows.first().size) dp(15f) else 0f
                 val keys=nativeLetters(letters)
                 val values=if(index==layout.rows.lastIndex) listOf(Key(if(caps) "⇪" else "⇧",if(caps) "lock" else if(shift) "once" else "caps",1.35f,"shift"))+keys+Key("⌫","hold",1.35f,"delete") else keys
-                row(values,(96+index*48)*u,inset)
+                row(values,(letterTop+index*letterHeight)*u,inset,h=letterHeight*u)
             }
         } else {
             fun marks(chars:String)=chars.map { char ->
@@ -481,6 +486,7 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
     private fun drawKeyboard(canvas:Canvas) {
         val saved=previewDesign
         val theme=saved?.settings?.getString("keyboard_theme") ?: previewTheme ?: prefs.keyboardTheme
+        val contrast=theme==KeyboardTheme.HIGH_CONTRAST
         palette=if(saved!=null) KeyboardTheme.colors(saved.settings) else KeyboardTheme.colors(prefs,theme)
         val builtin=theme=="wave" || theme=="image" && (saved?.settings?.optString("theme_picture") ?: prefs.themePicture)=="wave" && (previewTheme==null || saved!=null)
         val picture=theme=="image" || theme=="wave"
@@ -588,9 +594,9 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
             val custom=if(theme=="custom" || theme=="image") if(saved==null) prefs.keyColor(colorCode) else saved.settings.opt("key_color.$colorCode") as? Int else null
             val rowColor=if(theme=="custom" || theme=="image") if(saved==null) prefs.rowColor(key.row) else saved.settings.opt("row_color.${key.row}") as? Int else null
             val active=key.code=="enter" || key.code=="shift" && shift
-            val fill=when { active -> custom ?: accent; custom!=null -> custom; rowColor!=null -> rowColor; key.code=="space" -> palette.space; special -> palette.special; else -> keyColor }
+            val fill=when { active -> custom ?: accent; contrast -> keyColor; custom!=null -> custom; rowColor!=null -> rowColor; key.code=="space" -> palette.space; special -> palette.special; else -> keyColor }
             paint.color=if(pressed) KeyboardTheme.blend(fill,KeyboardTheme.ink(fill),.17f) else fill
-            var textColor=KeyboardTheme.ink(fill)
+            var textColor=if(contrast) Color.BLACK else KeyboardTheme.ink(fill)
             if(bitmap!=null && !active && custom==null && rowColor==null) {
                 canvas.drawRoundRect(key.rect,dp(8f),dp(8f),paint)
                 paint.shader=keycapShader
@@ -600,15 +606,17 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
             }
             canvas.drawRoundRect(key.rect, dp(8f), dp(8f), paint);paint.shader=null
             if(bitmap!=null && pressed) { paint.color=0x33777777;canvas.drawRoundRect(key.rect,dp(8f),dp(8f),paint) }
-            paint.color = palette.shadow
-            canvas.drawRoundRect(key.rect.left, key.rect.bottom - dp(2f), key.rect.right, key.rect.bottom + dp(1f), dp(8f), dp(8f), paint)
+            if(!contrast) {
+                paint.color = palette.shadow
+                canvas.drawRoundRect(key.rect.left, key.rect.bottom - dp(2f), key.rect.right, key.rect.bottom + dp(1f), dp(8f), dp(8f), paint)
+            }
             val color = textColor
             imageLabels=bitmap!=null && !active && custom==null && rowColor==null
             if (key.code == "space") {
                 val cursor=touches.values.any { it.cursor }
                 val caption=if(cursor) context.tr("‹  Move cursor  ›") else context.tr("Hold for cursor")
                 label(canvas,caption,key.rect.centerX(),if(cursor) key.rect.centerY()+dp(4f) else key.rect.bottom-dp(5f),
-                    fitSize(caption,if(cursor) 11f else 9f,key.rect.width()-dp(8f)),if(bitmap!=null) color else KeyboardTheme.blend(color,fill,.3f))
+                    fitSize(caption,if(cursor || contrast) 11f else 9f,key.rect.width()-dp(8f)),if(bitmap!=null || contrast) color else KeyboardTheme.blend(color,fill,.3f))
             } else if (key.code == "shift") {
                 drawIcon(canvas, if (caps) capsIcon else shiftIcon, key.rect.centerX(), key.rect.centerY() - dp(4f), 24f, color)
                 val caption=context.tr(layout.shiftLabel)
@@ -629,11 +637,11 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
                     label(canvas, action, x, key.rect.bottom - dp(5f), fitSize(action,9f,key.rect.width()-dp(8f)), color)
                 }
             } else {
-                val baseSize=if(key.label.length>2) 13f else 22f
+                val baseSize=if(key.label.length>2) { if(contrast) 16f else 13f } else { if(contrast) 30f else 22f }
                 // Shared bands keep letter baselines steady when hints or priors change.
                 val half=min(key.anchor.centerX()-key.rect.left,key.rect.right-key.anchor.centerX())-dp(4f)
                 labelArea.set(key.anchor.centerX()-half,key.rect.top+key.rect.height()*.36f,key.anchor.centerX()+half,key.rect.bottom-dp(3f))
-                keyLabel(canvas,key.label,labelArea,baseSize,color)
+                keyLabel(canvas,key.label,labelArea,baseSize,color,bold=contrast)
                 val hint=if(key.code in listOf("shift","delete","symbols","page","enter")) context.tr(secondaryLabel(key)) else secondaryLabel(key)
                 if(hint.isNotEmpty()) {
                     hintArea(key,labelArea)
@@ -642,12 +650,12 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
                         val cell=labelArea.width()/hints.size
                         for((index,value) in hints.withIndex()) {
                             labelArea.left=key.rect.left+dp(3f)+index*cell;labelArea.right=labelArea.left+cell
-                            keyLabel(canvas,value,labelArea,symbolSize,if(bitmap!=null) color else KeyboardTheme.blend(color,fill,.15f))
+                            keyLabel(canvas,value,labelArea,symbolSize,if(bitmap!=null || contrast) color else KeyboardTheme.blend(color,fill,.15f))
                         }
                     } else {
                         val size=fitKeyLabel(hint,if(hint.length>2) 7f else 9f,labelArea)
                         labelArea.left=labelArea.right-metrics(hint,size).width
-                        keyLabel(canvas,hint,labelArea,size,if(bitmap!=null) color else KeyboardTheme.blend(color,fill,.35f))
+                        keyLabel(canvas,hint,labelArea,size,if(bitmap!=null || contrast) color else KeyboardTheme.blend(color,fill,.35f))
                     }
                 }
             }
@@ -679,7 +687,7 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
             val x = flick.key.rect.centerX().coerceIn(dp(25f), width - dp(25f))
             val y = flick.key.rect.top - dp(30f)
             paint.color = keyColor; canvas.drawRoundRect(x - dp(22f), y - dp(22f), x + dp(22f), y + dp(22f), dp(10f), dp(10f), paint)
-            label(canvas, flick.flick!!, x, y + dp(8f), 24f, ink)
+            label(canvas, flick.flick!!, x, y + dp(8f), 24f, if(contrast) Color.BLACK else ink,bold=contrast)
         }
         val held = touches.values.firstOrNull { it.held && it.choice >= 0 }
         if (held != null) {

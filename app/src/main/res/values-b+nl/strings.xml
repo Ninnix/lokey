@@ -184,6 +184,7 @@
     <string name="ui_go">"Ga"</string>
     <string name="ui_gray">"Grijs"</string>
     <string name="ui_great_wave">"Grote golf"</string>
+    <string name="ui_high_contrast">"Hoog contrast"</string>
     <string name="ui_great_wave_artwork">"Great Wave-kunstwerk"</string>
     <string name="ui_green">"Groen"</string>
     <string name="ui_half_space">"Halve ruimte"</string>
@@ -225,6 +226,7 @@
     <string name="ui_keyboard">"Toetsenbord"</string>
     <string name="ui_keyboard_language_data">"Toetsenbord- en taalgegevens"</string>
     <string name="ui_keyboard_height">"Toetsenbordhoogte"</string>
+    <string name="ui_show_number_row">"Cijferrij tonen"</string>
     <string name="ui_keyboard_icons_alphabets_dictionaries_and_conversion_data">"Toetsenbordpictogrammen, alfabetten, woordenboeken en conversiegegevens."</string>
     <string name="ui_keyboard_layout">"Toetsenbordindeling"</string>
     <string name="ui_keyboard_layout_settings">"Instellingen voor toetsenbordindeling"</string>

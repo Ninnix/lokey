@@ -184,6 +184,7 @@
     <string name="ui_go">"Menj"</string>
     <string name="ui_gray">"Szürke"</string>
     <string name="ui_great_wave">"Nagy Hullám"</string>
+    <string name="ui_high_contrast">"Nagy kontraszt"</string>
     <string name="ui_great_wave_artwork">"Great Wave alkotás"</string>
     <string name="ui_green">"Zöld"</string>
     <string name="ui_half_space">"Fél hely"</string>
@@ -225,6 +226,7 @@
     <string name="ui_keyboard">"Billentyűzet"</string>
     <string name="ui_keyboard_language_data">"Billentyűzet és nyelvi adatok"</string>
     <string name="ui_keyboard_height">"Billentyűzet magassága"</string>
+    <string name="ui_show_number_row">"Számsor megjelenítése"</string>
     <string name="ui_keyboard_icons_alphabets_dictionaries_and_conversion_data">"Billentyűzet ikonok, ábécé, szótárak és konverziós adatok."</string>
     <string name="ui_keyboard_layout">"Billentyűzetkiosztás"</string>
     <string name="ui_keyboard_layout_settings">"Billentyűzetkiosztás beállításai"</string>

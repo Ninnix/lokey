@@ -184,6 +184,7 @@
     <string name="ui_go">"Mur"</string>
     <string name="ui_gray">"Griż"</string>
     <string name="ui_great_wave">"Mewġ il-Kbir"</string>
+    <string name="ui_high_contrast">"Kuntrast għoli"</string>
     <string name="ui_great_wave_artwork">"Xogħol tal-arti tal-Mewġ il-Kbir"</string>
     <string name="ui_green">"Aħdar"</string>
     <string name="ui_half_space">"Nofs spazju"</string>
@@ -225,6 +226,7 @@
     <string name="ui_keyboard">"Tastiera"</string>
     <string name="ui_keyboard_language_data">"Tastiera u data tal-lingwa"</string>
     <string name="ui_keyboard_height">"Għoli tat-tastiera"</string>
+    <string name="ui_show_number_row">"Uri r-ringiela tan-numri"</string>
     <string name="ui_keyboard_icons_alphabets_dictionaries_and_conversion_data">"Ikoni tat-tastiera, alfabeti, dizzjunarji, u data ta\' konverżjoni."</string>
     <string name="ui_keyboard_layout">"It-tqassim tat-tastiera"</string>
     <string name="ui_keyboard_layout_settings">"Issettjar tat-tqassim tat-tastiera"</string>

@@ -184,6 +184,7 @@
     <string name="ui_go">"Pergi"</string>
     <string name="ui_gray">"Kelabu"</string>
     <string name="ui_great_wave">"Gelombang Hebat"</string>
+    <string name="ui_high_contrast">"Kontras tinggi"</string>
     <string name="ui_great_wave_artwork">"Karya seni Great Wave"</string>
     <string name="ui_green">"Hijau"</string>
     <string name="ui_half_space">"Separuh ruang"</string>
@@ -225,6 +226,7 @@
     <string name="ui_keyboard">"Papan kekunci"</string>
     <string name="ui_keyboard_language_data">"Papan kekunci &amp; data bahasa"</string>
     <string name="ui_keyboard_height">"Ketinggian papan kekunci"</string>
+    <string name="ui_show_number_row">"Tunjukkan baris nombor"</string>
     <string name="ui_keyboard_icons_alphabets_dictionaries_and_conversion_data">"Ikon papan kekunci, abjad, kamus dan data penukaran."</string>
     <string name="ui_keyboard_layout">"Susun atur papan kekunci"</string>
     <string name="ui_keyboard_layout_settings">"Tetapan susun atur papan kekunci"</string>

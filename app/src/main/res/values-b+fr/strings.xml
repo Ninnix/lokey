@@ -184,6 +184,7 @@
     <string name="ui_go">"Aller"</string>
     <string name="ui_gray">"Gris"</string>
     <string name="ui_great_wave">"Grande Vague"</string>
+    <string name="ui_high_contrast">"Contraste élevé"</string>
     <string name="ui_great_wave_artwork">"Oeuvre de la Grande Vague"</string>
     <string name="ui_green">"Vert"</string>
     <string name="ui_half_space">"Demi-espace"</string>
@@ -225,6 +226,7 @@
     <string name="ui_keyboard">"Clavier"</string>
     <string name="ui_keyboard_language_data">"Données clavier &amp; langue"</string>
     <string name="ui_keyboard_height">"Hauteur du clavier"</string>
+    <string name="ui_show_number_row">"Afficher la rangée de chiffres"</string>
     <string name="ui_keyboard_icons_alphabets_dictionaries_and_conversion_data">"Icônes de clavier, alphabets, dictionnaires et données de conversion."</string>
     <string name="ui_keyboard_layout">"Disposition du clavier"</string>
     <string name="ui_keyboard_layout_settings">"Paramètres de disposition du clavier"</string>

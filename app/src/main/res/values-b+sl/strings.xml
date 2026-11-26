@@ -184,6 +184,7 @@
     <string name="ui_go">"Pojdi"</string>
     <string name="ui_gray">"Siva"</string>
     <string name="ui_great_wave">"Veliki val"</string>
+    <string name="ui_high_contrast">"Visok kontrast"</string>
     <string name="ui_great_wave_artwork">"Umetniško delo Great Wave"</string>
     <string name="ui_green">"Zelena"</string>
     <string name="ui_half_space">"Pol prostora"</string>
@@ -225,6 +226,7 @@
     <string name="ui_keyboard">"Tipkovnica"</string>
     <string name="ui_keyboard_language_data">"Podatki o tipkovnici in jeziku"</string>
     <string name="ui_keyboard_height">"Višina tipkovnice"</string>
+    <string name="ui_show_number_row">"Prikaži vrstico s številkami"</string>
     <string name="ui_keyboard_icons_alphabets_dictionaries_and_conversion_data">"Ikone tipkovnice, abecede, slovarji in podatki o pretvorbi."</string>
     <string name="ui_keyboard_layout">"Razporeditev tipkovnice"</string>
     <string name="ui_keyboard_layout_settings">"Nastavitve razporeditve tipkovnice"</string>

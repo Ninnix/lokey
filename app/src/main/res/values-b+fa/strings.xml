@@ -184,6 +184,7 @@
     <string name="ui_go">"برو"</string>
     <string name="ui_gray">"خاکستری"</string>
     <string name="ui_great_wave">"موج بزرگ"</string>
+    <string name="ui_high_contrast">"کنتراست بالا"</string>
     <string name="ui_great_wave_artwork">"اثر هنری موج بزرگ"</string>
     <string name="ui_green">"سبز"</string>
     <string name="ui_half_space">"نیم فاصله"</string>
@@ -225,6 +226,7 @@
     <string name="ui_keyboard">"صفحه کلید"</string>
     <string name="ui_keyboard_language_data">"داده های صفحه کلید و زبان"</string>
     <string name="ui_keyboard_height">"ارتفاع صفحه کلید"</string>
+    <string name="ui_show_number_row">"نمایش ردیف اعداد"</string>
     <string name="ui_keyboard_icons_alphabets_dictionaries_and_conversion_data">"نمادهای صفحه کلید، حروف الفبا، فرهنگ لغت، و داده های تبدیل."</string>
     <string name="ui_keyboard_layout">"طرح صفحه کلید"</string>
     <string name="ui_keyboard_layout_settings">"تنظیمات چیدمان صفحه کلید"</string>

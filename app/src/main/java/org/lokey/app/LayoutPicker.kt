@@ -17,18 +17,21 @@ class LayoutPreview(context:Context,private val prefs:Prefs,private val selected
     override fun onDraw(canvas:Canvas) {
         val layout=selected();val colors=KeyboardTheme.colors(prefs)
         pen.color=colors.background;canvas.drawRoundRect(0f,0f,width.toFloat(),height.toFloat(),dp(8f),dp(8f),pen)
-        val rows=if(layout.keyRows.isNotEmpty()) layout.keyRows.map { row -> row.map { it.label } } else listOf("1234567890".map { it.toString() })+layout.rows+listOf(listOf("↑","", "↵"))
+        val numbers=if(prefs.numberRow) listOf("1234567890".map { it.toString() }) else emptyList()
+        val rows=if(layout.keyRows.isNotEmpty()) layout.keyRows.map { row -> row.map { it.label } } else numbers+layout.rows+listOf(listOf("↑","", "↵"))
         val h=(height-dp(7f))/rows.size;val gap=dp(1.5f)
-        pen.typeface=Typeface.create("sans-serif",Typeface.NORMAL);pen.textAlign=Paint.Align.CENTER
+        val contrast=prefs.keyboardTheme==KeyboardTheme.HIGH_CONTRAST
+        pen.typeface=Typeface.create("sans-serif",if(contrast) Typeface.BOLD else Typeface.NORMAL);pen.textAlign=Paint.Align.CENTER
         rows.forEachIndexed { index,row ->
-            val inset=if(index in 2 until rows.lastIndex) dp(4f) else 0f
+            val firstInset=if(layout.keyRows.isEmpty() && numbers.isEmpty()) 1 else 2
+            val inset=if(index in firstInset until rows.lastIndex) dp(4f) else 0f
             val available=width-dp(7f)-inset*2;val cell=available/row.size
             row.forEachIndexed { key,value ->
                 val x=dp(3.5f)+inset+key*cell;val y=dp(3.5f)+index*h
                 val accent=index==rows.lastIndex && key==row.lastIndex
                 pen.color=if(accent) colors.accent else colors.keys
                 canvas.drawRoundRect(x,y,x+cell-gap,y+h-gap,dp(2f),dp(2f),pen)
-                pen.color=if(accent) KeyboardTheme.ink(colors.accent) else colors.ink
+                pen.color=if(contrast) android.graphics.Color.BLACK else if(accent) KeyboardTheme.ink(colors.accent) else colors.ink
                 val label=KeyboardLayouts.display(value)
                 pen.textSize=minOf(dp(6f),h*.65f)
                 if(pen.measureText(label)>cell-gap) pen.textSize*=((cell-gap)/pen.measureText(label))

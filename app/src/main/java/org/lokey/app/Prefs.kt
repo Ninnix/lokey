@@ -116,7 +116,7 @@ class Prefs(context: Context) {
     fun clearRowColors() { val edit=store.edit();store.all.keys.filter { it.startsWith("row_color.") }.forEach { edit.remove(it) };edit.apply() }
     fun clearKeyColors() { val edit=store.edit();store.all.keys.filter { it.startsWith("key_color.") }.forEach { edit.remove(it) };edit.apply() }
     fun useTheme(theme:String) {
-        require(theme in listOf("dark","light","wave"))
+        require(theme in KeyboardTheme.presets)
         val colors=KeyboardTheme.colors(this,theme)
         val edit=store.edit().putString("keyboard_theme",theme).putInt("theme_background",colors.background)
             .putInt("theme_keys",colors.keys).putInt("theme_accent",colors.accent).putBoolean("design_dirty",false).putString("active_design","")
@@ -155,6 +155,9 @@ class Prefs(context: Context) {
     var height: Int
         get() = store.getInt("height", 100)
         set(value) { store.edit().putInt("height", value).apply() }
+    var numberRow:Boolean
+        get()=store.getBoolean("number_row",true)
+        set(value) { store.edit().putBoolean("number_row",value).apply() }
     var splitLandscape:Boolean
         get()=store.getBoolean("split_landscape",false)
         set(value) { store.edit().putBoolean("split_landscape",value).apply() }

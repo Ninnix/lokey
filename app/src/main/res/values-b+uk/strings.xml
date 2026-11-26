@@ -184,6 +184,7 @@
     <string name="ui_go">"Йди"</string>
     <string name="ui_gray">"Сірий"</string>
     <string name="ui_great_wave">"Велика хвиля"</string>
+    <string name="ui_high_contrast">"Висока контрастність"</string>
     <string name="ui_great_wave_artwork">"Велика хвиля"</string>
     <string name="ui_green">"Зелений"</string>
     <string name="ui_half_space">"Півпростір"</string>
@@ -225,6 +226,7 @@
     <string name="ui_keyboard">"Клавіатура"</string>
     <string name="ui_keyboard_language_data">"Дані клавіатури та мови"</string>
     <string name="ui_keyboard_height">"Висота клавіатури"</string>
+    <string name="ui_show_number_row">"Показувати ряд цифр"</string>
     <string name="ui_keyboard_icons_alphabets_dictionaries_and_conversion_data">"Значки клавіатури, алфавіти, словники та дані перетворення."</string>
     <string name="ui_keyboard_layout">"Розкладка клавіатури"</string>
     <string name="ui_keyboard_layout_settings">"Налаштування розкладки клавіатури"</string>

@@ -184,6 +184,7 @@
     <string name="ui_go">"Git"</string>
     <string name="ui_gray">"Gri"</string>
     <string name="ui_great_wave">"Büyük Dalga"</string>
+    <string name="ui_high_contrast">"Yüksek kontrast"</string>
     <string name="ui_great_wave_artwork">"Büyük Dalga sanat eseri"</string>
     <string name="ui_green">"Yeşil"</string>
     <string name="ui_half_space">"Yarım alan"</string>
@@ -225,6 +226,7 @@
     <string name="ui_keyboard">"Klavye"</string>
     <string name="ui_keyboard_language_data">"Klavye ve dil verileri"</string>
     <string name="ui_keyboard_height">"Klavye yüksekliği"</string>
+    <string name="ui_show_number_row">"Sayı satırını göster"</string>
     <string name="ui_keyboard_icons_alphabets_dictionaries_and_conversion_data">"Klavye simgeleri, alfabeler, sözlükler ve dönüştürme verileri."</string>
     <string name="ui_keyboard_layout">"Klavye düzeni"</string>
     <string name="ui_keyboard_layout_settings">"Klavye düzeni ayarları"</string>

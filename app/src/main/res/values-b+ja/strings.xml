@@ -184,6 +184,7 @@
     <string name="ui_go">"ゴー"</string>
     <string name="ui_gray">"グレー"</string>
     <string name="ui_great_wave">"グレートウェーブ"</string>
+    <string name="ui_high_contrast">"高コントラスト"</string>
     <string name="ui_great_wave_artwork">"グレートウェーブアートワーク"</string>
     <string name="ui_green">"グリーン"</string>
     <string name="ui_half_space">"ハーフスペース"</string>
@@ -225,6 +226,7 @@
     <string name="ui_keyboard">"キーボード"</string>
     <string name="ui_keyboard_language_data">"キーボードおよび言語データ"</string>
     <string name="ui_keyboard_height">"キーボードの高さ"</string>
+    <string name="ui_show_number_row">"数字の行を表示"</string>
     <string name="ui_keyboard_icons_alphabets_dictionaries_and_conversion_data">"キーボードアイコン、アルファベット、辞書、変換データ。"</string>
     <string name="ui_keyboard_layout">"キーボードレイアウト"</string>
     <string name="ui_keyboard_layout_settings">"キーボードレイアウト設定"</string>

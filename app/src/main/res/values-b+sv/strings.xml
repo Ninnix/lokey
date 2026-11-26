@@ -184,6 +184,7 @@
     <string name="ui_go">"Gå"</string>
     <string name="ui_gray">"Grå"</string>
     <string name="ui_great_wave">"Stor våg"</string>
+    <string name="ui_high_contrast">"Hög kontrast"</string>
     <string name="ui_great_wave_artwork">"Great Wave-konstverk"</string>
     <string name="ui_green">"Grön"</string>
     <string name="ui_half_space">"Halvt utrymme"</string>
@@ -225,6 +226,7 @@
     <string name="ui_keyboard">"Tangentbord"</string>
     <string name="ui_keyboard_language_data">"Tangentbord och språkdata"</string>
     <string name="ui_keyboard_height">"Tangentbordshöjd"</string>
+    <string name="ui_show_number_row">"Visa sifferrad"</string>
     <string name="ui_keyboard_icons_alphabets_dictionaries_and_conversion_data">"Tangentbordsikoner, alfabet, ordböcker och konverteringsdata."</string>
     <string name="ui_keyboard_layout">"Tangentbordslayout"</string>
     <string name="ui_keyboard_layout_settings">"Inställningar för tangentbordslayout"</string>

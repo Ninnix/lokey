@@ -184,6 +184,7 @@
     <string name="ui_go">"Gå"</string>
     <string name="ui_gray">"Grå"</string>
     <string name="ui_great_wave">"Stor bølge"</string>
+    <string name="ui_high_contrast">"Høj kontrast"</string>
     <string name="ui_great_wave_artwork">"Great Wave kunstværk"</string>
     <string name="ui_green">"Grøn"</string>
     <string name="ui_half_space">"Halv plads"</string>
@@ -225,6 +226,7 @@
     <string name="ui_keyboard">"Tastatur"</string>
     <string name="ui_keyboard_language_data">"Tastatur og sprogdata"</string>
     <string name="ui_keyboard_height">"Tastaturhøjde"</string>
+    <string name="ui_show_number_row">"Vis talrække"</string>
     <string name="ui_keyboard_icons_alphabets_dictionaries_and_conversion_data">"Tastaturikoner, alfabeter, ordbøger og konverteringsdata."</string>
     <string name="ui_keyboard_layout">"Tastatur layout"</string>
     <string name="ui_keyboard_layout_settings">"Indstillinger for tastaturlayout"</string>

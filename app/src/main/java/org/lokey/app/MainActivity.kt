@@ -153,7 +153,8 @@ class MainActivity : Activity() {
         layout.addView(text(tr("Keyboard layout"),20f,bold=true))
         val selectedLayout=prefs.currentLayout
         layout.addView(text((if(prefs.automaticLayout) tr("Automatic · ") else "")+layoutName(selectedLayout),13f,muted).apply { setPadding(0,dp(5),0,dp(10)) })
-        layout.addView(LayoutPreview(this,prefs) { selectedLayout },LinearLayout.LayoutParams(-1,dp(76)))
+        val layoutPreview=LayoutPreview(this,prefs) { selectedLayout }
+        layout.addView(layoutPreview,LinearLayout.LayoutParams(-1,dp(76)))
         layout.addView(text(tr("Choose layout  →"),14f,accent,true).apply { setPadding(0,dp(10),0,0) })
         layout.isClickable=true;layout.isFocusable=true;layout.contentDescription=tr("Keyboard layout settings")
         layout.setOnClickListener { show("layout") }
@@ -275,7 +276,8 @@ class MainActivity : Activity() {
         card().apply {
             slider(this,tr("Keyboard height"),prefs.height,85,120) { prefs.height=it }
             addView(text(tr("Hold the top edge of the keyboard and drag to resize while typing."),13f,muted))
-            addView(setting(tr("Split keyboard in landscape"),prefs.splitLandscape) { prefs.splitLandscape=it })
+            addView(setting(tr("Show number row"),prefs.numberRow,FeelIcon.Kind.NumberRow) { prefs.numberRow=it;layoutPreview.invalidate() })
+            addView(setting(tr("Split keyboard in landscape"),prefs.splitLandscape,FeelIcon.Kind.SplitKeyboard) { prefs.splitLandscape=it })
         }
         section(tr("Typing features"))
         card().apply {

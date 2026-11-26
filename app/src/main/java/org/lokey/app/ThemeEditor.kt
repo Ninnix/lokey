@@ -39,7 +39,7 @@ class ThemeEditor(private val activity:Activity,private val prefs:Prefs):LinearL
             addView(text(context.tr("Keyboard themes"),18f))
             addView(text(context.tr("Choose a starting point, then edit its colors below."),12f))
             val saved=DesignPresets.all(prefs)
-            val presets=mutableListOf("dark" to context.tr("Dark"),"light" to context.tr("Light"),"wave" to context.tr("Great Wave"))
+            val presets=KeyboardTheme.presets.map { (id,name) -> id to context.tr(name) }.toMutableList()
             presets.addAll(saved.map { it.id to it.name })
             presets.add("image" to context.tr("Your image"))
             for(pair in presets.chunked(2)) {

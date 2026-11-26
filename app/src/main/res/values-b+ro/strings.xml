@@ -184,6 +184,7 @@
     <string name="ui_go">"Du-te"</string>
     <string name="ui_gray">"Gri"</string>
     <string name="ui_great_wave">"Marele Val"</string>
+    <string name="ui_high_contrast">"Contrast ridicat"</string>
     <string name="ui_great_wave_artwork">"Opera de artă Great Wave"</string>
     <string name="ui_green">"Verde"</string>
     <string name="ui_half_space">"Jumătate de spațiu"</string>
@@ -225,6 +226,7 @@
     <string name="ui_keyboard">"Tastatura"</string>
     <string name="ui_keyboard_language_data">"Tastatură și date de limbă"</string>
     <string name="ui_keyboard_height">"Înălțimea tastaturii"</string>
+    <string name="ui_show_number_row">"Afișează rândul de cifre"</string>
     <string name="ui_keyboard_icons_alphabets_dictionaries_and_conversion_data">"Pictograme de la tastatură, alfabete, dicționare și date de conversie."</string>
     <string name="ui_keyboard_layout">"Dispunerea tastaturii"</string>
     <string name="ui_keyboard_layout_settings">"Setări pentru aspectul tastaturii"</string>

@@ -12,6 +12,8 @@ import kotlin.math.max
 import kotlin.math.roundToInt
 
 object KeyboardTheme {
+    const val HIGH_CONTRAST="high_contrast"
+    val presets=linkedMapOf("dark" to "Dark","light" to "Light",HIGH_CONTRAST to "High contrast","wave" to "Great Wave")
     data class Colors(val background:Int, val keys:Int, val special:Int, val space:Int, val ink:Int, val muted:Int, val accent:Int, val shadow:Int)
     fun light(color:Int):Boolean {
         fun linear(value:Int):Double { val v=value/255.0;return if(v<=.04045) v/12.92 else Math.pow((v+.055)/1.055,2.4) }
@@ -23,6 +25,7 @@ object KeyboardTheme {
     fun colors(settings:org.json.JSONObject):Colors=colors(settings.getString("keyboard_theme"),settings.getInt("theme_background"),settings.getInt("theme_keys"),settings.getInt("theme_accent"))
     private fun colors(selected:String,bg:Int,keys:Int,accent:Int):Colors = when(selected) {
         "light" -> Colors(Color.rgb(245,245,243),Color.WHITE,Color.WHITE,Color.WHITE,Color.rgb(28,29,30),Color.rgb(112,113,110),Color.rgb(255,90,0),Color.rgb(210,210,207))
+        HIGH_CONTRAST -> Colors(Color.BLACK,Color.WHITE,Color.rgb(32,32,32),Color.WHITE,Color.WHITE,Color.WHITE,Color.rgb(255,224,64),Color.BLACK)
         "wave" -> waveColors
         "custom","image" -> {
             Colors(bg,keys,keys,keys,ink(bg),blend(ink(bg),bg,.38f),accent,blend(bg,Color.BLACK,.3f))

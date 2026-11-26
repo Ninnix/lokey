@@ -184,6 +184,7 @@
     <string name="ui_go">"ไปสิ"</string>
     <string name="ui_gray">"สีเทา"</string>
     <string name="ui_great_wave">"คลื่นยักษ์"</string>
+    <string name="ui_high_contrast">"คอนทราสต์สูง"</string>
     <string name="ui_great_wave_artwork">"งานศิลปะคลื่นยักษ์"</string>
     <string name="ui_green">"สีเขียว"</string>
     <string name="ui_half_space">"ครึ่งช่อง"</string>
@@ -225,6 +226,7 @@
     <string name="ui_keyboard">"แป้นพิมพ์"</string>
     <string name="ui_keyboard_language_data">"ข้อมูลแป้นพิมพ์และภาษา"</string>
     <string name="ui_keyboard_height">"ความสูงของแป้นพิมพ์"</string>
+    <string name="ui_show_number_row">"แสดงแถวตัวเลข"</string>
     <string name="ui_keyboard_icons_alphabets_dictionaries_and_conversion_data">"ไอคอนแป้นพิมพ์ ตัวอักษร พจนานุกรม และข้อมูลการแปลง"</string>
     <string name="ui_keyboard_layout">"รูปแบบแป้นพิมพ์"</string>
     <string name="ui_keyboard_layout_settings">"การตั้งค่ารูปแบบแป้นพิมพ์"</string>

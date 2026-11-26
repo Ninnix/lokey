@@ -23,6 +23,8 @@ object PanelChecks {
         val prefs=Prefs(context)
         val originalLayout=if(prefs.automaticLayout) "auto" else prefs.layout
         val originalSplit=prefs.splitLandscape
+        val originalNumberRow=prefs.numberRow
+        val originalHeight=prefs.height
         val originalCustom=prefs.customLayouts
         val originalAdaptive=prefs.adaptive
         val typed=StringBuilder();val symbols=StringBuilder();val selected=ArrayList<String>()
@@ -76,6 +78,7 @@ object PanelChecks {
             result=runCatching {
                 try {
                     prefs.splitLandscape=true
+                    prefs.numberRow=true
                     val portrait=view(false)
                     val landscape=view(true)
                     fun checkSplit(view:KeyboardView) {
@@ -185,6 +188,32 @@ object PanelChecks {
                     check(nodes(landscape).count { it.label=="Space" }==1)
                     prefs.splitLandscape=true;landscape.updateGeometry();checkSplit(landscape)
 
+                    prefs.height=120
+                    for(panel in listOf(portrait,landscape)) {
+                        prefs.numberRow=true;panel.editor(false,"Done",false);measure(panel)
+                        val height=panel.height
+                        val letter=nodes(panel).first { it.label=="q" }.bounds
+                        val space=nodes(panel).first { it.label=="Space" }.bounds
+                        prefs.numberRow=false;panel.updateGeometry();measure(panel)
+                        val expanded=nodes(panel)
+                        val q=expanded.first { it.label=="q" }
+                        check(panel.height==height && expanded.first { it.label=="Space" }.bounds==space)
+                        check(q.bounds.top<letter.top && q.bounds.height()>1.3f*letter.height())
+                        check(expanded.none { it.label.singleOrNull() in '0'..'9' })
+                        typed.clear();tap(panel,q);check(typed.toString()=="q")
+                        if(panel===landscape) checkSplit(panel)
+                        press(panel,"?123");typed.clear();press(panel,"1");press(panel,"=/<");press(panel,"0")
+                        check(typed.toString()=="10")
+                        press(panel,"ABC")
+                        check(nodes(panel).any { it.label=="q" } && nodes(panel).none { it.label=="1" })
+                        prefs.numberRow=true;panel.updateGeometry()
+                        check(nodes(panel).first { it.label=="q" }.bounds==letter)
+                    }
+                    prefs.numberRow=false
+                    prefs.layout=custom.id;portrait.editor(false,"Done",false);measure(portrait)
+                    check(nodes(portrait).any { it.label=="1" })
+                    prefs.layout="qwerty";portrait.editor(false,"Done",false);measure(portrait)
+
                     val number=InputType.TYPE_CLASS_NUMBER
                     for(panel in listOf(portrait,landscape)) {
                         val textHeight=panel.height
@@ -225,9 +254,10 @@ object PanelChecks {
                     check(entered==8)
                     JSONObject().put("built_in_layouts",KeyboardLayouts.all.size).put("custom_layout",true)
                         .put("landscape_split_both_pages",true).put("two_thumb_events",true).put("numeric_field_types",4)
-                        .put("transparent_gap",true).put("split_suggestions",4)
+                        .put("transparent_gap",true).put("split_suggestions",4).put("hidden_row_enlarges_letters",true)
                 } finally {
                     prefs.layout=originalLayout;prefs.customLayouts=originalCustom;prefs.splitLandscape=originalSplit;prefs.adaptive=originalAdaptive
+                    prefs.numberRow=originalNumberRow;prefs.height=originalHeight
                 }
             }
         }

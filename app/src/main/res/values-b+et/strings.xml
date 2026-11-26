@@ -184,6 +184,7 @@
     <string name="ui_go">"Mine"</string>
     <string name="ui_gray">"Hall"</string>
     <string name="ui_great_wave">"Suur laine"</string>
+    <string name="ui_high_contrast">"Suur kontrastsus"</string>
     <string name="ui_great_wave_artwork">"Suure laine kunstiteos"</string>
     <string name="ui_green">"Roheline"</string>
     <string name="ui_half_space">"Pool ruumi"</string>
@@ -225,6 +226,7 @@
     <string name="ui_keyboard">"Klaviatuur"</string>
     <string name="ui_keyboard_language_data">"Klaviatuuri ja keele andmed"</string>
     <string name="ui_keyboard_height">"Klaviatuuri kõrgus"</string>
+    <string name="ui_show_number_row">"Kuva numbririda"</string>
     <string name="ui_keyboard_icons_alphabets_dictionaries_and_conversion_data">"Klaviatuuriikoonid, tähestikud, sõnastikud ja konversiooniandmed."</string>
     <string name="ui_keyboard_layout">"Klaviatuuri paigutus"</string>
     <string name="ui_keyboard_layout_settings">"Klaviatuuri paigutuse sätted"</string>

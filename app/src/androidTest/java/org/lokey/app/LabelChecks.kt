@@ -56,9 +56,10 @@ object LabelChecks {
         }
         try {
             for(layout in layouts) for(width in listOf(320,600)) for(height in listOf(85,100,120))
-                for(mode in listOf("letters","upper","symbols","symbols2","numeric")) for(adaptive in listOf(false,true)) for(suggestions in listOf(false,true)) test.runOnMainSync {
+                for(mode in listOf("letters","upper","symbols","symbols2","numeric")) for(adaptive in listOf(false,true)) for(suggestions in listOf(false,true)) for(contrast in listOf(false,true)) test.runOnMainSync {
                     if(viewport!=width) { view=createView(width);viewport=width }
                     prefs.height=height;prefs.adaptive=adaptive;view.previewLayout=null;prefs.layout=layout.id
+                    prefs.keyboardTheme=if(contrast) KeyboardTheme.HIGH_CONTRAST else "dark";prefs.numberRow=!contrast
                     view.previewLayout=layout.takeIf { it.keyRows.isNotEmpty() };view.suggestionsVisible=suggestions
                     view.editor(mode=="numeric","Done",mode=="upper")
                     view.measure(View.MeasureSpec.makeMeasureSpec((width*density).roundToInt(),View.MeasureSpec.EXACTLY),View.MeasureSpec.makeMeasureSpec(0,View.MeasureSpec.UNSPECIFIED))
@@ -72,7 +73,7 @@ object LabelChecks {
                     }
                     view.prediction(emptyList(),FloatArray(26).apply { this[4]=1f },true,"en")
                     val canvas=RecordingCanvas(pixel);view.draw(canvas)
-                    val name="${layout.id}/$width/$height/$mode/$adaptive/$suggestions"
+                    val name="${layout.id}/$width/$height/$mode/$adaptive/$suggestions/$contrast"
                     val keys=keys();val groups=HashMap<KeyboardView.Key,MutableList<Ink>>()
                     for(ink in canvas.labels) {
                         val key=keys.firstOrNull { it.rect.contains(ink.bounds.centerX(),ink.bounds.centerY()) } ?: continue
@@ -88,8 +89,8 @@ object LabelChecks {
                     for(key in keys) if(key.code !in listOf("shift","delete","enter","space") && key.label.isNotBlank()) {
                         if(groups[key].orEmpty().none { it.text==key.label }) error("Missing primary label $name/${key.code}: ${key.label}")
                     }
-                    if(layout.id=="intl" && height in listOf(85,120) && mode=="letters" && !adaptive && suggestions ||
-                        layout.id in listOf("turkish","thai","arabic") && width==320 && height==85 && mode=="upper" && !adaptive && suggestions) {
+                    if(!contrast && (layout.id=="intl" && height in listOf(85,120) && mode=="letters" && !adaptive && suggestions ||
+                        layout.id in listOf("turkish","thai","arabic") && width==320 && height==85 && mode=="upper" && !adaptive && suggestions)) {
                         val image=Bitmap.createBitmap(view.width,view.height,Bitmap.Config.ARGB_8888);view.draw(Canvas(image))
                         File(context.filesDir,"labels-${layout.id}-$width-$height.png").outputStream().use { image.compress(Bitmap.CompressFormat.PNG,100,it) };image.recycle()
                     }

@@ -184,6 +184,7 @@
     <string name="ui_go">"Iet"</string>
     <string name="ui_gray">"Pelēks"</string>
     <string name="ui_great_wave">"Lielais vilnis"</string>
+    <string name="ui_high_contrast">"Augsts kontrasts"</string>
     <string name="ui_great_wave_artwork">"Great Wave mākslas darbs"</string>
     <string name="ui_green">"Zaļš"</string>
     <string name="ui_half_space">"Puse no vietas"</string>
@@ -225,6 +226,7 @@
     <string name="ui_keyboard">"Tastatūra"</string>
     <string name="ui_keyboard_language_data">"Tastatūras un valodas dati"</string>
     <string name="ui_keyboard_height">"Tastatūras augstums"</string>
+    <string name="ui_show_number_row">"Rādīt ciparu rindu"</string>
     <string name="ui_keyboard_icons_alphabets_dictionaries_and_conversion_data">"Tastatūras ikonas, alfabēts, vārdnīcas un reklāmguvumu dati."</string>
     <string name="ui_keyboard_layout">"Tastatūras izkārtojums"</string>
     <string name="ui_keyboard_layout_settings">"Tastatūras izkārtojuma iestatījumi"</string>

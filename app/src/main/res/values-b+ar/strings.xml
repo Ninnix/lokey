@@ -184,6 +184,7 @@
     <string name="ui_go">"اذهب"</string>
     <string name="ui_gray">"رمادي"</string>
     <string name="ui_great_wave">"الموجة العظيمة"</string>
+    <string name="ui_high_contrast">"تباين عالٍ"</string>
     <string name="ui_great_wave_artwork">"عمل فني رائع للموجة"</string>
     <string name="ui_green">"أخضر"</string>
     <string name="ui_half_space">"نصف المساحة"</string>
@@ -225,6 +226,7 @@
     <string name="ui_keyboard">"لوحة المفاتيح"</string>
     <string name="ui_keyboard_language_data">"بيانات لوحة المفاتيح واللغة"</string>
     <string name="ui_keyboard_height">"ارتفاع لوحة المفاتيح"</string>
+    <string name="ui_show_number_row">"إظهار صف الأرقام"</string>
     <string name="ui_keyboard_icons_alphabets_dictionaries_and_conversion_data">"أيقونات لوحة المفاتيح والحروف الهجائية والقواميس وبيانات التحويل."</string>
     <string name="ui_keyboard_layout">"تخطيط لوحة المفاتيح"</string>
     <string name="ui_keyboard_layout_settings">"إعدادات تخطيط لوحة المفاتيح"</string>

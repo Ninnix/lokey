@@ -184,6 +184,7 @@
     <string name="ui_go">"Оди"</string>
     <string name="ui_gray">"Греј"</string>
     <string name="ui_great_wave">"Голем бран"</string>
+    <string name="ui_high_contrast">"Висок контраст"</string>
     <string name="ui_great_wave_artwork">"Уметничко дело на Големиот бран"</string>
     <string name="ui_green">"Зелена"</string>
     <string name="ui_half_space">"Половина простор"</string>
@@ -225,6 +226,7 @@
     <string name="ui_keyboard">"Тастатура"</string>
     <string name="ui_keyboard_language_data">"Податоци за тастатура и јазик"</string>
     <string name="ui_keyboard_height">"Висина на тастатура"</string>
+    <string name="ui_show_number_row">"Прикажи ред со броеви"</string>
     <string name="ui_keyboard_icons_alphabets_dictionaries_and_conversion_data">"Икони на тастатура, азбуки, речници и податоци за конверзија."</string>
     <string name="ui_keyboard_layout">"Распоред на тастатура"</string>
     <string name="ui_keyboard_layout_settings">"Поставки за распоред на тастатурата"</string>

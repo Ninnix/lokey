@@ -184,6 +184,7 @@
     <string name="ui_go">"जाओ"</string>
     <string name="ui_gray">"ग्रे"</string>
     <string name="ui_great_wave">"महान लहर"</string>
+    <string name="ui_high_contrast">"उच्च कंट्रास्ट"</string>
     <string name="ui_great_wave_artwork">"महान तरंग कलाकृति"</string>
     <string name="ui_green">"हरा"</string>
     <string name="ui_half_space">"आधी जगह"</string>
@@ -225,6 +226,7 @@
     <string name="ui_keyboard">"कीबोर्ड"</string>
     <string name="ui_keyboard_language_data">"कीबोर्ड और भाषा डेटा"</string>
     <string name="ui_keyboard_height">"कीबोर्ड की ऊंचाई"</string>
+    <string name="ui_show_number_row">"अंकों की पंक्ति दिखाएँ"</string>
     <string name="ui_keyboard_icons_alphabets_dictionaries_and_conversion_data">"कीबोर्ड आइकन, अक्षर, शब्दकोश और रूपांतरण डेटा।"</string>
     <string name="ui_keyboard_layout">"कीबोर्ड लेआउट"</string>
     <string name="ui_keyboard_layout_settings">"कीबोर्ड लेआउट सेटिंग्स"</string>

@@ -4,12 +4,12 @@ Commands and repository paths below are relative to the repository root.
 
 ## Gestures
 
-- The number row is always visible. Hold a digit for its US Shift symbol.
+- The number row is visible by default. Hold a digit for its alternate symbol.
 - Letter keys use US International accent variants, with the first variant printed on the key. Hold and slide for more: `a → à á â ä ã å æ ā ą ă`, `e → è é ê ë ē ė ę ě`, `n → ñ ń ň ņ`, `c → ç ć č`. Polish, Czech, Romanian, Hungarian, Turkish and Baltic variants are also included (`ą ă ě ı İ ő ű ų ş ļ ņ`). Shift and caps lock also apply to accents. Letters without common variants have no duplicated symbol shortcut; punctuation remains on the number row and ?123 pages.
 - Tap period for `.`. Flick it right for `?`, left for `!`, or up for `,`, without waiting. Holding it opens only `! , ?`. Swipe up on a letter or digit for its printed alternate; hold and slide for the complete accent list.
 - Hold or slide across space to move the cursor inside the active text field. It stops at the beginning and end, including in empty fields, without moving focus to other controls. Hold Enter to record; release to stop and transcribe.
 - While holding Enter, slide up to lock recording. Release your finger and keep talking; the same Enter key becomes Stop. Tap it to stop and transcribe. Slide left while holding, or tap Cancel in the waveform row, to discard audio. The suggestion row shows live microphone levels and a timer while recording.
-- Tap Shift to cycle off → one uppercase letter → caps lock → off. Active Shift and caps lock are red. Hold Delete for repeat. Hold ?123 for Clipboard, Translate, and Layout; Android’s system keyboard switcher remains available.
+- Tap Shift to cycle off → one uppercase letter → caps lock → off. Active Shift and caps lock use the theme’s accent color. Hold Delete for repeat. Hold ?123 for Clipboard, Translate, and Layout. Android’s system keyboard switcher remains available.
 - Hold comma for a small emoji menu.
 - Hold the thin handle above predictions for 400 ms, then drag up/down to change keyboard height live between 85% and 120%. Release to save; a cancelled drag restores the prior height.
 - After three seconds without input, Enter becomes slightly wider over 180 ms. Letter rows stay fixed. Touching a key restores its standard size after release; no target moves beneath a held finger. Recording/resize gestures suspend idle expansion.
@@ -19,6 +19,8 @@ Commands and repository paths below are relative to the repository root.
 ## Symbols, numbers, and landscape
 
 Tap `?123` for common punctuation, including the layout’s question mark. Tap `=/<` for more symbols. In International Dead Keys, punctuation on the symbol pages is entered directly.
+
+Turn off **Feel → Keyboard size → Show number row** to make letter keys taller at the same keyboard height. This applies to built-in layouts in portrait and landscape, including the split layout. Both `?123` pages still have digits. Custom layouts use the rows saved in the layout editor.
 
 Numeric fields open a keypad with `123` at the top and `0` at the bottom. Decimal, signed, and phone fields show the keys their field type accepts. The keypad starts with digits immediately at its top edge.
 
@@ -64,7 +66,9 @@ Model downloads use persisted Android background jobs, with progress bars only i
 
 Each profile defines its own press/return haptic composition when primitives are supported. The OnePlus continues to use optimized tick/click/heavy-click presets grouped by switch weight, avoiding its problematic short-step waveform playback. `tools/device-test.sh recordings` verifies eight distinct bundled source recordings; `feedback` checks decoding and playback for all eight.
 
-Keyboard themes are shown as miniature keyboard previews for Dark, Light, Great Wave, and Your image. The separate Custom Colors preset is removed: any starting theme can be edited. Your image always opens the document picker; cancellation preserves the current theme. Row controls color the number row, each native letter row, and the spacebar row. Individual key overrides take precedence, while Enter and active Caps retain their accent unless explicitly changed. The color picker offers sixteen ready-made swatches before RGB/hex refinement.
+Choose **Feel → Appearance → High contrast** for larger, bold black key legends on white keycaps, a black background, and yellow Enter and active Shift keys. The number-row setting and keyboard theme can be used together or independently.
+
+Keyboard themes are shown as miniature keyboard previews for Dark, Light, High contrast, Great Wave, and Your image. Any starting theme can be edited. Your image always opens the document picker, and cancellation preserves the current theme. Row controls color the number row, each native letter row, and the spacebar row. Individual key overrides take precedence, while Enter and active Caps retain their accent unless explicitly changed. The color picker offers sixteen ready-made swatches before RGB/hex refinement.
 
 `tools/device-test.sh completion` checks contractions, complete words outside the dictionary, and the reported Costa Azzurra sentence. The correction tests record accepted corrections and unchanged unfamiliar terms separately; incorrect replacements fail. They also check that valid terms, names, and acronyms remain unchanged. Voice cancellation is limited to an active speech job and cannot cancel text prediction. `tools/native-word-test.c` checks UTF-8 and word boundaries without loading a model; it can be compiled as C11 with AddressSanitizer and UndefinedBehaviorSanitizer.
 
@@ -91,7 +95,7 @@ Feel → Keyboard layout shows miniature keyboard previews in eleven families. A
 - Chinese & Cantonese: Pinyin for simplified Chinese, Jyutping for Cantonese traditional characters, and Cangjie 5 / Sucheng shape codes. Jyutping accepts optional tones: neihou or nei5hou2 → 你好. Shape keys show radical hints. Apostrophes disambiguate boundaries; Space accepts without an extra word space.
 - Thai: Kedmanee, including its fourth native row and shifted characters.
 
-The number row remains visible in every layout. Hold digits for US symbols and, where applicable, native digits. Shift is consumed after one character; a second tap locks it. Conversion candidate pages advance using the prediction arrow; Space or Enter accepts the first candidate on the visible page. All exact shape-code candidates remain reachable, including rare Sucheng characters. All conversion dictionaries ship with the app, independently of downloaded language models; source hashes and licenses are bundled. `tools/fetch-input-sources.py` fetches the pinned sources listed in `app/src/main/assets/input-method-sources.json`; `tools/prepare-input-methods.py` rebuilds the Cantonese/shape/Hindi tables. Vietnamese Telex supports structural accents, tones, đ, and repeated-modifier escape sequences. Bengali, Hebrew and Urdu layouts are excluded as requested.
+Hold digits for US symbols and, where applicable, native digits. Shift is consumed after one character; a second tap locks it. Conversion candidate pages advance using the prediction arrow; Space or Enter accepts the first candidate on the visible page. All exact shape-code candidates remain reachable, including rare Sucheng characters. All conversion dictionaries ship with the app, independently of downloaded language models; source hashes and licenses are bundled. `tools/fetch-input-sources.py` fetches the pinned sources listed in `app/src/main/assets/input-method-sources.json`; `tools/prepare-input-methods.py` rebuilds the Cantonese/shape/Hindi tables. Vietnamese Telex supports structural accents, tones, đ, and repeated-modifier escape sequences. Bengali, Hebrew and Urdu layouts are excluded as requested.
 
 Latin languages retain automatic detection, prediction and guarded autocorrection. Other scripts use Qwen text completion when installed, with script and layout hints; native syllable/conversion input does not depend on neural prediction. This does not imply equal prediction quality in every language. Glide input is currently available for Latin layouts without a composing input method.
 

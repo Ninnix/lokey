@@ -184,6 +184,7 @@
     <string name="ui_go">"Mene"</string>
     <string name="ui_gray">"Harmaa"</string>
     <string name="ui_great_wave">"Suuri aalto"</string>
+    <string name="ui_high_contrast">"Suuri kontrasti"</string>
     <string name="ui_great_wave_artwork">"Great Wave -taideteos"</string>
     <string name="ui_green">"Vihreä"</string>
     <string name="ui_half_space">"Puoli tilaa"</string>
@@ -225,6 +226,7 @@
     <string name="ui_keyboard">"Näppäimistö"</string>
     <string name="ui_keyboard_language_data">"Näppäimistö ja kielitiedot"</string>
     <string name="ui_keyboard_height">"Näppäimistön korkeus"</string>
+    <string name="ui_show_number_row">"Näytä numerorivi"</string>
     <string name="ui_keyboard_icons_alphabets_dictionaries_and_conversion_data">"Näppäimistökuvakkeet, aakkoset, sanakirjat ja muunnostiedot."</string>
     <string name="ui_keyboard_layout">"Näppäimistön asettelu"</string>
     <string name="ui_keyboard_layout_settings">"Näppäimistön asettelun asetukset"</string>

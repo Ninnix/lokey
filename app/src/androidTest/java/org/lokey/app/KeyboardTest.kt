@@ -713,6 +713,7 @@ class KeyboardTest : Instrumentation() {
         val oldTheme=prefs.keyboardTheme;val oldLight=prefs.appLight;val oldBg=prefs.themeBackground;val oldKeys=prefs.themeKeys;val oldAccent=prefs.themeAccent
         val oldVersion=prefs.themeImageVersion;val oldPicture=prefs.themePicture;val oldKey=prefs.keyColor("a");val oldUpload=prefs.userImageChosen;val oldSwitch=prefs.switchId;val oldSound=prefs.soundEnabled
         val oldDirty=prefs.designDirty;val oldActive=prefs.activeDesign
+        val oldNumberRow=prefs.numberRow
         val upload=KeyboardTheme.uploadFile(targetContext);val oldUploadBytes=if(upload.exists()) upload.readBytes() else null
         prefs.userImageChosen=false
         val themeStore=targetContext.getSharedPreferences("lokey",android.content.Context.MODE_PRIVATE)
@@ -769,6 +770,14 @@ class KeyboardTest : Instrumentation() {
             runOnMainSync {
                 val labels=all(activity.window.decorView).filterIsInstance<android.widget.TextView>().map { it.text.toString() }
                 check(labels.containsAll(listOf("Appearance","Sound & feedback","Typing features","Keyboard size")))
+                val toggles=all(activity.window.decorView).filterIsInstance<android.widget.Switch>()
+                val numberRow=toggles.single { it.text=="Show number row" }
+                val split=toggles.single { it.text=="Split keyboard in landscape" }
+                check(listOf(numberRow,split).all { it.compoundDrawablesRelative[0] is FeelIcon })
+                if(!numberRow.isChecked) numberRow.performClick()
+                numberRow.performClick();check(!Prefs(targetContext).numberRow)
+                numberRow.performClick();check(Prefs(targetContext).numberRow)
+                result.put("number_row_setting_persists",true)
                 check("Follow your language" !in labels && "Voice & cursor" !in labels)
                 result.put("feel_settings_grouped",true)
                 val icons=all(activity.window.decorView).filterIsInstance<SwitchIcon>()
@@ -792,7 +801,7 @@ class KeyboardTest : Instrumentation() {
             SystemClock.sleep(200);waitForIdleSync()
             runOnMainSync {
                 val views=all(activity.window.decorView)
-                check(views.filterIsInstance<PresetPreview>().size==3+DesignPresets.all(prefs).size)
+                check(views.filterIsInstance<PresetPreview>().size==KeyboardTheme.presets.size+DesignPresets.all(prefs).size)
                 check(views.any { it is UploadPreview })
                 check(views.filterIsInstance<ThemeToggle>().size==1)
                 check(views.filterIsInstance<android.widget.TextView>().none { it.text.toString() in listOf("App appearance","An image across your keys","Choose image") })
@@ -802,7 +811,10 @@ class KeyboardTest : Instrumentation() {
                 val root=activity.window.decorView
                 val bitmap=android.graphics.Bitmap.createBitmap(root.width,root.height,android.graphics.Bitmap.Config.ARGB_8888)
                 root.draw(android.graphics.Canvas(bitmap));File(targetContext.filesDir,"theme-picker.png").outputStream().use { bitmap.compress(android.graphics.Bitmap.CompressFormat.PNG,100,it) };bitmap.recycle()
-                views.first { it.contentDescription=="Dark keyboard theme" }.performClick()
+                views.first { it.contentDescription=="High contrast keyboard theme" }.performClick()
+                check(Prefs(targetContext).keyboardTheme==KeyboardTheme.HIGH_CONTRAST)
+                result.put("high_contrast_preset_selectable",true)
+                all(activity.window.decorView).first { it.contentDescription=="Dark keyboard theme" }.performClick()
                 all(activity.window.decorView).filterIsInstance<android.widget.TextView>().first { it.text.toString()=="Accent" }.performClick()
             }
             waitForIdleSync()
@@ -870,6 +882,15 @@ class KeyboardTest : Instrumentation() {
                 prefs.keyboardTheme="dark"
             }
             val dark=draw("theme-dark.png");check(dark.getPixel(1,dark.height/2)==android.graphics.Color.rgb(23,24,25));dark.recycle()
+            runOnMainSync { prefs.keyboardTheme=KeyboardTheme.HIGH_CONTRAST;prefs.numberRow=false;view.updateGeometry() }
+            val highContrast=draw("theme-high-contrast.png")
+            val letter=bounds(0);val action=bounds(32)
+            check(highContrast.getPixel(1,highContrast.height/2)==android.graphics.Color.BLACK)
+            check(highContrast.getPixel(letter.left+letter.width()/5,letter.top+letter.height()/5)==android.graphics.Color.WHITE)
+            check(highContrast.getPixel(action.left+action.width()/5,action.top+action.height()/5)==android.graphics.Color.rgb(255,224,64))
+            highContrast.recycle()
+            result.put("high_contrast_keyboard_draws",true)
+            runOnMainSync { prefs.numberRow=true;view.updateGeometry() }
             runOnMainSync { prefs.keyboardTheme="light" }
             val light=draw("theme-light.png")
             val enter=bounds(42)
@@ -947,6 +968,7 @@ class KeyboardTest : Instrumentation() {
             check(prefs.appLight && prefs.keyboardTheme=="image");result.put("app_and_keyboard_independent",true)
         } finally {
             prefs.designDirty=oldDirty;prefs.activeDesign=oldActive
+            prefs.numberRow=oldNumberRow
             if(oldUploadBytes==null) upload.delete() else upload.writeBytes(oldUploadBytes)
             prefs.switchId=oldSwitch;prefs.soundEnabled=oldSound;prefs.userImageChosen=oldUpload;prefs.keyboardTheme=oldTheme;prefs.themePicture=oldPicture;prefs.appLight=oldLight;prefs.themeBackground=oldBg;prefs.themeKeys=oldKeys;prefs.themeAccent=oldAccent;prefs.keyColor("a",oldKey)
             if(backup.exists()) { backup.copyTo(image,true);backup.delete() } else image.delete()
@@ -1246,6 +1268,7 @@ class KeyboardTest : Instrumentation() {
     private fun interactionTest(): JSONObject {
         val prefs = Prefs(targetContext)
         val oldHeight = prefs.height; val oldFlow = prefs.flow; val oldAdaptive = prefs.adaptive
+        val oldNumberRow=prefs.numberRow
         val oldLanguage=prefs.setupLanguage;prefs.setupLanguage="Italian"
         val result = JSONObject()
         val activity = startActivitySync(android.content.Intent().setClass(targetContext, MainActivity::class.java).addFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK))
@@ -1280,7 +1303,7 @@ class KeyboardTest : Instrumentation() {
         try {
             runOnMainSync {
                 activity.window.addFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-                prefs.height = 100; prefs.flow = false; prefs.adaptive = true
+                prefs.height = 100; prefs.flow = false; prefs.adaptive = true; prefs.numberRow=true
                 view = KeyboardView(activity, prefs, object : KeyboardView.Listener {
                     override fun text(text: String) { typed.append(text) }
                     override fun delete() { }
@@ -1377,7 +1400,7 @@ class KeyboardTest : Instrumentation() {
                 File(targetContext.filesDir, "interaction-keyboard.png").outputStream().use { bitmap.compress(android.graphics.Bitmap.CompressFormat.PNG,100,it) }; bitmap.recycle()
             }
         } finally {
-            runOnMainSync { prefs.height=oldHeight; prefs.flow=oldFlow; prefs.adaptive=oldAdaptive;prefs.setupLanguage=oldLanguage; activity.finish() }
+            runOnMainSync { prefs.height=oldHeight; prefs.flow=oldFlow; prefs.adaptive=oldAdaptive;prefs.setupLanguage=oldLanguage;prefs.numberRow=oldNumberRow;activity.finish() }
         }
         return result
     }

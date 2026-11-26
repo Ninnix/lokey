@@ -98,6 +98,8 @@ class LokeyService : InputMethodService(), KeyboardView.Listener {
         if(key=="split_landscape") {
             keyboard?.updateGeometry();keyboardBackground();refresh()
         }
+        if(key=="number_row") keyboard?.updateGeometry()
+        if(key=="keyboard_theme") { keyboardBackground();keyboard?.invalidate() }
         if(key in listOf("learning","learning_revision","one_tap_speech","adaptive","autocorrect","model")) {
             resetLearning();clearPrediction();refresh();keyboard?.invalidate()
         }

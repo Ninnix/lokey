@@ -184,6 +184,7 @@
     <string name="ui_go">"Đi"</string>
     <string name="ui_gray">"Màu xám"</string>
     <string name="ui_great_wave">"Sóng lớn"</string>
+    <string name="ui_high_contrast">"Độ tương phản cao"</string>
     <string name="ui_great_wave_artwork">"Tác phẩm nghệ thuật Làn sóng lớn"</string>
     <string name="ui_green">"Xanh"</string>
     <string name="ui_half_space">"Nửa khoảng trống"</string>
@@ -225,6 +226,7 @@
     <string name="ui_keyboard">"Bàn phím"</string>
     <string name="ui_keyboard_language_data">"Dữ liệu bàn phím và ngôn ngữ"</string>
     <string name="ui_keyboard_height">"Chiều cao bàn phím"</string>
+    <string name="ui_show_number_row">"Hiện hàng số"</string>
     <string name="ui_keyboard_icons_alphabets_dictionaries_and_conversion_data">"Biểu tượng bàn phím, bảng chữ cái, từ điển và dữ liệu chuyển đổi."</string>
     <string name="ui_keyboard_layout">"Bố cục bàn phím"</string>
     <string name="ui_keyboard_layout_settings">"Cài đặt bố cục bàn phím"</string>

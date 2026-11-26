@@ -184,6 +184,7 @@
     <string name="ui_go">"Πήγαινε"</string>
     <string name="ui_gray">"Γκρι"</string>
     <string name="ui_great_wave">"Μεγάλο Κύμα"</string>
+    <string name="ui_high_contrast">"Υψηλή αντίθεση"</string>
     <string name="ui_great_wave_artwork">"Έργο τέχνης Great Wave"</string>
     <string name="ui_green">"Πράσινο"</string>
     <string name="ui_half_space">"Μισός χώρος"</string>
@@ -225,6 +226,7 @@
     <string name="ui_keyboard">"Πληκτρολόγιο"</string>
     <string name="ui_keyboard_language_data">"Δεδομένα πληκτρολογίου και γλώσσας"</string>
     <string name="ui_keyboard_height">"Ύψος πληκτρολογίου"</string>
+    <string name="ui_show_number_row">"Εμφάνιση σειράς αριθμών"</string>
     <string name="ui_keyboard_icons_alphabets_dictionaries_and_conversion_data">"Εικονίδια πληκτρολογίου, αλφάβητα, λεξικά και δεδομένα μετατροπών."</string>
     <string name="ui_keyboard_layout">"Διάταξη πληκτρολογίου"</string>
     <string name="ui_keyboard_layout_settings">"Ρυθμίσεις διάταξης πληκτρολογίου"</string>

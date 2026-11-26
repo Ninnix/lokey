@@ -184,6 +184,7 @@
     <string name="ui_go">"Иди"</string>
     <string name="ui_gray">"Серый"</string>
     <string name="ui_great_wave">"Большая волна"</string>
+    <string name="ui_high_contrast">"Высокая контрастность"</string>
     <string name="ui_great_wave_artwork">"Изображение Великой волны"</string>
     <string name="ui_green">"Зеленый"</string>
     <string name="ui_half_space">"Полупространство"</string>
@@ -225,6 +226,7 @@
     <string name="ui_keyboard">"Клавиатура"</string>
     <string name="ui_keyboard_language_data">"Данные о клавиатуре и языке"</string>
     <string name="ui_keyboard_height">"Высота клавиатуры"</string>
+    <string name="ui_show_number_row">"Показывать ряд цифр"</string>
     <string name="ui_keyboard_icons_alphabets_dictionaries_and_conversion_data">"Значки клавиатуры, алфавиты, словари и данные преобразования."</string>
     <string name="ui_keyboard_layout">"Раскладка клавиатуры"</string>
     <string name="ui_keyboard_layout_settings">"Настройки раскладки клавиатуры"</string>

@@ -184,6 +184,7 @@
     <string name="ui_go">"Pirmyn"</string>
     <string name="ui_gray">"Pilka"</string>
     <string name="ui_great_wave">"Didžioji banga"</string>
+    <string name="ui_high_contrast">"Didelis kontrastas"</string>
     <string name="ui_great_wave_artwork">"Didžiosios bangos meno kūrinys"</string>
     <string name="ui_green">"Žalia"</string>
     <string name="ui_half_space">"Pusė tarpo"</string>
@@ -225,6 +226,7 @@
     <string name="ui_keyboard">"Klaviatūra"</string>
     <string name="ui_keyboard_language_data">"Klaviatūros ir kalbos duomenys"</string>
     <string name="ui_keyboard_height">"Klaviatūros aukštis"</string>
+    <string name="ui_show_number_row">"Rodyti skaičių eilutę"</string>
     <string name="ui_keyboard_icons_alphabets_dictionaries_and_conversion_data">"Klaviatūros piktogramos, abėcėlės, žodynai ir konversijų duomenys."</string>
     <string name="ui_keyboard_layout">"Klaviatūros išdėstymas"</string>
     <string name="ui_keyboard_layout_settings">"Klaviatūros išdėstymo nustatymai"</string>

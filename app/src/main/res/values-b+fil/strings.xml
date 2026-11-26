@@ -184,6 +184,7 @@
     <string name="ui_go">"Pumunta ka"</string>
     <string name="ui_gray">"Gray"</string>
     <string name="ui_great_wave">"Mahusay na Alon"</string>
+    <string name="ui_high_contrast">"Mataas na contrast"</string>
     <string name="ui_great_wave_artwork">"Great Wave artwork"</string>
     <string name="ui_green">"Berde"</string>
     <string name="ui_half_space">"Kalahating espasyo"</string>
@@ -225,6 +226,7 @@
     <string name="ui_keyboard">"Keyboard"</string>
     <string name="ui_keyboard_language_data">"Keyboard at data ng wika"</string>
     <string name="ui_keyboard_height">"Taas ng keyboard"</string>
+    <string name="ui_show_number_row">"Ipakita ang hanay ng mga numero"</string>
     <string name="ui_keyboard_icons_alphabets_dictionaries_and_conversion_data">"Mga icon ng keyboard, alpabeto, diksyunaryo, at data ng conversion."</string>
     <string name="ui_keyboard_layout">"Layout ng keyboard"</string>
     <string name="ui_keyboard_layout_settings">"Mga setting ng layout ng keyboard"</string>

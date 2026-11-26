@@ -8,7 +8,7 @@ import android.graphics.PixelFormat
 import android.graphics.drawable.Drawable
 
 internal class FeelIcon(private val kind:Kind,private val size:Int,color:Int):Drawable() {
-    enum class Kind { Swipe, Correct, Adapt, Speech, Learn, Sound, Volume, Haptics, Return, Speed, Trophy }
+    enum class Kind { Swipe, Correct, Adapt, Speech, Learn, Sound, Volume, Haptics, Return, Speed, Trophy, NumberRow, SplitKeyboard }
     private val paint=Paint(Paint.ANTI_ALIAS_FLAG).apply {
         this.color=color
         style=Paint.Style.STROKE;strokeWidth=1.5f;strokeCap=Paint.Cap.ROUND;strokeJoin=Paint.Join.ROUND
@@ -44,6 +44,18 @@ internal class FeelIcon(private val kind:Kind,private val size:Int,color:Int):Dr
                 canvas.drawRoundRect(2.5f,12f,9f,19f,1.5f,1.5f,paint)
                 canvas.drawRoundRect(12f,5f,21.5f,19f,2f,2f,paint)
                 line(15f,10f,18.5f,10f)
+            }
+            Kind.NumberRow -> {
+                canvas.drawRoundRect(3f,5f,21f,19f,2f,2f,paint)
+                line(3f,11f,21f,11f)
+                line(9f,5f,9f,11f);line(15f,5f,15f,11f)
+                line(8f,15f,16f,15f)
+            }
+            Kind.SplitKeyboard -> {
+                canvas.drawRoundRect(2f,6f,10f,18f,2f,2f,paint)
+                canvas.drawRoundRect(14f,6f,22f,18f,2f,2f,paint)
+                line(5f,10f,7f,10f);line(5f,14f,7f,14f)
+                line(17f,10f,19f,10f);line(17f,14f,19f,14f)
             }
             Kind.Speech -> {
                 canvas.drawRoundRect(9f,3f,15f,14f,3f,3f,paint)

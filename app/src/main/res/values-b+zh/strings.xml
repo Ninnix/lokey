@@ -184,6 +184,7 @@
     <string name="ui_go">"去"</string>
     <string name="ui_gray">"灰色"</string>
     <string name="ui_great_wave">"巨浪"</string>
+    <string name="ui_high_contrast">"高对比度"</string>
     <string name="ui_great_wave_artwork">"大浪艺术品"</string>
     <string name="ui_green">"绿色"</string>
     <string name="ui_half_space">"半空间"</string>
@@ -225,6 +226,7 @@
     <string name="ui_keyboard">"键盘"</string>
     <string name="ui_keyboard_language_data">"键盘和语言数据"</string>
     <string name="ui_keyboard_height">"键盘高度"</string>
+    <string name="ui_show_number_row">"显示数字行"</string>
     <string name="ui_keyboard_icons_alphabets_dictionaries_and_conversion_data">"键盘图标、字母表、词典和转换数据。"</string>
     <string name="ui_keyboard_layout">"键盘布局"</string>
     <string name="ui_keyboard_layout_settings">"键盘布局设置"</string>

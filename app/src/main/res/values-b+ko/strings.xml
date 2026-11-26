@@ -184,6 +184,7 @@
     <string name="ui_go">"가다"</string>
     <string name="ui_gray">"회색"</string>
     <string name="ui_great_wave">"그레이트 웨이브"</string>
+    <string name="ui_high_contrast">"고대비"</string>
     <string name="ui_great_wave_artwork">"그레이트 웨이브 작품"</string>
     <string name="ui_green">"녹색"</string>
     <string name="ui_half_space">"절반 공간"</string>
@@ -225,6 +226,7 @@
     <string name="ui_keyboard">"건반"</string>
     <string name="ui_keyboard_language_data">"키보드 및 언어 데이터"</string>
     <string name="ui_keyboard_height">"키보드 높이"</string>
+    <string name="ui_show_number_row">"숫자 행 표시"</string>
     <string name="ui_keyboard_icons_alphabets_dictionaries_and_conversion_data">"키보드 아이콘, 알파벳, 사전 및 변환 데이터."</string>
     <string name="ui_keyboard_layout">"키보드 레이아웃"</string>
     <string name="ui_keyboard_layout_settings">"키보드 레이아웃 설정"</string>

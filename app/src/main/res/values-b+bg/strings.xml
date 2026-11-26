@@ -184,6 +184,7 @@
     <string name="ui_go">"Върви"</string>
     <string name="ui_gray">"Сив"</string>
     <string name="ui_great_wave">"Голяма вълна"</string>
+    <string name="ui_high_contrast">"Висок контраст"</string>
     <string name="ui_great_wave_artwork">"Великолепно произведение на вълната"</string>
     <string name="ui_green">"Зелено"</string>
     <string name="ui_half_space">"Половин пространство"</string>
@@ -225,6 +226,7 @@
     <string name="ui_keyboard">"Клавиатура"</string>
     <string name="ui_keyboard_language_data">"Данни за клавиатура и език"</string>
     <string name="ui_keyboard_height">"Височина на клавиатурата"</string>
+    <string name="ui_show_number_row">"Показване на реда с цифри"</string>
     <string name="ui_keyboard_icons_alphabets_dictionaries_and_conversion_data">"Икони на клавиатурата, азбуки, речници и данни за преобразуване."</string>
     <string name="ui_keyboard_layout">"Подредба на клавиатурата"</string>
     <string name="ui_keyboard_layout_settings">"Настройки на клавиатурната подредба"</string>

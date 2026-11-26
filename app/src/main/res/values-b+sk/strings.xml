@@ -184,6 +184,7 @@
     <string name="ui_go">"Choď"</string>
     <string name="ui_gray">"Šedá"</string>
     <string name="ui_great_wave">"Veľká vlna"</string>
+    <string name="ui_high_contrast">"Vysoký kontrast"</string>
     <string name="ui_great_wave_artwork">"Umelecké dielo Great Wave"</string>
     <string name="ui_green">"Zelená"</string>
     <string name="ui_half_space">"Polovičný priestor"</string>
@@ -225,6 +226,7 @@
     <string name="ui_keyboard">"Klávesnica"</string>
     <string name="ui_keyboard_language_data">"Údaje o klávesnici a jazyku"</string>
     <string name="ui_keyboard_height">"Výška klávesnice"</string>
+    <string name="ui_show_number_row">"Zobraziť riadok s číslami"</string>
     <string name="ui_keyboard_icons_alphabets_dictionaries_and_conversion_data">"Ikony klávesnice, abecedy, slovníky a údaje o prevode."</string>
     <string name="ui_keyboard_layout">"Rozloženie klávesnice"</string>
     <string name="ui_keyboard_layout_settings">"Nastavenia rozloženia klávesnice"</string>
