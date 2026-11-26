@@ -26,6 +26,7 @@ def main():
     parser.add_argument('--rounds', type=int, default=3)
     parser.add_argument('--read-delay-ms', type=int, default=0)
     parser.add_argument('--terminal', action='store_true')
+    parser.add_argument('--injector', choices=['direct', 'uiautomation'], default='direct')
     parser.add_argument('--ime', help='Override component for one selected keyboard (e.g. stable SwiftKey).')
     args = parser.parse_args()
     if args.ime and len(args.keyboards) != 1:
@@ -53,6 +54,7 @@ def main():
             log = run('shell', 'am', 'instrument', '-w', '-e', 'ime', ime,
                       '-e', 'terminal', str(args.terminal).lower(), '-e', 'read_delay_ms', str(args.read_delay_ms),
                       '-e', 'interval_ms', str(interval), '-e', 'rounds', str(args.rounds),
+                      '-e', 'injector', args.injector,
                       *orientation, 'org.lokey.benchmark/.TypingBenchmark', timeout=180)
             stem = f'{args.label}-{name}-{interval}'
             (out / f'{stem}.log').write_text(log)
@@ -72,6 +74,7 @@ def main():
             print(json.dumps({'keyboard': name, 'passed': result.get('passed'), 'error': result.get('error'),
                               'correct': [row['correct'] for row in rows],
                               'p95_ms': [row['latency_p95_ms'] for row in rows],
+                              'delivery_p95_ms': [row.get('delivery_p95_ms') for row in rows],
                               'editor_reads': [sum(row['editor_reads'].values()) for row in rows]}), flush=True)
     if any(not row.get('passed') and not row.get('skipped') for row in report['results']):
         raise SystemExit(1)

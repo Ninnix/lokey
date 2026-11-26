@@ -99,6 +99,16 @@ object FastTypingChecks {
                     val e=MotionEvent.obtain(down,SystemClock.uptimeMillis(),action,chars.size,props,coords,0,0,1f,1f,0,0,InputDevice.SOURCE_TOUCHSCREEN,0)
                     view.onTouchEvent(e);e.recycle()
                 }
+                val anchors=keys.map { android.graphics.RectF(it.anchor) }
+                event(MotionEvent.ACTION_DOWN,'a')
+                view.prediction(emptyList(),FloatArray(26).apply { this[1]=1f },true,"en")
+                check(keys.map { it.rect }==anchors) { "Prediction moved keys under an active finger" }
+                event(MotionEvent.ACTION_CANCEL,'a')
+                check(keys.any { it.rect!=it.anchor }) { "Cancelled touch left adaptive geometry pending" }
+                check(keys.map { it.anchor }==anchors) { "Prediction moved stationary letter anchors" }
+                view.prediction(emptyList(),FloatArray(26),false)
+                check(keys.all { it.rect==it.anchor }) { "Clearing priors left expanded geometry" }
+                report.put("adaptive_geometry_freezes_and_flushes_after_cancel",true)
                 repeat(100) {
                     event(MotionEvent.ACTION_DOWN,'a')
                     event(MotionEvent.ACTION_POINTER_DOWN or (1 shl MotionEvent.ACTION_POINTER_INDEX_SHIFT),'a','b')

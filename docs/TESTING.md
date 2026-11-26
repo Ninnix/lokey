@@ -27,21 +27,34 @@ benchmark and leave the phone unlocked:
 ./gradlew :typing-benchmark:assembleDebug
 adb install -r tools/typing-benchmark/build/outputs/apk/debug/typing-benchmark-debug.apk
 python3 tools/bench-typing.py --serial SERIAL --label typing --intervals 80 40 24
+python3 tools/bench-typing.py --serial SERIAL --label typing-bursts --intervals 120 40 24 12
 python3 tools/bench-typing.py --serial SERIAL --label typing-terminal --terminal
 python3 tools/bench-typing.py --serial SERIAL --label typing-slow --read-delay-ms 4
 ```
 
-The intervals offer 150, 300 and 500 WPM using five characters per word. Each
+The default intervals offer 150, 300 and 500 WPM using five characters per word;
+120 and 12 ms extend the replay to 100 and 1,000 offered WPM. Each
 round types the same pangram and presses Backspace eight times. One warmup round
 precedes three measured rounds. The runner waits three seconds after each replay
 for queued edits to finish. Results include the actual and expected text,
 matched edit states, latency percentiles, editor-read counts and injection
-lateness. Latency runs from the scheduled finger release to the editor's text
-change, with changes received before release counted as zero. It measures text
-delivery rather than display scanout or prediction quality. A late injector can
-inflate the results; inspect its lateness alongside latency. Compare correctness
+lateness. `latency_*` runs from the scheduled finger release to the editor's text
+change; `delivery_*` starts when the release is actually submitted. Changes
+received before release count as zero. These measure text delivery rather than
+display scanout or prediction quality. A late injector inflates scheduled latency;
+inspect both metrics and injection lateness. Compare correctness
 as well as latency. The report's `passed` flag means the harness completed;
 per-round `correct` records the text and deletion result, ignoring case.
+
+The default `--injector direct` requires Android 12 or later. Its shell helper
+submits touchscreen events to Android's input manager without waiting for window
+transactions after each tap. `--injector uiautomation` preserves the older mode
+and supports earlier Android versions. Android's two-argument UiAutomation
+injection method synchronizes window transactions before Down and after Up even
+with `sync=false`; that wait can limit the replay rate. Each report records the
+injector and the p95 duration of release submission (`injection_up_p95_ms`).
+Compare builds using the same injector and do not interpret a large scheduled
+latency as entirely time spent processing an already submitted key.
 
 `--terminal` implements Termux's raw input contract: committed text is forwarded,
 the local editable buffer stays empty, and deletion uses character deletion or
@@ -61,6 +74,7 @@ comparisons; the runner does not normalize keyboard preferences.
 
 The `fasttyping` instrumentation mode checks shared editor reads, clipping,
 selection and mutation invalidation, local prediction scheduling/cancellation,
+adaptive geometry freezing and flushing after cancelled touches,
 and 300 overlapping thumb pairs with reverse
 release order, including spaces and punctuation. It also checks that disabling
 adaptation restores the original geometry. `fasttypingprofile` enables typing
@@ -69,6 +83,24 @@ installed app's profile alone.
 The terminal check uses the actual IME with a raw editor to verify zero ordinary
 typing reads, Unicode backspace, Enter/arrows, Hangul and dead-key composition,
 and cancellation of pending composition without deleting committed terminal text.
+
+Ordinary letter bursts coalesce optional editor/suggestion refreshes over a
+32 ms budget. Word boundaries, deletion, selections and composition bypass that
+budget; text commits and pressed-key rendering keep their immediate paths.
+
+The 2026-11-26 OnePlus 15 rerun is saved in `artifacts/throughput-summary.json`.
+With direct injection, median per-round delivery p95 changed from 7 to 6 ms at
+100/300 WPM, 10.5 to 11 ms at 500 WPM, and 27 to 22.5 ms at 1,000 WPM.
+The 500 WPM latency result is effectively flat; editor reads fell from 109.5 to
+94 per 52-action round. Gboard measured 7/6/8/13 ms and SwiftKey 18/10/10/16 ms
+at those four speeds. LoKey's 500/1,000 WPM checks use six measured rounds;
+other cells use three, with warmups excluded. All scored rounds were correct.
+LoKey used an isolated QWERTY/English profile with swipe, adaptive keys,
+autocorrect, learning, sound and haptics enabled, and no downloaded models.
+Competitor settings stayed as installed. These short, one-phone English replays
+do not establish prediction quality or a universal speed ranking; small timing
+differences can be noise. Darchy's supplied results use a different editor and
+input route and were not rerun as part of this comparison.
 
 The 2026-11-17 OnePlus 15 comparison is recorded in
 `artifacts/fast-typing-summary.json`. It uses optimized isolated before/after

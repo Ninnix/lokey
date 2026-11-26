@@ -49,10 +49,21 @@ class LokeyService : InputMethodService(), KeyboardView.Listener {
     private var outputPaused=false
     private val main=android.os.Handler(android.os.Looper.getMainLooper())
     private val localRefresh=Runnable { refresh() }
-    private val inputRefresh=Runnable { refresh() }
+    private var lastInputRefresh=0L
+    private var inputRefreshUrgent=false
+    private val inputRefresh=object:Runnable {
+        override fun run() {
+            if(!inputVisible) { inputRefreshUrgent=false;return }
+            val delay=lastInputRefresh+32-android.os.SystemClock.uptimeMillis()
+            // Editor reads are synchronous; leave room for the next letter in a burst.
+            if(!inputRefreshUrgent && delay>0) keyboard?.postOnAnimationDelayed(this,delay)
+            else refresh()
+        }
+    }
     private var editorConnection:EditorConnection?=null
-    private fun scheduleRefresh() {
+    private fun scheduleRefresh(urgent:Boolean=false) {
         val view=keyboard ?: return
+        inputRefreshUrgent=inputRefreshUrgent || urgent
         view.removeCallbacks(inputRefresh);view.postOnAnimation(inputRefresh)
     }
     private fun editor():LocalEditor?=if(toolMode=="languages") languagePicker?.search else sourceEditor
@@ -365,7 +376,8 @@ class LokeyService : InputMethodService(), KeyboardView.Listener {
     override fun onStartInput(info: EditorInfo, restarting: Boolean) {
         super.onStartInput(info, restarting)
         inputVisible=false;floatingSpeech.hide();keyboard?.floatingSpeech=false
-        keyboard?.removeCallbacks(inputRefresh);editorConnection?.invalidate();editorConnection=null
+        keyboard?.removeCallbacks(inputRefresh);lastInputRefresh=0;inputRefreshUrgent=false
+        editorConnection?.invalidate();editorConnection=null
         endTool(false)
         session++; clearGlide(); cancelVoice(); clearPrediction(); correction.reset()
         selectionStart = info.initialSelStart; selectionEnd = info.initialSelEnd
@@ -482,7 +494,7 @@ class LokeyService : InputMethodService(), KeyboardView.Listener {
             if(!deferred) observed?.let { learning.learn(scope,it) }
             learningCaret=caret+text.length
         } else resetLearning()
-        scheduleRefresh()
+        scheduleRefresh(correction.boundary(text))
     }
     override fun delete() {
         if(deadKeys.pending.isNotEmpty()) { clearDead();refresh();return }
@@ -513,7 +525,7 @@ class LokeyService : InputMethodService(), KeyboardView.Listener {
             if(deleted && learn && before.isNotEmpty()) { learningDraft.delete();learningCaret-=Character.charCount(Character.codePointBefore(before,before.length)) }
             else resetLearning()
         }
-        scheduleRefresh()
+        scheduleRefresh(true)
     }
     override fun enter() {
         resetLearning()
@@ -637,7 +649,9 @@ class LokeyService : InputMethodService(), KeyboardView.Listener {
     }
     private fun refresh() {
         keyboard?.removeCallbacks(inputRefresh)
+        inputRefreshUrgent=false
         if(!inputVisible) return
+        lastInputRefresh=android.os.SystemClock.uptimeMillis()
         keyboard?.rawInput=rawEditor()
         keyboard?.adaptiveInput=adaptiveField()
         keyboard?.speechAllowed=!privateField && toolMode !in listOf("languages","layouts","clipboard")
@@ -696,7 +710,7 @@ class LokeyService : InputMethodService(), KeyboardView.Listener {
         if(inputVisible) {
             if(moved) keyboard?.activity()
             // A frame may have read the new position before this notification arrived.
-            if(!rawEditor() && !read) scheduleRefresh()
+            if(!rawEditor() && !read) scheduleRefresh(newSelStart!=newSelEnd || candidatesStart>=0)
         }
     }
     override fun voice(start: Boolean): Boolean {

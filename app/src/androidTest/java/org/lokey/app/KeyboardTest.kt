@@ -1362,7 +1362,7 @@ class KeyboardTest : Instrumentation() {
             result.put("swipe_consumes_single_shift",true).put("new_sentence_enables_shift",true).put("caps_lock_survives_editor_hints",true)
             val e = bounds(12)
             touch(MotionEvent.ACTION_DOWN, e.exactCenterX(), e.exactCenterY()); touch(MotionEvent.ACTION_MOVE, e.exactCenterX(), e.exactCenterY()-15*density); touch(MotionEvent.ACTION_UP, e.exactCenterX(), e.exactCenterY()-15*density)
-            check(typed.toString() == "è" && glides == 1) { "Accent flick conflicted with swipe: $typed, language=${prefs.setupLanguage}" }
+            check(typed.toString() == "è" && glides == 1) { "Accent flick conflicted with swipe: $typed, language=${prefs.setupLanguage}, density=$density/${view.resources.displayMetrics.density}, key=${view.accessibilityNodeProvider.createAccessibilityNodeInfo(12)?.contentDescription}" }
             touch(MotionEvent.ACTION_DOWN, e.exactCenterX(), e.exactCenterY()); SystemClock.sleep(350); touch(MotionEvent.ACTION_UP, e.exactCenterX(), e.exactCenterY())
             check(typed.toString() == "èè")
             val space = bounds(40)

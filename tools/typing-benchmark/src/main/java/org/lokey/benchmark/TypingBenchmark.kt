@@ -18,6 +18,7 @@ import kotlin.math.ceil
 
 class TypingBenchmark:Instrumentation() {
     private lateinit var args:Bundle
+    private var injection:TouchInjection?=null
     override fun onCreate(arguments:Bundle?) { super.onCreate(arguments);args=arguments ?: Bundle();start() }
     private fun shell(command:String)=ParcelFileDescriptor.AutoCloseInputStream(uiAutomation.executeShellCommand(command)).bufferedReader().use { it.readText().trim() }
     private fun nodes(node:AccessibilityNodeInfo):List<AccessibilityNodeInfo> {
@@ -45,6 +46,7 @@ class TypingBenchmark:Instrumentation() {
         return out
     }
     private fun touch(action:Int,at:Long,down:Long,x:Float,y:Float) {
+        injection?.let { it.send(action,at,down,x,y);return }
         val event=MotionEvent.obtain(down,at,action,x,y,0)
         event.source=InputDevice.SOURCE_TOUCHSCREEN
         check(uiAutomation.injectInputEvent(event,false)) { "Touch injection failed" };event.recycle()
@@ -80,6 +82,10 @@ class TypingBenchmark:Instrumentation() {
             keyboard().forEach { tree.put(JSONObject().put("text",it.text).put("description",it.contentDescription).put("bounds",bounds(it).toShortString())) }
             report.put("keyboard_nodes",tree)
             check((text.toSet()+ '\b').all { it in keys }) { "Missing keys: ${(text.toSet()+'\b').filter { it !in keys }}" }
+            val direct=args.getString("injector","direct")=="direct"
+            check(!direct || android.os.Build.VERSION.SDK_INT>=31) { "Direct injection requires Android 12; use injector=uiautomation" }
+            if(direct) injection=TouchInjection(uiAutomation,targetContext.applicationInfo.sourceDir)
+            report.put("injector",if(direct) "direct" else "uiautomation")
             val samples=JSONArray()
             for(round in 0..rounds) {
                 runOnMainSync { activity.clear() }
@@ -87,31 +93,44 @@ class TypingBenchmark:Instrumentation() {
                 val sequence=text+"\b".repeat(deletes)
                 val states=ArrayList<String>();var expected=""
                 for(char in sequence) { expected=if(char=='\b') expected.dropLast(1) else expected+char;states.add(expected) }
-                val releases=ArrayList<Long>();val injected=ArrayList<Long>();val began=SystemClock.uptimeMillis()+80
+                val releases=ArrayList<Long>();val submitted=ArrayList<Long>();val injected=ArrayList<Long>()
+                val injectionTimes=ArrayList<Long>();val began=SystemClock.uptimeMillis()+80
                 for((i,char) in sequence.withIndex()) {
                     check(activity.focused) { "Benchmark editor lost focus; stopping input" }
                     val down=began+i*interval
                     SystemClock.sleep((down-SystemClock.uptimeMillis()).coerceAtLeast(0))
                     val (x,y)=keys.getValue(char)
-                    injected.add(SystemClock.uptimeMillis());touch(MotionEvent.ACTION_DOWN,down,down,x,y)
+                    val actualDown=SystemClock.uptimeMillis()
+                    injected.add(actualDown);touch(MotionEvent.ACTION_DOWN,actualDown,actualDown,x,y)
                     val up=down+8
                     SystemClock.sleep((up-SystemClock.uptimeMillis()).coerceAtLeast(0))
-                    releases.add(up);touch(MotionEvent.ACTION_UP,up,down,x,y)
+                    val actualUp=SystemClock.uptimeMillis()
+                    releases.add(up);submitted.add(actualUp);touch(MotionEvent.ACTION_UP,actualUp,actualDown,x,y)
+                    injectionTimes.add(SystemClock.uptimeMillis()-actualUp)
                 }
                 SystemClock.sleep(3000)
                 var actual="";var changes=emptyList<Pair<Long,String>>();var reads=emptyMap<String,Int>()
                 runOnMainSync { actual=activity.value;changes=activity.changes.toList();reads=activity.reads.toMap() }
-                val latency=ArrayList<Long>();var matched=-1
+                val latency=ArrayList<Long>();val delivery=ArrayList<Long>();var matched=-1
                 for((time,value) in changes) {
                     val next=(matched+1 until states.size).firstOrNull { states[it].equals(value,true) } ?: continue
-                    for(i in matched+1..next) latency.add((time-releases[i]).coerceAtLeast(0))
+                    for(i in matched+1..next) {
+                        latency.add((time-releases[i]).coerceAtLeast(0))
+                        delivery.add((time-submitted[i]).coerceAtLeast(0))
+                    }
                     matched=next
                 }
                 val sorted=latency.sorted()
-                fun percentile(p:Double)=if(sorted.isEmpty()) JSONObject.NULL else sorted[(ceil(sorted.size*p).toInt()-1).coerceAtLeast(0)]
+                fun percentile(values:List<Long>,p:Double):Any {
+                    val ordered=values.sorted()
+                    return if(ordered.isEmpty()) JSONObject.NULL else ordered[(ceil(ordered.size*p).toInt()-1).coerceAtLeast(0)]
+                }
                 val row=JSONObject().put("warmup",round==0).put("keys",sequence.length).put("expected",expected).put("actual",actual)
-                    .put("correct",actual.equals(expected,true)).put("matched_events",latency.size).put("latency_p50_ms",percentile(.5))
-                    .put("latency_p95_ms",percentile(.95)).put("latency_max_ms",sorted.lastOrNull()).put("editor_reads",JSONObject(reads))
+                    .put("correct",actual.equals(expected,true)).put("matched_events",latency.size).put("latency_p50_ms",percentile(sorted,.5))
+                    .put("latency_p95_ms",percentile(sorted,.95)).put("latency_max_ms",sorted.lastOrNull()).put("editor_reads",JSONObject(reads))
+                    .put("delivery_p50_ms",percentile(delivery,.5)).put("delivery_p95_ms",percentile(delivery,.95)).put("delivery_max_ms",delivery.maxOrNull())
+                    .put("injection_release_max_lateness_ms",submitted.mapIndexed { i,t -> t-releases[i] }.maxOrNull())
+                    .put("injection_up_p95_ms",percentile(injectionTimes,.95))
                     .put("injection_max_lateness_ms",injected.mapIndexed { i,t -> t-(began+i*interval) }.maxOrNull())
                     .put("changes",JSONArray(changes.map { (t,s) -> JSONObject().put("at_ms",t-began).put("text",s) }))
                 samples.put(row)
@@ -119,7 +138,7 @@ class TypingBenchmark:Instrumentation() {
             report.put("ime",ime).put("terminal",terminal).put("read_delay_ms",delay).put("interval_ms",interval)
                 .put("offered_wpm",12000.0/interval).put("settle_ms",3000).put("rounds",samples).put("passed",true)
         } catch(error:Throwable) { report.put("passed",false).put("error",error.stackTraceToString()) }
-        finally { runOnMainSync { activity?.finish() };shell("ime set $original") }
+        finally { runCatching { injection?.close() };injection=null;runOnMainSync { activity?.finish() };shell("ime set $original") }
         File(targetContext.getExternalFilesDir(null),"typing-benchmark.json").writeText(report.toString(2))
         finish(if(report.optBoolean("passed")) ActivityResult.OK else ActivityResult.FAIL,Bundle().apply { putString("results",report.toString()) })
     }
