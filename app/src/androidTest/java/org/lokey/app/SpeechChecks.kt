@@ -10,6 +10,35 @@ import java.nio.ByteBuffer
 import java.nio.ByteOrder
 
 object SpeechChecks {
+    fun corpus(context:Context,accelerator:Int):JSONObject {
+        val root=File(context.filesDir,"speech-corpus")
+        val fixtures=JSONArray(File(root,"fixtures.json").readText())
+        val cases=JSONArray()
+        try {
+            for(model in Models.voices) {
+                check(Models.ready(context,model))
+                val encoder=model.parts.firstOrNull()?.let { Models.file(context,it).path }.orEmpty()
+                check(Native.loadSpeech(Models.file(context,model).path,encoder,accelerator))
+                val backend=Native.speechBackend()
+                for(index in 0 until fixtures.length()) {
+                    val fixture=fixtures.getJSONObject(index)
+                    val name=fixture.getString("file")
+                    val samples=audio(File(root,name))
+                    val hints=if(model.id=="qwen_asr") listOf("","Polish") else listOf("")
+                    for(hint in hints) {
+                        val start=SystemClock.elapsedRealtimeNanos()
+                        val text=Native.transcribe(samples,hint)
+                        cases.put(JSONObject().put("file",name).put("model",model.id).put("backend",backend)
+                            .put("hint",hint).put("text",text).put("seconds",samples.size/16000.0)
+                            .put("ms",(SystemClock.elapsedRealtimeNanos()-start)/1e6))
+                    }
+                    File(root,"results.json").writeText(cases.toString(2))
+                }
+            }
+        } finally { Native.release() }
+        return JSONObject().put("recordings",fixtures.length()).put("decodes",cases.length())
+    }
+
     fun audio(file:File):FloatArray {
         val data=file.readBytes();val bytes=ByteBuffer.wrap(data).order(ByteOrder.LITTLE_ENDIAN)
         check(String(data,0,4)=="RIFF" && String(data,8,4)=="WAVE")

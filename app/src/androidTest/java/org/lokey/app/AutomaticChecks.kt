@@ -17,7 +17,7 @@ object AutomaticChecks {
         val npu=Acceleration.await()
         val languages=ModelLanguages.all(context)
         val cases=JSONArray()
-        val exceptions=setOf("bg","hr","et","lv","lt","mt","sk","sl","uk")
+        val exceptions=setOf("bg","hr","et","lv","lt","mt","pl","sk","sl","uk")
         check(languages.size==39)
         for(language in languages) {
             val cpu=Models.recommended(language,false);val accelerated=Models.recommended(language,true)
@@ -38,7 +38,7 @@ object AutomaticChecks {
         }
         try {
             prefs.model="auto"
-            for(code in listOf("en","it","zh","bg","uk","mt")) {
+            for(code in listOf("en","it","pl","zh","bg","uk","mt")) {
                 val selected=ModelLanguages.forLocale(context,Locale.forLanguageTag(code));prefs.setupLanguage=selected.name
                 val pair=Models.recommended(selected,npu)
                 for(id in listOfNotNull(pair.first,pair.second)) {

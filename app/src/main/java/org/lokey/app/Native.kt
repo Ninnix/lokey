@@ -24,7 +24,7 @@ object Native {
     external fun loadSpeech(path: String,projector:String="",accelerator:Int=0): Boolean
     external fun repackQwen(source:String,decoder:String,encoder:String):Boolean
     external fun speechBackend():String
-    external fun transcribe(samples: FloatArray): String
+    external fun transcribe(samples:FloatArray,language:String=""):String
     external fun cancelSpeech()
     external fun loadTranslator(path:String):Boolean
     external fun translate(text:String,target:String,epoch:Long,sink:Translation.Sink):String

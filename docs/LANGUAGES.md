@@ -6,7 +6,7 @@ Parakeet lists 25 languages and Qwen ASR lists 30; their union is 39. Sources: [
 
 LFM lists 9 of these languages; Qwen text covers the complete supported set. Sources: [LFM2.5](https://huggingface.co/LiquidAI/LFM2.5-350M), [Qwen3.5](https://huggingface.co/Qwen/Qwen3.5-0.8B). On CPU devices, prefer LFM where listed and Parakeet where listed; Chinese uses both Qwen models. The suggested-text column below describes these CPU choices.
 
-With supported NPU acceleration, Automatic prefers Qwen text for all 39 languages and Qwen ASR for its 30 listed languages. The nine Parakeet-only languages retain Parakeet: Bulgarian, Croatian, Estonian, Latvian, Lithuanian, Maltese, Slovak, Slovenian and Ukrainian. Automatic uses Lokey's setup language, defaulting to the device language, and can fall back to an installed model supporting that language.
+With supported NPU acceleration, Automatic prefers Qwen text for all 39 languages. It chooses Parakeet for Polish based on Lokey’s speech benchmark and for Bulgarian, Croatian, Estonian, Latvian, Lithuanian, Maltese, Slovak, Slovenian and Ukrainian because Qwen ASR does not list them. Automatic uses Lokey's setup language, defaulting to the device language, and can fall back to an installed model supporting that language.
 
 ## Complete supported list
 

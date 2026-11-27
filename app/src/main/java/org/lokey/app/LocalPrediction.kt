@@ -1,6 +1,7 @@
 package org.lokey.app
 
 import android.content.Context
+import java.text.Normalizer
 import kotlin.math.ln
 
 /** Public dictionary statistics only; no user text is retained. */
@@ -49,6 +50,7 @@ class LocalPrediction(private val context:Context,private val languages:Language
     }.also { ready=vocabularies.toMap() }
     fun prepare(language:Languages.Language) { vocabulary(language) }
     fun spelling(before:String,language:Languages.Language,cached:Boolean=false):Languages.Spelling? {
+        if(language.code=="pl") return languages.spelling(language,before)
         if(language.code !in listOf("en","it") || Languages.prefix(before).isEmpty()) return null
         val form=languages.spelling(language,before)
         if(form?.automatic==true) return form
@@ -96,6 +98,9 @@ class LocalPrediction(private val context:Context,private val languages:Language
     }
     fun spelling(result:Prediction.Result,language:Languages.Language,autocorrect:Boolean,cached:Boolean=false,limit:Int=3):Prediction.Result =
         languages.spelling(result.copy(spelling=spelling(result.before,language,cached)),autocorrect,limit)
+    internal fun hasPolishForm(prefix:String,language:Languages.Language)=
+        language.code=="pl" && key(prefix) in vocabulary(language).folded
+
     fun correction(before:String,language:Languages.Language,cached:Boolean=false):String? {
         val prefix=Languages.prefix(before)
         spelling(before,language,cached)?.let { return if(it.automatic) it.word else null }
@@ -103,8 +108,19 @@ class LocalPrediction(private val context:Context,private val languages:Language
         if(prefix.length !in 3..24 || prefix.drop(1).any { it.isUpperCase() } ||
             prefix.first().isUpperCase() && stem.any { it.isLetter() }) return null
         val words=if(cached) ready[language.code] ?: return null else vocabulary(language)
-        if(Languages.lower(prefix) in words.words) return null
-        val typed=key(prefix)
+        val polish=language.code=="pl"
+        val original=Languages.lower(prefix).let { if(polish) Normalizer.normalize(it,Normalizer.Form.NFC) else it }
+        if(original in words.words) return null
+        val folded=Languages.fold(prefix)
+        val typed=folded.replace("'","")
+        if(polish) words.folded[typed]?.let { forms ->
+            // Restore missing marks before considering letter edits that can change the verb form.
+            val form=forms.singleOrNull { entry ->
+                entry.word.length==original.length && entry.folded==folded &&
+                    original.indices.all { original[it]==entry.word[it] || original[it] !in "ąćęłńóśźż" }
+            }
+            return form?.word?.let { Languages.casing(it,prefix,language.code) }
+        }
         val history=Languages.tokens(stem).takeLast(2).map { Languages.lower(it) }
         val rows=(1..minOf(2,history.size)).mapNotNull { words.contexts[history.takeLast(it).joinToString(" ")] }
         fun swapped(fixed:String)=typed.length==fixed.length && typed.indices.any { i ->
@@ -124,6 +140,7 @@ class LocalPrediction(private val context:Context,private val languages:Language
         }.sortedByDescending { it.second }
         val (best,score)=nearby.firstOrNull() ?: return null
         val fixed=key(best.word)
+        if(polish && addsPolishInfinitiveEnding(prefix,best.word)) return null
         // An unfamiliar plural or possessive is not evidence of a stray final letter.
         if(typed.endsWith('s') && !typed.endsWith("ss") && typed.dropLast(1)==fixed) return null
         // A dominant transposition can be a typo even if another language contains it.
@@ -165,6 +182,7 @@ class LocalPrediction(private val context:Context,private val languages:Language
     }
     companion object {
         private fun key(word:String)=Languages.fold(word).replace("'","")
+        internal fun addsPolishInfinitiveEnding(typed:String,candidate:String)=candidate.endsWith('ć',ignoreCase=true) && !Languages.fold(typed).endsWith('c')
         private val possessiveFrames="about above across against along around at behind below beneath beside between beyond by despite down during for from in inside into near of off on onto outside over past through throughout to toward towards under underneath unlike up upon via with within without is was are were has have had lost loses lose losing use uses used using keep keeps kept love loves loved give gives gave hold holds held take takes took".split(' ').toSet()
         // The small vocabulary is already resident while a richer index loads on the worker.
         fun basic(languages:Languages,before:String,language:Languages.Language,autocorrect:Boolean,limit:Int=3):Prediction.Result {

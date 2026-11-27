@@ -21,7 +21,7 @@ object Models {
     fun downloadStatus(context:Context,model:Model)=downloadState(context,model)?.message.orEmpty()
     fun downloading(context:Context,model:Model)=downloadState(context,model)?.active==true
     fun recommended(language:ModelLanguages.Language,npu:Boolean=Acceleration.npu)=
-        (if(npu) "qwen" else language.textModel) to (if(npu && language.qwenVoice) "qwen_asr" else language.voiceModel)
+        (if(npu) "qwen" else language.textModel) to (if(npu && language.qwenVoice && language.base!="pl") "qwen_asr" else language.voiceModel)
     fun predictor(context: Context, selected: String, language: String): Model {
         if (selected != "auto") return text.firstOrNull { it.id == selected } ?: text.first()
         val id=if(Acceleration.npu) "qwen" else ModelLanguages.recommendedText(language)

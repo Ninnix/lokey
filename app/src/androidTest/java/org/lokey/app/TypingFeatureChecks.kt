@@ -19,6 +19,58 @@ import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 
 object TypingFeatureChecks {
+    fun polish(test:Instrumentation,context:Context):JSONObject {
+        check(context.packageName!="org.lokey.app") { "Use the isolated test app" }
+        val prefs=Prefs(context).apply { setupLanguage="Polish";layout="qwerty";autocorrect=true;model="qwen" }
+        val model=Models.text.first { it.id=="qwen" }
+        val neural=Models.ready(context,model)
+        val cases=linkedMapOf(
+            "Teraz wynies" to "wynieś", "Możesz wyniesc" to "wynieść", "Jutro podejme" to "podejmę",
+            "Jutro zaplace" to "zapłacę", "Jutro zrobie" to "zrobię", "Już kończę. Pojde" to "Pójdę",
+            "Jutro zadzwonie" to "zadzwonię", "Niedługo bede" to "będę",
+            "Już wynieś" to null, "Możesz wynieść" to null, "Dzisiaj zrobię" to null,
+            "Ona pisze" to null, "On chce" to null, "To stary sad" to null,
+            "Chętnie podpowiem" to null, "Myślę o pomysle" to null, "Zaraz zróbie" to null,
+            "Nazywam się Bede" to null, "Jutro będę" to null
+        )
+        lateinit var prediction:Prediction
+        lateinit var editor:LocalEditor
+        test.runOnMainSync { prediction=Prediction(context,prefs);editor=LocalEditor(context) }
+        val results=JSONObject()
+        val mismatches=ArrayList<String>()
+        try {
+            if(neural) {
+                val completed=CountDownLatch(1)
+                test.runOnMainSync { prediction.request("Piszę do ciebie, bo chcę po") { if(it.neural) completed.countDown() } }
+                check(completed.await(45,TimeUnit.SECONDS)) { "Qwen did not produce Polish suggestions" }
+            }
+            for((before,expected) in cases) {
+                val done=CountDownLatch(1)
+                var result:Prediction.Result?=null
+                test.runOnMainSync { prediction.correct(before) { result=it;done.countDown() } }
+                check(done.await(45,TimeUnit.SECONDS)) { "Polish correction timed out: $before" }
+                val fixed=result?.correction
+                results.put(before,fixed ?: JSONObject.NULL)
+                if(fixed!=expected) mismatches.add("$before -> $fixed (expected $expected)")
+                if(fixed!=null) test.runOnMainSync {
+                    val boundary=Autocorrect()
+                    editor.setText(before);editor.setSelection(editor.length())
+                    check(boundary.commit(editor.connection," ",result,true))
+                    check(editor.text.toString()==before.dropLast(Languages.prefix(before).length)+fixed+" ")
+                    check(boundary.revert(editor.connection) && editor.text.toString()==before)
+                    boundary.reset()
+                    editor.setText("$before.");editor.setSelection(editor.length())
+                    check(boundary.defer(editor.connection,".",true)==before && boundary.finish(editor.connection,result))
+                    check(editor.text.toString()==before.dropLast(Languages.prefix(before).length)+fixed+".")
+                }
+            }
+        } finally { test.runOnMainSync { prediction.close() };Native.release() }
+        val report=JSONObject().put("qwen_loaded",neural).put("cases",results)
+        File(context.filesDir,"polish-correction.json").writeText(report.toString(2))
+        check(mismatches.isEmpty()) { mismatches.joinToString("\n") }
+        return report
+    }
+
     fun boundaries(test:Instrumentation,context:Context,learningEnabled:Boolean=false):JSONObject {
         check(context.packageName=="org.lokey.app.features")
         val prefs=Prefs(context);val store=context.getSharedPreferences("lokey",0)

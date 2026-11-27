@@ -153,6 +153,21 @@ checks worker reservations and prediction/speech/translation cache invalidation.
 Use `--accelerator cpu` or `--accelerator hexagon` to require the actual backend;
 translation retains its CPU path. The public speech fixture is
 `../whisper.cpp/samples/jfk.wav`, staged as `files/jfk.wav` in the test app.
+
+### Polish dictation
+
+The `speechcorpus` mode reads `files/speech-corpus/fixtures.json` with a `file` field for each mono 16 kHz PCM WAV beside it. It decodes every clip with Parakeet, Qwen language detection, and Qwen set to Polish. The report in `files/speech-corpus/results.json` includes text, audio duration, decode time, and the backend. Pass `-e speech_accelerator cpu` for the CPU comparison.
+
+On the OnePlus 15, the same 24 Polish FLEURS test recordings contained 392 reference words. The sample used distinct reference sentences, random seed 181, and four recordings per speaker gender in each duration range from 0–6, 6–9, and 9–15 seconds. Word error rate ignores punctuation and casing and retains diacritics. Times measure decoding after model load. [FLEURS](https://huggingface.co/datasets/google/fleurs/tree/70bb2e84b976b7e960aa89f1c648e09c59f894dd)
+
+| Model and language mode | Hexagon WER | Hexagon median | CPU WER | CPU median |
+| --- | ---: | ---: | ---: | ---: |
+| Parakeet v3 | 10.2% | 209 ms | 10.2% | 1,503 ms |
+| Qwen3 ASR, automatic | 33.4% | 1,391 ms | 35.5% | 3,015 ms |
+| Qwen3 ASR, Polish | 32.9% | 1,318 ms | 35.5% | 2,938 ms |
+
+### Idle memory and battery
+
 The `memoryidle` mode waits for the real two-minute production sweep, records
 PSS before/after eviction and checks reloading. Leave the phone idle for these
 checks so the active IME cannot warm models in the same process.

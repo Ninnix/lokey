@@ -134,7 +134,8 @@ class Prediction(private val context: Context, private val prefs: Prefs,private 
         }
         if(alias!=null) return result(alias.word)
         local.correction(before,detected)?.let { return result(it) }
-        if(prefix.length !in 3..24 || prefix.first().isUpperCase() || languages.all.any { Languages.lower(prefix) in it.words } || !load()) return null
+        if(prefix.length !in 3..24 || prefix.first().isUpperCase() || languages.all.any { Languages.lower(prefix) in it.words } ||
+            local.hasPolishForm(prefix,detected) || !load()) return null
         if(checkedBefore==before) return checkedCorrection
         val stem=wordContext(before.dropLast(prefix.length))
         fun nearby(words:List<String>)=words.filter { Languages.valid(it) && !it.equals(prefix,true) && Languages.distance(Languages.fold(prefix),Languages.fold(it))<=1 }
@@ -152,7 +153,8 @@ class Prediction(private val context: Context, private val prefs: Prefs,private 
                 val best=ranked.first();val margin=if(ranked.size>1) scores[best+1]-scores[ranked[1]+1] else 10f
                 // LFM needs stronger evidence before replacing unfamiliar words.
                 val gain=if(loaded.startsWith("lfm:")) 7f else 2.5f
-                if(scores[best+1]-scores[0]>=gain && margin>=1f) answer=result(choices[best])
+                if(scores[best+1]-scores[0]>=gain && margin>=1f &&
+                    (detected.code!="pl" || !LocalPrediction.addsPolishInfinitiveEnding(prefix,choices[best]))) answer=result(choices[best])
             }
         }
         checkedBefore=before;checkedCorrection=answer

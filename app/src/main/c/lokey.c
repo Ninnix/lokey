@@ -937,12 +937,15 @@ JNIEXPORT jstring JNICALL Java_org_lokey_app_Native_speechBackend(JNIEnv *env,jo
     jstring result=java_string(env,backend);
     pthread_mutex_unlock(&speech_mutex);return result;
 }
-static jstring transcribe_qwen(JNIEnv *env,const float *samples,int n) {
+static jstring transcribe_qwen(JNIEnv *env,const float *samples,int n,const char *language) {
     mtmd_bitmap *audio=mtmd_bitmap_init_from_audio((size_t)n,samples);
     mtmd_input_chunks *chunks=mtmd_input_chunks_init();
     jstring result=NULL;
     char prompt[512],output[16384]="";size_t used=0;
-    snprintf(prompt,sizeof(prompt),"<|im_start|>system\n<|im_end|>\n<|im_start|>user\n%s<|im_end|>\n<|im_start|>assistant\n",mtmd_get_marker(asr_audio));
+    bool hinted=language && *language && strspn(language,"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz")==strlen(language);
+    int written=snprintf(prompt,sizeof(prompt),"<|im_start|>system\n<|im_end|>\n<|im_start|>user\n%s<|im_end|>\n<|im_start|>assistant\n%s%s%s",
+        mtmd_get_marker(asr_audio),hinted?"language ":"",hinted?language:"",hinted?"<asr_text>":"");
+    if(written<0 || (size_t)written>=sizeof(prompt)) goto done;
     struct mtmd_input_text input={.text=prompt,.text_len=strlen(prompt),.add_special=true,.parse_special=true};
     const mtmd_bitmap *bitmaps[]={audio};
     llama_memory_clear(llama_get_memory(asr_ctx),true);
@@ -980,7 +983,7 @@ done:
     if(!result) fail(env,atomic_load(&speech_cancelled)?"Transcription cancelled":"Qwen transcription failed or exceeded its limit");
     return result;
 }
-JNIEXPORT jstring JNICALL Java_org_lokey_app_Native_transcribe(JNIEnv *env,jobject self,jfloatArray input) {
+JNIEXPORT jstring JNICALL Java_org_lokey_app_Native_transcribe(JNIEnv *env,jobject self,jfloatArray input,jstring hint) {
     (void)self;
     pthread_mutex_lock(&speech_mutex);
     jstring result=NULL;
@@ -994,7 +997,11 @@ JNIEXPORT jstring JNICALL Java_org_lokey_app_Native_transcribe(JNIEnv *env,jobje
     double energy=0;
     for(int i=0;i<n;i++) energy+=(double)samples[i]*samples[i];
     if(energy<n*1e-10) { free(samples);result=java_string(env,"");goto done; }
-    if(asr_audio) { result=transcribe_qwen(env,samples,n);free(samples);goto done; }
+    if(asr_audio) {
+        char *language=utf(env,hint);
+        result=transcribe_qwen(env,samples,n,language);
+        free(language);free(samples);goto done;
+    }
     struct parakeet_full_params params=parakeet_full_default_params(PARAKEET_SAMPLING_GREEDY);
     params.n_threads=4;params.no_context=true;params.abort_callback=abort_speech;
     int error=parakeet_full(speech_ctx,params,samples,n);

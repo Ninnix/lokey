@@ -125,6 +125,11 @@ class Languages(private val context: Context) {
     }
     fun spelling(language:Language,before:String):Spelling? {
         val prefix=prefix(before)
+        if(language.code=="pl") {
+            val fixed=polishAliases[lower(prefix)] ?: return null
+            if(capitals(prefix) || prefix.first().isUpperCase() && before.dropLast(prefix.length).takeLastWhile { it !in ".!?;:\n" }.any(Char::isLetter)) return null
+            return Spelling(prefix,casing(fixed,prefix,language.code),true)
+        }
         if(prefix.isEmpty() || language.code !in listOf("en","it")) return null
         val matches=wordMatches(before)
         if(matches.lastOrNull()?.range?.last!=before.lastIndex) return null
@@ -194,6 +199,8 @@ class Languages(private val context: Context) {
             put("dov'e","dov'è");put("dové","dov'è");put("dovè","dov'è");put("qual'è","qual è")
         }
         private val italianAlternatives=mapOf("ce" to "c'è","e" to "è","si" to "sì","ne" to "né","se" to "sé","la" to "là","li" to "lì","da" to "dà","te" to "tè","po" to "po'","pero" to "però")
+        // These unaccented verb forms occur in the corpus despite their spelling.
+        private val polishAliases="będę będziesz pójdę zrobię wrócę zadzwonię".split(' ').associateBy(::fold)
         private val englishPredicates="a an the not been raining snowing drizzling thundering wrong right true false fine okay ok good bad great nice important possible impossible necessary clear obvious easy hard ready safe working running happening getting going".split(' ').toSet()
         private val italianExistentials="un uno una il bisogno qualcuno qualcosa nessuno niente nulla".split(' ').toSet()
         private val englishPossessions="own tail paws fur battery screen owner name color colour weight size shape price cost engine wheels doors cover handle purpose contents surface design performance behaviour behavior results job head body eyes legs roof location history title address".split(' ').toSet()
