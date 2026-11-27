@@ -127,8 +127,6 @@ internal class LayoutTool(context:Context,private val prefs:Prefs,private val cl
 
     private fun flags(layout:KeyboardLayouts.Layout):String {
         val codes=regions[layout.behaviorId] ?: "🌐"
-        return codes.split(' ').joinToString("  ") { code ->
-            if(code=="🌐") code else buildString { for(letter in code) appendCodePoint(0x1f1e6+(letter-'A')) }
-        }
+        return codes.split(' ').joinToString("  ",transform=::regionFlag)
     }
 }

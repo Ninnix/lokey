@@ -583,3 +583,6 @@ fun Context.uiLocale()=Locale.forLanguageTag(getString(R.string.ui_language_tag)
 fun Context.tr(value:String,vararg args:Any)=Strings.text(this,value,*args)
 fun Context.layoutName(layout:KeyboardLayouts.Layout)=if(layout.keyRows.isEmpty()) tr(layout.title) else layout.title
 fun Context.layoutVariant(layout:KeyboardLayouts.Layout)=if(layout.variant=="Accent") tr("Accent menus") else tr(layout.variant.ifEmpty { layout.title })
+
+internal fun regionFlag(region:String)=if(region.length==2 && region.all { it in 'A'..'Z' })
+    buildString { for(letter in region) appendCodePoint(0x1f1e6+(letter-'A')) } else "🌐"

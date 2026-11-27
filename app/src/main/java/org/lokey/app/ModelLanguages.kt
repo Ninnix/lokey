@@ -38,6 +38,16 @@ object ModelLanguages {
             Language(name,mapping.code,mapping.layout)
         }.also { catalog=it }
     }
+    internal fun forModel(context:Context,id:String):List<Language> {
+        val languages=all(context)
+        return when(id) {
+            "lfm" -> languages.filter { it.lfm }
+            "qwen" -> languages
+            "parakeet" -> languages.filter { it.parakeet }
+            "qwen_asr" -> languages.filter { it.qwenVoice }
+            else -> emptyList()
+        }
+    }
     fun inputHint(context:Context,prefs:Prefs):String? {
         val layout=prefs.currentLayout;val primary=selected(context,prefs)
         if(layout.id in listOf("cangjie","sucheng") && primary.base in listOf("zh","yue")) return primary.name

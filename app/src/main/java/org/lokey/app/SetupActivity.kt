@@ -116,12 +116,12 @@ class SetupActivity:AppScreen() {
             val choices=LinearLayout(this@SetupActivity)
             models.forEachIndexed { index,model ->
                 val id=if(voice) voiceChoice else textChoice
-                val supported=if(voice) if(model.id=="parakeet") language.parakeet else language.qwenVoice else model.id=="qwen" || language.lfm
+                val languages=ModelLanguages.forModel(this@SetupActivity,model.id)
+                val supported=language in languages
                 val pair=Models.recommended(language)
                 val recommended=model.id==if(voice) pair.second else pair.first
-                val count=when(model.id) { "lfm" -> "9";"qwen" -> "39";"parakeet" -> "25";else -> "30" }
                 val option=vertical().apply {
-                    gravity=android.view.Gravity.CENTER;setPadding(dp(8),dp(10),dp(8),dp(10));minimumHeight=dp(88)
+                    gravity=Gravity.TOP or Gravity.CENTER_HORIZONTAL;setPadding(dp(8),dp(10),dp(8),dp(10));minimumHeight=dp(88)
                     background=shape(selected=model.id==id);isSelected=model.id==id;isClickable=true;isFocusable=true;isSoundEffectsEnabled=false
                     isEnabled=supported;alpha=if(supported) 1f else .45f;contentDescription=tr("Setup model: %1\$s",model.id)
                     setOnClickListener { manualModels=true;if(voice) voiceChoice=model.id else textChoice=model.id;modelChoices.forEach { it() };updateDownloads() }
@@ -139,10 +139,11 @@ class SetupActivity:AppScreen() {
                         val label=if(preferred) tr("Suggested") else if(supported) tr("Alternative") else tr("Not listed")
                         if(badge.text.toString()!=label) { badge.text=label;badge.setTextColor(if(preferred) accent else muted) }
                     }
-                    addView(text(tr("%1\$s languages",count),11f,muted))
+                    addView(text(tr("%1\$s languages",languages.size),11f,muted))
                     addView(text(Models.downloadSize(model),11f,muted))
+                    addView(modelLanguageFlags(languages,centered=true),LinearLayout.LayoutParams(-1,-2).apply { topMargin=dp(8) })
                 }
-                choices.addView(option,LinearLayout.LayoutParams(0,-2,1f).apply { if(index==0) marginEnd=dp(6) })
+                choices.addView(option,LinearLayout.LayoutParams(0,-1,1f).apply { if(index==0) marginEnd=dp(6) })
             }
             addView(choices,LinearLayout.LayoutParams(-1,-2).apply { topMargin=dp(8) })
             val info=DownloadProgress(this@SetupActivity,accent,muted).apply { setPadding(0,dp(10),0,0) }

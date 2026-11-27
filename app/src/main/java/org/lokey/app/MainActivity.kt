@@ -503,6 +503,7 @@ class MainActivity : Activity() {
         header.addView(ModelCredits.logo(this,prefs,model.id),LinearLayout.LayoutParams(dp(40),dp(40)).apply { marginEnd=dp(12) })
         header.addView(title,LinearLayout.LayoutParams(0,-2,1f));box.addView(header)
         box.addView(text(tr(model.detail),12f,muted).apply { setPadding(0,dp(6),0,0) })
+        box.addView(modelLanguageFlags(ModelLanguages.forModel(this,model.id)),LinearLayout.LayoutParams(-1,-2).apply { topMargin=dp(8) })
         val progress=DownloadProgress(this,accent,muted);box.addView(progress,LinearLayout.LayoutParams(-1,-2).apply { bottomMargin=dp(10) })
         val action=button(tr("Download"),true) {
             if(Models.downloading(this,model)) Downloads.cancel(this,"model:${model.id}")

@@ -17,6 +17,16 @@ import java.io.File
 import java.util.Locale
 
 object SetupChecks {
+    private val flagCounts=mapOf("lfm" to 9,"qwen" to 39,"parakeet" to 25,"qwen_asr" to 30)
+    private fun checkFlags(card:ViewGroup,id:String) {
+        val label=card.context.tr("Supported languages")+" · "
+        val strip=(0 until card.childCount).map(card::getChildAt).filterIsInstance<TextView>()
+            .single { it.contentDescription?.startsWith(label)==true }
+        val flags=strip.text.split(' ')
+        check(flags.size==flagCounts.getValue(id) && flags.distinct().size==flags.size) { "$id flags: $flags" }
+        check(flags.all { flag -> flag.codePoints().toArray().let { it.size==2 && it.all { code -> code in 0x1f1e6..0x1f1ff } } })
+        check(strip.layout!=null && strip.lineCount>0 && strip.layout.getLineEnd(strip.lineCount-1)==strip.text.length)
+    }
     private fun find(view:View,label:String,byText:Boolean=false):View? {
         if(if(byText) view is TextView && view.text.toString()==label else view.contentDescription?.toString()==label) return view
         if(view is ViewGroup) for(i in 0 until view.childCount) find(view.getChildAt(i),label,byText)?.let { return it }
@@ -105,6 +115,9 @@ object SetupChecks {
                     check(find(setup.window.decorView,"Setup model: onejev")==null)
                 }
                 capture(test,context,setup,"setup-models-"+if(light) "light" else "dark")
+                test.runOnMainSync {
+                    for(id in flagCounts.keys) checkFlags(find(setup.window.decorView,"Setup model: $id") as ViewGroup,id)
+                }
                 val home=test.addMonitor(MainActivity::class.java.name,null,false)
                 test.runOnMainSync { (find(setup.window.decorView,"Skip model downloads") ?: find(setup.window.decorView,"Setup continue"))!!.performClick() }
                 activity=test.waitForMonitorWithTimeout(home,8000) ?: error("Setup did not finish")
@@ -112,6 +125,13 @@ object SetupChecks {
                 check(prefs.setupComplete && prefs.model=="qwen" && prefs.speechModel=="qwen_asr")
                 test.runOnMainSync { activity!!.finish() };activity=null
                 prefs.layout="auto";prefs.setupLanguage="English"
+            }
+            val models=test.startActivitySync(Intent().setClass(context,MainActivity::class.java).putExtra("page","models")
+                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK))
+            activity=models;focus(test,models)
+            test.runOnMainSync {
+                for(id in flagCounts.keys) checkFlags(find(models.window.decorView,"Model action: $id")!!.parent as ViewGroup,id)
+                models.finish()
             }
             activity=test.startActivitySync(Intent().setClass(context,LanguageActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK))
             focus(test,activity!!)
@@ -132,7 +152,7 @@ object SetupChecks {
                 find(root,"Language filter: Key gaps")!!.performClick()
             }
             capture(test,context,activity!!,"supported-languages")
-            return JSONObject().put("text_catalog",39).put("voice_languages",39).put("coverage_matches_model_cards",true).put("recommendations",true).put("first_run_and_completion",true).put("existing_preferences_preserved",true).put("two_models_only",true).put("dark_and_light",true).put("searchable_languages",true).put("dead_key_cases",11)
+            return JSONObject().put("text_catalog",39).put("voice_languages",39).put("coverage_matches_model_cards",true).put("flags_on_setup_and_models",true).put("recommendations",true).put("first_run_and_completion",true).put("existing_preferences_preserved",true).put("two_models_only",true).put("dark_and_light",true).put("searchable_languages",true).put("dead_key_cases",11)
         } finally {
             activity?.let { a -> test.runOnMainSync { a.finish() } }
             val edit=store.edit()
