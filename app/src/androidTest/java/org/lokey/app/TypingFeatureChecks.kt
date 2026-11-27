@@ -53,24 +53,27 @@ object TypingFeatureChecks {
         for(index in 0 until fixtures.length()) {
             val fixture=fixtures.getJSONObject(index)
             val language=ModelLanguages.all(context).first { it.name==fixture.getString("language") }
-            check(language.base in Languages.names)
+            val spellingOnly=StandardSpelling.scoped(language.name)
+            check(language.base in Languages.names || spellingOnly)
             val prefs=Prefs(context).apply {
                 setupLanguage=language.name;layout=checkNotNull(language.layout);autocorrect=true
                 this.model=if(neural) model else "auto"
             }
             val cases=fixture.getJSONObject("cases")
-            val results=correctionCases(test,context,prefs,if(neural) fixture.getString("warmup") else null,cases.keys().asSequence().toList())
+            val results=correctionCases(test,context,prefs,if(neural && !spellingOnly) fixture.getString("warmup") else null,
+                cases.keys().asSequence().toList(),language.name.takeIf { spellingOnly })
             val rows=JSONArray()
             for((before,fixed) in results) {
                 val expected=cases.get(before)
                 rows.put(JSONObject().put("before",before).put("expected",expected).put("actual",fixed ?: JSONObject.NULL))
             }
-            report.put(JSONObject().put("language",language.name).put("cases",rows))
+            report.put(JSONObject().put("language",language.name).put("spelling_only",spellingOnly).put("cases",rows))
         }
         return JSONObject().put("model",model).put("languages",report)
     }
 
-    private fun correctionCases(test:Instrumentation,context:Context,prefs:Prefs,warmup:String?,cases:Collection<String>):Map<String,String?> {
+    private fun correctionCases(test:Instrumentation,context:Context,prefs:Prefs,warmup:String?,cases:Collection<String>,
+        spellingLanguage:String?=null):Map<String,String?> {
         lateinit var prediction:Prediction
         lateinit var editor:LocalEditor
         test.runOnMainSync { prediction=Prediction(context,prefs);editor=LocalEditor(context) }
@@ -82,10 +85,12 @@ object TypingFeatureChecks {
                 check(completed.await(45,TimeUnit.SECONDS)) { "${prefs.model} did not produce ${prefs.setupLanguage} suggestions" }
             }
             for(before in cases) {
-                val done=CountDownLatch(1)
-                var result:Prediction.Result?=null
-                test.runOnMainSync { prediction.correct(before) { result=it;done.countDown() } }
-                check(done.await(45,TimeUnit.SECONDS)) { "Correction timed out: $before" }
+                var result=spellingLanguage?.let { StandardSpelling.correction(before,it) }
+                if(spellingLanguage==null) {
+                    val done=CountDownLatch(1)
+                    test.runOnMainSync { prediction.correct(before) { result=it;done.countDown() } }
+                    check(done.await(45,TimeUnit.SECONDS)) { "Correction timed out: $before" }
+                }
                 val fixed=result?.correction
                 results[before]=fixed
                 if(fixed!=null) test.runOnMainSync {
@@ -96,9 +101,10 @@ object TypingFeatureChecks {
                     check(editor.text.toString()==before.dropLast(source.length)+fixed+" ")
                     check(boundary.revert(editor.connection) && editor.text.toString()==before)
                     boundary.reset()
-                    editor.setText("$before.");editor.setSelection(editor.length())
-                    check(boundary.defer(editor.connection,".",true)==before && boundary.finish(editor.connection,result))
-                    check(editor.text.toString()==before.dropLast(source.length)+fixed+".")
+                    val punctuation=if(spellingLanguage=="Arabic") "؟" else "."
+                    editor.setText(before+punctuation);editor.setSelection(editor.length())
+                    check(boundary.defer(editor.connection,punctuation,true)==before && boundary.finish(editor.connection,result))
+                    check(editor.text.toString()==before.dropLast(source.length)+fixed+punctuation)
                 }
             }
         } finally { test.runOnMainSync { prediction.close() };Native.release() }

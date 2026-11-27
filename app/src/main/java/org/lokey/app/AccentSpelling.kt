@@ -3,11 +3,12 @@ package org.lokey.app
 import java.text.Normalizer
 
 internal object AccentSpelling {
-    private val codes=setOf("es","fr","pt")
+    private val codes=setOf("de","es","fr","pt")
     private val portuguese="não você vocês também estávamos tínhamos éramos íamos vínhamos pudéssemos fôssemos".split(' ').associateBy(Languages::fold)
     private val spanishPast=setOf("ayer","anteayer","anoche")
     private val spanishThirdPerson=setOf("él","ella","usted")
     private val frenchAvoir=setOf("j'ai","tu as","il a","elle a","on a","nous avons","vous avez","ils ont","elles ont")
+    private val germanArticles=setOf("der","die","das","den","dem","des","ein","eine","einen","einem","einer")
 
     fun supported(code:String)=code in codes
     fun original(word:String)=Normalizer.normalize(Languages.lower(word),Normalizer.Form.NFC)
@@ -18,9 +19,10 @@ internal object AccentSpelling {
         val typed=original(prefix)
         if(typed.length !in 2..24 || prefix.drop(1).any(Char::isUpperCase)) return null
         val stem=before.dropLast(prefix.length).takeLastWhile { it !in ",.!?;:\n\r" }
-        if(prefix.first().isUpperCase() && stem.any(Char::isLetter)) return null
-        val candidates=forms.filter { it.word!=typed && sameForm(typed,it.word) }
         val history=Languages.tokens(stem).takeLast(2).map(Languages::lower)
+        val germanNoun=language.code=="de" && history.lastOrNull() in germanArticles
+        if(prefix.first().isUpperCase() && stem.any(Char::isLetter) && !germanNoun) return null
+        val candidates=forms.filter { it.word!=typed && sameForm(typed,it.word) }
         val fixed=when(language.code) {
             "es" -> spanish(typed,history,language,candidates)
             "fr" -> if(history.joinToString(" ") in frenchAvoir) candidates.singleOrNull { it.word.endsWith('é') &&

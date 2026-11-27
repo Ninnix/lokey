@@ -17,7 +17,7 @@ object Models {
     fun downloadSize(model:Model)=when(model.id) { "lfm" -> "~230 MB";"qwen" -> "~533 MB";"parakeet" -> "~418 MB";"qwen_asr" -> "~631 MB";else -> "" }
     fun voice(id:String)=voices.firstOrNull { it.id==id } ?: speech
     val io = Executors.newSingleThreadExecutor { r -> Thread(r, "lokey-models") }
-    private val measuredParakeet=setOf("en","es","fr","pl","pt")
+    private val measuredParakeet=setOf("de","en","es","fr","pl","pt","ru")
     fun downloadState(context:Context,model:Model)=Downloads.state(context,"model:${model.id}")
     fun downloadStatus(context:Context,model:Model)=downloadState(context,model)?.message.orEmpty()
     fun downloading(context:Context,model:Model)=downloadState(context,model)?.active==true

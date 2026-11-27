@@ -30,8 +30,12 @@ class Prediction(private val context: Context, private val prefs: Prefs,private 
             if(Languages.tokens(before).size==1 && local.correction(before,selected,cached)!=null) return selected
             if(AccentSpelling.supported(primary) && local.spelling(before,selected,cached)?.automatic==true) {
                 // A missing accent can make the last word look like a word in another language.
-                val stem=before.dropLast(Languages.prefix(before).length).takeLastWhile { it !in ".!?;:\n" }
-                if(Languages.tokens(stem).size>=2 && languages.detect(stem,primary).code==primary) return selected
+                val prefix=Languages.prefix(before)
+                val stem=before.dropLast(prefix.length).takeLastWhile { it !in ".!?;:\n" }
+                val words=Languages.tokens(stem)
+                if(words.size>=2 && languages.detect(stem,primary).code==primary) return selected
+                if(words.size==1 && Languages.lower(words[0]) in selected.words && Languages.lower(prefix) !in detected.words)
+                    return selected
             }
         }
         return detected

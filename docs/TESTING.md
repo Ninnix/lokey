@@ -214,6 +214,31 @@ language. Portuguese restores forms such as `estávamos` and `tínhamos`.
 The remaining Portuguese misses involve ambiguous forms of `vira`,
 `e`, and `de` that can be valid in other contexts.
 
+### Arabic, Indonesian, Russian, and German autocorrect
+
+The same correction runner accepts
+[next-language-corrections.json](../tools/typing-benchmark/next-language-corrections.json).
+Arabic, Indonesian, and Russian use a list of known spelling corrections
+on the active language layout. For these three languages, the corpus rows
+exercise the same rules with each model configuration. German uses the
+dictionary and the selected model, with an accent check that keeps the
+word's ending.
+
+The German baseline corrected zero of eight typos with the dictionary
+alone and four with either model. Qwen changed `Ich wunschte` to
+`Ich wünsche`, shifting the verb to the present tense. The accent check
+now restores `wünschte` and allows a capitalized noun after an article,
+as in `das Mädchen`.
+
+On the OnePlus 15, the follow-up corrected all eight Arabic, Indonesian,
+and Russian examples per language and all ten expanded German examples.
+All three configurations preserved the 41 valid forms, including Russian
+`учиться`, German `fuhren`, and the surname `Muller`.
+
+The `spellinglayouts` mode checks correction, undo, valid forms, and
+the autocorrect toggle through the actual IME. The Arabic check finishes
+the word with an Arabic comma.
+
 ### Multilingual dictation
 
 To reproduce the first multilingual sample, put the FLEURS test TSV and audio
@@ -296,6 +321,31 @@ recordings as male, so the sample uses eight per duration range.
 
 The `modelpolicy` mode checks automatic model preferences for all
 39 languages, layout-based dictation routing, and manual model overrides.
+
+### Arabic, Indonesian, Russian, and German dictation
+
+The OnePlus 15 ran 240 Hexagon decodes over 96 FLEURS clips. The same
+sampler used `Arabic=ar_eg`, `Indonesian=id_id`, `Russian=ru_ru`, and
+`German=de_de`. Russian was balanced by speaker gender. The Arabic test
+split labels the sampled recordings as female. The Indonesian and German
+test splits label the sampled recordings as male.
+
+| Language | Model and language mode | WER | Median decode |
+| --- | --- | ---: | ---: |
+| Arabic | Qwen3 ASR, automatic | 25.00% | 1,519 ms |
+| Arabic | Qwen3 ASR, Arabic | 24.43% | 1,453 ms |
+| Indonesian | Qwen3 ASR, automatic | 9.78% | 1,319 ms |
+| Indonesian | Qwen3 ASR, Indonesian | 10.06% | 1,259 ms |
+| Russian | Parakeet v3 | 7.96% | 384 ms |
+| Russian | Qwen3 ASR, automatic | 9.28% | 1,495 ms |
+| Russian | Qwen3 ASR, Russian | 8.75% | 1,445 ms |
+| German | Parakeet v3 | 6.22% | 421 ms |
+| German | Qwen3 ASR, automatic | 7.60% | 1,450 ms |
+| German | Qwen3 ASR, German | 7.14% | 1,353 ms |
+
+Automatic now prefers Parakeet for Russian and German when available.
+Arabic uses the Qwen language hint on Hexagon. Indonesian uses Qwen's
+language detection, which had the lower word error rate in this sample.
 
 ### Idle memory and battery
 

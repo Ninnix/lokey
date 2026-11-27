@@ -348,13 +348,22 @@ object LayoutChecks {
         if(view is ViewGroup) for(i in 0 until view.childCount) editor(view.getChildAt(i))?.let { return it }
         return null
     }
-    fun live(test:Instrumentation,context:Context,quick:Boolean=false):JSONObject {
+    fun live(test:Instrumentation,context:Context,quick:Boolean=false,spelling:Boolean=false):JSONObject {
         val prefs=Prefs(context);val original=if(prefs.automaticLayout) "auto" else prefs.layout
         val oldShortcuts=prefs.quickLayouts
         val oldLanguageKey=prefs.languageSwitchKey
         val store=context.getSharedPreferences("lokey",Context.MODE_PRIVATE)
         val oldEmojiHistory=store.getString(EmojiHistory.key,null)
         val oldLearning=prefs.learning
+        val oldLanguage=prefs.setupLanguage
+        val oldAutocorrect=prefs.autocorrect
+        data class SpellingCase(val language:String,val typed:String,val fixed:String,val valid:String)
+        val spellingCases=mapOf(
+            "arabic" to SpellingCase("Arabic","قلت انا","قلت أنا","أريد أن أذهب"),
+            "qwerty" to SpellingCase("Indonesian","Saya ucapkan terimakasih","Saya ucapkan terima kasih","Buku itu dikirim"),
+            "cyrillic" to SpellingCase("Russian","Мы зделали","Мы сделали","Я хочу учиться"),
+            "qwertz" to SpellingCase("German","Wir mussen","Wir müssen","Wir fuhren")
+        )
         val info=test.uiAutomation.serviceInfo
         info.flags=info.flags or android.accessibilityservice.AccessibilityServiceInfo.FLAG_RETRIEVE_INTERACTIVE_WINDOWS
         test.uiAutomation.serviceInfo=info
@@ -367,10 +376,11 @@ object LayoutChecks {
                 Triple("arabic","ضصث","ضصث"),Triple("persian","سلام","سلام"),Triple("greek","γεια","Γεια"),Triple("hindi","नमस्ते","नमस्ते"),Triple("bolnagri","नमस्ते","नमस्ते"),Triple("hindi_phonetic","namaste","नमस्ते "),
                 Triple("korean","ㅎㅏㄴㄱㅡㄹ","한글"),Triple("japanese","toukyou","東京"),Triple("pinyin","nihao","你好"),Triple("jyutping","nei5hou2","你好"),Triple("cangjie","onfvnd","你好"),Triple("sucheng","ofvd","你好"),Triple("vietnamese","tieengs","Tiếng"),Triple("thai","สวัสดี","สวัสดี")
             )
-            for((layout,raw,expected) in cases) {
+            for((layout,raw,expected) in if(spelling) cases.filter { it.first in spellingCases } else cases) {
                 val keys=raw.map { KeyboardLayouts.display(it.toString()) }
                 val firstKey=if(layout=="intl" && keys.first()=="'") "l" else keys.first()
                 prefs.layout=layout
+                if(spelling) { prefs.setupLanguage=spellingCases.getValue(layout).language;prefs.autocorrect=true }
                 if(quick) prefs.quickLayouts=listOf("qwerty","cyrillic","azerty","intl")
                 val activity=test.startActivitySync(Intent().setClass(context,MainActivity::class.java).putExtra("page","lab").addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK))
                 lateinit var input:EditText
@@ -442,6 +452,23 @@ object LayoutChecks {
                     }
                     await { value()==expected }
                     check(focused())
+                    if(spelling) {
+                        val sample=spellingCases.getValue(layout)
+                        val boundary=if(layout=="arabic") "،" else " "
+                        fun set(value:String) {
+                            test.runOnMainSync { input.setText(value);input.setSelection(input.length()) }
+                            SystemClock.sleep(150)
+                        }
+                        fun finish()=action(if(boundary==" ") "space" else boundary)
+                        set(sample.typed);finish();await { value()==sample.fixed+boundary }
+                        action("Backspace");await { value()==sample.typed }
+                        set(sample.valid);finish();await { value()==sample.valid+boundary }
+                        prefs.autocorrect=false
+                        set(sample.typed);finish();await { value()==sample.typed+boundary }
+                        report.put(JSONObject().put("layout",layout).put("language",sample.language)
+                            .put("correction",true).put("undo",true).put("valid_form",true).put("switch_off",true))
+                        continue
+                    }
                     if(quick) {
                         fun open() { action("?123",AccessibilityNodeInfo.ACTION_LONG_CLICK);action("Layout") }
                         fun capture(name:String) {
@@ -622,7 +649,8 @@ object LayoutChecks {
         } finally {
             prefs.layout=original;prefs.quickLayouts=oldShortcuts;prefs.languageSwitchKey=oldLanguageKey
             if(quick) store.edit().putBoolean("learning",oldLearning).putString(EmojiHistory.key,oldEmojiHistory).apply()
+            if(spelling) { prefs.setupLanguage=oldLanguage;prefs.autocorrect=oldAutocorrect }
         }
-        return JSONObject().put("layouts",report).put("pinyin_space_and_selection",true)
+        return JSONObject().put("layouts",report).apply { if(!spelling) put("pinyin_space_and_selection",true) }
     }
 }

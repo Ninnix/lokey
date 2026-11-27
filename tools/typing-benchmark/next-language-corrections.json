@@ -1,0 +1,98 @@
+[
+  {
+    "language": "Arabic",
+    "cases": {
+      "قلت انا": "أنا",
+      "هل انت": "أنت",
+      "ذهبت الى": "إلى",
+      "نعم هاذا": "هذا",
+      "رأيت هاذه": "هذه",
+      "أنا استطيع": "أستطيع",
+      "سأذهب ايضا": "أيضا",
+      "اتصلت باخي": "بأخي",
+      "أنا أستطيع": null,
+      "هي تستطيع": null,
+      "أريد أن أذهب": null,
+      "هم ذهبوا": null,
+      "أنت ذهبت": null,
+      "نحن نذهب": null,
+      "أريد الذهاب": null,
+      "هو قال ان": null,
+      "الحديد لان": null,
+      "وهذا رأيي": null
+    }
+  },
+  {
+    "language": "Indonesian",
+    "cases": {
+      "Saya mengunakan": "menggunakan",
+      "Besok kami mengirimm": "mengirim",
+      "Anak-anak bermaiin": "bermain",
+      "Saya minta ijin": "izin",
+      "Ini resiko": "risiko",
+      "Jadwal aktifitas": "aktivitas",
+      "Saya ucapkan terimakasih": "terima kasih",
+      "Tolong pakai antri": "antre",
+      "Saya menggunakan": null,
+      "Dia mengirim": null,
+      "Buku itu dikirim": null,
+      "Mereka bermain": null,
+      "Saya ingin main": null,
+      "Sudah terkirim": null,
+      "Saya nggak": null,
+      "Itu udah": null,
+      "Kamu boleh kirim": null,
+      "Aku sedang membaca": null
+    }
+  },
+  {
+    "language": "Russian",
+    "cases": {
+      "Я зделаю": "сделаю",
+      "Он зделал": "сделал",
+      "Мы зделали": "сделали",
+      "Он хочит": "хочет",
+      "Ты учишся": "учишься",
+      "Он пришол": "пришёл",
+      "Это севодня": "сегодня",
+      "Скажите пожалуста": "пожалуйста",
+      "Я сделаю": null,
+      "Он сделал": null,
+      "Они сделают": null,
+      "Мы хотим": null,
+      "Он учится": null,
+      "Я хочу учиться": null,
+      "Ты учишься": null,
+      "Он пришел": null,
+      "Она пришла": null,
+      "Письмо пришло": null
+    }
+  },
+  {
+    "language": "German",
+    "warmup": "Ich glaube wir müssen heute noch arbei",
+    "cases": {
+      "Ich wunschte": "wünschte",
+      "Wir wunschen": "wünschen",
+      "Ich wurde das gern erklaren": "erklären",
+      "Wir mussen": "müssen",
+      "Du mussst": "musst",
+      "Sie hatt": "hat",
+      "Wir gehen jetz": "jetzt",
+      "Er erzahlt": "erzählt",
+      "Wir fuhren": null,
+      "Sie führen": null,
+      "Ich hatte": null,
+      "Wenn ich hätte": null,
+      "Er sagte": null,
+      "Du sagst": null,
+      "Sie müssen": null,
+      "Er fährt": null,
+      "Wir fahren": null,
+      "Sie wollte gehen": null,
+      "Sie sieht das Madchen": "Mädchen",
+      "Das ist eine Ubung": "Übung",
+      "Ich treffe Muller": null
+    }
+  }
+]

@@ -481,22 +481,28 @@ class LokeyService : InputMethodService(), KeyboardView.Listener {
         if (text.length == 1 && text[0] in ".,!?;:،؛؟。，！？：；" && autoSpace != null && connection.getTextBeforeCursor(240, 0)?.toString() == autoSpace)
             connection.deleteSurroundingText(1, 0)
         autoSpace = null
-        val enabled=prefs.autocorrect && !privateField && !restrictedCorrection()
+        val boundary=correction.boundary(text)
+        val autocorrect=boundary && prefs.autocorrect && !privateField
+        val hint=if(autocorrect) inputHint() else null
+        val spellingOnly=hint!=null && StandardSpelling.scoped(hint)
+        val enabled=autocorrect && !restrictedCorrection(hint,spellingOnly)
         var observed:String?=null
         val scope=if(learn) learningScope() else ""
         var deferred=false
-        val result=if(enabled && correction.boundary(text)) connection.getTextBeforeCursor(240,0)?.toString()?.let { prediction.spelling(it,learningField()) } else null
-        val corrected=correction.commit(connection,text,result ?: prediction.latest,enabled)
+        val result=if(enabled) connection.getTextBeforeCursor(240,0)?.toString()?.let { before ->
+            if(spellingOnly) StandardSpelling.correction(before,checkNotNull(hint)) else prediction.spelling(before,learningField())
+        } else null
+        val corrected=correction.commit(connection,text,result ?: prediction.latest.takeUnless { spellingOnly },enabled)
         if(corrected && statsAllowed()) stats.correction()
         var committed=corrected
         if (!corrected) {
             if(commitTyped(connection,text)) {
                 committed=true
-                correction.defer(connection,text,enabled)?.let { before ->
+                correction.defer(connection,text,enabled && !spellingOnly)?.let { before ->
                     deferred=true
                     val token=session
                     prediction.correct(before,learningField()) { result ->
-                        if(token==session && connection===connection() && prefs.autocorrect && !privateField && !restrictedCorrection()) {
+                        if(token==session && connection===connection() && prefs.autocorrect && !privateField && !restrictedCorrection(inputHint(),false)) {
                             if(correction.finish(connection,result)) {
                                 if(statsAllowed()) stats.correction()
                                 resetLearning();refresh()
@@ -512,7 +518,7 @@ class LokeyService : InputMethodService(), KeyboardView.Listener {
             if(!deferred) observed?.let { learning.learn(scope,it) }
             learningCaret=caret+text.length
         } else resetLearning()
-        scheduleRefresh(correction.boundary(text))
+        scheduleRefresh(boundary)
     }
     override fun delete() {
         if(deadKeys.pending.isNotEmpty()) { clearDead();refresh();return }
@@ -673,10 +679,10 @@ class LokeyService : InputMethodService(), KeyboardView.Listener {
         refresh()
         return committed
     }
-    private fun restrictedCorrection(): Boolean {
+    private fun restrictedCorrection(hint:String?,spellingOnly:Boolean): Boolean {
         if(toolMode=="languages") return true
-        if(!inputLayout().latin || inputLayout().composer !in listOf("","dead")) return true
-        if(inputHint() in listOf("Maltese","Indonesian","Malay","Filipino","Tagalog")) return true
+        if(inputLayout().composer !in listOf("","dead")) return true
+        if(!spellingOnly && (!inputLayout().latin || hint in listOf("Maltese","Indonesian","Malay","Filipino","Tagalog"))) return true
         if(sourceEditor!=null) return false
         val info = currentInputEditorInfo ?: return true
         val type = info.inputType

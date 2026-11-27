@@ -51,6 +51,7 @@ class LocalPrediction(private val context:Context,private val languages:Language
     fun prepare(language:Languages.Language) { vocabulary(language) }
     fun spelling(before:String,language:Languages.Language,cached:Boolean=false):Languages.Spelling? {
         if(language.code=="pl") return languages.spelling(language,before)
+        if(language.code=="de") StandardSpelling.form(before,language.name)?.let { return it }
         if(AccentSpelling.supported(language.code)) {
             val prefix=Languages.prefix(before)
             if(prefix.length !in 2..24) return null

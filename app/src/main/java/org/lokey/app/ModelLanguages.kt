@@ -73,6 +73,6 @@ object ModelLanguages {
         return languages.firstOrNull { it.name==name } ?: languages.singleOrNull { it.layout==layout } ?: selected(context,prefs)
     }
     internal fun dictationHint(language:Language,accelerated:Boolean):String =
-        when(language.base) { "hi","es" -> language.name;"zh" -> if(accelerated) language.name else "";else -> "" }
+        when(language.base) { "hi","es" -> language.name;"ar","zh" -> if(accelerated) language.name else "";else -> "" }
     fun recommendedText(code:String)=if(code.substringBefore('-') in lfmCodes && code.substringBefore('-')!="zh") "lfm" else "qwen"
 }

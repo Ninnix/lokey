@@ -17,7 +17,7 @@ object AutomaticChecks {
         val npu=Acceleration.await()
         val languages=ModelLanguages.all(context)
         val cases=JSONArray()
-        val exceptions=setOf("bg","en","es","fr","hr","et","lv","lt","mt","pl","pt","sk","sl","uk")
+        val exceptions=setOf("bg","de","en","es","fr","hr","et","lv","lt","mt","pl","pt","ru","sk","sl","uk")
         check(languages.size==39)
         for(language in languages) {
             val cpu=Models.recommended(language,false);val accelerated=Models.recommended(language,true)
@@ -50,6 +50,13 @@ object AutomaticChecks {
             val spanish=ModelLanguages.dictationLanguage(context,prefs)
             check(spanish.base=="es" && ModelLanguages.dictationHint(spanish,true)=="Spanish")
             check(Models.selectedVoice(context,prefs,spanish).id=="parakeet")
+            prefs.layout="arabic"
+            val arabic=ModelLanguages.dictationLanguage(context,prefs)
+            check(arabic.base=="ar" && ModelLanguages.dictationHint(arabic,true)=="Arabic" && ModelLanguages.dictationHint(arabic,false).isEmpty())
+            prefs.setupLanguage="Indonesian";prefs.layout="intl"
+            val indonesian=ModelLanguages.dictationLanguage(context,prefs)
+            check(indonesian.base=="id" && ModelLanguages.dictationHint(indonesian,true).isEmpty())
+            prefs.setupLanguage="English"
             for((id,code) in listOf("azerty" to "fr","portuguese" to "pt")) {
                 prefs.layout=id
                 val active=ModelLanguages.dictationLanguage(context,prefs)
@@ -59,7 +66,7 @@ object AutomaticChecks {
             check(Models.selectedVoice(context,prefs,spanish).id=="qwen_asr")
             prefs.model="auto"
             prefs.layout="auto"
-            for(code in listOf("en","es","fr","pt","it","pl","zh","bg","uk","mt")) {
+            for(code in listOf("en","es","fr","pt","it","pl","zh","bg","uk","mt","ar","de","id","ru")) {
                 val selected=ModelLanguages.forLocale(context,Locale.forLanguageTag(code));prefs.setupLanguage=selected.name
                 val pair=Models.recommended(selected,npu)
                 for(id in listOfNotNull(pair.first,pair.second)) {
