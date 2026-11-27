@@ -48,8 +48,6 @@
     <string name="ui_add_key">"Żid iċ-ċavetta tat-tastiera"</string>
     <string name="ui_add_key_to_row_1_s">"Żid iċ-ċavetta tat-tastiera mar-ringiela %1$s"</string>
     <string name="ui_add_row">"Żid ringiela"</string>
-    <string name="ui_all_39_languages_have_an_input_method">"Id-39 lingwa kollha għandhom metodu ta\' input"</string>
-    <string name="ui_all_languages">"Il-lingwi kollha"</string>
     <string name="ui_allow_microphone">"Ħalli mikrofonu"</string>
     <string name="ui_alternative">"Alternattiva"</string>
     <string name="ui_android_ndk_distribution_notices">"Avviżi ta\' distribuzzjoni ta\' Android NDK"</string>
@@ -220,7 +218,6 @@
     <string name="ui_key">"Keyboard Key"</string>
     <string name="ui_key_action">"tastiera Azzjoni taċ-ċavetta"</string>
     <string name="ui_key_action_1_s">"tastiera Azzjoni ewlenija: %1$s"</string>
-    <string name="ui_key_gaps">"Tastiera Spazji taċ-ċavetta"</string>
     <string name="ui_key_width">"tastiera Wisa\' taċ-ċavetta"</string>
     <string name="ui_key_1_s">"Keyboard Key: %1$s"</string>
     <string name="ui_keyboard">"Tastiera"</string>
@@ -240,7 +237,6 @@
     <string name="ui_keys_1_s">"Keyboard Keys · %1$s"</string>
     <string name="ui_korean_hangul">"Hangul Korean"</string>
     <string name="ui_language_coverage">"Kopertura tal-lingwa"</string>
-    <string name="ui_language_filter_1_s">"Filtru tal-lingwa: %1$s"</string>
     <string name="ui_language_1_s">"Lingwa · %1$s"</string>
     <string name="ui_language_1_s_37f58ef">"Lingwa: %1$s"</string>
     <string name="ui_languages">"Lingwi"</string>

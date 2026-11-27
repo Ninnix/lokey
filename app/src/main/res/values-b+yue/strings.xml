@@ -48,8 +48,6 @@
     <string name="ui_add_key">"加入鍵盤鍵"</string>
     <string name="ui_add_key_to_row_1_s">"將鍵盤鍵加入 %1$s 行"</string>
     <string name="ui_add_row">"加行"</string>
-    <string name="ui_all_39_languages_have_an_input_method">"所有39種語言都有輸入方法"</string>
-    <string name="ui_all_languages">"所有語言"</string>
     <string name="ui_allow_microphone">"允許麥克風"</string>
     <string name="ui_alternative">"替代方案"</string>
     <string name="ui_android_ndk_distribution_notices">"Android NDK 發行通知"</string>
@@ -220,7 +218,6 @@
     <string name="ui_key">"鍵盤鍵"</string>
     <string name="ui_key_action">"鍵盤鍵動作"</string>
     <string name="ui_key_action_1_s">"鍵盤鍵動作： %1$s"</string>
-    <string name="ui_key_gaps">"鍵盤鍵間隙"</string>
     <string name="ui_key_width">"鍵盤鍵寬度"</string>
     <string name="ui_key_1_s">"鍵盤鍵： %1$s"</string>
     <string name="ui_keyboard">"鍵盤"</string>
@@ -240,7 +237,6 @@
     <string name="ui_keys_1_s">"鍵盤鍵 · %1$s"</string>
     <string name="ui_korean_hangul">"韓文"</string>
     <string name="ui_language_coverage">"語言覆蓋範圍"</string>
-    <string name="ui_language_filter_1_s">"語言過濾器： %1$s"</string>
     <string name="ui_language_1_s">"語言 · %1$s"</string>
     <string name="ui_language_1_s_37f58ef">"語言： %1$s"</string>
     <string name="ui_languages">"語言"</string>

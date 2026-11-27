@@ -48,8 +48,6 @@
     <string name="ui_add_key">"Προσθήκη πλήκτρου πληκτρολογίου"</string>
     <string name="ui_add_key_to_row_1_s">"Προσθήκη πλήκτρου πληκτρολογίου στη σειρά %1$s"</string>
     <string name="ui_add_row">"Προσθήκη σειράς"</string>
-    <string name="ui_all_39_languages_have_an_input_method">"Και οι 39 γλώσσες έχουν μέθοδο εισαγωγής"</string>
-    <string name="ui_all_languages">"Όλες οι γλώσσες"</string>
     <string name="ui_allow_microphone">"Να επιτρέπεται το μικρόφωνο"</string>
     <string name="ui_alternative">"Εναλλακτικό"</string>
     <string name="ui_android_ndk_distribution_notices">"Ειδοποιήσεις διανομής Android NDK"</string>
@@ -220,7 +218,6 @@
     <string name="ui_key">"Πλήκτρο πληκτρολογίου"</string>
     <string name="ui_key_action">"πληκτρολόγιο Ενέργεια πλήκτρων"</string>
     <string name="ui_key_action_1_s">"πληκτρολόγιο Ενέργεια πλήκτρων: %1$s"</string>
-    <string name="ui_key_gaps">"πληκτρολόγιο Κενά πλήκτρων"</string>
     <string name="ui_key_width">"πληκτρολόγιο Πλάτος πλήκτρων"</string>
     <string name="ui_key_1_s">"Πλήκτρο πληκτρολογίου: %1$s"</string>
     <string name="ui_keyboard">"Πληκτρολόγιο"</string>
@@ -240,7 +237,6 @@
     <string name="ui_keys_1_s">"Πλήκτρα πληκτρολογίου · %1$s"</string>
     <string name="ui_korean_hangul">"Κορεάτικο Χανγκούλ"</string>
     <string name="ui_language_coverage">"Γλωσσική κάλυψη"</string>
-    <string name="ui_language_filter_1_s">"Φίλτρο γλώσσας: %1$s"</string>
     <string name="ui_language_1_s">"Γλώσσα · %1$s"</string>
     <string name="ui_language_1_s_37f58ef">"Γλώσσα: %1$s"</string>
     <string name="ui_languages">"Γλώσσες"</string>

@@ -48,8 +48,6 @@
     <string name="ui_add_key">"Pievienojiet tastatūras taustiņu"</string>
     <string name="ui_add_key_to_row_1_s">"Pievienojiet tastatūras taustiņu rindai %1$s"</string>
     <string name="ui_add_row">"Pievienot rindu"</string>
-    <string name="ui_all_39_languages_have_an_input_method">"Visām 39 valodām ir ievades metode"</string>
-    <string name="ui_all_languages">"Visas valodas"</string>
     <string name="ui_allow_microphone">"Atļaut mikrofonu"</string>
     <string name="ui_alternative">"Alternatīva"</string>
     <string name="ui_android_ndk_distribution_notices">"Android NDK izplatīšanas paziņojumi"</string>
@@ -220,7 +218,6 @@
     <string name="ui_key">"tastatūras taustiņš"</string>
     <string name="ui_key_action">"tastatūra Taustiņu darbība"</string>
     <string name="ui_key_action_1_s">"tastatūra Taustiņu darbība: %1$s"</string>
-    <string name="ui_key_gaps">"tastatūra Taustiņu spraugas"</string>
     <string name="ui_key_width">"tastatūra Taustiņu platums"</string>
     <string name="ui_key_1_s">"tastatūras taustiņš: %1$s"</string>
     <string name="ui_keyboard">"Tastatūra"</string>
@@ -240,7 +237,6 @@
     <string name="ui_keys_1_s">"tastatūras taustiņi · %1$s"</string>
     <string name="ui_korean_hangul">"Korejas hanguls"</string>
     <string name="ui_language_coverage">"Valodas pārklājums"</string>
-    <string name="ui_language_filter_1_s">"Valodas filtrs: %1$s"</string>
     <string name="ui_language_1_s">"Valoda · %1$s"</string>
     <string name="ui_language_1_s_37f58ef">"Valoda: %1$s"</string>
     <string name="ui_languages">"Valodas"</string>

@@ -48,8 +48,6 @@
     <string name="ui_add_key">"Dodaj tipko tipkovnice"</string>
     <string name="ui_add_key_to_row_1_s">"Dodaj tipko na tipkovnici v vrstico %1$s"</string>
     <string name="ui_add_row">"Dodaj vrstico"</string>
-    <string name="ui_all_39_languages_have_an_input_method">"Vseh 39 jezikov ima način vnosa"</string>
-    <string name="ui_all_languages">"Vsi jeziki"</string>
     <string name="ui_allow_microphone">"Dovoli mikrofon"</string>
     <string name="ui_alternative">"Alternativa"</string>
     <string name="ui_android_ndk_distribution_notices">"Obvestila o distribuciji Android NDK"</string>
@@ -220,7 +218,6 @@
     <string name="ui_key">"Tipka tipkovnice"</string>
     <string name="ui_key_action">"tipkovnica Dejanje tipke"</string>
     <string name="ui_key_action_1_s">"tipkovnica Dejanje tipke: %1$s"</string>
-    <string name="ui_key_gaps">"Tipkovnica Vrzeli med tipkami"</string>
     <string name="ui_key_width">"tipkovnica Širina tipk"</string>
     <string name="ui_key_1_s">"Tipka tipkovnice: %1$s"</string>
     <string name="ui_keyboard">"Tipkovnica"</string>
@@ -240,7 +237,6 @@
     <string name="ui_keys_1_s">"Tipke na tipkovnici · %1$s"</string>
     <string name="ui_korean_hangul">"Korejski hangul"</string>
     <string name="ui_language_coverage">"Jezikovna pokritost"</string>
-    <string name="ui_language_filter_1_s">"Jezikovni filter: %1$s"</string>
     <string name="ui_language_1_s">"Jezik · %1$s"</string>
     <string name="ui_language_1_s_37f58ef">"Jezik: %1$s"</string>
     <string name="ui_languages">"Jeziki"</string>

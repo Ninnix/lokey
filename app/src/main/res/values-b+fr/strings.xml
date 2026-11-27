@@ -48,8 +48,6 @@
     <string name="ui_add_key">"Ajouter une touche du clavier"</string>
     <string name="ui_add_key_to_row_1_s">"Ajouter une touche du clavier à la ligne %1$s"</string>
     <string name="ui_add_row">"Ajouter une ligne"</string>
-    <string name="ui_all_39_languages_have_an_input_method">"Les 39 langues ont toutes une méthode de saisie"</string>
-    <string name="ui_all_languages">"Toutes les langues"</string>
     <string name="ui_allow_microphone">"Autoriser le microphone"</string>
     <string name="ui_alternative">"Alternative"</string>
     <string name="ui_android_ndk_distribution_notices">"Avis de distribution du NDK Android"</string>
@@ -220,7 +218,6 @@
     <string name="ui_key">"Touche du clavier"</string>
     <string name="ui_key_action">"Action des touches du clavier"</string>
     <string name="ui_key_action_1_s">"Clavier Action des touches : %1$s"</string>
-    <string name="ui_key_gaps">"Lacunes des touches du clavier"</string>
     <string name="ui_key_width">"Clavier Largeur des touches"</string>
     <string name="ui_key_1_s">"Touche du clavier : %1$s"</string>
     <string name="ui_keyboard">"Clavier"</string>
@@ -240,7 +237,6 @@
     <string name="ui_keys_1_s">"Touches du clavier · %1$s"</string>
     <string name="ui_korean_hangul">"Hangul coréen"</string>
     <string name="ui_language_coverage">"Couverture linguistique"</string>
-    <string name="ui_language_filter_1_s">"Filtre de langue : %1$s"</string>
     <string name="ui_language_1_s">"Langue · %1$s"</string>
     <string name="ui_language_1_s_37f58ef">"Langue : %1$s"</string>
     <string name="ui_languages">"Langues"</string>

@@ -48,8 +48,6 @@
     <string name="ui_add_key">"Billentyűzet billentyű hozzáadása"</string>
     <string name="ui_add_key_to_row_1_s">"Adja hozzá a billentyűzet billentyűjét a %1$s sorhoz"</string>
     <string name="ui_add_row">"Sor hozzáadása"</string>
-    <string name="ui_all_39_languages_have_an_input_method">"Mind a 39 nyelv rendelkezik beviteli módszerrel"</string>
-    <string name="ui_all_languages">"Minden nyelv"</string>
     <string name="ui_allow_microphone">"Mikrofon engedélyezése"</string>
     <string name="ui_alternative">"Alternatív"</string>
     <string name="ui_android_ndk_distribution_notices">"Android NDK terjesztési megjegyzések"</string>
@@ -220,7 +218,6 @@
     <string name="ui_key">"billentyűzet gomb"</string>
     <string name="ui_key_action">"billentyűzet Billentyűművelet"</string>
     <string name="ui_key_action_1_s">"billentyűzet Billentyűművelet: %1$s"</string>
-    <string name="ui_key_gaps">"billentyűzet Billentyűrések"</string>
     <string name="ui_key_width">"billentyűzet Billentyűszélesség"</string>
     <string name="ui_key_1_s">"billentyűzet gomb: %1$s"</string>
     <string name="ui_keyboard">"Billentyűzet"</string>
@@ -240,7 +237,6 @@
     <string name="ui_keys_1_s">"billentyűzet billentyűk · %1$s"</string>
     <string name="ui_korean_hangul">"Koreai hangul"</string>
     <string name="ui_language_coverage">"Nyelvi lefedettség"</string>
-    <string name="ui_language_filter_1_s">"Nyelvi szűrő: %1$s"</string>
     <string name="ui_language_1_s">"Nyelv · %1$s"</string>
     <string name="ui_language_1_s_37f58ef">"Nyelv: %1$s"</string>
     <string name="ui_languages">"Nyelvek"</string>

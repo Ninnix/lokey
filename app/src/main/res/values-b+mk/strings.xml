@@ -48,8 +48,6 @@
     <string name="ui_add_key">"Додадете копче на тастатурата"</string>
     <string name="ui_add_key_to_row_1_s">"Додајте копче на тастатурата во редот %1$s"</string>
     <string name="ui_add_row">"Додадете ред"</string>
-    <string name="ui_all_39_languages_have_an_input_method">"Сите 39 јазици имаат метод на внесување"</string>
-    <string name="ui_all_languages">"Сите јазици"</string>
     <string name="ui_allow_microphone">"Дозволи микрофон"</string>
     <string name="ui_alternative">"Алтернатива"</string>
     <string name="ui_android_ndk_distribution_notices">"Известувања за дистрибуција на Android NDK"</string>
@@ -220,7 +218,6 @@
     <string name="ui_key">"копче на тастатура"</string>
     <string name="ui_key_action">"тастатура Дејство на копче"</string>
     <string name="ui_key_action_1_s">"тастатура Дејство на копче: %1$s"</string>
-    <string name="ui_key_gaps">"тастатура Празнини на копчињата"</string>
     <string name="ui_key_width">"тастатура Ширина на копче"</string>
     <string name="ui_key_1_s">"тастатура копче: %1$s"</string>
     <string name="ui_keyboard">"Тастатура"</string>
@@ -240,7 +237,6 @@
     <string name="ui_keys_1_s">"копчиња на тастатура · %1$s"</string>
     <string name="ui_korean_hangul">"Корејски Хангул"</string>
     <string name="ui_language_coverage">"Јазична покриеност"</string>
-    <string name="ui_language_filter_1_s">"Јазичен филтер: %1$s"</string>
     <string name="ui_language_1_s">"Јазик · %1$s"</string>
     <string name="ui_language_1_s_37f58ef">"Јазик: %1$s"</string>
     <string name="ui_languages">"Јазици"</string>

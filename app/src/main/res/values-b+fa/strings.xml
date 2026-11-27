@@ -48,8 +48,6 @@
     <string name="ui_add_key">"افزودن کلید صفحه کلید"</string>
     <string name="ui_add_key_to_row_1_s">"کلید صفحه کلید را به ردیف %1$s اضافه کنید"</string>
     <string name="ui_add_row">"افزودن ردیف"</string>
-    <string name="ui_all_39_languages_have_an_input_method">"همه 39 زبان دارای یک روش ورودی هستند"</string>
-    <string name="ui_all_languages">"همه زبانها"</string>
     <string name="ui_allow_microphone">"میکروفون مجاز است"</string>
     <string name="ui_alternative">"جایگزین"</string>
     <string name="ui_android_ndk_distribution_notices">"اعلامیه های توزیع Android NDK"</string>
@@ -220,7 +218,6 @@
     <string name="ui_key">"کلید صفحه کلید"</string>
     <string name="ui_key_action">"صفحه کلید عملکرد کلید"</string>
     <string name="ui_key_action_1_s">"صفحه کلید عملکرد کلید: %1$s"</string>
-    <string name="ui_key_gaps">"صفحه کلید شکاف کلید"</string>
     <string name="ui_key_width">"صفحه کلید عرض کلید"</string>
     <string name="ui_key_1_s">"کلید صفحه کلید: %1$s"</string>
     <string name="ui_keyboard">"صفحه کلید"</string>
@@ -240,7 +237,6 @@
     <string name="ui_keys_1_s">"کلیدهای صفحه کلید · %1$s"</string>
     <string name="ui_korean_hangul">"هانگول کره ای"</string>
     <string name="ui_language_coverage">"پوشش زبان"</string>
-    <string name="ui_language_filter_1_s">"فیلتر زبان: %1$s"</string>
     <string name="ui_language_1_s">"زبان · %1$s"</string>
     <string name="ui_language_1_s_37f58ef">"زبان: %1$s"</string>
     <string name="ui_languages">"زبان ها"</string>

@@ -48,8 +48,6 @@
     <string name="ui_add_key">"Pridať kláves na klávesnici"</string>
     <string name="ui_add_key_to_row_1_s">"Pridajte kláves klávesnice do riadku %1$s"</string>
     <string name="ui_add_row">"Pridať riadok"</string>
-    <string name="ui_all_39_languages_have_an_input_method">"Všetkých 39 jazykov má metódu vstupu"</string>
-    <string name="ui_all_languages">"Všetky jazyky"</string>
     <string name="ui_allow_microphone">"Povoliť mikrofón"</string>
     <string name="ui_alternative">"Alternatívne"</string>
     <string name="ui_android_ndk_distribution_notices">"Oznámenia o distribúcii Android NDK"</string>
@@ -220,7 +218,6 @@
     <string name="ui_key">"Kláves klávesnice"</string>
     <string name="ui_key_action">"Klávesnica Akcia kláves"</string>
     <string name="ui_key_action_1_s">"Klávesnica Akcia kláves: %1$s"</string>
-    <string name="ui_key_gaps">"Klávesnica Medzery medzi klávesmi"</string>
     <string name="ui_key_width">"Klávesnica Šírka kláves"</string>
     <string name="ui_key_1_s">"Kláves klávesnice: %1$s"</string>
     <string name="ui_keyboard">"Klávesnica"</string>
@@ -240,7 +237,6 @@
     <string name="ui_keys_1_s">"Klávesy klávesnice · %1$s"</string>
     <string name="ui_korean_hangul">"kórejský hangul"</string>
     <string name="ui_language_coverage">"Jazykové pokrytie"</string>
-    <string name="ui_language_filter_1_s">"Jazykový filter: %1$s"</string>
     <string name="ui_language_1_s">"Jazyk · %1$s"</string>
     <string name="ui_language_1_s_37f58ef">"Jazyk: %1$s"</string>
     <string name="ui_languages">"Jazyky"</string>

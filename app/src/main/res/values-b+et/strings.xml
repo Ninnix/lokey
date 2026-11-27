@@ -48,8 +48,6 @@
     <string name="ui_add_key">"Lisa klaviatuuriklahv"</string>
     <string name="ui_add_key_to_row_1_s">"Lisage klaviatuuriklahv reale %1$s"</string>
     <string name="ui_add_row">"Lisa rida"</string>
-    <string name="ui_all_39_languages_have_an_input_method">"Kõigil 39 keelel on sisestusmeetod"</string>
-    <string name="ui_all_languages">"Kõik keeled"</string>
     <string name="ui_allow_microphone">"Luba mikrofon"</string>
     <string name="ui_alternative">"Alternatiivne"</string>
     <string name="ui_android_ndk_distribution_notices">"Android NDK levitamise teated"</string>
@@ -220,7 +218,6 @@
     <string name="ui_key">"klaviatuuriklahv"</string>
     <string name="ui_key_action">"klaviatuur Klahvi toiming"</string>
     <string name="ui_key_action_1_s">"klaviatuur Klahvitoiming: %1$s"</string>
-    <string name="ui_key_gaps">"klaviatuur Klahvivahed"</string>
     <string name="ui_key_width">"klaviatuur Klahvi laius"</string>
     <string name="ui_key_1_s">"klaviatuuriklahv: %1$s"</string>
     <string name="ui_keyboard">"Klaviatuur"</string>
@@ -240,7 +237,6 @@
     <string name="ui_keys_1_s">"klaviatuuriklahvid · %1$s"</string>
     <string name="ui_korean_hangul">"Korea hangul"</string>
     <string name="ui_language_coverage">"Keele katvus"</string>
-    <string name="ui_language_filter_1_s">"Keelefilter: %1$s"</string>
     <string name="ui_language_1_s">"Keel · %1$s"</string>
     <string name="ui_language_1_s_37f58ef">"Keel: %1$s"</string>
     <string name="ui_languages">"Keeled"</string>

@@ -48,8 +48,6 @@
     <string name="ui_add_key">"Toetsenbordtoets toevoegen"</string>
     <string name="ui_add_key_to_row_1_s">"Toetsenbordtoets toevoegen aan rij %1$s"</string>
     <string name="ui_add_row">"Rij toevoegen"</string>
-    <string name="ui_all_39_languages_have_an_input_method">"Alle 39 talen hebben een invoermethode"</string>
-    <string name="ui_all_languages">"Alle talen"</string>
     <string name="ui_allow_microphone">"Microfoon toestaan"</string>
     <string name="ui_alternative">"Alternatief"</string>
     <string name="ui_android_ndk_distribution_notices">"Android NDK-distributiekennisgevingen"</string>
@@ -220,7 +218,6 @@
     <string name="ui_key">"toetsenbordtoets"</string>
     <string name="ui_key_action">"toetsenbord Toetsactie"</string>
     <string name="ui_key_action_1_s">"toetsenbord Toetsactie: %1$s"</string>
-    <string name="ui_key_gaps">"toetsenbord Toetsopeningen"</string>
     <string name="ui_key_width">"toetsenbord Toetsbreedte"</string>
     <string name="ui_key_1_s">"toetsenbordtoets: %1$s"</string>
     <string name="ui_keyboard">"Toetsenbord"</string>
@@ -240,7 +237,6 @@
     <string name="ui_keys_1_s">"toetsenbordtoetsen · %1$s"</string>
     <string name="ui_korean_hangul">"Koreaanse Hangul"</string>
     <string name="ui_language_coverage">"Taaldekking"</string>
-    <string name="ui_language_filter_1_s">"Taalfilter: %1$s"</string>
     <string name="ui_language_1_s">"Taal · %1$s"</string>
     <string name="ui_language_1_s_37f58ef">"Taal: %1$s"</string>
     <string name="ui_languages">"Talen"</string>

@@ -48,8 +48,6 @@
     <string name="ui_add_key">"Klavye tuşu ekle"</string>
     <string name="ui_add_key_to_row_1_s">"%1$s satırına klavye tuşunu ekleyin"</string>
     <string name="ui_add_row">"Satır ekle"</string>
-    <string name="ui_all_39_languages_have_an_input_method">"39 dilin hepsinin bir giriş yöntemi vardır"</string>
-    <string name="ui_all_languages">"Tüm diller"</string>
     <string name="ui_allow_microphone">"Mikrofona izin ver"</string>
     <string name="ui_alternative">"Alternatif"</string>
     <string name="ui_android_ndk_distribution_notices">"Android NDK dağıtım bildirimleri"</string>
@@ -220,7 +218,6 @@
     <string name="ui_key">"klavye Tuşu"</string>
     <string name="ui_key_action">"klavye Tuş eylemi"</string>
     <string name="ui_key_action_1_s">"klavye Tuş eylemi: %1$s"</string>
-    <string name="ui_key_gaps">"klavye Tuş boşlukları"</string>
     <string name="ui_key_width">"klavye Tuş genişliği"</string>
     <string name="ui_key_1_s">"klavye Tuşu: %1$s"</string>
     <string name="ui_keyboard">"Klavye"</string>
@@ -240,7 +237,6 @@
     <string name="ui_keys_1_s">"klavye Tuşları · %1$s"</string>
     <string name="ui_korean_hangul">"Kore Hangul\'u"</string>
     <string name="ui_language_coverage">"Dil kapsamı"</string>
-    <string name="ui_language_filter_1_s">"Dil filtresi: %1$s"</string>
     <string name="ui_language_1_s">"Dil · %1$s"</string>
     <string name="ui_language_1_s_37f58ef">"Dil: %1$s"</string>
     <string name="ui_languages">"Diller"</string>

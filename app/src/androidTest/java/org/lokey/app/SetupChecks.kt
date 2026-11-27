@@ -6,9 +6,11 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.os.Build
 import android.os.SystemClock
 import android.view.View
 import android.view.ViewGroup
+import android.view.inspector.WindowInspector
 import android.widget.EditText
 import android.widget.ListView
 import android.widget.TextView
@@ -149,9 +151,19 @@ object SetupChecks {
                 check("Jyutping / Cangjie / Sucheng" in labels(cantonese).joinToString(" "))
                 check("Available" in labels(cantonese).joinToString(" "))
                 search.setText("")
-                find(root,"Language filter: Key gaps")!!.performClick()
+                check(rows.adapter.count==all.size)
+                check(find(root,"All languages",byText=true)==null && find(root,"Key gaps",byText=true)==null)
             }
             capture(test,context,activity!!,"supported-languages")
+            if(Build.VERSION.SDK_INT>=29) test.runOnMainSync {
+                val root=activity!!.window.decorView
+                check(find(root,"Coverage sources",byText=true)!!.performClick())
+                val sheet=WindowInspector.getGlobalWindowViews().single { find(it,"Close Language coverage")!=null }
+                for(label in listOf("LFM 2.5","Qwen 3.5","Parakeet v3","Qwen3 ASR")) {
+                    check(find(sheet,label,byText=true)?.isClickable==true)
+                }
+                check(find(sheet,"Close Language coverage")!!.performClick())
+            }
             return JSONObject().put("text_catalog",39).put("voice_languages",39).put("coverage_matches_model_cards",true).put("flags_on_setup_and_models",true).put("recommendations",true).put("first_run_and_completion",true).put("existing_preferences_preserved",true).put("two_models_only",true).put("dark_and_light",true).put("searchable_languages",true).put("dead_key_cases",11)
         } finally {
             activity?.let { a -> test.runOnMainSync { a.finish() } }

@@ -48,8 +48,6 @@
     <string name="ui_add_key">"Tilføj tastaturtast"</string>
     <string name="ui_add_key_to_row_1_s">"Tilføj tastaturtast til række %1$s"</string>
     <string name="ui_add_row">"Tilføj række"</string>
-    <string name="ui_all_39_languages_have_an_input_method">"Alle 39 sprog har en indtastningsmetode"</string>
-    <string name="ui_all_languages">"Alle sprog"</string>
     <string name="ui_allow_microphone">"Tillad mikrofon"</string>
     <string name="ui_alternative">"Alternativ"</string>
     <string name="ui_android_ndk_distribution_notices">"Android NDK distributionsmeddelelser"</string>
@@ -220,7 +218,6 @@
     <string name="ui_key">"tastatur Tast"</string>
     <string name="ui_key_action">"tastatur Tastehandling"</string>
     <string name="ui_key_action_1_s">"tastatur Tastehandling: %1$s"</string>
-    <string name="ui_key_gaps">"tastatur Tastehuller"</string>
     <string name="ui_key_width">"tastatur Tastebredde"</string>
     <string name="ui_key_1_s">"tastatur Tast: %1$s"</string>
     <string name="ui_keyboard">"Tastatur"</string>
@@ -240,7 +237,6 @@
     <string name="ui_keys_1_s">"tastatur Taster · %1$s"</string>
     <string name="ui_korean_hangul">"Koreansk Hangul"</string>
     <string name="ui_language_coverage">"Sprogdækning"</string>
-    <string name="ui_language_filter_1_s">"Sprogfilter: %1$s"</string>
     <string name="ui_language_1_s">"Sprog · %1$s"</string>
     <string name="ui_language_1_s_37f58ef">"Sprog: %1$s"</string>
     <string name="ui_languages">"Sprog"</string>

@@ -48,8 +48,6 @@
     <string name="ui_add_key">"キーボードキーの追加"</string>
     <string name="ui_add_key_to_row_1_s">"キーボードキーを%1$s行に追加します"</string>
     <string name="ui_add_row">"行の追加"</string>
-    <string name="ui_all_39_languages_have_an_input_method">"39 言語すべてに入力メソッドがあります"</string>
-    <string name="ui_all_languages">"すべての言語"</string>
     <string name="ui_allow_microphone">"マイクを許可する"</string>
     <string name="ui_alternative">"代替案"</string>
     <string name="ui_android_ndk_distribution_notices">"Android NDK配布のお知らせ"</string>
@@ -220,7 +218,6 @@
     <string name="ui_key">"キーボードのキー"</string>
     <string name="ui_key_action">"キーボード キーアクション"</string>
     <string name="ui_key_action_1_s">"キーボード キーアクション：%1$s"</string>
-    <string name="ui_key_gaps">"キーボードのキーギャップ"</string>
     <string name="ui_key_width">"キーボードのキー幅"</string>
     <string name="ui_key_1_s">"キーボードキー：%1$s"</string>
     <string name="ui_keyboard">"キーボード"</string>
@@ -240,7 +237,6 @@
     <string name="ui_keys_1_s">"キーボードのキー・%1$s"</string>
     <string name="ui_korean_hangul">"韓国のハングル"</string>
     <string name="ui_language_coverage">"言語範囲"</string>
-    <string name="ui_language_filter_1_s">"言語フィルタ: %1$s"</string>
     <string name="ui_language_1_s">"言語・%1$s"</string>
     <string name="ui_language_1_s_37f58ef">"言語: %1$s"</string>
     <string name="ui_languages">"言語"</string>

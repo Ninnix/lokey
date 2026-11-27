@@ -48,8 +48,6 @@
     <string name="ui_add_key">"Dodaj klawisz klawiatury"</string>
     <string name="ui_add_key_to_row_1_s">"Dodaj klawisz klawiatury do wiersza %1$s"</string>
     <string name="ui_add_row">"Dodaj wiersz"</string>
-    <string name="ui_all_39_languages_have_an_input_method">"Wszystkie 39 języków ma metodę wprowadzania"</string>
-    <string name="ui_all_languages">"Wszystkie języki"</string>
     <string name="ui_allow_microphone">"Zezwól na mikrofon"</string>
     <string name="ui_alternative">"Alternatywa"</string>
     <string name="ui_android_ndk_distribution_notices">"Powiadomienia dotyczące dystrybucji Androida NDK"</string>
@@ -220,7 +218,6 @@
     <string name="ui_key">"Klawisz klawiatury"</string>
     <string name="ui_key_action">"klawiatura Działanie klawisza"</string>
     <string name="ui_key_action_1_s">"klawiatura Działanie klawisza: %1$s"</string>
-    <string name="ui_key_gaps">"Klawiatura Luki w klawiszach"</string>
     <string name="ui_key_width">"Szerokość klawisza klawiatury"</string>
     <string name="ui_key_1_s">"Klawisz klawiatury: %1$s"</string>
     <string name="ui_keyboard">"Klawiatura"</string>
@@ -240,7 +237,6 @@
     <string name="ui_keys_1_s">"Klawisze klawiatury · %1$s"</string>
     <string name="ui_korean_hangul">"Koreański Hangul"</string>
     <string name="ui_language_coverage">"Pokrycie językowe"</string>
-    <string name="ui_language_filter_1_s">"Filtr językowy: %1$s"</string>
     <string name="ui_language_1_s">"Język · %1$s"</string>
     <string name="ui_language_1_s_37f58ef">"Język: %1$s"</string>
     <string name="ui_languages">"Języki"</string>

@@ -48,8 +48,6 @@
     <string name="ui_add_key">"Magdagdag ng keyboard key"</string>
     <string name="ui_add_key_to_row_1_s">"Magdagdag ng keyboard key sa row %1$s"</string>
     <string name="ui_add_row">"Magdagdag ng hilera"</string>
-    <string name="ui_all_39_languages_have_an_input_method">"Lahat ng 39 na wika ay may paraan ng pag-input"</string>
-    <string name="ui_all_languages">"Lahat ng wika"</string>
     <string name="ui_allow_microphone">"Payagan ang mikropono"</string>
     <string name="ui_alternative">"Alternatibo"</string>
     <string name="ui_android_ndk_distribution_notices">"Mga abiso sa pamamahagi ng Android NDK"</string>
@@ -220,7 +218,6 @@
     <string name="ui_key">"keyboard Key"</string>
     <string name="ui_key_action">"keyboard Key aksyon"</string>
     <string name="ui_key_action_1_s">"keyboard Key action: %1$s"</string>
-    <string name="ui_key_gaps">"keyboard Key gaps"</string>
     <string name="ui_key_width">"keyboard Lapad ng key"</string>
     <string name="ui_key_1_s">"Key ng keyboard: %1$s"</string>
     <string name="ui_keyboard">"Keyboard"</string>
@@ -240,7 +237,6 @@
     <string name="ui_keys_1_s">"keyboard Keys · %1$s"</string>
     <string name="ui_korean_hangul">"Korean Hangul"</string>
     <string name="ui_language_coverage">"Saklaw ng wika"</string>
-    <string name="ui_language_filter_1_s">"Filter ng wika: %1$s"</string>
     <string name="ui_language_1_s">"Wika · %1$s"</string>
     <string name="ui_language_1_s_37f58ef">"Wika: %1$s"</string>
     <string name="ui_languages">"Mga Wika"</string>

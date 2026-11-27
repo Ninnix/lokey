@@ -48,8 +48,6 @@
     <string name="ui_add_key">"Adăugați tasta de la tastatură"</string>
     <string name="ui_add_key_to_row_1_s">"Adăugați tasta de la tastatură la rândul %1$s"</string>
     <string name="ui_add_row">"Adăugați rând"</string>
-    <string name="ui_all_39_languages_have_an_input_method">"Toate cele 39 de limbi au o metodă de introducere"</string>
-    <string name="ui_all_languages">"Toate limbile"</string>
     <string name="ui_allow_microphone">"Permite microfon"</string>
     <string name="ui_alternative">"Alternativă"</string>
     <string name="ui_android_ndk_distribution_notices">"Notificări de distribuție Android NDK"</string>
@@ -220,7 +218,6 @@
     <string name="ui_key">"Tasta de la tastatură"</string>
     <string name="ui_key_action">"tastatură Acțiunea tastei"</string>
     <string name="ui_key_action_1_s">"Tastatură Acțiunea tastei: %1$s"</string>
-    <string name="ui_key_gaps">"tastatură Lacunele tastelor"</string>
     <string name="ui_key_width">"tastatură Lățimea tastei"</string>
     <string name="ui_key_1_s">"Tasta tastatură: %1$s"</string>
     <string name="ui_keyboard">"Tastatura"</string>
@@ -240,7 +237,6 @@
     <string name="ui_keys_1_s">"Taste de la tastatură · %1$s"</string>
     <string name="ui_korean_hangul">"Hangul coreean"</string>
     <string name="ui_language_coverage">"Acoperire lingvistică"</string>
-    <string name="ui_language_filter_1_s">"Filtru de limbă: %1$s"</string>
     <string name="ui_language_1_s">"Limba · %1$s"</string>
     <string name="ui_language_1_s_37f58ef">"Limba: %1$s"</string>
     <string name="ui_languages">"Limbi"</string>

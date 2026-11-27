@@ -48,8 +48,6 @@
     <string name="ui_add_key">"Lägg till tangentbordstangent"</string>
     <string name="ui_add_key_to_row_1_s">"Lägg till tangentbordstangent till raden %1$s"</string>
     <string name="ui_add_row">"Lägg till rad"</string>
-    <string name="ui_all_39_languages_have_an_input_method">"Alla 39 språken har en inmatningsmetod"</string>
-    <string name="ui_all_languages">"Alla språk"</string>
     <string name="ui_allow_microphone">"Tillåt mikrofon"</string>
     <string name="ui_alternative">"Alternativ"</string>
     <string name="ui_android_ndk_distribution_notices">"Android NDK distributionsmeddelanden"</string>
@@ -220,7 +218,6 @@
     <string name="ui_key">"tangentbordstangent"</string>
     <string name="ui_key_action">"tangentbord Tangentåtgärd"</string>
     <string name="ui_key_action_1_s">"tangentbord Tangentåtgärd: %1$s"</string>
-    <string name="ui_key_gaps">"tangentbord Tangentluckor"</string>
     <string name="ui_key_width">"tangentbord Tangentbredd"</string>
     <string name="ui_key_1_s">"tangentbord Tangent: %1$s"</string>
     <string name="ui_keyboard">"Tangentbord"</string>
@@ -240,7 +237,6 @@
     <string name="ui_keys_1_s">"tangentbordstangenter · %1$s"</string>
     <string name="ui_korean_hangul">"Koreansk Hangul"</string>
     <string name="ui_language_coverage">"Språktäckning"</string>
-    <string name="ui_language_filter_1_s">"Språkfilter: %1$s"</string>
     <string name="ui_language_1_s">"Språk · %1$s"</string>
     <string name="ui_language_1_s_37f58ef">"Språk: %1$s"</string>
     <string name="ui_languages">"Språk"</string>

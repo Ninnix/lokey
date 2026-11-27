@@ -48,8 +48,6 @@
     <string name="ui_add_key">"إضافة مفتاح لوحة المفاتيح"</string>
     <string name="ui_add_key_to_row_1_s">"أضف مفتاح لوحة المفاتيح إلى الصف %1$s"</string>
     <string name="ui_add_row">"إضافة صف"</string>
-    <string name="ui_all_39_languages_have_an_input_method">"جميع اللغات الـ 39 لديها طريقة إدخال"</string>
-    <string name="ui_all_languages">"جميع اللغات"</string>
     <string name="ui_allow_microphone">"السماح بالميكروفون"</string>
     <string name="ui_alternative">"البديل"</string>
     <string name="ui_android_ndk_distribution_notices">"إشعارات توزيع Android NDK"</string>
@@ -220,7 +218,6 @@
     <string name="ui_key">"مفتاح لوحة المفاتيح"</string>
     <string name="ui_key_action">"إجراء مفتاح لوحة المفاتيح"</string>
     <string name="ui_key_action_1_s">"الإجراء الرئيسي للوحة المفاتيح: %1$s"</string>
-    <string name="ui_key_gaps">"الثغرات الرئيسية في لوحة المفاتيح"</string>
     <string name="ui_key_width">"عرض مفتاح لوحة المفاتيح"</string>
     <string name="ui_key_1_s">"مفتاح لوحة المفاتيح: %1$s"</string>
     <string name="ui_keyboard">"لوحة المفاتيح"</string>
@@ -240,7 +237,6 @@
     <string name="ui_keys_1_s">"مفاتيح لوحة المفاتيح · %1$s"</string>
     <string name="ui_korean_hangul">"الهانغول الكورية"</string>
     <string name="ui_language_coverage">"التغطية اللغوية"</string>
-    <string name="ui_language_filter_1_s">"مرشح اللغة: %1$s"</string>
     <string name="ui_language_1_s">"اللغة · %1$s"</string>
     <string name="ui_language_1_s_37f58ef">"اللغة: %1$s"</string>
     <string name="ui_languages">"اللغات"</string>

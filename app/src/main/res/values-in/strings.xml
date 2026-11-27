@@ -48,8 +48,6 @@
     <string name="ui_add_key">"Tambahkan tombol keyboard"</string>
     <string name="ui_add_key_to_row_1_s">"Tambahkan tombol keyboard ke baris %1$s"</string>
     <string name="ui_add_row">"Tambahkan baris"</string>
-    <string name="ui_all_39_languages_have_an_input_method">"Semua 39 bahasa memiliki metode input"</string>
-    <string name="ui_all_languages">"Semua bahasa"</string>
     <string name="ui_allow_microphone">"Izinkan mikrofon"</string>
     <string name="ui_alternative">"Alternatif"</string>
     <string name="ui_android_ndk_distribution_notices">"Pemberitahuan distribusi Android NDK"</string>
@@ -220,7 +218,6 @@
     <string name="ui_key">"Tombol keyboard"</string>
     <string name="ui_key_action">"tindakan tombol keyboard"</string>
     <string name="ui_key_action_1_s">"tindakan tombol keyboard: %1$s"</string>
-    <string name="ui_key_gaps">"celah tombol keyboard"</string>
     <string name="ui_key_width">"lebar tombol keyboard"</string>
     <string name="ui_key_1_s">"Tombol keyboard: %1$s"</string>
     <string name="ui_keyboard">"Papan ketik"</string>
@@ -240,7 +237,6 @@
     <string name="ui_keys_1_s">"Tombol keyboard · %1$s"</string>
     <string name="ui_korean_hangul">"Hangul Korea"</string>
     <string name="ui_language_coverage">"Cakupan bahasa"</string>
-    <string name="ui_language_filter_1_s">"Filter bahasa: %1$s"</string>
     <string name="ui_language_1_s">"Bahasa · %1$s"</string>
     <string name="ui_language_1_s_37f58ef">"Bahasa: %1$s"</string>
     <string name="ui_languages">"Bahasa"</string>

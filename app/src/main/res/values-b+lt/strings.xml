@@ -48,8 +48,6 @@
     <string name="ui_add_key">"Pridėti klaviatūros klavišą"</string>
     <string name="ui_add_key_to_row_1_s">"Pridėkite klaviatūros klavišą prie %1$s eilutės"</string>
     <string name="ui_add_row">"Pridėti eilutę"</string>
-    <string name="ui_all_39_languages_have_an_input_method">"Visos 39 kalbos turi įvesties metodą"</string>
-    <string name="ui_all_languages">"Visos kalbos"</string>
     <string name="ui_allow_microphone">"Leisti mikrofoną"</string>
     <string name="ui_alternative">"Alternatyva"</string>
     <string name="ui_android_ndk_distribution_notices">"Android NDK platinimo pranešimai"</string>
@@ -220,7 +218,6 @@
     <string name="ui_key">"Klaviatūros klavišas"</string>
     <string name="ui_key_action">"klaviatūra Klavišų veiksmas"</string>
     <string name="ui_key_action_1_s">"klaviatūra Klavišų veiksmas: %1$s"</string>
-    <string name="ui_key_gaps">"klaviatūra Klavišų tarpai"</string>
     <string name="ui_key_width">"klaviatūra Klavišų plotis"</string>
     <string name="ui_key_1_s">"Klaviatūros klavišas: %1$s"</string>
     <string name="ui_keyboard">"Klaviatūra"</string>
@@ -240,7 +237,6 @@
     <string name="ui_keys_1_s">"klaviatūros klavišai · %1$s"</string>
     <string name="ui_korean_hangul">"Korėjos hangulas"</string>
     <string name="ui_language_coverage">"Kalbos aprėptis"</string>
-    <string name="ui_language_filter_1_s">"Kalbos filtras: %1$s"</string>
     <string name="ui_language_1_s">"Kalba · %1$s"</string>
     <string name="ui_language_1_s_37f58ef">"Kalba: %1$s"</string>
     <string name="ui_languages">"Kalbos"</string>

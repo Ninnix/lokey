@@ -48,8 +48,6 @@
     <string name="ui_add_key">"เพิ่มแป้นคีย์บอร์ด"</string>
     <string name="ui_add_key_to_row_1_s">"เพิ่มแป้นคีย์บอร์ดไปที่แถว %1$s"</string>
     <string name="ui_add_row">"เพิ่มแถว"</string>
-    <string name="ui_all_39_languages_have_an_input_method">"ทั้ง 39 ภาษามีวิธีป้อนข้อมูล"</string>
-    <string name="ui_all_languages">"ทุกภาษา"</string>
     <string name="ui_allow_microphone">"อนุญาตไมโครโฟน"</string>
     <string name="ui_alternative">"ทางเลือก"</string>
     <string name="ui_android_ndk_distribution_notices">"ประกาศการเผยแพร่ Android NDK"</string>
@@ -220,7 +218,6 @@
     <string name="ui_key">"แป้นคีย์บอร์ด"</string>
     <string name="ui_key_action">"การทำงานของแป้นคีย์บอร์ด"</string>
     <string name="ui_key_action_1_s">"การทำงานของแป้นคีย์บอร์ด: %1$s"</string>
-    <string name="ui_key_gaps">"ช่องว่างระหว่างแป้นคีย์บอร์ด"</string>
     <string name="ui_key_width">"ความกว้างของแป้นคีย์บอร์ด"</string>
     <string name="ui_key_1_s">"แป้นคีย์บอร์ด: %1$s"</string>
     <string name="ui_keyboard">"แป้นพิมพ์"</string>
@@ -240,7 +237,6 @@
     <string name="ui_keys_1_s">"แป้นคีย์บอร์ด · %1$s"</string>
     <string name="ui_korean_hangul">"อังกูลเกาหลี"</string>
     <string name="ui_language_coverage">"ครอบคลุมภาษา"</string>
-    <string name="ui_language_filter_1_s">"ตัวกรองภาษา: %1$s"</string>
     <string name="ui_language_1_s">"ภาษา · %1$s"</string>
     <string name="ui_language_1_s_37f58ef">"ภาษา: %1$s"</string>
     <string name="ui_languages">"ภาษา"</string>

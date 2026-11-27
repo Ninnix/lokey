@@ -48,8 +48,6 @@
     <string name="ui_add_key">"Lisää näppäimistönäppäin"</string>
     <string name="ui_add_key_to_row_1_s">"Lisää näppäimistön näppäin riville %1$s"</string>
     <string name="ui_add_row">"Lisää rivi"</string>
-    <string name="ui_all_39_languages_have_an_input_method">"Kaikilla 39 kielellä on syöttömenetelmä"</string>
-    <string name="ui_all_languages">"Kaikki kielet"</string>
     <string name="ui_allow_microphone">"Salli mikrofoni"</string>
     <string name="ui_alternative">"Vaihtoehtoinen"</string>
     <string name="ui_android_ndk_distribution_notices">"Android NDK -jakeluilmoitukset"</string>
@@ -220,7 +218,6 @@
     <string name="ui_key">"näppäimistön näppäin"</string>
     <string name="ui_key_action">"näppäimistö Näppäintoiminto"</string>
     <string name="ui_key_action_1_s">"näppäimistö Näppäintoiminto: %1$s"</string>
-    <string name="ui_key_gaps">"näppäimistö Näppäinvälit"</string>
     <string name="ui_key_width">"näppäimistö Näppäimen leveys"</string>
     <string name="ui_key_1_s">"Näppäimistön näppäin: %1$s"</string>
     <string name="ui_keyboard">"Näppäimistö"</string>
@@ -240,7 +237,6 @@
     <string name="ui_keys_1_s">"näppäimistön näppäimet · %1$s"</string>
     <string name="ui_korean_hangul">"Korean hangul"</string>
     <string name="ui_language_coverage">"Kielen kattavuus"</string>
-    <string name="ui_language_filter_1_s">"Kielisuodatin: %1$s"</string>
     <string name="ui_language_1_s">"Kieli · %1$s"</string>
     <string name="ui_language_1_s_37f58ef">"Kieli: %1$s"</string>
     <string name="ui_languages">"Kielet"</string>

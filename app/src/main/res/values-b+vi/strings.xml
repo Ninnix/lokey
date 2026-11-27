@@ -48,8 +48,6 @@
     <string name="ui_add_key">"Thêm phím bàn phím"</string>
     <string name="ui_add_key_to_row_1_s">"Thêm phím bàn phím vào hàng %1$s"</string>
     <string name="ui_add_row">"Thêm hàng"</string>
-    <string name="ui_all_39_languages_have_an_input_method">"Tất cả 39 ngôn ngữ đều có một phương thức nhập liệu"</string>
-    <string name="ui_all_languages">"Tất cả ngôn ngữ"</string>
     <string name="ui_allow_microphone">"Cho phép micrô"</string>
     <string name="ui_alternative">"Thay thế"</string>
     <string name="ui_android_ndk_distribution_notices">"Thông báo phân phối NDK của Android"</string>
@@ -220,7 +218,6 @@
     <string name="ui_key">"Phím bàn phím"</string>
     <string name="ui_key_action">"bàn phím Thao tác phím"</string>
     <string name="ui_key_action_1_s">"bàn phím Hành động phím: %1$s"</string>
-    <string name="ui_key_gaps">"Khoảng cách phím trên bàn phím"</string>
     <string name="ui_key_width">"bàn phím Độ rộng phím"</string>
     <string name="ui_key_1_s">"Phím bàn phím: %1$s"</string>
     <string name="ui_keyboard">"Bàn phím"</string>
@@ -240,7 +237,6 @@
     <string name="ui_keys_1_s">"Phím bàn phím · %1$s"</string>
     <string name="ui_korean_hangul">"Hangul Hàn Quốc"</string>
     <string name="ui_language_coverage">"Phạm vi ngôn ngữ"</string>
-    <string name="ui_language_filter_1_s">"Bộ lọc ngôn ngữ: %1$s"</string>
     <string name="ui_language_1_s">"Ngôn ngữ · %1$s"</string>
     <string name="ui_language_1_s_37f58ef">"Ngôn ngữ: %1$s"</string>
     <string name="ui_languages">"Ngôn ngữ"</string>

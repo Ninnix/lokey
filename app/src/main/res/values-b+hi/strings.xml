@@ -48,8 +48,6 @@
     <string name="ui_add_key">"कीबोर्ड कुंजी जोड़ें"</string>
     <string name="ui_add_key_to_row_1_s">"पंक्ति %1$s में कीबोर्ड कुंजी जोड़ें"</string>
     <string name="ui_add_row">"पंक्ति जोड़ें"</string>
-    <string name="ui_all_39_languages_have_an_input_method">"सभी 39 भाषाओं में एक इनपुट पद्धति है"</string>
-    <string name="ui_all_languages">"सभी भाषाएँ"</string>
     <string name="ui_allow_microphone">"माइक्रोफ़ोन की अनुमति दें"</string>
     <string name="ui_alternative">"वैकल्पिक"</string>
     <string name="ui_android_ndk_distribution_notices">"एंड्रॉइड एनडीके वितरण नोटिस"</string>
@@ -220,7 +218,6 @@
     <string name="ui_key">"कीबोर्ड कुंजी"</string>
     <string name="ui_key_action">"कीबोर्ड कुंजी क्रिया"</string>
     <string name="ui_key_action_1_s">"कीबोर्ड मुख्य क्रिया: %1$s"</string>
-    <string name="ui_key_gaps">"कीबोर्ड कुंजी अंतराल"</string>
     <string name="ui_key_width">"कीबोर्ड कुंजी चौड़ाई"</string>
     <string name="ui_key_1_s">"कीबोर्ड कुंजी: %1$s"</string>
     <string name="ui_keyboard">"कीबोर्ड"</string>
@@ -240,7 +237,6 @@
     <string name="ui_keys_1_s">"कीबोर्ड कुंजियाँ · %1$s"</string>
     <string name="ui_korean_hangul">"कोरियाई हंगुल"</string>
     <string name="ui_language_coverage">"भाषा कवरेज"</string>
-    <string name="ui_language_filter_1_s">"भाषा फ़िल्टर: %1$s"</string>
     <string name="ui_language_1_s">"भाषा · %1$s"</string>
     <string name="ui_language_1_s_37f58ef">"भाषा: %1$s"</string>
     <string name="ui_languages">"भाषाएँ"</string>
