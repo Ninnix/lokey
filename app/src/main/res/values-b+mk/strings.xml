@@ -548,4 +548,7 @@
     <string name="ui_spacebar_dictation_help">"Задржете за диктирање. Пуштете за транскрипција."</string>
     <string name="ui_spacebar_prediction_hint">"Допрете за предлог"</string>
     <string name="ui_spacebar_dictation_hint">"Задржете за диктирање"</string>
+    <string name="ui_language_switch_key">"Прикажи копче за промена на јазик"</string>
+    <string name="ui_switch_language">"Промени јазик"</string>
+    <string name="ui_language_switch_help">"Допрете го глобусот за да се префрлате меѓу зачуваните распореди. Држете го за да го отворите изборот на распоред."</string>
 </resources>

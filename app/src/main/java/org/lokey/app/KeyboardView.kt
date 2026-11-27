@@ -18,9 +18,10 @@ import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.roundToInt
 
-class KeyboardView(context: Context, private val prefs: Prefs, private val listener: Listener) : View(context) {
+class KeyboardView(context: Context, private val prefs: Prefs, private val listener: Listener, private val allowLayoutSwitch:Boolean=false) : View(context) {
     private companion object {
         val tools=listOf("clipboard" to "Clipboard","translate" to "Translate","layout" to "Layout")
+        const val layoutSwitchCode="layout_switch"
     }
     interface Listener {
         fun text(text: String)
@@ -33,6 +34,7 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
         fun cancelVoice()
         fun glide(points: List<Glide.Point>, centers: Map<Char, Glide.Point>, caseMode: Int) { }
         fun nextKeyboard()
+        fun switchLayout() { }
         fun candidate(word: String)
         fun spacePrediction(word:String):Boolean = false
         fun feedback(key: String = "a", down: Boolean = true)
@@ -59,6 +61,7 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
     private val shiftIcon = context.getDrawable(R.drawable.ic_shift)!!.mutate()
     private val capsIcon = context.getDrawable(R.drawable.ic_caps_lock)!!.mutate()
     private val deleteIcon = context.getDrawable(R.drawable.ic_backspace)!!.mutate()
+    private val globeIcon by lazy { FeelIcon(FeelIcon.Kind.Globe,dp(22f).toInt(),Color.BLACK) }
     private val keys = ArrayList<Key>()
     private var keysDirty=false
     private var adaptiveDirty=false
@@ -422,9 +425,22 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
             place(bottom,228*u,60*u,margin+numberInset,width-margin-numberInset)
             return
         }
+        val showLanguageKey=allowLayoutSwitch && !forceLatin && prefs.languageSwitchKey
+        fun withLanguageKey(items:List<Key>):List<Key> {
+            val space=items.indexOfFirst { it.code=="space" }
+            val weight=if(space<0) 1.1f else min(1.1f,items[space].weight*.4f)
+            val key=Key("","",weight,layoutSwitchCode)
+            if(space<0) return items+key
+            return items.toMutableList().apply {
+                this[space]=this[space].copy(weight=this[space].weight-weight)
+                add(space,key)
+            }
+        }
         if(!symbols && layout.keyRows.isNotEmpty()) {
+            val languageRow=if(showLanguageKey) layout.keyRows.indexOfLast { row -> row.any { it.action=="space" } }
+                .takeIf { it>=0 } ?: layout.keyRows.lastIndex else -1
             layout.keyRows.forEachIndexed { index,values ->
-                row(values.map { value ->
+                val items=values.map { value ->
                     val action=value.action
                     val label=when(action) {
                         "shift" -> if(caps) "⇪" else "⇧"
@@ -435,8 +451,11 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
                         else -> KeyboardLayouts.display(customOutput(value))
                     }
                     val hint=when(action) { "shift" -> "caps";"delete" -> "hold";"symbols" -> "tools";"space" -> context.tr("Hold for cursor");"enter" -> context.tr("hold · voice");else -> value.secondary.firstOrNull().orEmpty() }
-                    Key(label,hint,value.width,action.ifEmpty { if(value.primary in CustomLayouts.actions) "literal:${value.primary}" else value.primary },custom=value)
-                },(48+index*48)*u,h=(if(index==layout.keyRows.lastIndex) 53 else 48)*u)
+                    Key(label,hint,value.width,action.ifEmpty {
+                        if(value.primary in CustomLayouts.actions || value.primary==layoutSwitchCode) "literal:${value.primary}" else value.primary
+                    },custom=value)
+                }
+                row(if(index==languageRow) withLanguageKey(items) else items,(48+index*48)*u,h=(if(index==layout.keyRows.lastIndex) 53 else 48)*u)
             }
             return
         }
@@ -478,7 +497,7 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
             Key("space", context.tr("Hold for cursor"), (if(layout.id=="persian") 4f else 4.9f)-idleAmount*.3f,"space"),
             Key(punctuation("."),listOf("!",",","?").joinToString(" ") { punctuation(it) },0.9f,"."), Key(enterLabel, context.tr("hold · voice"), 1.5f + idleAmount * 0.3f, "enter"))
         if(layout.id=="persian") bottom.add(3,Key("½","",.9f,"\u200c",native=true))
-        row(bottom,(units()-53)*u,h=53*u)
+        row(if(showLanguageKey) withLanguageKey(bottom) else bottom,(units()-53)*u,h=53*u)
         adaptKeys()
     }
     private fun adaptKeys() {
@@ -607,7 +626,7 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
         }
         for (key in keys) {
             val pressed = touches.values.any { it.key === key }
-            val special = key.code == "shift" || key.code == "delete" || key.code == "symbols" || key.code == "page"
+            val special = key.code == "shift" || key.code == "delete" || key.code == "symbols" || key.code == "page" || key.code==layoutSwitchCode
             val colorCode=key.custom?.id ?: key.code
             val custom=if(theme=="custom" || theme=="image") if(saved==null) prefs.keyColor(colorCode) else saved.settings.opt("key_color.$colorCode") as? Int else null
             val rowColor=if(theme=="custom" || theme=="image") if(saved==null) prefs.rowColor(key.row) else saved.settings.opt("row_color.${key.row}") as? Int else null
@@ -641,6 +660,8 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
                 label(canvas, caption, key.rect.centerX(), key.rect.bottom - dp(5f), fitSize(caption,9f,key.rect.width()-dp(8f)), color)
             } else if (key.code == "delete") {
                 drawIcon(canvas, deleteIcon, key.rect.centerX(), key.rect.centerY(), 28f, color)
+            } else if (key.code==layoutSwitchCode) {
+                drawIcon(canvas,globeIcon,key.rect.centerX(),key.rect.centerY(),min(22f,key.rect.width()/dp(1f)),color)
             } else if (key.code == "enter") {
                 if (listening) {
                     paint.color = color
@@ -838,6 +859,7 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
             "delete" -> { listener.delete(); repeatDelete(id) }
             "shift" -> { caps=true;shift=true }
             "symbols" -> openTools(touch.key)
+            layoutSwitchCode -> listener.tool("layout")
             else -> touch.choice = if(period(touch.key)) 2 else 0
         }
         invalidate()
@@ -978,7 +1000,7 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
                 activity()
                 listener.feedback(key.code)
                 if (key.code == "delete") listener.delete()
-                val hasHold = if(key.custom?.action=="") key.custom.secondary.isNotEmpty() else key.code in listOf("space", "enter", "delete", "shift", "symbols") ||
+                val hasHold = if(key.custom?.action=="") key.custom.secondary.isNotEmpty() else key.code in listOf("space", "enter", "delete", "shift", "symbols", layoutSwitchCode) ||
                     period(key) || key.custom?.secondary?.isNotEmpty()==true || ((key.native || key.code.length==1) && key.alternate.isNotBlank())
                 if (hasHold && !touch.stopping) {
                     val task = Runnable { hold(id) }; callbacks[id] = task
@@ -1040,6 +1062,7 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
                 if(word==null || !listener.spacePrediction(word)) listener.text(" ")
             }
             "delete" -> listener.delete()
+            layoutSwitchCode -> { listener.switchLayout();sendAccessibilityEvent(AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED) }
             else -> emit(if(key.native) layout.output(key.code,shift || caps) else key.label)
         }
     }
@@ -1156,6 +1179,7 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
                         SpacebarAction.Dictation -> context.tr("Space")+", "+context.tr(spaceAction.caption)
                     }
                     "delete" -> context.tr("Backspace, hold to keep deleting")
+                    layoutSwitchCode -> context.tr("Switch language")
                     "\u200c" -> context.tr("Half space")
                     "enter" -> if (listening) context.tr("Stop recording") else if (voiceState.isNotEmpty()) context.tr("Transcribing") else context.tr("%1\$s, hold to record, slide up to lock",key.label)
                     else -> secondaryLabel(key).let { if(it.isBlank()) key.label else context.tr("%1\$s, hold for %2\$s",key.label,it) }
@@ -1165,7 +1189,10 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
                 val location = IntArray(2); getLocationOnScreen(location); r.offset(location[0], location[1]); setBoundsInScreen(r)
                 addAction(AccessibilityNodeInfo.AccessibilityAction.ACTION_CLICK)
                 addAction(AccessibilityNodeInfo.AccessibilityAction.ACTION_ACCESSIBILITY_FOCUS)
-                addAction(AccessibilityNodeInfo.AccessibilityAction.ACTION_LONG_CLICK)
+                if(key.code==layoutSwitchCode) {
+                    isLongClickable=true
+                    addAction(AccessibilityNodeInfo.AccessibilityAction(AccessibilityNodeInfo.ACTION_LONG_CLICK,context.tr("Keyboard layout")))
+                } else addAction(AccessibilityNodeInfo.AccessibilityAction.ACTION_LONG_CLICK)
             }
         }
         override fun performAction(id: Int, action: Int, args: Bundle?): Boolean {
@@ -1188,6 +1215,7 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
             }
             if (action == AccessibilityNodeInfo.ACTION_LONG_CLICK) {
                 val key=keys.getOrNull(id)
+                if(key?.code==layoutSwitchCode) { listener.tool("layout");return true }
                 if(key?.code=="space" && key.custom?.secondary.isNullOrEmpty()) {
                     when(spaceAction) {
                         SpacebarAction.Cursor -> Unit

@@ -548,4 +548,7 @@
     <string name="ui_spacebar_dictation_help">"Tieni premuto per dettare. Rilascia per trascrivere."</string>
     <string name="ui_spacebar_prediction_hint">"Tocca per il suggerimento"</string>
     <string name="ui_spacebar_dictation_hint">"Tieni premuto per dettare"</string>
+    <string name="ui_language_switch_key">"Mostra il tasto di cambio lingua"</string>
+    <string name="ui_switch_language">"Cambia lingua"</string>
+    <string name="ui_language_switch_help">"Tocca il globo per passare da un layout salvato all’altro. Tienilo premuto per aprire il selettore dei layout."</string>
 </resources>

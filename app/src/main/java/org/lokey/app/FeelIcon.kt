@@ -27,6 +27,7 @@ internal class FeelIcon(private val kind:Kind,private val size:Int,color:Int):Dr
     override fun getOpacity()=PixelFormat.TRANSLUCENT
     override fun setAlpha(alpha:Int) { paint.alpha=alpha;invalidateSelf() }
     override fun setColorFilter(colorFilter:ColorFilter?) { paint.colorFilter=colorFilter;invalidateSelf() }
+    override fun setTint(tintColor:Int) { paint.color=tintColor;invalidateSelf() }
 
     override fun draw(canvas:Canvas) {
         val saved=canvas.save()

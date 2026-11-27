@@ -548,4 +548,7 @@
     <string name="ui_spacebar_dictation_help">"Podržte na diktovanie. Uvoľnite na prepis."</string>
     <string name="ui_spacebar_prediction_hint">"Klepnite na prijatie návrhu"</string>
     <string name="ui_spacebar_dictation_hint">"Podržte na diktovanie"</string>
+    <string name="ui_language_switch_key">"Zobraziť kláves na prepínanie jazyka"</string>
+    <string name="ui_switch_language">"Prepnúť jazyk"</string>
+    <string name="ui_language_switch_help">"Ťuknutím na glóbus prepínate medzi uloženými rozloženiami. Podržaním otvoríte výber rozloženia."</string>
 </resources>

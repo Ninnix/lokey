@@ -548,4 +548,7 @@
     <string name="ui_spacebar_dictation_help">"撳住講嘢。放手轉做文字。"</string>
     <string name="ui_spacebar_prediction_hint">"輕觸接受建議"</string>
     <string name="ui_spacebar_dictation_hint">"撳住講嘢"</string>
+    <string name="ui_language_switch_key">"顯示語言切換鍵"</string>
+    <string name="ui_switch_language">"切換語言"</string>
+    <string name="ui_language_switch_help">"撳地球圖示就可以輪流切換已儲存嘅鍵盤配置。撳住就可以開啟配置選擇器。"</string>
 </resources>

@@ -548,4 +548,7 @@
     <string name="ui_spacebar_dictation_help">"Tekan dan tahan untuk mengimlak. Lepaskan untuk menyalin kepada teks."</string>
     <string name="ui_spacebar_prediction_hint">"Ketik untuk menerima cadangan"</string>
     <string name="ui_spacebar_dictation_hint">"Tekan dan tahan untuk mengimlak"</string>
+    <string name="ui_language_switch_key">"Tunjukkan kekunci tukar bahasa"</string>
+    <string name="ui_switch_language">"Tukar bahasa"</string>
+    <string name="ui_language_switch_help">"Ketik ikon glob untuk bertukar antara reka letak yang disimpan. Tekan lama untuk membuka pemilih reka letak."</string>
 </resources>

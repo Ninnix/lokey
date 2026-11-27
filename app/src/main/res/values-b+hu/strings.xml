@@ -548,4 +548,7 @@
     <string name="ui_spacebar_dictation_help">"Tartsd lenyomva a diktáláshoz. Engedd fel az átíráshoz."</string>
     <string name="ui_spacebar_prediction_hint">"Koppints a javaslatért"</string>
     <string name="ui_spacebar_dictation_hint">"Tartsd lenyomva a diktáláshoz"</string>
+    <string name="ui_language_switch_key">"Nyelvváltó billentyű megjelenítése"</string>
+    <string name="ui_switch_language">"Nyelvváltás"</string>
+    <string name="ui_language_switch_help">"A földgömb megérintésével válthat a mentett kiosztások között. A kiosztásválasztó megnyitásához tartsa lenyomva."</string>
 </resources>

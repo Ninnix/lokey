@@ -1,6 +1,7 @@
 package org.lokey.app
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.graphics.Canvas
 import android.graphics.Color
 import android.text.TextUtils
@@ -9,6 +10,7 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.PopupWindow
 import android.widget.ScrollView
+import android.widget.Switch
 
 internal class LayoutTool(context:Context,private val prefs:Prefs,private val close:()->Unit):LinearLayout(context) {
     private companion object {
@@ -21,6 +23,18 @@ internal class LayoutTool(context:Context,private val prefs:Prefs,private val cl
     }
     private val style=ToolStyle(context,prefs)
     private val header=LinearLayout(context).apply { gravity=Gravity.CENTER_VERTICAL }
+    private val languageKey=Switch(context).apply {
+        val colors=style.colors
+        text=context.tr("Show language switch key");textSize=14f;setTextColor(colors.ink)
+        minHeight=style.dp(48);switchPadding=style.dp(10)
+        setPaddingRelative(style.dp(10),style.dp(4),style.dp(10),style.dp(4))
+        setFeelIcon(FeelIcon.Kind.Globe,colors.ink)
+        val states=arrayOf(intArrayOf(android.R.attr.state_checked),intArrayOf())
+        thumbTintList=ColorStateList(states,intArrayOf(colors.accent,colors.muted))
+        trackTintList=ColorStateList(states,intArrayOf(KeyboardTheme.blend(colors.background,colors.accent,.4f),colors.special))
+        isChecked=prefs.languageSwitchKey;isSoundEffectsEnabled=false
+        setOnCheckedChangeListener { _,enabled -> prefs.languageSwitchKey=enabled }
+    }
     private val grid=LinearLayout(context).apply { orientation=VERTICAL }
     private val scroll=ScrollView(context).apply { addView(grid) }
     private var adding=false
@@ -30,6 +44,7 @@ internal class LayoutTool(context:Context,private val prefs:Prefs,private val cl
         setPadding(style.dp(6),style.dp(4),style.dp(6),style.dp(8))
         setBackgroundColor(style.colors.background)
         addView(header)
+        addView(languageKey,LayoutParams(-1,-2))
         addView(scroll,LayoutParams(-1,0,1f))
         render()
     }
@@ -41,8 +56,10 @@ internal class LayoutTool(context:Context,private val prefs:Prefs,private val cl
     private fun render(y:Int=0) {
         val choices=prefs.layoutChoices()
         val shortcuts=prefs.quickLayouts.filter { it in choices }
-        val current=prefs.layoutSelection
-        val available=choices.keys.filter { it!=current && it !in shortcuts }
+        val groups=shortcuts.groupBy { choices.getValue(it).id }
+        val current=prefs.currentLayout.id
+        val available=choices.keys.filter { it!="auto" && it!=current && it !in groups }
+        languageKey.visibility=if(adding) GONE else VISIBLE
         header.removeAllViews()
         header.addView(ToolButton(context,"back",context.tr(if(adding) "Back" else "Back to keyboard"),style.colors.ink,::back),LayoutParams(style.dp(44),style.dp(44)))
         header.addView(style.text(context.tr(if(adding) "Add layout" else "Keyboard layout"),18f),LayoutParams(0,-2,1f))
@@ -50,11 +67,11 @@ internal class LayoutTool(context:Context,private val prefs:Prefs,private val cl
         grid.removeAllViews()
         val width=resources.configuration.screenWidthDp
         val columns=when { width>=600 -> 4;width>=500 -> 3;else -> 2 }
-        val visible=if(adding) available else shortcuts-current
+        val visible=if(adding) available else groups.keys-current
         for(ids in visible.chunked(columns)) {
             val row=LinearLayout(context)
             ids.forEachIndexed { index,id ->
-                val tile=tile(id,choices.getValue(id),shortcuts)
+                val tile=tile(choices.getValue(id),groups[id].orEmpty(),shortcuts)
                 row.addView(tile,LayoutParams(0,-1,1f).apply { if(index<columns-1) marginEnd=style.dp(6) })
             }
             for(index in ids.size until columns) row.addView(View(context),LayoutParams(0,-1,1f).apply { if(index<columns-1) marginEnd=style.dp(6) })
@@ -63,22 +80,21 @@ internal class LayoutTool(context:Context,private val prefs:Prefs,private val cl
         scroll.post { scroll.scrollTo(0,y) }
     }
 
-    private fun tile(id:String,layout:KeyboardLayouts.Layout,shortcuts:List<String>):View {
-        val name=context.layoutName(layout)
-        val title=if(id=="auto") "${context.tr("Automatic")} · $name" else name
+    private fun tile(layout:KeyboardLayouts.Layout,ids:List<String>,shortcuts:List<String>):View {
+        val title=context.layoutName(layout)
         val tile=LinearLayout(context).apply {
             orientation=VERTICAL;background=style.shape(style.colors.special);contentDescription=title
             isClickable=true;isFocusable=true;isSoundEffectsEnabled=false
             setOnClickListener {
-                if(adding) { prefs.quickLayouts=shortcuts+id;adding=false;render() }
-                else { prefs.selectLayout(id,rememberPrevious=true);close() }
+                if(adding) { prefs.quickLayouts=shortcuts+layout.id;adding=false;render() }
+                else { prefs.selectLayout(ids.first(),rememberPrevious=true);close() }
             }
         }
         if(!adding) tile.setOnLongClickListener { anchor ->
-            removeMenu(anchor) { prefs.quickLayouts=shortcuts-id;render(scroll.scrollY) }
+            removeMenu(anchor) { prefs.quickLayouts=shortcuts-ids.toSet();render(scroll.scrollY) }
             true
         }
-        tile.addView(style.text(flags(id,layout),24f).apply {
+        tile.addView(style.text(flags(layout),24f).apply {
             minimumHeight=style.dp(44);gravity=Gravity.CENTER_VERTICAL
             setPaddingRelative(style.dp(10),0,0,0);importantForAccessibility=IMPORTANT_FOR_ACCESSIBILITY_NO
         })
@@ -109,9 +125,8 @@ internal class LayoutTool(context:Context,private val prefs:Prefs,private val cl
         popup.showAsDropDown(anchor,0,style.dp(4),Gravity.START)
     }
 
-    private fun flags(id:String,layout:KeyboardLayouts.Layout):String {
-        val country=if(id=="auto") KeyboardLayouts.deviceLocale().country else ""
-        val codes=country.takeIf { it.length==2 && it.all { letter -> letter in 'A'..'Z' } } ?: regions[layout.behaviorId] ?: "🌐"
+    private fun flags(layout:KeyboardLayouts.Layout):String {
+        val codes=regions[layout.behaviorId] ?: "🌐"
         return codes.split(' ').joinToString("  ") { code ->
             if(code=="🌐") code else buildString { for(letter in code) appendCodePoint(0x1f1e6+(letter-'A')) }
         }

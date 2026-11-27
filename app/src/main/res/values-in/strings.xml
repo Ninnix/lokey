@@ -548,4 +548,7 @@
     <string name="ui_spacebar_dictation_help">"Tahan untuk mendikte. Lepaskan untuk mengubahnya menjadi teks."</string>
     <string name="ui_spacebar_prediction_hint">"Ketuk untuk menerima saran"</string>
     <string name="ui_spacebar_dictation_hint">"Tahan untuk mendikte"</string>
+    <string name="ui_language_switch_key">"Tampilkan tombol ganti bahasa"</string>
+    <string name="ui_switch_language">"Ganti bahasa"</string>
+    <string name="ui_language_switch_help">"Ketuk ikon globe untuk beralih di antara tata letak yang disimpan. Tekan lama untuk membuka pemilih tata letak."</string>
 </resources>

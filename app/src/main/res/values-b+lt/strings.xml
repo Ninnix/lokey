@@ -548,4 +548,7 @@
     <string name="ui_spacebar_dictation_help">"Palaikykite, kad diktuotumėte. Atleiskite, kad būtų perrašyta."</string>
     <string name="ui_spacebar_prediction_hint">"Bakstelėkite pasiūlymui priimti"</string>
     <string name="ui_spacebar_dictation_hint">"Palaikykite diktavimui"</string>
+    <string name="ui_language_switch_key">"Rodyti kalbos perjungimo klavišą"</string>
+    <string name="ui_switch_language">"Perjungti kalbą"</string>
+    <string name="ui_language_switch_help">"Palieskite gaublį, kad perjungtumėte išsaugotus išdėstymus. Palaikykite nuspaudę, kad atidarytumėte išdėstymų parinkiklį."</string>
 </resources>

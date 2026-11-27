@@ -548,4 +548,7 @@
     <string name="ui_spacebar_dictation_help">"Segure para ditar. Solte para transcrever."</string>
     <string name="ui_spacebar_prediction_hint">"Toque para aceitar a sugestão"</string>
     <string name="ui_spacebar_dictation_hint">"Segure para ditar"</string>
+    <string name="ui_language_switch_key">"Mostrar tecla de troca de idioma"</string>
+    <string name="ui_switch_language">"Trocar idioma"</string>
+    <string name="ui_language_switch_help">"Toque no globo para alternar entre os layouts salvos. Mantenha pressionado para abrir o seletor de layouts."</string>
 </resources>

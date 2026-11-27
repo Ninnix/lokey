@@ -95,6 +95,10 @@ class MainActivity : Activity() {
         scroll.addView(content); body.addView(scroll, LinearLayout.LayoutParams(-1, 0, 1f))
         when (destination) { "home" -> home(); "feel" -> feel(); "models" -> models(); "statistics" -> statistics(); "lab" -> lab(); "theme" -> { heading(tr("Make it yours."),tr("Customize your keyboard’s theme, colors, and keycaps."));content.addView(ThemeEditor(this,prefs)) }; "layout" -> {
                 heading(tr("Make it familiar."),tr("Follow your device language, or choose the keys you know."))
+                card().apply {
+                    addView(setting(tr("Show language switch key"),prefs.languageSwitchKey,FeelIcon.Kind.Globe) { prefs.languageSwitchKey=it })
+                    addView(text(tr("Tap the globe to cycle through layout shortcuts. Hold it to open the layout picker."),13f,muted))
+                }
                 content.addView(LayoutPicker(this,prefs))
             } }
         val tabs = LinearLayout(this).apply { setPadding(dp(12), dp(8), dp(12), dp(16)); background = shape(bg, 0) }

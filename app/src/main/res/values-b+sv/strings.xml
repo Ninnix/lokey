@@ -548,4 +548,7 @@
     <string name="ui_spacebar_dictation_help">"Håll ned för att diktera. Släpp för att transkribera."</string>
     <string name="ui_spacebar_prediction_hint">"Tryck för att välja förslag"</string>
     <string name="ui_spacebar_dictation_hint">"Håll ned för att diktera"</string>
+    <string name="ui_language_switch_key">"Visa tangent för språkbyte"</string>
+    <string name="ui_switch_language">"Byt språk"</string>
+    <string name="ui_language_switch_help">"Tryck på jordgloben för att växla mellan sparade layouter. Håll den nedtryckt för att öppna layoutväljaren."</string>
 </resources>

@@ -548,4 +548,7 @@
     <string name="ui_spacebar_dictation_help">"Nhấn giữ để nói. Thả để chuyển thành văn bản."</string>
     <string name="ui_spacebar_prediction_hint">"Chạm để chấp nhận gợi ý"</string>
     <string name="ui_spacebar_dictation_hint">"Nhấn giữ để nói"</string>
+    <string name="ui_language_switch_key">"Hiện phím đổi ngôn ngữ"</string>
+    <string name="ui_switch_language">"Đổi ngôn ngữ"</string>
+    <string name="ui_language_switch_help">"Nhấn biểu tượng quả địa cầu để chuyển giữa các bố cục đã lưu. Nhấn giữ để mở bộ chọn bố cục."</string>
 </resources>

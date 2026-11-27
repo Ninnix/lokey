@@ -548,4 +548,7 @@
     <string name="ui_spacebar_dictation_help">"اضغط مطولًا للإملاء. ارفع إصبعك لتحويل الكلام إلى نص."</string>
     <string name="ui_spacebar_prediction_hint">"انقر لقبول الاقتراح"</string>
     <string name="ui_spacebar_dictation_hint">"اضغط مطولًا للإملاء"</string>
+    <string name="ui_language_switch_key">"إظهار مفتاح تبديل اللغة"</string>
+    <string name="ui_switch_language">"تبديل اللغة"</string>
+    <string name="ui_language_switch_help">"اضغط على رمز الكرة الأرضية للتنقل بين اختصارات التخطيطات. اضغط مطولًا لفتح منتقي التخطيطات."</string>
 </resources>

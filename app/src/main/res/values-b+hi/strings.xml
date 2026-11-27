@@ -548,4 +548,7 @@
     <string name="ui_spacebar_dictation_help">"बोलकर लिखने के लिए दबाकर रखें। टेक्स्ट में बदलने के लिए छोड़ें।"</string>
     <string name="ui_spacebar_prediction_hint">"सुझाव के लिए टैप करें"</string>
     <string name="ui_spacebar_dictation_hint">"बोलकर लिखने के लिए दबाकर रखें"</string>
+    <string name="ui_language_switch_key">"भाषा बदलने की कुंजी दिखाएँ"</string>
+    <string name="ui_switch_language">"भाषा बदलें"</string>
+    <string name="ui_language_switch_help">"सहेजे गए लेआउट के बीच बदलने के लिए ग्लोब पर टैप करें। लेआउट चुनने के लिए उसे दबाकर रखें।"</string>
 </resources>

@@ -548,4 +548,7 @@
     <string name="ui_spacebar_dictation_help">"Задръжте за диктовка. Отпуснете за транскрипция."</string>
     <string name="ui_spacebar_prediction_hint">"Докоснете за предложение"</string>
     <string name="ui_spacebar_dictation_hint">"Задръжте за диктовка"</string>
+    <string name="ui_language_switch_key">"Показване на клавиш за смяна на езика"</string>
+    <string name="ui_switch_language">"Смяна на езика"</string>
+    <string name="ui_language_switch_help">"Докоснете глобуса, за да превключвате между запазените подредби. Задръжте го, за да отворите списъка с подредби."</string>
 </resources>

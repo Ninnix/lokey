@@ -548,4 +548,7 @@
     <string name="ui_spacebar_dictation_help">"Przytrzymaj, aby dyktować. Puść, aby zapisać tekst."</string>
     <string name="ui_spacebar_prediction_hint">"Dotknij, aby przyjąć sugestię"</string>
     <string name="ui_spacebar_dictation_hint">"Przytrzymaj, aby dyktować"</string>
+    <string name="ui_language_switch_key">"Pokaż klawisz zmiany języka"</string>
+    <string name="ui_switch_language">"Zmień język"</string>
+    <string name="ui_language_switch_help">"Dotknij globusa, aby przełączać zapisane układy. Przytrzymaj go, aby otworzyć wybór układu."</string>
 </resources>

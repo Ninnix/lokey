@@ -548,4 +548,7 @@
     <string name="ui_spacebar_dictation_help">"Dikteerimiseks hoia all. Tekstiks teisendamiseks lase lahti."</string>
     <string name="ui_spacebar_prediction_hint">"Puuduta soovituse valimiseks"</string>
     <string name="ui_spacebar_dictation_hint">"Hoia all dikteerimiseks"</string>
+    <string name="ui_language_switch_key">"Kuva keele vahetamise klahv"</string>
+    <string name="ui_switch_language">"Vaheta keelt"</string>
+    <string name="ui_language_switch_help">"Puuduta maakera ikooni, et vahetada salvestatud paigutusi. Paigutuse valimiseks hoia ikooni all."</string>
 </resources>

@@ -99,7 +99,7 @@ class LokeyService : InputMethodService(), KeyboardView.Listener {
         if(key=="split_landscape") {
             keyboard?.updateGeometry();keyboardBackground();refresh()
         }
-        if(key=="number_row") keyboard?.updateGeometry()
+        if(key=="number_row" || key=="language_switch_key") keyboard?.updateGeometry()
         if(key=="spacebar_action") keyboard?.updateSpacebar()
         if(key=="keyboard_theme") { keyboardBackground();keyboard?.invalidate() }
         if(key in listOf("learning","learning_revision","one_tap_speech","adaptive","autocorrect","model")) {
@@ -247,7 +247,7 @@ class LokeyService : InputMethodService(), KeyboardView.Listener {
     }
     override fun onCreateInputView(): View {
         root=ImeLayout(this)
-        keyboard=KeyboardView(this,prefs,this).apply { addOnLayoutChangeListener { _,_,_,_,_,_,_,_,_ -> updateFloatingSpeech() } };renderTool()
+        keyboard=KeyboardView(this,prefs,this,allowLayoutSwitch=true).apply { addOnLayoutChangeListener { _,_,_,_,_,_,_,_,_ -> updateFloatingSpeech() } };renderTool()
         return root
     }
     override fun onConfigurationChanged(newConfig:Configuration) {
@@ -801,6 +801,9 @@ class LokeyService : InputMethodService(), KeyboardView.Listener {
     }
     private fun settings() { startActivity(Intent(this, MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)) }
     override fun nextKeyboard() { switchToNextInputMethod(false) }
+    override fun switchLayout() {
+        if(recording || processing || !prefs.cycleLayout()) tool("layout")
+    }
     override fun feedback(key: String, down: Boolean) { feedback.tap(key, down, !recording) }
     private fun message(text: String) { Toast.makeText(this, tr(text), Toast.LENGTH_LONG).show() }
     override fun onKeyDown(keyCode:Int,event:KeyEvent):Boolean {

@@ -548,4 +548,7 @@
     <string name="ui_spacebar_dictation_help">"Pridržite za narekovanje. Spustite za prepis."</string>
     <string name="ui_spacebar_prediction_hint">"Tapnite za predlog"</string>
     <string name="ui_spacebar_dictation_hint">"Pridržite za narekovanje"</string>
+    <string name="ui_language_switch_key">"Pokaži tipko za preklop jezika"</string>
+    <string name="ui_switch_language">"Preklopi jezik"</string>
+    <string name="ui_language_switch_help">"Tapnite globus za preklapljanje med shranjenimi razporeditvami. Pridržite ga, da odprete izbiro razporeditve."</string>
 </resources>

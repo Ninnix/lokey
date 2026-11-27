@@ -6,8 +6,11 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.graphics.Rect
 import android.os.Bundle
 import android.os.SystemClock
+import android.view.InputDevice
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.accessibility.AccessibilityNodeInfo
@@ -282,9 +285,10 @@ object LayoutChecks {
     }
     fun picker(test:Instrumentation,context:Context):JSONObject {
         val prefs=Prefs(context);val original=if(prefs.automaticLayout) "auto" else prefs.layout;val light=prefs.appLight
+        val oldLanguageKey=prefs.languageSwitchKey
         var activity:Activity?=null
         fun find(view:View,label:String):View? {
-            if(view.contentDescription?.toString()==label) return view
+            if(view.contentDescription?.toString()==label || view is android.widget.Switch && view.text.toString()==label) return view
             if(view is ViewGroup) for(i in 0 until view.childCount) find(view.getChildAt(i),label)?.let { return it }
             return null
         }
@@ -310,6 +314,10 @@ object LayoutChecks {
                     val layout=find(root,"Keyboard layout settings")!!;val appearance=find(root,"Appearance and keyboard themes")!!
                     check(layout.top<appearance.top);layout.performClick()
                     check(find(activity!!.window.decorView,"Automatic keyboard layout")!=null)
+                    val languageKey=find(activity!!.window.decorView,context.tr("Show language switch key")) as android.widget.Switch
+                    check(languageKey.isChecked==oldLanguageKey)
+                    languageKey.performClick();check(prefs.languageSwitchKey!=oldLanguageKey)
+                    languageKey.performClick();check(prefs.languageSwitchKey==oldLanguageKey)
                 }
                 capture("layout-picker-"+if(isLight) "light" else "dark")
                 test.runOnMainSync {
@@ -333,7 +341,7 @@ object LayoutChecks {
                 test.runOnMainSync { activity!!.finish() };activity=null
             }
             return JSONObject().put("layout_before_appearance",true).put("family_and_variant_selection",true).put("automatic_restored",true).put("dark_and_light",true)
-        } finally { prefs.layout=original;prefs.appLight=light;activity?.let { a -> test.runOnMainSync { a.finish() } } }
+        } finally { prefs.layout=original;prefs.appLight=light;prefs.languageSwitchKey=oldLanguageKey;activity?.let { a -> test.runOnMainSync { a.finish() } } }
     }
     private fun editor(view:View):EditText? {
         if(view is EditText) return view
@@ -343,11 +351,13 @@ object LayoutChecks {
     fun live(test:Instrumentation,context:Context,quick:Boolean=false):JSONObject {
         val prefs=Prefs(context);val original=if(prefs.automaticLayout) "auto" else prefs.layout
         val oldShortcuts=prefs.quickLayouts
+        val oldLanguageKey=prefs.languageSwitchKey
         val info=test.uiAutomation.serviceInfo
         info.flags=info.flags or android.accessibilityservice.AccessibilityServiceInfo.FLAG_RETRIEVE_INTERACTIVE_WINDOWS
         test.uiAutomation.serviceInfo=info
         val report=JSONArray()
         try {
+            if(quick) prefs.languageSwitchKey=false
             val cases=if(quick) listOf(Triple("qwerty","ciao","Ciao")) else listOf(
                 Triple("qwerty","ciao","Ciao"),Triple("intl","'e","É"),Triple("spanish","niño","Niño"),Triple("portuguese","cç","Cç"),Triple("turkish","ıiş","Iiş"),
                 Triple("azerty","aze","Aze"),Triple("qwertz","qwe","Qwe"),Triple("cyrillic","йцу","Йцу"),Triple("ukrainian","привіт","Привіт"),
@@ -358,12 +368,12 @@ object LayoutChecks {
                 val keys=raw.map { KeyboardLayouts.display(it.toString()) }
                 val firstKey=if(layout=="intl" && keys.first()=="'") "l" else keys.first()
                 prefs.layout=layout
-                if(quick) prefs.quickLayouts=listOf("qwerty","cyrillic","auto","intl")
+                if(quick) prefs.quickLayouts=listOf("qwerty","cyrillic","azerty","intl")
                 val activity=test.startActivitySync(Intent().setClass(context,MainActivity::class.java).putExtra("page","lab").addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK))
                 lateinit var input:EditText
                 fun focused():Boolean { var ready=false;test.runOnMainSync { ready=activity.hasWindowFocus() };return ready }
                 fun value():String { var value="";test.runOnMainSync { value=input.text.toString() };return value }
-                fun node(label:String,popup:Boolean=false):AccessibilityNodeInfo? {
+                fun node(label:String,popup:Boolean=false,unique:Boolean=false):AccessibilityNodeInfo? {
                     if(android.os.Build.VERSION.SDK_INT>=34) test.uiAutomation.clearCache()
                     val matches=ArrayList<AccessibilityNodeInfo>()
                     fun description(n:AccessibilityNodeInfo)=(n.contentDescription ?: n.text)?.toString()?.substringBefore(',')
@@ -373,6 +383,7 @@ object LayoutChecks {
                         for(i in 0 until n.childCount) n.getChild(i)?.let { walk(it) }
                     }
                     for(window in test.uiAutomation.windows) if(popup || window.type==AccessibilityWindowInfo.TYPE_INPUT_METHOD) window.root?.let { walk(it) }
+                    if(unique) check(matches.count { it.isClickable }<=1) { "Duplicate layout tile: $label" }
                     return matches.firstOrNull { description(it)==label } ?: matches.firstOrNull()
                 }
                 fun firstSuggestion():String? {
@@ -436,13 +447,17 @@ object LayoutChecks {
                         }
                         val english=context.layoutName(KeyboardLayouts.find("qwerty"))
                         val russian=context.layoutName(KeyboardLayouts.find("cyrillic"))
+                        val french=context.layoutName(KeyboardLayouts.find("azerty"))
                         val intl=context.layoutName(KeyboardLayouts.find("intl"))
                         open()
                         await { node(russian)!=null && node(intl)!=null && node(english)==null }
-                        val first=android.graphics.Rect();val second=android.graphics.Rect()
-                        val automatic="${context.tr("Automatic")} · ${context.layoutName(KeyboardLayouts.automatic())}"
-                        node(russian)!!.getBoundsInScreen(first);node(automatic)!!.getBoundsInScreen(second)
-                        check(first.top==second.top && first.left!=second.left) { "Layout shortcuts are not side by side" }
+                        val first=Rect();val second=Rect()
+                        await {
+                            val russianTile=node(russian) ?: return@await false
+                            val frenchTile=node(french) ?: return@await false
+                            russianTile.getBoundsInScreen(first);frenchTile.getBoundsInScreen(second)
+                            first.top==second.top && first.left!=second.left
+                        }
                         capture("tools-layouts")
                         action(intl,AccessibilityNodeInfo.ACTION_LONG_CLICK)
                         check("intl" in prefs.quickLayouts)
@@ -450,13 +465,13 @@ object LayoutChecks {
                         await(requireFocus=false) { node(remove,popup=true)!=null }
                         capture("tools-remove-layout")
                         action(remove,popup=true)
-                        check(Prefs(context).quickLayouts==listOf("qwerty","cyrillic","auto") && prefs.layout=="qwerty")
+                        check(Prefs(context).quickLayouts==listOf("qwerty","cyrillic","azerty") && prefs.layout=="qwerty")
                         action("Back to keyboard");open()
                         check(node(intl)==null)
                         action("Add layout");action("Back")
                         await { node(russian)!=null && node(intl)==null }
                         action("Add layout");await { node(intl)!=null && node(russian)==null && node(english)==null };action(intl)
-                        check(Prefs(context).quickLayouts==listOf("qwerty","cyrillic","auto","intl"))
+                        check(Prefs(context).quickLayouts==listOf("qwerty","cyrillic","azerty","intl"))
                         action(russian);action("space")
                         for(key in "йцу") action(key.toString())
                         await { value()=="Ciao йцу" }
@@ -464,9 +479,66 @@ object LayoutChecks {
                         open();await { node(english)!=null && node(russian)==null };action(english);action("space")
                         for(key in "qwe") action(key.toString())
                         await { value()=="Ciao йцу qwe" }
-                        open();action(automatic)
+                        val derived=KeyboardLayouts.automatic().id
+                        val resolved=context.layoutName(KeyboardLayouts.find(derived))
+                        val automatic="${context.tr("Automatic")} · $resolved"
+                        val other=if(derived=="cyrillic") "qwerty" else "cyrillic"
+                        val otherName=context.layoutName(KeyboardLayouts.find(other))
+                        prefs.layout="auto";prefs.quickLayouts=listOf("auto",derived,other)
+                        open();await { node(otherName)!=null && node(resolved)==null && node(automatic)==null }
+                        action(otherName);open()
+                        await { node(resolved,unique=true)!=null && node(automatic)==null }
+                        action("Add layout")
+                        check(node(resolved)==null && node(automatic)==null)
+                        action("Back");action(resolved)
                         await { prefs.automaticLayout && node("?123")!=null }
-                        return JSONObject().put("same_editor",value()).put("shortcut_grid_filters_active",true).put("add_and_remove_shortcuts",true).put("automatic_restored",true)
+                        open();action(otherName);open()
+                        action(resolved,AccessibilityNodeInfo.ACTION_LONG_CLICK);action(remove,popup=true)
+                        check(prefs.quickLayouts==listOf(other))
+                        action("Back to keyboard")
+                        val globe=context.tr("Switch language")
+                        val languageKey=context.tr("Show language switch key")
+                        check(node(globe)==null)
+                        prefs.layout="qwerty";prefs.quickLayouts=listOf("qwerty","cyrillic")
+                        open()
+                        await { node(languageKey)?.let { it.isCheckable && !it.isChecked }==true }
+                        action(languageKey);await { Prefs(context).languageSwitchKey && node(languageKey)?.isChecked==true }
+                        action("Back to keyboard")
+                        fun touchGlobe(held:Boolean=false) {
+                            await { node(globe)!=null }
+                            val bounds=Rect();node(globe)!!.getBoundsInScreen(bounds)
+                            val started=SystemClock.uptimeMillis()
+                            for(event in listOf(MotionEvent.ACTION_DOWN,MotionEvent.ACTION_UP)) {
+                                if(held && event==MotionEvent.ACTION_UP) SystemClock.sleep(420)
+                                val touch=MotionEvent.obtain(started,SystemClock.uptimeMillis(),event,bounds.exactCenterX(),bounds.exactCenterY(),0)
+                                touch.source=InputDevice.SOURCE_TOUCHSCREEN
+                                try { check(test.uiAutomation.injectInputEvent(touch,true)) } finally { touch.recycle() }
+                            }
+                        }
+                        await { node(globe)!=null };capture("tools-layout-globe")
+                        touchGlobe();await { prefs.layout=="cyrillic" && node("й")!=null }
+                        action("space");action("й")
+                        touchGlobe();await { prefs.layout=="qwerty" && node("q")!=null }
+                        action("space");action("q")
+                        await { value()=="Ciao йцу qwe й q" }
+                        touchGlobe(held=true);await { node(russian)!=null && prefs.layout=="qwerty" }
+                        action("Back to keyboard")
+                        prefs.quickLayouts=listOf("qwerty","cyrillic","azerty")
+                        for(expectedLayout in listOf("azerty","cyrillic","qwerty","azerty")) {
+                            action(globe);await { prefs.layout==expectedLayout && node(globe)!=null }
+                        }
+                        prefs.layout="auto"
+                        prefs.quickLayouts=listOf("auto",derived,other)
+                        action(globe);await { prefs.layoutSelection==other && node(globe)!=null }
+                        action(globe);await { prefs.automaticLayout && prefs.layout==derived && node(globe)!=null }
+                        prefs.quickLayouts=emptyList()
+                        action(globe);await { node(context.tr("Add layout"))!=null }
+                        await { node(languageKey)?.isChecked==true }
+                        action(languageKey);await { !Prefs(context).languageSwitchKey && node(languageKey)?.isChecked==false }
+                        action("Back to keyboard")
+                        await { node("?123")!=null && node(globe)==null }
+                        return JSONObject().put("same_editor",value()).put("shortcut_grid_filters_active",true)
+                            .put("add_and_remove_shortcuts",true).put("automatic_deduplicated",true).put("in_keyboard_language_switch_toggle",true)
                     }
                     test.uiAutomation.takeScreenshot()?.let { image -> File(context.filesDir,"layout-live-$layout.png").outputStream().use { image.compress(Bitmap.CompressFormat.PNG,100,it) };image.recycle() }
                     if(layout=="pinyin") {
@@ -525,7 +597,7 @@ object LayoutChecks {
                     File(context.filesDir,"layout-details.json").writeText(report.toString(2))
                 } finally { test.runOnMainSync { activity.finish() } }
             }
-        } finally { prefs.layout=original;prefs.quickLayouts=oldShortcuts }
+        } finally { prefs.layout=original;prefs.quickLayouts=oldShortcuts;prefs.languageSwitchKey=oldLanguageKey }
         return JSONObject().put("layouts",report).put("pinyin_space_and_selection",true)
     }
 }

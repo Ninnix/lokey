@@ -91,7 +91,9 @@ Choose a target with Auto → language; the searchable picker lists Lokey’s 39
 
 Feel → Keyboard layout shows miniature keyboard previews in eleven families. Automatic follows the device language until a manual variant is selected; it can be restored at any time.
 
-Hold ?123 → Layout to see your layout shortcuts in a grid with country and region flags. Your current layout is hidden and recently selected layouts appear first. With no saved shortcuts, the grid starts empty for QWERTY Intl and Accent. For other layouts it starts with QWERTY Intl (dead keys). Tap a layout to switch and return to your text. Add layout shows layouts you can add to the grid. Hold a tile and choose Remove shortcut to take it off the grid. The layout remains available to add again.
+Turn on **Show language switch key** in **Feel → Keyboard layout** or **hold ?123 → Layout** to add a globe beside the spacebar. Tap it to cycle through your layout shortcuts, or hold it to open the layout picker. Use **Add layout** in the picker to pair layouts such as Russian and English. If you only have one layout, tapping the globe opens the picker.
+
+Hold ?123 → Layout to see your layout shortcuts in a grid with country and region flags. Your current layout is hidden and recently selected layouts appear first. The grid shows a saved Automatic shortcut under the name and flags of the layout it resolves to, once per layout. With no saved shortcuts, the grid starts empty for QWERTY Intl and Accent. For other layouts it starts with QWERTY Intl (dead keys). Tap a layout to switch and return to your text. Add layout shows layouts you can add to the grid. Hold a tile and choose Remove shortcut to take it off the grid. The layout remains available to add again.
 
 - QWERTY: Accent menus, Intl dead keys, Spanish ñ, Portuguese ç, Turkish letters/casing, and Vietnamese Telex.
 - AZERTY and QWERTZ: Latin accent alternatives remain available by hold or upward flick.

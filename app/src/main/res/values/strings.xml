@@ -548,4 +548,7 @@
     <string name="ui_spacebar_dictation_help">"Hold to dictate. Release to transcribe."</string>
     <string name="ui_spacebar_prediction_hint">"Tap for prediction"</string>
     <string name="ui_spacebar_dictation_hint">"Hold to dictate"</string>
+    <string name="ui_language_switch_key">"Show language switch key"</string>
+    <string name="ui_switch_language">"Switch language"</string>
+    <string name="ui_language_switch_help">"Tap the globe to cycle through layout shortcuts. Hold it to open the layout picker."</string>
 </resources>

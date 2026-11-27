@@ -548,4 +548,7 @@
     <string name="ui_spacebar_dictation_help">"Dikte etmek için basılı tutun. Metne dönüştürmek için bırakın."</string>
     <string name="ui_spacebar_prediction_hint">"Öneriyi kabul etmek için dokunun"</string>
     <string name="ui_spacebar_dictation_hint">"Dikte etmek için basılı tutun"</string>
+    <string name="ui_language_switch_key">"Dil değiştirme tuşunu göster"</string>
+    <string name="ui_switch_language">"Dili değiştir"</string>
+    <string name="ui_language_switch_help">"Kayıtlı düzenler arasında geçiş yapmak için küreye dokunun. Düzen seçiciyi açmak için basılı tutun."</string>
 </resources>

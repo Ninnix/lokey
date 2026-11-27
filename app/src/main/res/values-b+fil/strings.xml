@@ -548,4 +548,7 @@
     <string name="ui_spacebar_dictation_help">"Pindutin nang matagal para magdikta. Bitawan para gawing teksto."</string>
     <string name="ui_spacebar_prediction_hint">"I-tap para sa mungkahi"</string>
     <string name="ui_spacebar_dictation_hint">"Pindutin nang matagal para magdikta"</string>
+    <string name="ui_language_switch_key">"Ipakita ang key sa pagpapalit ng wika"</string>
+    <string name="ui_switch_language">"Magpalit ng wika"</string>
+    <string name="ui_language_switch_help">"I-tap ang globo para lumipat sa mga naka-save na layout. Pindutin nang matagal para buksan ang tagapili ng layout."</string>
 </resources>

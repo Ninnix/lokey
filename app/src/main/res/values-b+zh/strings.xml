@@ -548,4 +548,7 @@
     <string name="ui_spacebar_dictation_help">"长按开始语音输入。松开转换为文字。"</string>
     <string name="ui_spacebar_prediction_hint">"轻点接受建议"</string>
     <string name="ui_spacebar_dictation_hint">"长按语音输入"</string>
+    <string name="ui_language_switch_key">"显示语言切换键"</string>
+    <string name="ui_switch_language">"切换语言"</string>
+    <string name="ui_language_switch_help">"点按地球图标可在已保存的键盘布局之间切换。长按可打开布局选择器。"</string>
 </resources>

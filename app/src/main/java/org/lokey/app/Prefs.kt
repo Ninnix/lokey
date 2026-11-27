@@ -38,11 +38,25 @@ class Prefs(context: Context) {
         layouts();putAll(resolvedLayouts)
     }
     internal val layoutSelection get()=store.getString("layout","auto") ?: "auto"
+    var languageSwitchKey:Boolean
+        get()=store.getBoolean("language_switch_key",false)
+        set(value) { store.edit().putBoolean("language_switch_key",value).apply() }
     internal var quickLayouts:List<String>
         get()=savedQuickLayouts() ?: defaultQuickLayouts(layout)
         set(value) { store.edit().putString("quick_layouts",value.joinToString(",")).apply() }
     private fun savedQuickLayouts()=store.getString("quick_layouts",null)?.split(',')?.filter { it.isNotEmpty() }
     private fun defaultQuickLayouts(id:String)=if(id=="intl" || id=="qwerty") emptyList() else listOf("intl")
+
+    internal fun cycleLayout():Boolean {
+        val current=layoutSelection
+        val choices=layoutChoices()
+        // The picker keeps recent layouts first. Cycle in a stable order and skip aliases of the same layout.
+        val ids=(listOf(current)+quickLayouts).filter { it in choices }
+            .distinctBy { choices.getValue(it).id }.sortedBy { choices.getValue(it).id }
+        if(ids.size<2) return false
+        selectLayout(ids[(ids.indexOf(current)+1)%ids.size],rememberPrevious=true)
+        return true
+    }
 
     internal fun selectLayout(id:String,rememberPrevious:Boolean=false) {
         val recent=if(rememberPrevious) listOf(id,layoutSelection) else listOf(id)

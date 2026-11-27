@@ -548,4 +548,7 @@
     <string name="ui_spacebar_dictation_help">"Turiet nospiestu, lai diktētu. Atlaidiet, lai pārvērstu tekstā."</string>
     <string name="ui_spacebar_prediction_hint">"Pieskarieties ieteikumam"</string>
     <string name="ui_spacebar_dictation_hint">"Turiet nospiestu, lai diktētu"</string>
+    <string name="ui_language_switch_key">"Rādīt valodas pārslēgšanas taustiņu"</string>
+    <string name="ui_switch_language">"Mainīt valodu"</string>
+    <string name="ui_language_switch_help">"Pieskarieties globusam, lai pārslēgtos starp saglabātajiem izkārtojumiem. Turiet to nospiestu, lai atvērtu izkārtojumu izvēlni."</string>
 </resources>
