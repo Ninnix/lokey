@@ -551,4 +551,5 @@
     <string name="ui_language_switch_key">"言語切替キーを表示"</string>
     <string name="ui_switch_language">"言語を切り替え"</string>
     <string name="ui_language_switch_help">"地球儀をタップすると、保存した配列を順に切り替えられます。長押しすると配列の選択画面が開きます。"</string>
+    <string name="ui_emoji">"絵文字"</string>
 </resources>

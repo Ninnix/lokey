@@ -551,4 +551,5 @@
     <string name="ui_language_switch_key">"Rodyti kalbos perjungimo klavišą"</string>
     <string name="ui_switch_language">"Perjungti kalbą"</string>
     <string name="ui_language_switch_help">"Palieskite gaublį, kad perjungtumėte išsaugotus išdėstymus. Palaikykite nuspaudę, kad atidarytumėte išdėstymų parinkiklį."</string>
+    <string name="ui_emoji">"Jaustukai"</string>
 </resources>

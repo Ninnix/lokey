@@ -551,4 +551,5 @@
     <string name="ui_language_switch_key">"Показувати клавішу перемикання мови"</string>
     <string name="ui_switch_language">"Перемкнути мову"</string>
     <string name="ui_language_switch_help">"Торкайтеся глобуса, щоб перемикатися між збереженими розкладками. Утримуйте його, щоб відкрити вибір розкладки."</string>
+    <string name="ui_emoji">"Емодзі"</string>
 </resources>

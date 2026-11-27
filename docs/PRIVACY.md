@@ -68,6 +68,13 @@ Encryption does not protect against a compromised app/OS, use of the unlocked
 keyboard or someone seeing your suggestions. Key and file deletion do not
 promise physical overwriting of flash storage or all in-memory strings.
 
+Emoji shortcuts keep a local list of recently selected emojis, with use
+counts while learning is enabled. Selections in private fields and the
+practice test are excluded. Turning learning off clears the counts and
+keeps the six most recent emojis. **Erase learned data** clears the emoji
+history as well. Emoji history is stored in app preferences excluded from
+backups.
+
 Text you type, paste, dictate or translate is sent to the app in which you
 are writing. That app decides how to store or transmit it. Lokey cannot
 control the receiving app's data handling.

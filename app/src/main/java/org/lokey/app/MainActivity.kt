@@ -316,6 +316,7 @@ class MainActivity : Activity() {
             addView(text(tr("Learn frequent words and corrections on this device. Encrypted, never uploaded. Private fields are excluded. Turning this off erases learning."),13f,muted))
             addView(button(tr("Erase learned data"),icon=FeelIcon.Kind.Trash) {
                 UsageLearning.shared(this@MainActivity).erase()
+                prefs.emojis.clear()
                 Toast.makeText(this@MainActivity,tr("Learned data erased"),Toast.LENGTH_SHORT).show()
             },LinearLayout.LayoutParams(-1,-2).apply { topMargin=dp(16) })
         }

@@ -551,4 +551,5 @@
     <string name="ui_language_switch_key">"Mostrar tecla de cambio de idioma"</string>
     <string name="ui_switch_language">"Cambiar idioma"</string>
     <string name="ui_language_switch_help">"Toca el globo para alternar entre las distribuciones guardadas. Mantenlo pulsado para abrir el selector de distribuciones."</string>
+    <string name="ui_emoji">"Emojis"</string>
 </resources>

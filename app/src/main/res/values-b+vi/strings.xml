@@ -551,4 +551,5 @@
     <string name="ui_language_switch_key">"Hiện phím đổi ngôn ngữ"</string>
     <string name="ui_switch_language">"Đổi ngôn ngữ"</string>
     <string name="ui_language_switch_help">"Nhấn biểu tượng quả địa cầu để chuyển giữa các bố cục đã lưu. Nhấn giữ để mở bộ chọn bố cục."</string>
+    <string name="ui_emoji">"Biểu tượng cảm xúc"</string>
 </resources>

@@ -551,4 +551,5 @@
     <string name="ui_language_switch_key">"Näytä kielenvaihtonäppäin"</string>
     <string name="ui_switch_language">"Vaihda kieltä"</string>
     <string name="ui_language_switch_help">"Vaihda tallennettujen asettelujen välillä napauttamalla maapalloa. Avaa asetteluvalitsin pitämällä sitä painettuna."</string>
+    <string name="ui_emoji">"Emojit"</string>
 </resources>

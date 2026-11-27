@@ -41,6 +41,11 @@ object ToolIcons {
                     canvas.drawRoundRect(x,y,x+4f,y+4f,1f,1f,pen)
                 }
             }
+            "emoji" -> {
+                canvas.drawCircle(12f,12f,9f,pen)
+                canvas.drawCircle(9f,9.5f,.7f,pen);canvas.drawCircle(15f,9.5f,.7f,pen)
+                canvas.drawArc(8f,10f,16f,17f,20f,140f,false,pen)
+            }
             "translate" -> {
                 pen.style=Paint.Style.FILL;pen.textSize=15f;pen.typeface=Typeface.create("sans-serif",Typeface.NORMAL)
                 canvas.drawText("A",1f,15f,pen);canvas.drawText("文",10f,22f,pen)

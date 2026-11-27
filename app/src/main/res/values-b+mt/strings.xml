@@ -551,4 +551,5 @@
     <string name="ui_language_switch_key">"Uri t-tast tal-bdil tal-lingwa"</string>
     <string name="ui_switch_language">"Ibdel il-lingwa"</string>
     <string name="ui_language_switch_help">"Tektek il-globu biex taqleb bejn it-tqassimiet issejvjati. Żommu magħfus biex tiftaħ l-għażla tat-tqassim."</string>
+    <string name="ui_emoji">"Emoji"</string>
 </resources>

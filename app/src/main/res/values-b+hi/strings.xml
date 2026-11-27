@@ -551,4 +551,5 @@
     <string name="ui_language_switch_key">"भाषा बदलने की कुंजी दिखाएँ"</string>
     <string name="ui_switch_language">"भाषा बदलें"</string>
     <string name="ui_language_switch_help">"सहेजे गए लेआउट के बीच बदलने के लिए ग्लोब पर टैप करें। लेआउट चुनने के लिए उसे दबाकर रखें।"</string>
+    <string name="ui_emoji">"इमोजी"</string>
 </resources>

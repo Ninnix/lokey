@@ -551,4 +551,5 @@
     <string name="ui_language_switch_key">"Afficher la touche de changement de langue"</string>
     <string name="ui_switch_language">"Changer de langue"</string>
     <string name="ui_language_switch_help">"Touchez le globe pour passer d’une disposition enregistrée à l’autre. Maintenez-le enfoncé pour ouvrir le sélecteur de dispositions."</string>
+    <string name="ui_emoji">"Emojis"</string>
 </resources>

@@ -20,7 +20,7 @@ import kotlin.math.roundToInt
 
 class KeyboardView(context: Context, private val prefs: Prefs, private val listener: Listener, private val allowLayoutSwitch:Boolean=false) : View(context) {
     private companion object {
-        val tools=listOf("clipboard" to "Clipboard","translate" to "Translate","layout" to "Layout")
+        val tools=listOf("clipboard" to "Clipboard","translate" to "Translate","layout" to "Layout","emoji" to "Emoji")
         const val layoutSwitchCode="layout_switch"
     }
     interface Listener {
@@ -63,6 +63,7 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
     private val deleteIcon = context.getDrawable(R.drawable.ic_backspace)!!.mutate()
     private val globeIcon by lazy { FeelIcon(FeelIcon.Kind.Globe,dp(22f).toInt(),Color.BLACK) }
     private val keys = ArrayList<Key>()
+    private var emojiOptions=prefs.emojis.shortcuts(prefs.learning)+"…"
     private var keysDirty=false
     private var adaptiveDirty=false
     private var glideCenters:Map<Char,Glide.Point>?=null
@@ -311,6 +312,13 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
         if(!recordingLocked && touches.values.any { it.recording }) cancelRecording()
         cancelTouches();invalidate();sendAccessibilityEvent(AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED)
     }
+    internal fun updateEmojiShortcuts() {
+        val next=prefs.emojis.shortcuts(prefs.learning)+"…"
+        if(emojiOptions==next) return
+        emojiOptions=next
+        layoutKeys();invalidate()
+        sendAccessibilityEvent(AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED)
+    }
     fun action(label:String) { if(enterLabel!=label) { enterLabel=label;layoutKeys();invalidate() } }
     fun prediction(words: List<String>, letters: FloatArray, probabilistic: Boolean,language:String?=null) {
         val accents=accentLanguage!=(language ?: nextAccentLanguage)
@@ -493,7 +501,7 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
             row(listOf(Key(if(symbolPage) "123" else "=/<","more",1.35f,"page"))+
                 marks(if(symbolPage) "…°∞≠≤≥≈¿¡" else "[]{}<>\\*")+Key("⌫","hold",1.35f,"delete"),192*u)
         }
-        val bottom=mutableListOf(Key(if (symbols) "ABC" else "?123", "tools", 1.5f, "symbols"), Key(punctuation(","), "😊", 0.9f, ","),
+        val bottom=mutableListOf(Key(if (symbols) "ABC" else "?123", "tools", 1.5f, "symbols"), Key(punctuation(","),emojiOptions.first(),0.9f,",",menu=emojiOptions),
             Key("space", context.tr("Hold for cursor"), (if(layout.id=="persian") 4f else 4.9f)-idleAmount*.3f,"space"),
             Key(punctuation("."),listOf("!",",","?").joinToString(" ") { punctuation(it) },0.9f,"."), Key(enterLabel, context.tr("hold · voice"), 1.5f + idleAmount * 0.3f, "enter"))
         if(layout.id=="persian") bottom.add(3,Key("½","",.9f,"\u200c",native=true))
@@ -819,7 +827,6 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
         }
         return when {
             period(key) -> listOf("!", ",", "?").map { punctuation(it) }
-            !numeric && key.code=="," -> CustomLayouts.emojis
             else -> listOf(key.alternate.ifEmpty { key.label })
         }
     }
@@ -1029,7 +1036,10 @@ class KeyboardView(context: Context, private val prefs: Prefs, private val liste
                             if((shift || caps) && layout.cased) uppercaseVariant(accent) else accent
                         } else touch.flick!!)
                         touch.held && touch.key.code=="space" && touch.choice<0 && spaceAction==SpacebarAction.Prediction -> listener.text(" ")
-                        touch.held -> if (touch.choice >= 0) emit(options(touch.key).getOrElse(touch.choice) { touch.key.alternate })
+                        touch.held -> if (touch.choice >= 0) {
+                            val option=options(touch.key).getOrElse(touch.choice) { touch.key.alternate }
+                            if(touch.key.custom==null && touch.key.code=="," && option=="…") listener.tool("emoji") else emit(option)
+                        }
                         touch.key.code != "delete" -> activate(touch.key)
                     }
                 }

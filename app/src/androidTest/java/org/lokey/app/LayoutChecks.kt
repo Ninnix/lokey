@@ -352,6 +352,9 @@ object LayoutChecks {
         val prefs=Prefs(context);val original=if(prefs.automaticLayout) "auto" else prefs.layout
         val oldShortcuts=prefs.quickLayouts
         val oldLanguageKey=prefs.languageSwitchKey
+        val store=context.getSharedPreferences("lokey",Context.MODE_PRIVATE)
+        val oldEmojiHistory=store.getString(EmojiHistory.key,null)
+        val oldLearning=prefs.learning
         val info=test.uiAutomation.serviceInfo
         info.flags=info.flags or android.accessibilityservice.AccessibilityServiceInfo.FLAG_RETRIEVE_INTERACTIVE_WINDOWS
         test.uiAutomation.serviceInfo=info
@@ -376,7 +379,9 @@ object LayoutChecks {
                 fun node(label:String,popup:Boolean=false,unique:Boolean=false):AccessibilityNodeInfo? {
                     if(android.os.Build.VERSION.SDK_INT>=34) test.uiAutomation.clearCache()
                     val matches=ArrayList<AccessibilityNodeInfo>()
-                    fun description(n:AccessibilityNodeInfo)=(n.contentDescription ?: n.text)?.toString()?.substringBefore(',')
+                    fun description(n:AccessibilityNodeInfo)=(n.contentDescription ?: n.text)?.toString()?.let {
+                        if(it.startsWith(",")) "," else it.substringBefore(',')
+                    }
                     fun walk(n:AccessibilityNodeInfo) {
                         if(!n.refresh()) return
                         if(n.packageName==context.packageName && description(n)?.equals(label,true)==true) matches.add(n)
@@ -537,7 +542,24 @@ object LayoutChecks {
                         action(languageKey);await { !Prefs(context).languageSwitchKey && node(languageKey)?.isChecked==false }
                         action("Back to keyboard")
                         await { node("?123")!=null && node(globe)==null }
-                        return JSONObject().put("same_editor",value()).put("shortcut_grid_filters_active",true)
+                        val typed=value()
+                        test.runOnMainSync { store.edit().putBoolean("learning",true).remove(EmojiHistory.key).apply() }
+                        check(prefs.emojis.shortcuts(true)==listOf("😊","❤️","👍","😂","😭","🥺"))
+                        action("?123",AccessibilityNodeInfo.ACTION_LONG_CLICK);action(context.tr("Emoji"))
+                        action("🥺");action("🥺");action("🤣");action("😅")
+                        await { value()==typed+"🥺🥺🤣😅" }
+                        check(prefs.emojis.shortcuts(true)==listOf("🥺","😅","🤣","😊","❤️","👍"))
+                        test.runOnMainSync { prefs.learning=false }
+                        check(prefs.emojis.shortcuts(false)==listOf("😅","🤣","🥺","😊","❤️","👍"))
+                        action("👍");action("😊");action("😂");action("😀")
+                        val emojiText=typed+"🥺🥺🤣😅👍😊😂😀"
+                        await { value()==emojiText }
+                        check(prefs.emojis.shortcuts(false)==listOf("😀","😂","😊","👍","😅","🤣"))
+                        action("Back to keyboard");await { node("?123")!=null }
+                        action(",");action(",",AccessibilityNodeInfo.ACTION_LONG_CLICK)
+                        await { value()==emojiText+",😀" }
+                        return JSONObject().put("same_editor",typed).put("shortcut_grid_filters_active",true).put("emoji_picker",true)
+                            .put("most_used_and_recent_emoji_shortcuts",true)
                             .put("add_and_remove_shortcuts",true).put("automatic_deduplicated",true).put("in_keyboard_language_switch_toggle",true)
                     }
                     test.uiAutomation.takeScreenshot()?.let { image -> File(context.filesDir,"layout-live-$layout.png").outputStream().use { image.compress(Bitmap.CompressFormat.PNG,100,it) };image.recycle() }
@@ -597,7 +619,10 @@ object LayoutChecks {
                     File(context.filesDir,"layout-details.json").writeText(report.toString(2))
                 } finally { test.runOnMainSync { activity.finish() } }
             }
-        } finally { prefs.layout=original;prefs.quickLayouts=oldShortcuts;prefs.languageSwitchKey=oldLanguageKey }
+        } finally {
+            prefs.layout=original;prefs.quickLayouts=oldShortcuts;prefs.languageSwitchKey=oldLanguageKey
+            if(quick) store.edit().putBoolean("learning",oldLearning).putString(EmojiHistory.key,oldEmojiHistory).apply()
+        }
         return JSONObject().put("layouts",report).put("pinyin_space_and_selection",true)
     }
 }

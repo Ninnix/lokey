@@ -551,4 +551,5 @@
     <string name="ui_language_switch_key">"Taalwisseltoets tonen"</string>
     <string name="ui_switch_language">"Van taal wisselen"</string>
     <string name="ui_language_switch_help">"Tik op de wereldbol om tussen opgeslagen indelingen te wisselen. Houd hem ingedrukt om de indelingskiezer te openen."</string>
+    <string name="ui_emoji">"Emoji’s"</string>
 </resources>

@@ -25,7 +25,7 @@ class LokeyService : InputMethodService(), KeyboardView.Listener {
     private fun updateFloatingSpeech() {
         if(!::floatingSpeech.isInitialized) return
         keyboard?.getLocationOnScreen(keyboardLocation)
-        val show=inputVisible && prefs.oneTapSpeech && !privateField && toolMode !in listOf("languages","layouts","clipboard")
+        val show=inputVisible && prefs.oneTapSpeech && !privateField && !keyboardPanelOpen
         keyboard?.floatingSpeech=floatingSpeech.update(show,recording,processing,keyboard?.recordingPaused==true,keyboardLocation[1])
     }
     private lateinit var translation:Translation
@@ -42,6 +42,7 @@ class LokeyService : InputMethodService(), KeyboardView.Listener {
     private fun learningScope()=UsageLearning.scope(prefs.layout,displayedPrediction?.language ?: ModelLanguages.code(inputHint() ?: "English"))
     private lateinit var root:ImeLayout
     private var toolMode=""
+    private val keyboardPanelOpen get()=when(toolMode) { "languages","layouts","clipboard","emoji" -> true;else -> false }
     private var editorAction="↵"
     private var translationBar:TranslationBar?=null
     private var sourceEditor:LocalEditor?=null
@@ -101,6 +102,7 @@ class LokeyService : InputMethodService(), KeyboardView.Listener {
         }
         if(key=="number_row" || key=="language_switch_key") keyboard?.updateGeometry()
         if(key=="spacebar_action") keyboard?.updateSpacebar()
+        if(key==EmojiHistory.key || key=="learning") keyboard?.updateEmojiShortcuts()
         if(key=="keyboard_theme") { keyboardBackground();keyboard?.invalidate() }
         if(key in listOf("learning","learning_revision","one_tap_speech","adaptive","autocorrect","model")) {
             resetLearning();clearPrediction();refresh();keyboard?.invalidate()
@@ -126,7 +128,7 @@ class LokeyService : InputMethodService(), KeyboardView.Listener {
     private var composeReady=""
     private var composePage=0
     private var composeWaiting=false
-    private val composeQueued=StringBuilder()
+    private val composeQueued=ArrayList<String>()
     private fun speedTestEditor()=currentInputEditorInfo?.let { it.packageName==packageName && it.privateImeOptions=="org.lokey.app.speedtest" }==true
     private fun statsAllowed()=!privateField && toolMode.isEmpty() && !speedTestEditor()
     private fun inputLayout()=prefs.currentLayout
@@ -163,10 +165,10 @@ class LokeyService : InputMethodService(), KeyboardView.Listener {
         }
     }
     private fun chooseComposition(value:String) {
-        val queued=composeQueued.toString()
+        val queued=composeQueued.toList()
         if(validComposition()) composeConnection?.commitText(value,1)
         resetComposition(false);refresh()
-        queued.forEach { text(it.toString()) }
+        queued.forEach(::text)
     }
     private fun composeInput(value:String) {
         val input=connection() ?: return
@@ -276,6 +278,9 @@ class LokeyService : InputMethodService(), KeyboardView.Listener {
             "clipboard" -> root.addView(ClipboardPanel(this,prefs,history,{
                 if(sourceEditor!=null) { toolMode="translate";renderTool();refresh() } else endTool()
             },{ paste(it) }),LinearLayout.LayoutParams(-1,height))
+            "emoji" -> root.addView(EmojiPanel(this,prefs,{
+                toolMode=if(sourceEditor!=null) "translate" else "";renderTool();refresh()
+            },::text),LinearLayout.LayoutParams(-1,height))
             "languages" -> {
                 val picker=TranslationLanguages(this,prefs,{ toolMode="translate";renderTool();refresh() }) { language ->
                     prefs.translationTarget=language;toolMode="translate";translationSource=null;clearGlide();correction.reset();renderTool();refresh()
@@ -316,12 +321,13 @@ class LokeyService : InputMethodService(), KeyboardView.Listener {
         renderTool();if(update) refresh()
     }
     override fun tool(name:String) {
-        if(privateField && name!="layout") { message(tr("Unavailable in private fields"));return }
+        if(privateField && name!="layout" && name!="emoji") { message(tr("Unavailable in private fields"));return }
         if(recording || processing) { message(tr("Finish recording first"));return }
         resetLearning()
         clearDead(true);resetComposition();clearGlide();correction.reset()
         if(name=="clipboard") { translation.cancel();translationSource=null;toolMode="clipboard";captureClipboard();renderTool() }
         else if(name=="layout") { translation.cancel();translationSource=null;toolMode="layouts";renderTool() }
+        else if(name=="emoji") { translation.cancel();translationSource=null;toolMode="emoji";renderTool();refresh() }
         else if(name=="translate") {
             if(sourceEditor==null) {
                 translationTarget=currentInputConnection?.let { TranslationTarget.capture(it) }
@@ -437,21 +443,27 @@ class LokeyService : InputMethodService(), KeyboardView.Listener {
         }
         clearDead(true);typeText(text)
     }
+    private fun commitTyped(connection:InputConnection,text:String):Boolean {
+        val committed=connection.commitText(text,1)
+        if(committed && text.isNotEmpty() && text[0]>='\u2600' && EmojiHistory.contains(text) &&
+            !privateField && !speedTestEditor() && editor()==null) prefs.emojis.record(text,prefs.learning)
+        return committed
+    }
     private fun typeText(text:String) {
-        if(composeWaiting) { composeQueued.append(text);return }
+        if(composeWaiting) { composeQueued.add(text);return }
         val kind=composeKind()
         val tone=kind=="jyutping" && text.any { it in '1'..'6' }
         if(Composers.accepts(kind,text) && (!tone || composeDraft.lastOrNull()?.isLetter()==true)) { composeInput(text);return }
         if(composeDraft.isNotEmpty()) {
             if(phonetic()) {
-                if(composeReady!=composeDraft) { composeWaiting=true;if(text!=" " || !unspaced()) composeQueued.append(text);return }
+                if(composeReady!=composeDraft) { composeWaiting=true;if(text!=" " || !unspaced()) composeQueued.add(text);return }
                 val choice=compositionChoice()
                 chooseComposition(choice)
                 if(text==" " && unspaced() && choice.any { it.code>127 }) return
             } else resetComposition()
         }
         val connection = connection() ?: return
-        if(rawEditor()) { connection.commitText(text,1);if(inputLayout().composer.isNotEmpty()) refresh();return }
+        if(rawEditor()) { commitTyped(connection,text);if(inputLayout().composer.isNotEmpty()) refresh();return }
         val learn=learningField() && connection.getSelectedText(0).isNullOrEmpty() &&
             connection.getTextAfterCursor(1,0)?.firstOrNull()?.let { Languages.isWord(it) || it.isDigit() }!=true
         val caret=if(learn) Cursor.position(connection) else -1
@@ -462,7 +474,7 @@ class LokeyService : InputMethodService(), KeyboardView.Listener {
         }
         if (pendingGlide != null) {
             pendingGlide!!.suffix += text
-            connection.commitText(text, 1)
+            commitTyped(connection,text)
             return
         }
         glideWords = emptyList()
@@ -478,7 +490,7 @@ class LokeyService : InputMethodService(), KeyboardView.Listener {
         if(corrected && statsAllowed()) stats.correction()
         var committed=corrected
         if (!corrected) {
-            if(connection.commitText(text,1)) {
+            if(commitTyped(connection,text)) {
                 committed=true
                 correction.defer(connection,text,enabled)?.let { before ->
                     deferred=true
@@ -504,7 +516,7 @@ class LokeyService : InputMethodService(), KeyboardView.Listener {
     }
     override fun delete() {
         if(deadKeys.pending.isNotEmpty()) { clearDead();refresh();return }
-        if(composeWaiting && composeQueued.isNotEmpty()) { composeQueued.deleteCharAt(composeQueued.lastIndex);return }
+        if(composeWaiting && composeQueued.isNotEmpty()) { composeQueued.removeAt(composeQueued.lastIndex);return }
         if(composeDraft.isNotEmpty() && validComposition()) {
             composeWaiting=false;composeDraft=Composers.delete(composeMethod,composeDraft)
             if(composeDraft.isEmpty()) { composeConnection?.commitText("",1);resetComposition();refresh() }
@@ -674,7 +686,7 @@ class LokeyService : InputMethodService(), KeyboardView.Listener {
                 InputType.TYPE_TEXT_VARIATION_WEB_EMAIL_ADDRESS, InputType.TYPE_TEXT_VARIATION_URI, InputType.TYPE_TEXT_VARIATION_FILTER)
     }
     private fun adaptiveField():Boolean {
-        if(!prefs.adaptive || rawEditor() || privateField || recording || processing || toolMode in listOf("languages","layouts","clipboard")) return false
+        if(!prefs.adaptive || rawEditor() || privateField || recording || processing || keyboardPanelOpen) return false
         if(inputLayout().composer !in listOf("","dead")) return false
         if(!connection()?.getSelectedText(0).isNullOrEmpty()) return false
         if(sourceEditor!=null) return true
@@ -688,7 +700,7 @@ class LokeyService : InputMethodService(), KeyboardView.Listener {
         lastInputRefresh=android.os.SystemClock.uptimeMillis()
         keyboard?.rawInput=rawEditor()
         keyboard?.adaptiveInput=adaptiveField()
-        keyboard?.speechAllowed=!privateField && toolMode !in listOf("languages","layouts","clipboard")
+        keyboard?.speechAllowed=!privateField && !keyboardPanelOpen
         updateFloatingSpeech()
         if(deadKeys.pending.isNotEmpty()) {
             if(!validDead()) clearDead()
@@ -723,7 +735,7 @@ class LokeyService : InputMethodService(), KeyboardView.Listener {
             glideWords = emptyList()
         }
         if (privateField) { keyboard?.prediction(emptyList(), FloatArray(26), false); keyboard?.status(tr("PRIVATE FIELD · PREDICTION PAUSED")); return }
-        if(numberField() || toolMode in listOf("languages","layouts","clipboard")) { clearPrediction();keyboard?.status("");return }
+        if(numberField() || keyboardPanelOpen) { clearPrediction();keyboard?.status("");return }
         val before = connection()?.getTextBeforeCursor(240, 0)?.toString() ?: ""
         val neural=toolMode!="translate"
         val limit=keyboard?.suggestionCount ?: 3
@@ -810,7 +822,7 @@ class LokeyService : InputMethodService(), KeyboardView.Listener {
         if(keyCode==KeyEvent.KEYCODE_BACK && toolMode.isNotEmpty()) {
             val layouts=root.getChildAt(0) as? LayoutTool
             if(layouts!=null) layouts.back()
-            else if(toolMode=="languages" || toolMode=="clipboard" && sourceEditor!=null) { toolMode="translate";renderTool();refresh() }
+            else if(toolMode=="languages" || toolMode in listOf("clipboard","emoji") && sourceEditor!=null) { toolMode="translate";renderTool();refresh() }
             else endTool()
             return true
         }

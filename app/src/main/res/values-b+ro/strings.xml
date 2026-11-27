@@ -551,4 +551,5 @@
     <string name="ui_language_switch_key">"Afișează tasta de schimbare a limbii"</string>
     <string name="ui_switch_language">"Schimbă limba"</string>
     <string name="ui_language_switch_help">"Atinge globul pentru a comuta între dispunerile salvate. Ține apăsat pentru a deschide selectorul de dispuneri."</string>
+    <string name="ui_emoji">"Emojiuri"</string>
 </resources>

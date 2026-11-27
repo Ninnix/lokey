@@ -551,4 +551,5 @@
     <string name="ui_language_switch_key">"顯示語言切換鍵"</string>
     <string name="ui_switch_language">"切換語言"</string>
     <string name="ui_language_switch_help">"點按地球圖示可在已儲存的鍵盤配置之間切換。長按可開啟配置選擇器。"</string>
+    <string name="ui_emoji">"表情符號"</string>
 </resources>

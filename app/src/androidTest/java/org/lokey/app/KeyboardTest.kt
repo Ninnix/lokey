@@ -1168,6 +1168,7 @@ class KeyboardTest : Instrumentation() {
                 check(view.accessibilityNodeProvider.createAccessibilityNodeInfo(2000)!!.contentDescription=="Clipboard")
                 check(view.accessibilityNodeProvider.createAccessibilityNodeInfo(2001)!!.contentDescription=="Translate")
                 check(view.accessibilityNodeProvider.createAccessibilityNodeInfo(2002)!!.contentDescription=="Layout")
+                check(view.accessibilityNodeProvider.createAccessibilityNodeInfo(2003)!!.contentDescription=="Emoji")
                 view.accessibilityNodeProvider.performAction(2000,android.view.accessibility.AccessibilityNodeInfo.ACTION_CLICK,null)
             }
             check(tools==listOf("clipboard") && switched==0);result.put("symbols_hold_tools_keeps_keyboard",true)
@@ -1175,6 +1176,11 @@ class KeyboardTest : Instrumentation() {
             SystemClock.sleep(550)
             event(MotionEvent.ACTION_UP,intArrayOf(0),listOf(rect(2002)))
             check(tools==listOf("clipboard","layout") && switched==0);result.put("hold_and_slide_to_layout",true)
+            val comma=rect(39)
+            event(MotionEvent.ACTION_DOWN,intArrayOf(0),listOf(comma))
+            SystemClock.sleep(550)
+            event(MotionEvent.ACTION_UP,intArrayOf(0),listOf(android.graphics.Rect(view.width-3,comma.top,view.width-1,comma.bottom)))
+            check(tools.last()=="emoji" && typed.toString()=="He");result.put("comma_more_opens_emoji_picker",true)
             runOnMainSync {
                 val store=targetContext.getSharedPreferences("clipboard-test",android.content.Context.MODE_PRIVATE);store.edit().clear().commit()
                 val history=ClipboardHistory(targetContext,"clipboard-test")

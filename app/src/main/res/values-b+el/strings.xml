@@ -551,4 +551,5 @@
     <string name="ui_language_switch_key">"Εμφάνιση πλήκτρου αλλαγής γλώσσας"</string>
     <string name="ui_switch_language">"Αλλαγή γλώσσας"</string>
     <string name="ui_language_switch_help">"Πατήστε την υδρόγειο για εναλλαγή μεταξύ αποθηκευμένων διατάξεων. Κρατήστε την πατημένη για να ανοίξετε την επιλογή διάταξης."</string>
+    <string name="ui_emoji">"Emoji"</string>
 </resources>

@@ -551,4 +551,5 @@
     <string name="ui_language_switch_key">"Pokaż klawisz zmiany języka"</string>
     <string name="ui_switch_language">"Zmień język"</string>
     <string name="ui_language_switch_help">"Dotknij globusa, aby przełączać zapisane układy. Przytrzymaj go, aby otworzyć wybór układu."</string>
+    <string name="ui_emoji">"Emoji"</string>
 </resources>

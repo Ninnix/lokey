@@ -551,4 +551,5 @@
     <string name="ui_language_switch_key">"Prikaži tipku za promjenu jezika"</string>
     <string name="ui_switch_language">"Promijeni jezik"</string>
     <string name="ui_language_switch_help">"Dodirnite globus za prebacivanje između spremljenih rasporeda. Držite ga za otvaranje izbornika rasporeda."</string>
+    <string name="ui_emoji">"Emotikoni"</string>
 </resources>

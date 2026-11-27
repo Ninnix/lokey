@@ -551,4 +551,5 @@
     <string name="ui_language_switch_key">"Vis tast til sprogskift"</string>
     <string name="ui_switch_language">"Skift sprog"</string>
     <string name="ui_language_switch_help">"Tryk på globussen for at skifte mellem gemte tastaturlayouts. Hold den nede for at åbne layoutvælgeren."</string>
+    <string name="ui_emoji">"Emoji"</string>
 </resources>

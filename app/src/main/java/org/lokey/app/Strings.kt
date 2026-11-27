@@ -407,6 +407,7 @@ object Strings {
         "See all supported languages" to R.string.ui_see_all_supported_languages,
         "Select a shorter passage to translate" to R.string.ui_select_a_shorter_passage_to_translate,
         "Select automatic model" to R.string.ui_select_automatic_model,
+        "Emoji" to R.string.ui_emoji,
         "Selected" to R.string.ui_selected_9a976fc,
         "Selected automatically" to R.string.ui_selected_automatically,
         "Selected keyboard preview" to R.string.ui_selected_keyboard_preview,

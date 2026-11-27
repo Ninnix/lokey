@@ -551,4 +551,5 @@
     <string name="ui_language_switch_key">"Zobrazit klávesu pro přepínání jazyka"</string>
     <string name="ui_switch_language">"Přepnout jazyk"</string>
     <string name="ui_language_switch_help">"Klepnutím na glóbus přepínáte mezi uloženými rozloženími. Podržením otevřete výběr rozložení."</string>
+    <string name="ui_emoji">"Emodži"</string>
 </resources>

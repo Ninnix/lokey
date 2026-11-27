@@ -172,7 +172,7 @@ object CustomizationChecks {
                 view.accessibilityNodeProvider.performAction(comma,AccessibilityNodeInfo.ACTION_LONG_CLICK,null)
                 check(typed.endsWith("😊"))
             }
-            check(CustomLayouts.emojis.containsAll(listOf("😅","😭")))
+            check("😭" in EmojiHistory.defaults && "😅" !in EmojiHistory.defaults && "😅" in EmojiHistory.catalog)
             check(CustomLayouts.delete(prefs,custom.id) && Prefs(context).layouts().none { it.id==custom.id })
             report.put("default_emoji_order",true).put("custom_layout_deletion",true)
         } finally {

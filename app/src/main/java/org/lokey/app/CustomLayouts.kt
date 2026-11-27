@@ -6,7 +6,6 @@ import java.util.UUID
 
 object CustomLayouts {
     val actions=linkedMapOf("" to "Type text","shift" to "Caps","delete" to "Delete","space" to "Space / cursor","enter" to "Enter / microphone","symbols" to "Symbols / tools")
-    val emojis=listOf("😊","❤️","👍","😂","😅","😭","🥺")
     data class Key(val id:String=UUID.randomUUID().toString(),val primary:String="",val secondary:List<String> = emptyList(),val action:String="",val width:Float=1f) {
         val label get()=if(action.isEmpty()) primary else actions[action].orEmpty().substringBefore(" /")
         fun json()=JSONObject().put("id",id).put("primary",primary).put("secondary",JSONArray(secondary)).put("action",action).put("width",width)
@@ -41,7 +40,7 @@ object CustomLayouts {
             return Key(primary=value,secondary=alternates)
         }
         fun action(value:String,width:Float=1.35f)=Key(action=value,width=width)
-        val bottom=mutableListOf(action("symbols",1.5f),Key(primary=source.punctuation(","),secondary=emojis,width=.9f),action("space",4.9f),Key(primary=source.punctuation("."),secondary=listOf("!",",","?").map(source::punctuation),width=.9f),action("enter",1.5f))
+        val bottom=mutableListOf(action("symbols",1.5f),Key(primary=source.punctuation(","),secondary=EmojiHistory.defaults,width=.9f),action("space",4.9f),Key(primary=source.punctuation("."),secondary=listOf("!",",","?").map(source::punctuation),width=.9f),action("enter",1.5f))
         if(source.behaviorId=="persian") bottom.add(3,Key(primary="\u200c",width=.9f))
         val rows=if(blank) listOf(emptyList(),listOf(action("shift"),action("delete")),listOf(action("symbols"),action("space",4.9f),action("enter",1.5f)))
         else source.keyRows.ifEmpty {

@@ -551,4 +551,5 @@
     <string name="ui_language_switch_key">"Mostra il tasto di cambio lingua"</string>
     <string name="ui_switch_language">"Cambia lingua"</string>
     <string name="ui_language_switch_help">"Tocca il globo per passare da un layout salvato all’altro. Tienilo premuto per aprire il selettore dei layout."</string>
+    <string name="ui_emoji">"Emoji"</string>
 </resources>

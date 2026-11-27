@@ -551,4 +551,5 @@
     <string name="ui_language_switch_key">"Nyelvváltó billentyű megjelenítése"</string>
     <string name="ui_switch_language">"Nyelvváltás"</string>
     <string name="ui_language_switch_help">"A földgömb megérintésével válthat a mentett kiosztások között. A kiosztásválasztó megnyitásához tartsa lenyomva."</string>
+    <string name="ui_emoji">"Emodzsik"</string>
 </resources>

@@ -551,4 +551,5 @@
     <string name="ui_language_switch_key">"Visa tangent för språkbyte"</string>
     <string name="ui_switch_language">"Byt språk"</string>
     <string name="ui_language_switch_help">"Tryck på jordgloben för att växla mellan sparade layouter. Håll den nedtryckt för att öppna layoutväljaren."</string>
+    <string name="ui_emoji">"Emojier"</string>
 </resources>

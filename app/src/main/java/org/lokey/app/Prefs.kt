@@ -11,6 +11,7 @@ internal enum class SpacebarAction(val id:String,val title:String,val caption:St
 class Prefs(context: Context) {
     val context:Context=context.applicationContext
     private val store = context.getSharedPreferences("lokey", Context.MODE_PRIVATE)
+    internal val emojis=EmojiHistory(store)
     var designs:String
         get()=store.getString("designs","[]")!!
         set(value) { store.edit().putString("designs",value).apply() }
@@ -187,7 +188,9 @@ class Prefs(context: Context) {
     var learning:Boolean
         get()=store.getBoolean("learning",false)
         set(value) {
-            store.edit().putBoolean("learning",value).apply()
+            val edit=store.edit().putBoolean("learning",value)
+            if(!value) emojis.clearCounts(edit)
+            edit.apply()
             if(!value) UsageLearning.shared(context).erase()
         }
     internal fun learningErased() { store.edit().putLong("learning_revision",System.nanoTime()).apply() }

@@ -551,4 +551,5 @@
     <string name="ui_language_switch_key">"Tunjukkan kekunci tukar bahasa"</string>
     <string name="ui_switch_language">"Tukar bahasa"</string>
     <string name="ui_language_switch_help">"Ketik ikon glob untuk bertukar antara reka letak yang disimpan. Tekan lama untuk membuka pemilih reka letak."</string>
+    <string name="ui_emoji">"Emoji"</string>
 </resources>

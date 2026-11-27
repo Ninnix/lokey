@@ -551,4 +551,5 @@
     <string name="ui_language_switch_key">"แสดงปุ่มสลับภาษา"</string>
     <string name="ui_switch_language">"สลับภาษา"</string>
     <string name="ui_language_switch_help">"แตะรูปโลกเพื่อสลับระหว่างผังแป้นพิมพ์ที่บันทึกไว้ กดค้างเพื่อเปิดตัวเลือกผังแป้นพิมพ์"</string>
+    <string name="ui_emoji">"อีโมจิ"</string>
 </resources>

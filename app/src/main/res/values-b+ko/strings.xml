@@ -551,4 +551,5 @@
     <string name="ui_language_switch_key">"언어 전환 키 표시"</string>
     <string name="ui_switch_language">"언어 전환"</string>
     <string name="ui_language_switch_help">"지구본을 탭하면 저장된 배열을 순서대로 전환합니다. 길게 누르면 배열 선택 화면이 열립니다."</string>
+    <string name="ui_emoji">"이모지"</string>
 </resources>

@@ -551,4 +551,5 @@
     <string name="ui_language_switch_key">"Kuva keele vahetamise klahv"</string>
     <string name="ui_switch_language">"Vaheta keelt"</string>
     <string name="ui_language_switch_help">"Puuduta maakera ikooni, et vahetada salvestatud paigutusi. Paigutuse valimiseks hoia ikooni all."</string>
+    <string name="ui_emoji">"Emotikonid"</string>
 </resources>
