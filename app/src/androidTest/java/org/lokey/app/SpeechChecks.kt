@@ -13,22 +13,28 @@ object SpeechChecks {
     fun corpus(context:Context,accelerator:Int):JSONObject {
         val root=File(context.filesDir,"speech-corpus")
         val fixtures=JSONArray(File(root,"fixtures.json").readText())
+        val recordings=(0 until fixtures.length()).map { index ->
+            val fixture=fixtures.getJSONObject(index)
+            val name=fixture.optString("language","Polish")
+            val language=ModelLanguages.all(context).first { it.name==name }
+            fixture.getString("file") to language
+        }
         val cases=JSONArray()
         try {
             for(model in Models.voices) {
+                val supported=recordings.filter { (_,language) -> if(model.id=="parakeet") language.parakeet else language.qwenVoice }
+                if(supported.isEmpty()) continue
                 check(Models.ready(context,model))
                 val encoder=model.parts.firstOrNull()?.let { Models.file(context,it).path }.orEmpty()
                 check(Native.loadSpeech(Models.file(context,model).path,encoder,accelerator))
                 val backend=Native.speechBackend()
-                for(index in 0 until fixtures.length()) {
-                    val fixture=fixtures.getJSONObject(index)
-                    val name=fixture.getString("file")
+                for((name,language) in supported) {
                     val samples=audio(File(root,name))
-                    val hints=if(model.id=="qwen_asr") listOf("","Polish") else listOf("")
+                    val hints=if(model.id=="qwen_asr") listOf("",language.name) else listOf("")
                     for(hint in hints) {
                         val start=SystemClock.elapsedRealtimeNanos()
                         val text=Native.transcribe(samples,hint)
-                        cases.put(JSONObject().put("file",name).put("model",model.id).put("backend",backend)
+                        cases.put(JSONObject().put("file",name).put("language",language.name).put("model",model.id).put("backend",backend)
                             .put("hint",hint).put("text",text).put("seconds",samples.size/16000.0)
                             .put("ms",(SystemClock.elapsedRealtimeNanos()-start)/1e6))
                     }
@@ -53,6 +59,8 @@ object SpeechChecks {
         error("Missing WAV samples")
     }
     fun run(test:Instrumentation,context:Context,selected:String?=null,accelerator:Int=0):JSONObject {
+        check(Voice.insertion("你好",'好',KeyboardLayouts.find("pinyin").wordSpaces)=="你好")
+        check(Voice.insertion("hello",'d',KeyboardLayouts.find("qwerty").wordSpaces)==" hello ")
         val result=JSONArray()
         try {
             val source=File(context.filesDir,"qwen-source.gguf")
@@ -88,6 +96,12 @@ object SpeechChecks {
                         cases.put(JSONObject().put("fixture",name).put("ms",SystemClock.elapsedRealtime()-now).put("audio_seconds",samples.size/16000.0).put("text",text))
                         File(context.filesDir,"speech-details.json").writeText(result.toString(2))
                         check(text.isNotBlank() && !text.contains("<asr_text>") && !text.startsWith("language ") && expected.all { text.contains(it,true) }) { "Unexpected $name: $text" }
+                    }
+                    val hindi=File(context.filesDir,"asr-hi-utf8.wav")
+                    if(hindi.isFile) {
+                        val text=Native.transcribe(audio(hindi),"Hindi")
+                        check("चॉकलेट" in text && "जूस" in text && '\ufffd' !in text) { "Truncated Hindi transcription: $text" }
+                        row.put("hindi_utf8",true)
                     }
                 }
             }

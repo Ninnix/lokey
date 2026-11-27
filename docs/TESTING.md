@@ -156,7 +156,7 @@ translation retains its CPU path. The public speech fixture is
 
 ### Polish dictation
 
-The `speechcorpus` mode reads `files/speech-corpus/fixtures.json` with a `file` field for each mono 16 kHz PCM WAV beside it. It decodes every clip with Parakeet, Qwen language detection, and Qwen set to Polish. The report in `files/speech-corpus/results.json` includes text, audio duration, decode time, and the backend. Pass `-e speech_accelerator cpu` for the CPU comparison.
+The `speechcorpus` mode reads `files/speech-corpus/fixtures.json` with a `file` field for each mono 16 kHz PCM WAV beside it. The optional `language` field defaults to Polish. The mode compares Parakeet where supported with Qwen language detection and Qwen given the fixture language. The report in `files/speech-corpus/results.json` includes text, audio duration, decode time, and the backend. Pass `-e speech_accelerator cpu` or `-e speech_accelerator hexagon` to select the backend.
 
 On the OnePlus 15, the same 24 Polish FLEURS test recordings contained 392 reference words. The sample used distinct reference sentences, random seed 181, and four recordings per speaker gender in each duration range from 0–6, 6–9, and 9–15 seconds. Word error rate ignores punctuation and casing and retains diacritics. Times measure decoding after model load. [FLEURS](https://huggingface.co/datasets/google/fleurs/tree/70bb2e84b976b7e960aa89f1c648e09c59f894dd)
 
@@ -165,6 +165,137 @@ On the OnePlus 15, the same 24 Polish FLEURS test recordings contained 392 refer
 | Parakeet v3 | 10.2% | 209 ms | 10.2% | 1,503 ms |
 | Qwen3 ASR, automatic | 33.4% | 1,391 ms | 35.5% | 3,015 ms |
 | Qwen3 ASR, Polish | 32.9% | 1,318 ms | 35.5% | 2,938 ms |
+
+### Cross-language autocorrect
+
+Stage [language-corrections.json](../tools/typing-benchmark/language-corrections.json) as
+`files/correction-corpus.json` in an isolated test app. Run
+`correctioncorpus-local`, `correctioncorpus-lfm`, or `correctioncorpus-qwen`.
+Use empty model storage for the local run and install the named text model
+for each model run. The report records each expected and actual edit.
+For each proposed edit, the check exercises a space commit, undo, and a
+deferred punctuation commit in an editor.
+
+In the initial OnePlus 15 runs, all three configurations preserved all ten valid forms per language.
+Across 120 checks of valid forms and 72 checks of deliberately mistyped
+words, there were no substitutions to an infinitive or other incorrect
+form. Every mismatch was a missed correction.
+
+| Language | Bundled dictionary | LFM 2.5 | Qwen 3.5 |
+| --- | ---: | ---: | ---: |
+| English | 4/6 | 6/6 | 6/6 |
+| Spanish | 0/6 | 2/6 | 4/6 |
+| French | 0/6 | 3/6 | 3/6 |
+| Portuguese | 0/6 | 0/6 | 0/6 |
+
+The table counts expected corrections applied in the curated cases. For
+example, Qwen restored `saldré` and `hablábamos` in Spanish, while
+`viajaria` and `ella termino` stayed as typed. Portuguese `estavamos`
+stayed as typed in all three runs. These cases target verb-form preservation
+and common typos or missing accents. The `layoutui` suite covers native
+Hindi input and Mandarin Pinyin composition.
+
+The follow-up adds accent restoration and narrow context checks for
+conjugated forms. Its results below use the original six typo cases per
+language, followed by the expanded fixture totals.
+
+| Language | Original cases, bundled dictionary | Original cases, either model | Expanded cases, all configurations |
+| --- | ---: | ---: | ---: |
+| English | 6/6 | 6/6 | 6/6 |
+| Spanish | 6/6 | 6/6 | 7/7 |
+| French | 6/6 | 6/6 | 7/7 |
+| Portuguese | 3/6 | 3/6 | 5/8 |
+
+All three configurations preserved the 50 valid input examples in the
+expanded fixture. Spanish now restores `viajaría` and uses the past-tense
+context in `Ayer ella terminó`. French uses the preceding words to recognize
+`Il est allé` even when the unaccented final word appears in another
+language. Portuguese restores forms such as `estávamos` and `tínhamos`.
+The remaining Portuguese misses involve ambiguous forms of `vira`,
+`e`, and `de` that can be valid in other contexts.
+
+### Multilingual dictation
+
+To reproduce the first multilingual sample, put the FLEURS test TSV and audio
+archive in each locale folder as `test.tsv` and `test.tar.gz`. Use
+[FLEURS revision 70bb2e84](https://huggingface.co/datasets/google/fleurs/tree/70bb2e84b976b7e960aa89f1c648e09c59f894dd/data).
+
+```sh
+python3 tools/bench-language-quality.py prepare .local/multilingual-quality \
+  English=en_us Chinese=cmn_hans_cn Hindi=hi_in Spanish=es_419
+```
+
+Stage the generated `corpus/` as `files/speech-corpus/` alongside the
+model files and run `speechcorpus`. Pull `results.json` from each run
+to score them together.
+
+```sh
+python3 tools/bench-language-quality.py score .local/multilingual-quality \
+  .local/multilingual-quality/speech-hexagon-decoded.json \
+  .local/multilingual-quality/speech-cpu-decoded.json
+```
+
+Each language uses 24 distinct transcripts selected with seed 181, with
+four recordings per speaker gender in each duration range from 0–7, 7–10,
+and 10–15 seconds. Scoring folds case, ignores punctuation and preserves
+diacritics and vowel marks. It uses character error rate for Mandarin and
+word error rate for English, Hindi, and Spanish. Decode timing excludes
+model load.
+
+On the OnePlus 15, each backend completed 240 decodes over the same 96
+recordings. Qwen3 ASR used its Q4_K decoder and Q8_0 audio encoder.
+
+| Language | Model and language mode | Hexagon error | Hexagon median | CPU error | CPU median |
+| --- | --- | ---: | ---: | ---: | ---: |
+| English | Parakeet v3 | 4.11% | 280 ms | 4.31% | 1,613 ms |
+| English | Qwen3 ASR, automatic | 4.93% | 1,485 ms | 4.93% | 2,940 ms |
+| English | Qwen3 ASR, English | 4.93% | 1,406 ms | 4.93% | 2,884 ms |
+| Mandarin | Qwen3 ASR, automatic | 7.40% | 1,333 ms | 6.86% | 4,400 ms |
+| Mandarin | Qwen3 ASR, Chinese | 7.40% | 1,257 ms | 6.86% | 4,469 ms |
+| Hindi | Qwen3 ASR, automatic | 30.23% | 2,587 ms | 32.56% | 6,438 ms |
+| Hindi | Qwen3 ASR, Hindi | 29.30% | 2,437 ms | 30.23% | 6,643 ms |
+| Spanish | Parakeet v3 | 3.57% | 319 ms | 3.81% | 1,602 ms |
+| Spanish | Qwen3 ASR, automatic | 4.29% | 1,249 ms | 4.52% | 5,090 ms |
+| Spanish | Qwen3 ASR, Spanish | 3.57% | 1,244 ms | 4.52% | 4,864 ms |
+
+Parakeet covered English and Spanish in this batch. One Hindi clip
+(`hi_in-1078154098564425938.wav`) ended after the first few words and
+returned replacement characters in all four Qwen runs. Its errors are
+included in the table.
+
+### Dictation follow-up
+
+The Qwen decoder now completes UTF-8 sequences across token boundaries
+and reuses the single-token decode batch. The same Hindi recording
+transcribed both sentences on the follow-up runs on CPU and Hexagon. Stage that recording
+as `files/asr-hi-utf8.wav` to include it in the `speech` regression checks.
+
+| Language | Hexagon result | Before error | After error | Before median | After median |
+| --- | --- | ---: | ---: | ---: | ---: |
+| Mandarin | Previous automatic vs new Chinese hint | 7.40% CER | 7.40% CER | 1,333 ms | 1,122 ms |
+| Hindi | Previous automatic vs new Hindi hint | 30.23% WER | 26.74% WER | 2,587 ms | 2,191 ms |
+
+With the same Hindi hint on both runs, word error rate fell from
+29.30% to 26.74%. All 24 Mandarin transcripts matched the prior
+outputs for their respective language modes. Mandarin Pinyin dictation
+also joins the editor text without adding spaces.
+
+The follow-up compared French and Brazilian Portuguese on Hexagon with
+24 additional FLEURS recordings per language. French used 12 recordings
+per speaker gender. The Brazilian Portuguese test split labels its
+recordings as male, so the sample uses eight per duration range.
+
+| Language | Model and language mode | WER | Median decode |
+| --- | --- | ---: | ---: |
+| French | Parakeet v3 | 4.58% | 271 ms |
+| French | Qwen3 ASR, automatic | 10.07% | 1,386 ms |
+| French | Qwen3 ASR, French | 10.44% | 1,397 ms |
+| Brazilian Portuguese | Parakeet v3 | 1.94% | 281 ms |
+| Brazilian Portuguese | Qwen3 ASR, automatic | 5.34% | 1,305 ms |
+| Brazilian Portuguese | Qwen3 ASR, Portuguese | 5.34% | 1,294 ms |
+
+The `modelpolicy` mode checks automatic model preferences for all
+39 languages, layout-based dictation routing, and manual model overrides.
 
 ### Idle memory and battery
 

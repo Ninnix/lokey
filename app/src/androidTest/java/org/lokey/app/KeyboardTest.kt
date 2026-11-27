@@ -79,6 +79,7 @@ class KeyboardTest : Instrumentation() {
             if(mode=="spelling") report.put("spelling",TypingFeatureChecks.spelling(this,targetContext))
             if(mode=="spellinglive") report.put("spellinglive",TypingFeatureChecks.spelling(this,targetContext,true))
             if(mode=="polish") report.put("polish",TypingFeatureChecks.polish(this,targetContext))
+            if(mode.startsWith("correctioncorpus-")) report.put("correctioncorpus",TypingFeatureChecks.correctionCorpus(this,targetContext,mode.substringAfter('-')))
             if(mode=="boundaries") report.put("boundaries",TypingFeatureChecks.boundaries(this,targetContext))
             if(mode=="boundarieslearning") report.put("boundaries",TypingFeatureChecks.boundaries(this,targetContext,true))
             if(mode=="confidence") report.put("confidence",TypingFeatureChecks.confidence(this,targetContext))
@@ -129,6 +130,7 @@ class KeyboardTest : Instrumentation() {
             if(mode=="modelui") report.put("modelui",CustomizationUiChecks.models(this,targetContext))
             if(mode=="homespeed") report.put("homespeed",HomeSpeedChecks.run(this,targetContext))
             if(mode=="automatic") report.put("automatic",AutomaticChecks.run(this,targetContext))
+            if(mode=="modelpolicy") report.put("modelpolicy",AutomaticChecks.run(this,targetContext,false))
             if(mode=="adaptive") report.put("adaptive",TouchChecks.run(this,targetContext))
             if(mode=="swipe") report.put("swipe",SwipeChecks.run(this,targetContext))
             if(mode=="adaptiveenable") { Prefs(targetContext).apply { adaptive=true;flow=true };report.put("adaptiveenable",true) }

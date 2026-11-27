@@ -188,7 +188,8 @@ class Languages(private val context: Context) {
     companion object {
         private val marks = Regex("\\p{M}+")
         private val englishForms="i'm i've i'll i'd you're you've you'll you'd we're we've we'll we'd they're they've they'll they'd he's he'll he'd she's she'll she'd it's it'll that's that'll that'd there's there'll there'd here's what's what'll who's who'll who'd who've how's where's where'd when's why's isn't aren't wasn't weren't don't doesn't didn't can't couldn't shouldn't wouldn't won't hasn't haven't hadn't mustn't needn't oughtn't mightn't shan't ain't would've should've could've might've must've let's".split(' ')
-        private val englishAliases=englishForms.filter { it !in listOf("i'll","i'd","we're","we'll","we'd","he'll","she'll","she'd","it's","let's","can't","won't") }.associateBy { it.replace("'","") }
+        private val englishAliases=englishForms.filter { it !in listOf("i'll","i'd","we're","we'll","we'd","he'll","she'll","she'd","it's","let's","can't","won't") }.associateBy { it.replace("'","") }+
+            mapOf("usualy" to "usually","finaly" to "finally")
         private val englishAlternatives=englishForms.filter { it.replace("'","") !in englishAliases }.associateBy { it.replace("'","") }
         private val italianAliases=buildMap {
             for(word in "perché poiché affinché benché finché purché nonché giacché sicché cosicché può più già così cioè perciò lunedì martedì mercoledì giovedì venerdì laggiù quaggiù lassù quassù ventitré".split(' ')) {

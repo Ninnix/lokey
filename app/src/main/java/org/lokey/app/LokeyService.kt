@@ -771,7 +771,9 @@ class LokeyService : InputMethodService(), KeyboardView.Listener {
         if (checkSelfPermission(Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
             startActivity(Intent(this, MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK).putExtra("microphone", true)); return false
         }
-        val model=Models.selectedVoice(this,prefs)
+        val language=ModelLanguages.dictationLanguage(this,prefs)
+        val model=Models.selectedVoice(this,prefs,language)
+        val wordSpaces=inputLayout().wordSpaces
         if(!Models.ready(this,model)) { message(tr("Add %1\$s in Lokey → Models",model.title));settings();return false }
         if(composeDraft.isNotEmpty()) chooseComposition(compositionChoice())
         clearGlide(); correction.clear()
@@ -792,13 +794,13 @@ class LokeyService : InputMethodService(), KeyboardView.Listener {
                 if (error != null) message(error)
                 else if (!text.isNullOrBlank()) {
                     val connection = voiceConnection
-                    val before = connection?.getTextBeforeCursor(1, 0)?.toString().orEmpty()
-                    val inserted=connection?.commitText((if (before.isNotEmpty() && !before.last().isWhitespace()) " " else "") + text + " ", 1)==true
+                    val before=if(wordSpaces) connection?.getTextBeforeCursor(1,0)?.lastOrNull() else null
+                    val inserted=connection?.commitText(Voice.insertion(text,before,wordSpaces),1)==true
                     if(inserted && statsAllowed()) stats.dictation()
                 } else message(tr("No speech detected"))
                 refresh()
             }
-        }, trackTiming=statsAllowed(),started={ if(recording) feedback.voiceStarted() })
+        }, trackTiming=statsAllowed(),language=language,model=model,started={ if(recording) feedback.voiceStarted() })
         return true
     }
     override fun cancelVoice() {

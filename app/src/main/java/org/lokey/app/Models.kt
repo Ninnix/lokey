@@ -17,11 +17,12 @@ object Models {
     fun downloadSize(model:Model)=when(model.id) { "lfm" -> "~230 MB";"qwen" -> "~533 MB";"parakeet" -> "~418 MB";"qwen_asr" -> "~631 MB";else -> "" }
     fun voice(id:String)=voices.firstOrNull { it.id==id } ?: speech
     val io = Executors.newSingleThreadExecutor { r -> Thread(r, "lokey-models") }
+    private val measuredParakeet=setOf("en","es","fr","pl","pt")
     fun downloadState(context:Context,model:Model)=Downloads.state(context,"model:${model.id}")
     fun downloadStatus(context:Context,model:Model)=downloadState(context,model)?.message.orEmpty()
     fun downloading(context:Context,model:Model)=downloadState(context,model)?.active==true
     fun recommended(language:ModelLanguages.Language,npu:Boolean=Acceleration.npu)=
-        (if(npu) "qwen" else language.textModel) to (if(npu && language.qwenVoice && language.base!="pl") "qwen_asr" else language.voiceModel)
+        (if(npu) "qwen" else language.textModel) to (if(npu && language.qwenVoice && language.base !in measuredParakeet) "qwen_asr" else language.voiceModel)
     fun predictor(context: Context, selected: String, language: String): Model {
         if (selected != "auto") return text.firstOrNull { it.id == selected } ?: text.first()
         val id=if(Acceleration.npu) "qwen" else ModelLanguages.recommendedText(language)
@@ -34,9 +35,8 @@ object Models {
         val preferred=predictor(context,prefs.model,ModelLanguages.selected(context,prefs).code)
         return preferred.takeIf { ready(context,it) } ?: text.firstOrNull { ready(context,it) } ?: preferred
     }
-    fun selectedVoice(context:Context,prefs:Prefs):Model {
+    fun selectedVoice(context:Context,prefs:Prefs,language:ModelLanguages.Language=ModelLanguages.selected(context,prefs)):Model {
         if(prefs.model!="auto") return voice(prefs.speechModel)
-        val language=ModelLanguages.selected(context,prefs)
         val preferred=voice(recommended(language).second ?: speech.id)
         return if(ready(context,preferred)) preferred else voices.firstOrNull {
             (if(it.id=="parakeet") language.parakeet else language.qwenVoice) && ready(context,it)

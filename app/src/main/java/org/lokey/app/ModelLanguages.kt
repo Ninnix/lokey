@@ -65,5 +65,14 @@ object ModelLanguages {
         val language=prefs.setupLanguage
         return all(context).firstOrNull { it.name==language } ?: forLocale(context,KeyboardLayouts.deviceLocale())
     }
+    internal fun dictationLanguage(context:Context,prefs:Prefs):Language {
+        if(prefs.automaticLayout) return selected(context,prefs)
+        val name=inputHint(context,prefs)
+        val languages=all(context)
+        val layout=prefs.currentLayout.behaviorId
+        return languages.firstOrNull { it.name==name } ?: languages.singleOrNull { it.layout==layout } ?: selected(context,prefs)
+    }
+    internal fun dictationHint(language:Language,accelerated:Boolean):String =
+        when(language.base) { "hi","es" -> language.name;"zh" -> if(accelerated) language.name else "";else -> "" }
     fun recommendedText(code:String)=if(code.substringBefore('-') in lfmCodes && code.substringBefore('-')!="zh") "lfm" else "qwen"
 }

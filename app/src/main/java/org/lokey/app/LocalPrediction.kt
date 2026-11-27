@@ -51,6 +51,12 @@ class LocalPrediction(private val context:Context,private val languages:Language
     fun prepare(language:Languages.Language) { vocabulary(language) }
     fun spelling(before:String,language:Languages.Language,cached:Boolean=false):Languages.Spelling? {
         if(language.code=="pl") return languages.spelling(language,before)
+        if(AccentSpelling.supported(language.code)) {
+            val prefix=Languages.prefix(before)
+            if(prefix.length !in 2..24) return null
+            val dictionary=if(cached) ready[language.code] ?: return null else vocabulary(language)
+            return AccentSpelling.restore(before,prefix,language,dictionary.words[AccentSpelling.original(prefix)],dictionary.folded[key(prefix)].orEmpty())
+        }
         if(language.code !in listOf("en","it") || Languages.prefix(before).isEmpty()) return null
         val form=languages.spelling(language,before)
         if(form?.automatic==true) return form
@@ -98,8 +104,8 @@ class LocalPrediction(private val context:Context,private val languages:Language
     }
     fun spelling(result:Prediction.Result,language:Languages.Language,autocorrect:Boolean,cached:Boolean=false,limit:Int=3):Prediction.Result =
         languages.spelling(result.copy(spelling=spelling(result.before,language,cached)),autocorrect,limit)
-    internal fun hasPolishForm(prefix:String,language:Languages.Language)=
-        language.code=="pl" && key(prefix) in vocabulary(language).folded
+    internal fun hasAccentForm(prefix:String,language:Languages.Language)=
+        (language.code=="pl" || AccentSpelling.supported(language.code)) && key(prefix) in vocabulary(language).folded
 
     fun correction(before:String,language:Languages.Language,cached:Boolean=false):String? {
         val prefix=Languages.prefix(before)
@@ -121,6 +127,7 @@ class LocalPrediction(private val context:Context,private val languages:Language
             }
             return form?.word?.let { Languages.casing(it,prefix,language.code) }
         }
+        if(AccentSpelling.supported(language.code) && typed in words.folded) return null
         val history=Languages.tokens(stem).takeLast(2).map { Languages.lower(it) }
         val rows=(1..minOf(2,history.size)).mapNotNull { words.contexts[history.takeLast(it).joinToString(" ")] }
         fun swapped(fixed:String)=typed.length==fixed.length && typed.indices.any { i ->

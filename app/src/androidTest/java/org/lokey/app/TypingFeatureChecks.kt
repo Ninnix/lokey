@@ -12,6 +12,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.accessibility.AccessibilityNodeInfo
 import android.view.inputmethod.EditorInfo
+import org.json.JSONArray
 import org.json.JSONObject
 import java.io.File
 import java.security.KeyStore
@@ -33,42 +34,75 @@ object TypingFeatureChecks {
             "Chętnie podpowiem" to null, "Myślę o pomysle" to null, "Zaraz zróbie" to null,
             "Nazywam się Bede" to null, "Jutro będę" to null
         )
+        val results=correctionCases(test,context,prefs,if(neural) "Piszę do ciebie, bo chcę po" else null,cases.keys)
+        val report=JSONObject().put("qwen_loaded",neural).put("cases",JSONObject(results.mapValues { it.value ?: JSONObject.NULL }))
+        File(context.filesDir,"polish-correction.json").writeText(report.toString(2))
+        val mismatches=cases.filter { (before,expected) -> results[before]!=expected }
+        check(mismatches.isEmpty()) { mismatches.entries.joinToString("\n") { (before,expected) -> "$before -> ${results[before]} (expected $expected)" } }
+        return report
+    }
+
+    fun correctionCorpus(test:Instrumentation,context:Context,model:String):JSONObject {
+        check(context.packageName!="org.lokey.app") { "Use the isolated test app" }
+        val neural=model!="local"
+        check(if(neural) Models.text.any { it.id==model && Models.ready(context,it) } else Models.text.none { Models.ready(context,it) }) {
+            "Stage only the required model files for $model"
+        }
+        val fixtures=JSONArray(File(context.filesDir,"correction-corpus.json").readText())
+        val report=JSONArray()
+        for(index in 0 until fixtures.length()) {
+            val fixture=fixtures.getJSONObject(index)
+            val language=ModelLanguages.all(context).first { it.name==fixture.getString("language") }
+            check(language.base in Languages.names)
+            val prefs=Prefs(context).apply {
+                setupLanguage=language.name;layout=checkNotNull(language.layout);autocorrect=true
+                this.model=if(neural) model else "auto"
+            }
+            val cases=fixture.getJSONObject("cases")
+            val results=correctionCases(test,context,prefs,if(neural) fixture.getString("warmup") else null,cases.keys().asSequence().toList())
+            val rows=JSONArray()
+            for((before,fixed) in results) {
+                val expected=cases.get(before)
+                rows.put(JSONObject().put("before",before).put("expected",expected).put("actual",fixed ?: JSONObject.NULL))
+            }
+            report.put(JSONObject().put("language",language.name).put("cases",rows))
+        }
+        return JSONObject().put("model",model).put("languages",report)
+    }
+
+    private fun correctionCases(test:Instrumentation,context:Context,prefs:Prefs,warmup:String?,cases:Collection<String>):Map<String,String?> {
         lateinit var prediction:Prediction
         lateinit var editor:LocalEditor
         test.runOnMainSync { prediction=Prediction(context,prefs);editor=LocalEditor(context) }
-        val results=JSONObject()
-        val mismatches=ArrayList<String>()
+        val results=linkedMapOf<String,String?>()
         try {
-            if(neural) {
+            if(warmup!=null) {
                 val completed=CountDownLatch(1)
-                test.runOnMainSync { prediction.request("Piszę do ciebie, bo chcę po") { if(it.neural) completed.countDown() } }
-                check(completed.await(45,TimeUnit.SECONDS)) { "Qwen did not produce Polish suggestions" }
+                test.runOnMainSync { prediction.request(warmup) { if(it.neural) completed.countDown() } }
+                check(completed.await(45,TimeUnit.SECONDS)) { "${prefs.model} did not produce ${prefs.setupLanguage} suggestions" }
             }
-            for((before,expected) in cases) {
+            for(before in cases) {
                 val done=CountDownLatch(1)
                 var result:Prediction.Result?=null
                 test.runOnMainSync { prediction.correct(before) { result=it;done.countDown() } }
-                check(done.await(45,TimeUnit.SECONDS)) { "Polish correction timed out: $before" }
+                check(done.await(45,TimeUnit.SECONDS)) { "Correction timed out: $before" }
                 val fixed=result?.correction
-                results.put(before,fixed ?: JSONObject.NULL)
-                if(fixed!=expected) mismatches.add("$before -> $fixed (expected $expected)")
+                results[before]=fixed
                 if(fixed!=null) test.runOnMainSync {
+                    val source=result?.spelling?.source ?: Languages.prefix(before)
                     val boundary=Autocorrect()
                     editor.setText(before);editor.setSelection(editor.length())
                     check(boundary.commit(editor.connection," ",result,true))
-                    check(editor.text.toString()==before.dropLast(Languages.prefix(before).length)+fixed+" ")
+                    check(editor.text.toString()==before.dropLast(source.length)+fixed+" ")
                     check(boundary.revert(editor.connection) && editor.text.toString()==before)
                     boundary.reset()
                     editor.setText("$before.");editor.setSelection(editor.length())
                     check(boundary.defer(editor.connection,".",true)==before && boundary.finish(editor.connection,result))
-                    check(editor.text.toString()==before.dropLast(Languages.prefix(before).length)+fixed+".")
+                    check(editor.text.toString()==before.dropLast(source.length)+fixed+".")
                 }
             }
         } finally { test.runOnMainSync { prediction.close() };Native.release() }
-        val report=JSONObject().put("qwen_loaded",neural).put("cases",results)
-        File(context.filesDir,"polish-correction.json").writeText(report.toString(2))
-        check(mismatches.isEmpty()) { mismatches.joinToString("\n") }
-        return report
+        return results
     }
 
     fun boundaries(test:Instrumentation,context:Context,learningEnabled:Boolean=false):JSONObject {

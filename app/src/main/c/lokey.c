@@ -937,10 +937,58 @@ JNIEXPORT jstring JNICALL Java_org_lokey_app_Native_speechBackend(JNIEnv *env,jo
     jstring result=java_string(env,backend);
     pthread_mutex_unlock(&speech_mutex);return result;
 }
+struct utf8_prefix { unsigned remaining,low,high; };
+
+static bool utf8_piece(struct utf8_prefix *state,const char *text) {
+    if(!*text) return state->remaining==0;
+    for(const unsigned char *p=(const unsigned char *)text;*p;p++) {
+        unsigned byte=*p;
+        if(state->remaining) {
+            if(byte<state->low || byte>state->high) return false;
+            state->remaining--;state->low=0x80;state->high=0xbf;
+        } else if(byte>=0x80) {
+            if(byte<0xc2 || byte>0xf4) return false;
+            state->remaining=byte<0xe0?1:byte<0xf0?2:3;
+            state->low=byte==0xe0?0xa0:byte==0xf0?0x90:0x80;
+            state->high=byte==0xed?0x9f:byte==0xf4?0x8f:0xbf;
+        }
+    }
+    return true;
+}
+
+static bool speech_piece(const struct llama_vocab *vocab,llama_token token,struct utf8_prefix *state,char **part) {
+    if(llama_vocab_is_eog(vocab,token)) { *part=NULL;return state->remaining==0; }
+    char *value=piece(vocab,token);
+    if(!value) return false;
+    struct utf8_prefix next=*state;
+    if(!utf8_piece(&next,value)) { free(value);return false; }
+    *state=next;*part=value;
+    return true;
+}
+
+static llama_token speech_token(const struct llama_vocab *vocab,const float *logits,int count,struct utf8_prefix *state,char **part) {
+    llama_token top=0;
+    for(int k=1;k<count;k++) if(logits[k]>logits[top]) top=k;
+    if(speech_piece(vocab,top,state,part)) return top;
+    // A byte-level token can split a character. End only after a complete UTF-8 sequence.
+    llama_token best=-1;
+    struct utf8_prefix accepted=*state;
+    for(int k=0;k<count;k++) {
+        if(k==top || (best>=0 && logits[k]<=logits[best])) continue;
+        char *candidate=NULL;
+        struct utf8_prefix next=*state;
+        if(!speech_piece(vocab,k,&next,&candidate)) continue;
+        free(*part);*part=candidate;accepted=next;best=k;
+    }
+    *state=accepted;
+    return best;
+}
+
 static jstring transcribe_qwen(JNIEnv *env,const float *samples,int n,const char *language) {
     mtmd_bitmap *audio=mtmd_bitmap_init_from_audio((size_t)n,samples);
     mtmd_input_chunks *chunks=mtmd_input_chunks_init();
     jstring result=NULL;
+    struct llama_batch batch={0};
     char prompt[512],output[16384]="";size_t used=0;
     bool hinted=language && *language && strspn(language,"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz")==strlen(language);
     int written=snprintf(prompt,sizeof(prompt),"<|im_start|>system\n<|im_end|>\n<|im_start|>user\n%s<|im_end|>\n<|im_start|>assistant\n%s%s%s",
@@ -954,30 +1002,30 @@ static jstring transcribe_qwen(JNIEnv *env,const float *samples,int n,const char
        atomic_load(&speech_cancelled) || mtmd_helper_eval_chunks(asr_audio,asr_ctx,chunks,0,0,512,true,&position)) goto done;
     const struct llama_vocab *vocab=llama_model_get_vocab(asr_model);
     int count=llama_vocab_n_tokens(vocab);
+    batch=llama_batch_init(1,0,1);
+    free(batch.pos);batch.pos=calloc(4,sizeof(llama_pos));
+    if(!batch.pos) goto done;
+    batch.n_tokens=1;batch.n_seq_id[0]=1;batch.seq_id[0][0]=0;batch.logits[0]=true;
+    struct utf8_prefix state={0};
     bool ended=false;
     for(int i=0;i<1024 && !atomic_load(&speech_cancelled);i++) {
-        const float *logits=llama_get_logits_ith(asr_ctx,-1);
-        llama_token token=0;
-        for(int k=1;k<count;k++) if(logits[k]>logits[token]) token=k;
-        if(llama_vocab_is_eog(vocab,token)) { ended=true;break; }
-        char *part=piece(vocab,token);
-        if(!part) goto done;
+        char *part=NULL;
+        llama_token token=speech_token(vocab,llama_get_logits_ith(asr_ctx,-1),count,&state,&part);
+        if(token<0) goto done;
+        if(!part) { ended=true;break; }
         size_t length=strlen(part);
         if(used+length>=sizeof(output)) { free(part);goto done; }
         memcpy(output+used,part,length+1);used+=length;free(part);
-        struct llama_batch batch=llama_batch_init(1,0,1);
-        free(batch.pos);batch.pos=calloc(4,sizeof(llama_pos));
-        if(!batch.pos) { llama_batch_free(batch);goto done; }
-        batch.n_tokens=1;batch.token[0]=token;batch.n_seq_id[0]=1;batch.seq_id[0][0]=0;batch.logits[0]=true;
+        batch.token[0]=token;
         batch.pos[0]=position;batch.pos[1]=position;batch.pos[2]=position;batch.pos[3]=position;position++;
-        int error=llama_decode(asr_ctx,batch);llama_batch_free(batch);
-        if(error) goto done;
+        if(llama_decode(asr_ctx,batch)) goto done;
     }
     if(ended && !atomic_load(&speech_cancelled)) {
         char *text=strstr(output,"<asr_text>");
         result=java_string(env,text?text+10:output);
     }
 done:
+    llama_batch_free(batch);
     if(chunks) mtmd_input_chunks_free(chunks);
     if(audio) mtmd_bitmap_free(audio);
     if(!result) fail(env,atomic_load(&speech_cancelled)?"Transcription cancelled":"Qwen transcription failed or exceeded its limit");

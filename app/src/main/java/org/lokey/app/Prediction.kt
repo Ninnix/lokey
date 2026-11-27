@@ -25,9 +25,14 @@ class Prediction(private val context: Context, private val prefs: Prefs,private 
     private fun primaryLanguage()=ModelLanguages.selected(context,prefs).base.takeIf { it in Languages.names } ?: "en"
     private fun correctionLanguage(before:String,cached:Boolean=false):Languages.Language {
         val primary=primaryLanguage();val detected=languages.detect(before,primary)
-        if(detected.code!=primary && Languages.tokens(before).size==1) {
+        if(detected.code!=primary) {
             val selected=languages.all.first { it.code==primary }
-            if(local.correction(before,selected,cached)!=null) return selected
+            if(Languages.tokens(before).size==1 && local.correction(before,selected,cached)!=null) return selected
+            if(AccentSpelling.supported(primary) && local.spelling(before,selected,cached)?.automatic==true) {
+                // A missing accent can make the last word look like a word in another language.
+                val stem=before.dropLast(Languages.prefix(before).length).takeLastWhile { it !in ".!?;:\n" }
+                if(Languages.tokens(stem).size>=2 && languages.detect(stem,primary).code==primary) return selected
+            }
         }
         return detected
     }
@@ -135,7 +140,7 @@ class Prediction(private val context: Context, private val prefs: Prefs,private 
         if(alias!=null) return result(alias.word)
         local.correction(before,detected)?.let { return result(it) }
         if(prefix.length !in 3..24 || prefix.first().isUpperCase() || languages.all.any { Languages.lower(prefix) in it.words } ||
-            local.hasPolishForm(prefix,detected) || !load()) return null
+            local.hasAccentForm(prefix,detected) || !load()) return null
         if(checkedBefore==before) return checkedCorrection
         val stem=wordContext(before.dropLast(prefix.length))
         fun nearby(words:List<String>)=words.filter { Languages.valid(it) && !it.equals(prefix,true) && Languages.distance(Languages.fold(prefix),Languages.fold(it))<=1 }

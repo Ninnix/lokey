@@ -19,7 +19,6 @@ class Voice(private val context: Context) {
     @Volatile private var generation = 0
     @Volatile private var paused = false
     private val pauseLock=Object()
-    private fun selected()=Models.selectedVoice(context,Prefs(context))
     private fun load(model:Models.Model) {
         check(Models.ready(context,model)) { context.tr("Add %1\$s in Lokey → Models",model.title) }
         val file=Models.file(context,model)
@@ -34,17 +33,17 @@ class Voice(private val context: Context) {
         }
     }
     private var audio: AudioRecord? = null
-    fun prepare() {
-        val model=selected()
+    fun prepare(model:Models.Model=Models.selectedVoice(context,Prefs(context))) {
         worker.execute { synchronized(speechLock) { try { if(Models.ready(context,model)) load(model) } catch(_:Exception) { } } }
     }
     @SuppressLint("MissingPermission")
-    fun start(level: (Float, Long) -> Unit, complete: (String?, String?) -> Unit, trackTiming:Boolean=false,started:()->Unit={}) {
+    fun start(level: (Float, Long) -> Unit,complete: (String?, String?) -> Unit,trackTiming:Boolean=false,
+        language:ModelLanguages.Language=ModelLanguages.dictationLanguage(context,Prefs(context)),
+        model:Models.Model=Models.selectedVoice(context,Prefs(context),language),started:()->Unit={}) {
         if (active) return
         active = true
         paused = false
         val ticket = ++generation
-        val model=selected()
         Thread({
             var recorder: AudioRecord? = null
             try {
@@ -63,7 +62,7 @@ class Voice(private val context: Context) {
                     check(recorder.recordingState==AudioRecord.RECORDSTATE_RECORDING) { context.tr("Cannot open microphone") }
                     running=true
                     main.post { if(active && ticket==generation) started() }
-                    prepare()
+                    prepare(model)
                 }
                 while (active && ticket == generation && count < samples.size - buffer.size) {
                     if(paused) {
@@ -91,7 +90,8 @@ class Voice(private val context: Context) {
                             if(ticket!=generation) return@execute
                             processing=true;load(model)
                             if(ticket!=generation) return@execute
-                            transcribe(samples.copyOf(count),if(trackTiming) { elapsed ->
+                            val hint=if(model.id=="qwen_asr") ModelLanguages.dictationHint(language,Native.speechBackend().startsWith("HTP")) else ""
+                            transcribe(samples.copyOf(count),hint,if(trackTiming) { elapsed ->
                                 if(ticket==generation) stats.speechSample(model.id,count,elapsed)
                             } else null)
                         }
@@ -120,9 +120,13 @@ class Voice(private val context: Context) {
     fun cancel() { generation++; stop(); if(processing) Native.cancelSpeech() }
     fun close() { cancel(); worker.shutdown() }
     companion object {
-        internal fun transcribe(samples:FloatArray,timing:((Long)->Unit)?=null):String {
+        internal fun insertion(text:String,before:Char?,wordSpaces:Boolean):String {
+            if(!wordSpaces) return text
+            return (if(before!=null && !before.isWhitespace()) " " else "")+text+" "
+        }
+        internal fun transcribe(samples:FloatArray,language:String="",timing:((Long)->Unit)?=null):String {
             val start=if(timing!=null) SystemClock.elapsedRealtimeNanos() else 0L
-            val result=Native.transcribe(samples)
+            val result=Native.transcribe(samples,language)
             if(timing!=null) {
                 val elapsed=SystemClock.elapsedRealtimeNanos()-start
                 if(result.isNotBlank()) timing(elapsed)
